@@ -52,7 +52,7 @@
                                             <span class="icon-bar"></span>
                                             <span class="icon-bar"></span>
                                         </button>
-                                        <a class="navbar-brand" href="index.html">
+                                        <a class="navbar-brand" href="main">
                                             <img src="resources/assets/images/logo.png"/>
                                         </a>
                                     </div>
@@ -82,7 +82,7 @@
                                                     <li><a href="bloginner.html">singleblog page</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="contact.html">로그인</a></li>
+                                            <li><a href="login">로그인</a></li>
                                         </ul>    
                                     </div>
 

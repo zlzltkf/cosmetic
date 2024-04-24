@@ -39,7 +39,7 @@ dependencies {
 	implementation 'jakarta.servlet.jsp.jstl:jakarta.servlet.jsp.jstl-api:3.0.0'
 	
 	//파일업로드관련
-	implementation 'org.apache.tomcat:tomcat-util:10.1.18'
+	//implementation 'org.apache.tomcat:tomcat-util:10.1.18'
 	
 	
 }
