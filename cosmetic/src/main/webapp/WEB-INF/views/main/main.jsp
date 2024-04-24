@@ -41,6 +41,13 @@
             <div class="main_menu_bg">
                 <div class="container">
                     <div class="row">
+                    <div>
+                    	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;고객센터&nbsp;</a>
+                    	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;주문배송 |&nbsp;</a>
+                    	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;장바구니 |&nbsp;</a>
+                    	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;로그인 |&nbsp;</a>
+                    	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;회원가입 |&nbsp;</a>
+                    	</div>
                         <div class="nave_menu">
                             <nav class="navbar navbar-default" id="navmenu">
                                 <div class="container-fluid">
