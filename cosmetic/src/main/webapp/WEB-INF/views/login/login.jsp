@@ -48,7 +48,7 @@
                                             <span class="icon-bar"></span>
                                             <span class="icon-bar"></span>
                                         </button>
-                                        <a class="navbar-brand" href="index.html">
+                                        <a class="navbar-brand" href="/">
                                             <img src="resources/assets/images/logo.png"/>
                                         </a>
                                     </div>
@@ -134,7 +134,7 @@
 										<img src="resources/assets/images/hh.jpg">
 									</div>
 
-                                    <div class="col-sm-6 col-xs-12" style="width: 33%; float: right;" >
+                                    <div class="col-sm-6 col-xs-12" style="width: 33%; float: left;" >
                                         <div class="single_contant_left margin-top-60">
                                             <form action="#" id="formid">
                                                 <!--<div class="col-lg-8 col-md-8 col-sm-10 col-lg-offset-2 col-md-offset-2 col-sm-offset-1">-->

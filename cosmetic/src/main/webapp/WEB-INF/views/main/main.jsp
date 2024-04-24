@@ -52,7 +52,7 @@
                                             <span class="icon-bar"></span>
                                             <span class="icon-bar"></span>
                                         </button>
-                                        <a class="navbar-brand" href="main">
+                                        <a class="navbar-brand" href="/">
                                             <img src="resources/assets/images/logo.png"/>
                                         </a>
                                     </div>
