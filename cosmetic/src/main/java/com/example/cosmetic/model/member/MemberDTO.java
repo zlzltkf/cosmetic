@@ -19,6 +19,7 @@ public class MemberDTO {
 	private String email;
 	private String address1;
 	private String address2;
+	private String zipcode;
 	private int birth;
 	private String phone;
 	private int date;

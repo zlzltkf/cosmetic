@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
    pageEncoding="UTF-8"%>
 <!doctype html>
+<html>
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -61,7 +62,7 @@
             }).open();
    }
    
-   function join() {
+   /* function join() {
       let form1 = $("#form1");
       let userid = $("#userid").val();
       let passwd = $("#passwd").val();
@@ -140,17 +141,16 @@
          $("#address2").focus();
          return;
       }
-      $("#userid").prop("disabled", false);
-      $("#email").prop("disabled", false);
+      
       alert("회원가입이 완료되었습니다.");
-      document.form1.action = "/login/join";
+      document.form1.action = "join";
       document.form1.submit();
-   }
+   } */
    
    function check() {
       let userid = document.getElementById("userid").value;
       $.ajax({
-         url : "/login/id_check",
+         url : "id_check",
          type : "POST",
          data : {
             userid : userid
@@ -306,7 +306,7 @@ span {
                   <div class="head_title text-center">
                      <h1 style="line-height: 2.1;">회원가입</h1>
                   </div>
-                  <form id="form1" name="form1" method="post">
+                  <form id="form1" name="form1" method="post" action="join">
                      <!-- 회원가입 폼 -->
                      <section class="contents">
                         <article>
@@ -339,7 +339,7 @@ span {
                               <li class="li_join"><strong class="strong_name">아이디</strong>
                                  <span><input type="text" name="userid" id="userid"
                                     placeholder="아이디 (4~13자 영문, 숫자)">
-                                    <button type="button" class="btn_check" value="중복확인" onclick="check()">중복확인</button><br>
+                                    <button type="button" class="btn_check" onclick="check()">중복확인</button><br>
                                     </span></li>
                               <li class="li_join"><strong class="strong_name">닉네임</strong>
                                  <span><input type="text" name="nickname" id="nickname"
@@ -383,7 +383,7 @@ span {
                         <article>
                            <div class="">
                               <input type="submit" value="회원가입 완료" id="join_btn" class="btn"
-                                 style="min-width: 600px; height: 55px;">
+                                 style="min-width: 600px; height: 55px;" disable>
                            </div>
                         </article>
                      </section>

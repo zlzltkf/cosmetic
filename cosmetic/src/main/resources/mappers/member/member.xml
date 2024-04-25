@@ -2,12 +2,25 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
 
+<!-- 로그인 -->
 	<select id="login" resultType="String">
 		select nickname from member where
 		userid=#{userid} and passwd=#{passwd}
 	</select>
-	
 
+<!-- 회원가입 -->
+	<insert id="join">
+		insert into member
+		(userid,passwd,name,nickname,birth,phone,email,zipcode,address1,address2)
+		values
+		(#{userid},#{passwd},#{name},#{nickname},#{birth},#{phone},#{zipcode},#{email},#{address1},#{address2})
+	</insert>
+
+<!-- 아이디 중복확인 -->
+	<select id="id_check" resultType="String">
+		select userid from member
+		where userid=#{userid}
+	</select>
 
 
 

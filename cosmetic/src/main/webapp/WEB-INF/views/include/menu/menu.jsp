@@ -9,7 +9,7 @@
                     <div>
                     	<c:choose>
                     		<c:when test="${sessionScope.userid != null}">
-                    				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;고객센터 |&nbsp;</a>
+                    				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;고객센터 &nbsp;</a>
                     				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;주문배송 |&nbsp;</a>
                     				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;장바구니 |&nbsp;</a>
                     				<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;마이페이지 |&nbsp;</a>
@@ -68,7 +68,6 @@
                                                     <li><a href="bloginner.html">singleblog page</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="page_login">로그인</a></li>
                                         </ul>    
                                     </div>
 
