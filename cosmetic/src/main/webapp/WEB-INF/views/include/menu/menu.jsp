@@ -34,6 +34,7 @@
 
                                     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                         <ul class="nav navbar-nav navbar-right">
+                                        	<li><a href="#" id="ctg_btn">카테고리</a></li>
                                             <li><a href="aboutus.html">about us</a></li>
                                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">services</a>
                                                 <ul class="dropdown-menu">
@@ -61,7 +62,7 @@
                             </nav>
                         </div>	
                     </div>
-
+					<%@ include file="category.jsp" %>
                 </div>
 
             </div>
