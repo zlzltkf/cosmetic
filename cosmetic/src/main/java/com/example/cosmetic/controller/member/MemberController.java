@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 public class MemberController {
 	@Autowired
-	MemberDAO memberDAO;
+	MemberDAO memberDao;
 
 	//로그인 화면으로 이동
 	   @GetMapping("page_login")
@@ -37,7 +37,8 @@ public class MemberController {
 	                                                 HttpSession session) {
 	    String userid = data.get("userid");
 	    String passwd = data.get("passwd");
-	    String nickname = memberDAO.login(userid, passwd);
+	    String name = data.get("name");
+	    String nickname = memberDao.login(userid, passwd);
 	    Map<String, Object> response = new HashMap<>();
 	    if (nickname == null) {
 	        response.put("message", "아이디 또는 비밀번호가 일치하지 않습니다.");
@@ -45,9 +46,16 @@ public class MemberController {
 	    } else {
 	        session.setAttribute("userid", userid);
 	        session.setAttribute("nickname", nickname);
+	        session.setAttribute("name",name);
 	        response.put("success", true);
 	        return ResponseEntity.ok(response);
 	    }
+	}
+	
+	@GetMapping("logout")
+	public String logout(HttpSession session) {
+		session.invalidate(); // 세션 초기화
+		return "main/main";
 	}
 
 
