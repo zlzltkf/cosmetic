@@ -9,18 +9,19 @@
                     <div>
                     	<c:choose>
                     		<c:when test="${sessionScope.userid != null}">
-                    			 ${sessionScope.name}님 <a href="logout" style="float: right; font-size: small; color: gray;">&nbsp;로그아웃&nbsp;</a>
-                    				<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;마이페이지 |&nbsp;</a>
-                    				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;장바구니 |&nbsp;</a>
+                    				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;고객센터 |&nbsp;</a>
                     				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;주문배송 |&nbsp;</a>
-                    				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;고객센터&nbsp;</a>
+                    				<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;장바구니 |&nbsp;</a>
+                    				<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;마이페이지 |&nbsp;</a>
+                    			 	<a href="logout" style="float: right; font-size: small; color: gray;">&nbsp;로그아웃 |&nbsp;</a><!--여기가 첫번째  -->
+                    				<span style="float: right; font-size: small; color: black;">${sessionScope.userid}님 환영합니다&nbsp;</span>
                     	</c:when>
                     			<c:otherwise>
                     				<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;고객센터&nbsp;</a>
                     				<a href="page_login" style="float: right; font-size: small; color: gray;">&nbsp;주문배송 |&nbsp;</a>
                     				<a href="page_login" style="float: right; font-size: small; color: gray;">&nbsp;장바구니 |&nbsp;</a>
-                    				<a href="page_login" style="float: right; font-size: small; color: gray;">&nbsp;로그인 |&nbsp;</a>
                     				<a href="page_join" style="float: right; font-size: small; color: gray;">&nbsp;회원가입 |&nbsp;</a>
+                    				<a href="page_login" style="float: right; font-size: small; color: gray;">&nbsp;로그인 |&nbsp;</a>
                     			</c:otherwise>
                     	</c:choose>
                     

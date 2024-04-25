@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cosmetic.model.member.MemberDAO;
 
@@ -33,11 +34,9 @@ public class MemberController {
 	   }
 
 	@PostMapping("login")
-	public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> data,
-	                                                 HttpSession session) {
+	public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> data, HttpSession session) {
 	    String userid = data.get("userid");
 	    String passwd = data.get("passwd");
-	    String name = data.get("name");
 	    String nickname = memberDao.login(userid, passwd);
 	    Map<String, Object> response = new HashMap<>();
 	    if (nickname == null) {
@@ -46,7 +45,6 @@ public class MemberController {
 	    } else {
 	        session.setAttribute("userid", userid);
 	        session.setAttribute("nickname", nickname);
-	        session.setAttribute("name",name);
 	        response.put("success", true);
 	        return ResponseEntity.ok(response);
 	    }
