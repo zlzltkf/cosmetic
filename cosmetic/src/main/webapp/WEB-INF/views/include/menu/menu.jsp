@@ -3,13 +3,14 @@
 <header id="main_menu" class="header navbar-fixed-top">            
             <div class="main_menu_bg">
                 <div class="container">
+                <br>
                     <div class="row">
                     <div>
                     	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;고객센터&nbsp;</a>
                     	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;주문배송 |&nbsp;</a>
                     	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;장바구니 |&nbsp;</a>
-                    	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;로그인 |&nbsp;</a>
-                    	<a href="join" style="float: right; font-size: small; color: gray;">&nbsp;회원가입 |&nbsp;</a>
+                    	<a href="page_login" style="float: right; font-size: small; color: gray;">&nbsp;로그인 |&nbsp;</a>
+                    	<a href="page_join" style="float: right; font-size: small; color: gray;">&nbsp;회원가입 |&nbsp;</a>
                     	</div>
                         <div class="nave_menu">
                             <nav class="navbar navbar-default" id="navmenu">
@@ -52,7 +53,7 @@
                                                     <li><a href="bloginner.html">singleblog page</a></li>
                                                 </ul>
                                             </li>
-                                            <li><a href="login">로그인</a></li>
+                                            <li><a href="page_login">로그인</a></li>
                                         </ul>    
                                     </div>
 
