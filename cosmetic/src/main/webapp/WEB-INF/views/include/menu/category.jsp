@@ -137,169 +137,169 @@ margin: 0 5% 12px 5%;
 	<!-- 스킨케어 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=51">토너-패드</a>
+			<a href="/product/sub_view.do?no=51">토너-패드</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=52">에멀전</a>
+			<a href="/product/sub_view.do?no=52">에멀전</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=53">에센스-세럼</a>
+			<a href="/product/sub_view.do?no=53">에센스-세럼</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=54">크림-밤</a>
+			<a href="/product/sub_view.do?no=54">크림-밤</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=55">미스트</a>
+			<a href="/product/sub_view.do?no=55">미스트</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=56">선케어</a>
+			<a href="/product/sub_view.do?no=56">선케어</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=57">세트</a>
+			<a href="/product/sub_view.do?no=57">세트</a>
 		</ul>
 	</div>
 	
 	<!-- 마스크 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=61">시트마스크</a>
+			<a href="/product/sub_view.do?no=61">시트마스크</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=62">페이셜팩</a>
+			<a href="/product/sub_view.do?no=62">페이셜팩</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=63">패치</a>
+			<a href="/product/sub_view.do?no=63">패치</a>
 		</ul>
 	</div>
 	
 	<!-- 클렌저 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=71">페이셜 클렌징</a>
+			<a href="/product/sub_view.do?no=71">페이셜 클렌징</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=72">메이크업 클렌징</a>
+			<a href="/product/sub_view.do?no=72">메이크업 클렌징</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=73">필링-스크럽</a>
+			<a href="/product/sub_view.do?no=73">필링-스크럽</a>
 		</ul>
 	</div>
 	
 	<!-- 바디 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=81">워시</a>
+			<a href="/product/sub_view.do?no=81">워시</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=82">보습</a>
+			<a href="/product/sub_view.do?no=82">보습</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=83">핸드-풋</a>
+			<a href="/product/sub_view.do?no=83">핸드-풋</a>
 		</ul>
 	</div>
 	
 	<!-- 헤어 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=91">컬러-스타일링</a>
+			<a href="/product/sub_view.do?no=91">컬러-스타일링</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=92">헤어케어</a>
+			<a href="/product/sub_view.do?no=92">헤어케어</a>
 		</ul>
 	</div>
 	
 	<!-- 페이스 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=31">베이스-프라이머</a>
+			<a href="/product/sub_view.do?no=31">베이스-프라이머</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=32">쿠션-파운데이션</a>
+			<a href="/product/sub_view.do?no=32">쿠션-파운데이션</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=33">BB컨실러</a>
+			<a href="/product/sub_view.do?no=33">BB컨실러</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=34">팩트-파우더</a>
+			<a href="/product/sub_view.do?no=34">팩트-파우더</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=35">컨투어링-하이라이터</a>
+			<a href="/product/sub_view.do?no=35">컨투어링-하이라이터</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=36">블러셔</a>
+			<a href="/product/sub_view.do?no=36">블러셔</a>
 		</ul>
 	</div>
 	
 	<!-- 아이 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=21">싱글섀도우</a>
+			<a href="/product/sub_view.do?no=21">싱글섀도우</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=22">아이팔레트</a>
+			<a href="/product/sub_view.do?no=22">아이팔레트</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=23">마스카라</a>
+			<a href="/product/sub_view.do?no=23">마스카라</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=24">아이라이너</a>
+			<a href="/product/sub_view.do?no=24">아이라이너</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=25">아이브로우</a>
+			<a href="/product/sub_view.do?no=25">아이브로우</a>
 		</ul>
 	</div>
 	
 	<!-- 립 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=11">립스틱</a>
+			<a href="/product/sub_view.do?no=11">립스틱</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=12">틴트</a>
+			<a href="/product/sub_view.do?no=12">틴트</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=13">글로스</a>
+			<a href="/product/sub_view.do?no=13">글로스</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=14">립펜슬</a>
+			<a href="/product/sub_view.do?no=14">립펜슬</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=15">립케어</a>
+			<a href="/product/sub_view.do?no=15">립케어</a>
 		</ul>
 	</div>
 	
 	<!-- 네일 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=41">네일컬러</a>
+			<a href="/product/sub_view.do?no=41">네일컬러</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=42">네일케어</a>
+			<a href="/product/sub_view.do?no=42">네일케어</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=43">네일리무버</a>
+			<a href="/product/sub_view.do?no=43">네일리무버</a>
 		</ul>
 	</div>
 	
 	<!-- 툴 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=101">브러쉬</a>
+			<a href="/product/sub_view.do?no=101">브러쉬</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=102">퍼프</a>
+			<a href="/product/sub_view.do?no=102">퍼프</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=103">화장솜-면봉</a>
+			<a href="/product/sub_view.do?no=103">화장솜-면봉</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=104">속눈썹</a>
+			<a href="/product/sub_view.do?no=104">속눈썹</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=105">헤어도구</a>
+			<a href="/product/sub_view.do?no=105">헤어도구</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/list.do?no=106">기타</a>
+			<a href="/product/sub_view.do?no=106">기타</a>
 		</ul>
 	</div>
 </div>
