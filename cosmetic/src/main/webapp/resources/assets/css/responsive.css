@@ -23,7 +23,7 @@ Author URI: http://www.bootstrapthemes.co
 /* Portrait tablets and small desktops */
 @media (max-width: 991px) {
     html {
-        font-size: 90%;
+        font-size: 1rem;
     }
     .main_events_area .single_events span.separator3 {
         margin: 10px 25px;

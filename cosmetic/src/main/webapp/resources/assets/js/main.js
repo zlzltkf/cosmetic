@@ -119,8 +119,10 @@ jQuery(document).ready(function ($) {
 
         if (top > height) {
             jQuery('.navbar-fixed-top').addClass('menu-scroll');
+            jQuery(".main_menu_bg").css("height", "130px");
         } else {
             jQuery('.navbar-fixed-top').removeClass('menu-scroll');
+            jQuery(".main_menu_bg").css("height", "155px");
         }
     });
 

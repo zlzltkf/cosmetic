@@ -8,7 +8,17 @@ $(document).ready(function() {
  	/* 카테고리에 마우스 가져다댈시 메인카테고리 나오게 */
     $("#ctg_btn").mouseenter(function() {
         $("#ctg").addClass("show-grid");
-        $(".main_menu_bg").css("height", "170px");
+        
+        //스크롤 여부에 따라 메뉴 높이 조정
+        if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
+            $(".main_menu_bg").css("height", "130px");
+            $("#ctg").addClass("menu-scroll");
+            $("#ctg-content").addClass("menu-scroll");
+        } else {
+            $(".main_menu_bg").css("height", "170px");
+            $("#ctg").removeClass("menu-scroll");
+            $("#ctg-content").removeClass("menu-scroll");
+        }
     });
 	
     /* 메인카테고리에 마우스 가져다댈시 세부카테고리 나오게 */
@@ -19,8 +29,20 @@ $(document).ready(function() {
     /* 세부카테고리에서 마우스 떼면 카테고리 사라지게 */
     $("#ctg-content").mouseleave(function() {
         $("#ctg").removeClass("show-grid");
+        
         $("#ctg-content").removeClass("show-content");
         $(".main_menu_bg").css("height", "155px");
+        
+      	//스크롤 여부에 따라 메뉴 높이 조정
+        if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
+            $(".main_menu_bg").css("height", "130px");
+            $("#ctg").addClass("menu-scroll");
+            $("#ctg-content").addClass("menu-scroll");
+        } else {
+            $(".main_menu_bg").css("height", "155px");
+            $("#ctg").removeClass("menu-scroll");
+            $("#ctg-content").removeClass("menu-scroll");
+        }
     });
 });
 </script>
@@ -30,6 +52,8 @@ $(document).ready(function() {
 #ctg {
 	margin: 0 5% 12px 5%;
 	display: none;
+	height: 25px;
+	position: relative;
 }
 #ctg.show-grid {
 	display: grid;
@@ -44,24 +68,27 @@ $(document).ready(function() {
 	background-color: white;
 	width: 100%;
 	height: 300px;
-	border: 1px solid black;
+	border: 1px solid grey;
 	display: none;
+	position: relative;
 }
 #ctg-content.show-content{
-	display: block;
+	display: flex;
+	align-content: center;
 }
 
 #ctg-grid {
 	margin: 0 5%;
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
+	align-items: center;
 	text-align: center;
 }
 
 .b-ctg-content {
-	margin: 10px 0;
-	padding: 0 5px;
-	border-left: 1px solid black;
+	height: 90%;
+	padding: 0 10px;
+	border-left: 1px solid grey;
 	display: flex;
 	flex-direction: column;
 }
@@ -70,7 +97,21 @@ $(document).ready(function() {
 }
 .b-ctg-content ul {
 	padding: 2px 0;
-	font-size: 1em;
+	font-size: 0.8em;
+}
+
+/* 스크롤 */
+#ctg.menu-scroll {
+margin: 0 5% 12px 5%;
+ 	top: 95px;
+	box-shadow: none; 
+	position: fixed;
+}
+#ctg-content.menu-scroll{
+margin: 0 5% 12px 5%;
+	top: 130px;
+	box-shadow: none; 
+	position: fixed;
 }
 
 </style>
