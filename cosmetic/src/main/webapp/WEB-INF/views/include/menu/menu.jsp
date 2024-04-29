@@ -52,7 +52,7 @@
                                             <li><a href="aboutus.html">about us</a></li>
                                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">services</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="service.html">service page</a></li>
+                                                    <li><a href="/product/detail">service page</a></li>
                                                     <li><a href="service1.html">service page two</a></li>
                                                 </ul>
                                             </li>

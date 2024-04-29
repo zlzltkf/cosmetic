@@ -47,7 +47,7 @@
 
             $.ajax({
                 type: "POST",
-                url: "/login",
+                url: "/member/login",
                 contentType: "application/json",
                 data: JSON.stringify(data),
                 success: function(response) {
