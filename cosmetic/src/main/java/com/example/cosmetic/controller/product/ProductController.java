@@ -44,5 +44,10 @@ public class ProductController {
       return "product/sub_category";
    }
    
+ //디테일 화면
+   @GetMapping("detail")
+   public String detail() {
+      return "product/detail";
+   }
    
 }
