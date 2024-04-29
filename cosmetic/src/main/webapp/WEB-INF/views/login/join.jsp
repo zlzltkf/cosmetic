@@ -62,90 +62,91 @@
             }).open();
    }
    
-   /* function join() {
-      let form1 = $("#form1");
-      let userid = $("#userid").val();
-      let passwd = $("#passwd").val();
-      let passwd2 = $("#passwd2").val();
-      let name = $("#name").val();
-      let nickname = $("#nickname").val();
-      let birth = $("#birth").val();
-      let phone = $("#phone").val();
-      let email = $("#email").val();
-      let post_code = $("#post_code").val();
-      let address1 = $("#address1").val();
-      let address2 = $("#address2").val();
+	   function join() {
+		      let form1 = $("#form1");
+		      let userid = $("#userid").val();
+		      let passwd = $("#passwd").val();
+		      let passwd2 = $("#passwd2").val();
+		      let name = $("#name").val();
+		      let nickname = $("#nickname").val();
+		      let birth = $("#birth").val();
+		      let phone = $("#phone").val();
+		      let email = $("#email").val();
+		      let post_code = $("#post_code").val();
+		      let address1 = $("#address1").val();
+		      let address2 = $("#address2").val();
 
-      if (userid == "") {
-         alert("아이디를 입력하세요.");
-         $("#userid").focus();
-         return;
-      }
+		      if (userid == "") {
+		         alert("아이디를 입력하세요.");
+		         $("#userid").focus();
+		         return;
+		      }
 
-      else if (userid.length<4 || userid.length>13) {
-         alert("아이디는 4자에서 13자 사이여야 합니다");
-         $("#userid").focus();
-         return;
-      } else if (passwd == "") {
-         alert("비밀번호를 입력하세요.");
-         $("#passwd").focus();
-         return;
-      } else if (passwd.length<8 || passwd.length>16) {
-         alert("비밀번호는 8자에서 16자 사이여야 합니다");
-         $("#passwd").focus();
-         return;
-      } else if (passwd2 == "") {
-         alert("비밀번호를 확인해주세요");
-         $("#passwd2").focus();
-         return;
-      }
+		      else if (userid.length<4 || userid.length>13) {
+		         alert("아이디는 4자에서 13자 사이여야 합니다");
+		         $("#userid").focus();
+		         return;
+		      } else if (passwd == "") {
+		         alert("비밀번호를 입력하세요.");
+		         $("#passwd").focus();
+		         return;
+		      } else if (passwd.length<8 || passwd.length>16) {
+		         alert("비밀번호는 8자에서 16자 사이여야 합니다");
+		         $("#passwd").focus();
+		         return;
+		      } else if (passwd2 == "") {
+		         alert("비밀번호를 확인해주세요");
+		         $("#passwd2").focus();
+		         return;
+		      }
 
-      else if (name == "") {
-         alert("이름을 입력하세요.");
-         $("#name").focus();
-         return;
-      } else if (nickname == "") {
-         alert("닉네임을 입력하세요.");
-         $("#nickname").focus();
-         return;
-      } else if (birth == "") {
-         alert("생년월일을 입력하세요.");
-         $("#birth").focus();
-         return;
-      } else if (birth.length != 6) {
-         alert("생년월일은 6개의 숫자로 입력해주세요");
-         $("#birth").focus();
-         return;
-      }
+		      else if (name == "") {
+		         alert("이름을 입력하세요.");
+		         $("#name").focus();
+		         return;
+		      } else if (nickname == "") {
+		         alert("닉네임을 입력하세요.");
+		         $("#nickname").focus();
+		         return;
+		      } else if (birth == "") {
+		         alert("생년월일을 입력하세요.");
+		         $("#birth").focus();
+		         return;
+		      } else if (birth.length != 6) {
+		         alert("생년월일은 6개의 숫자로 입력해주세요");
+		         $("#birth").focus();
+		         return;
+		      }
 
-      else if (phone == "") {
-         alert("핸드폰 번호를 입력하세요.");
-         $("#phone").focus();
-         return;
-      }
+		      else if (phone == "") {
+		         alert("핸드폰 번호를 입력하세요.");
+		         $("#phone").focus();
+		         return;
+		      }
 
-      else if (email == "") {
-         alert("이메일을 입력하세요.");
-         $("#email").focus();
-         return;
-      } else if (post_code == "") {
-         alert("주소를 입력하세요.");
-         $("#post_code").focus();
-         return;
-      } else if (address1 == "") {
-         alert("주소를 입력하세요.");
-         $("#address1").focus();
-         return;
-      } else if (address2 == "") {
-         alert("상세주소를 입력하세요.");
-         $("#address2").focus();
-         return;
-      }
-      
-      alert("회원가입이 완료되었습니다.");
-      document.form1.action = "join";
-      document.form1.submit();
-   } */
+		      else if (email == "") {
+		         alert("이메일을 입력하세요.");
+		         $("#email").focus();
+		         return;
+		      } else if (post_code == "") {
+		         alert("주소를 입력하세요.");
+		         $("#post_code").focus();
+		         return;
+		      } else if (address1 == "") {
+		         alert("주소를 입력하세요.");
+		         $("#address1").focus();
+		         return;
+		      } else if (address2 == "") {
+		         alert("상세주소를 입력하세요.");
+		         $("#address2").focus();
+		         return;
+		      }
+		      
+		      alert("회원가입이 완료되었습니다.");
+		      document.form1.action = "join";
+		      document.form1.submit();
+		   }
+   
    
    function check() {
       let userid = document.getElementById("userid").value;
@@ -286,18 +287,15 @@ span {
 </style>
 </head>
 <body data-spy="scroll" data-target=".navbar-collapse">
-   <!--[if lt IE 8]>
-            <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
    <div class='preloader'>
       <div class='loaded'>&nbsp;</div>
    </div>
+   <!-- 상단 메뉴 -->
    <%@ include file="../include/menu/menu.jsp"%>
 
 
 
-
-   <!-- Contact Section -->
+   <!-- 회원가입 폼 섹션 -->
    <section id="contact" class="contactus margin-top-120">
       <div class="container">
          <div class="row">
@@ -361,13 +359,13 @@ span {
                               <strong class="strong_title">주소</strong>
                            </div>
                            <ul class="ul_join">
-                              <li class="li_join"><strong class="strong_name">주소</strong>
-                                 <span> <input type="text" placeholder="우편번호"
+                              <li class="li_join"><strong class="strong_name">우편번호</strong>
+                                 <span> <input type="text" placeholder=""
                                     name="zipcode" id="post_code" readonly>&nbsp;&nbsp;&nbsp;
                                     <button type="button" class="btn_check"
                                        onclick="showPostcode()">우편번호 찾기</button>
                               </span></li>
-                              <li class="li_join"><strong class="strong_name">상세주소</strong>
+                              <li class="li_join"><strong class="strong_name">주소</strong>
                                  <span> <input type="text" placeholder="주소"
                                     name="address1" id="address1" size="60"> <br>
                               </span></li>
@@ -382,7 +380,7 @@ span {
                         <!-- 회원가입 완료 버튼 -->
                         <article>
                            <div class="">
-                              <input type="submit" value="회원가입 완료" id="join_btn" class="btn"
+                              <input type="button" value="회원가입 완료" id="join_btn" class="btn" onclick="join()"
                                  style="min-width: 600px; height: 55px;" disable>
                            </div>
                         </article>
