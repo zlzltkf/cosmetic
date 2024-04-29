@@ -16,4 +16,10 @@ public class ProductController {
 		model.addAttribute("no", no);
 		return "product/list";
 	}
+	
+	//대분류 카테고리 리스트
+	   @GetMapping("main_view")
+	   public String main() {
+	      return "product/main_category";
+	   }
 }

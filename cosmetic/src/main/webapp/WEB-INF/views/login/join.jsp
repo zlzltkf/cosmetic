@@ -11,24 +11,24 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 
-<link rel="stylesheet" href="resources/assets/css/fonticons.css">
-<link rel="stylesheet" href="resources/assets/css/slider-pro.css">
-<link rel="stylesheet" href="resources/assets/css/stylesheet.css">
-<link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="resources/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/resources/assets/css/fonticons.css">
+<link rel="stylesheet" href="/resources/assets/css/slider-pro.css">
+<link rel="stylesheet" href="/resources/assets/css/stylesheet.css">
+<link rel="stylesheet" href="/resources/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="/resources/assets/css/bootstrap.min.css">
 
 
 <!--For Plugins external css-->
-<link rel="stylesheet" href="resources/assets/css/plugins.css" />
+<link rel="stylesheet" href="/resources/assets/css/plugins.css" />
 
 <!--Theme custom css -->
-<link rel="stylesheet" href="resources/assets/css/style.css">
+<link rel="stylesheet" href="/resources/assets/css/style.css">
 
 <!--Theme Responsive css-->
-<link rel="stylesheet" href="resources/assets/css/responsive.css" />
+<link rel="stylesheet" href="/resources/assets/css/responsive.css" />
 
 <script
-   src="resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+   src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 
 
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
@@ -433,13 +433,13 @@ span {
 
 
 
-   <script src="resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
-   <script src="resources/assets/js/vendor/bootstrap.min.js"></script>
-   <script src="resources/assets/js/jquery.easing.1.3.js"></script>
+   <script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
+   <script src="/resources/assets/js/vendor/bootstrap.min.js"></script>
+   <script src="/resources/assets/js/jquery.easing.1.3.js"></script>
 
 
-   <script src="resources/assets/js/plugins.js"></script>
-   <script src="resources/assets/js/main.js"></script>
+   <script src="/resources/assets/js/plugins.js"></script>
+   <script src="/resources/assets/js/main.js"></script>
 
 </body>
 </html>

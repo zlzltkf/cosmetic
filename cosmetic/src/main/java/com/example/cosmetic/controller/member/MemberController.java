@@ -9,12 +9,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.example.cosmetic.model.member.MemberDAO;
 import com.example.cosmetic.model.member.MemberDTO;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
+@RequestMapping("/member/")
 public class MemberController {
 	@Autowired
 	MemberDAO memberDao;

@@ -14,23 +14,23 @@
         <link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 
-        <link rel="stylesheet" href="resources/assets/css/fonticons.css">
-        <link rel="stylesheet" href="resources/assets/css/slider-pro.css">
-        <link rel="stylesheet" href="resources/assets/css/stylesheet.css">
-        <link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
-        <link rel="stylesheet" href="resources/assets/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/resources/assets/css/fonticons.css">
+        <link rel="stylesheet" href="/resources/assets/css/slider-pro.css">
+        <link rel="stylesheet" href="/resources/assets/css/stylesheet.css">
+        <link rel="stylesheet" href="/resources/assets/css/font-awesome.min.css">
+        <link rel="stylesheet" href="/resources/assets/css/bootstrap.min.css">
 
 
         <!--For Plugins external css-->
-        <link rel="stylesheet" href="resources/assets/css/plugins.css" />
+        <link rel="stylesheet" href="/resources/assets/css/plugins.css" />
 
         <!--Theme custom css -->
-        <link rel="stylesheet" href="resources/assets/css/style.css">
+        <link rel="stylesheet" href="/resources/assets/css/style.css">
 
         <!--Theme Responsive css-->
-        <link rel="stylesheet" href="resources/assets/css/responsive.css" />
+        <link rel="stylesheet" href="/resources/assets/css/responsive.css" />
 
-        <script src="resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+        <script src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
     </head>
     <body data-spy="scroll" data-target=".navbar-collapse">
         <!--[if lt IE 8]>
@@ -112,7 +112,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="signle_service_left">
-                                            <img src="resources/assets/images/service0.png" alt="" />
+                                            <img src="/resources/assets/images/service0.png" alt="" />
                                         </div>
                                     </div>
                                     <div class="col-sm-5 col-sm-push-1">
@@ -137,7 +137,7 @@
 
                                     <div class="col-sm-6 col-sm-push-6">
                                         <div class="signle_service_left">
-                                            <img src="resources/assets/images/service2.png" alt="" />
+                                            <img src="/resources/assets/images/service2.png" alt="" />
                                         </div>
                                     </div>
 
@@ -163,7 +163,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="signle_service_left">
-                                            <img src="resources/assets/images/service3.jpg" alt="" />
+                                            <img src="/resources/assets/images/service3.jpg" alt="" />
                                         </div>
                                     </div>
                                     <div class="col-sm-5 col-sm-push-1">
@@ -211,7 +211,7 @@
                             </div>
                             <div class="col-sm-4 col-xs-12">
                                 <div class="single_mixi_portfolio">
-                                    <img src="resources/assets/images/pf02.png" alt="" />
+                                    <img src="/resources/assets/images/pf02.png" alt="" />
                                     <div class="single_work_overlay single_work_overlay2">
                                         <h4>golfino
                                             awards</h4>
@@ -222,7 +222,7 @@
                             </div>
                             <div class="col-sm-4 col-xs-12">
                                 <div class="single_mixi_portfolio">
-                                    <img src="resources/assets/images/pf3.png" alt="" />
+                                    <img src="/resources/assets/images/pf3.png" alt="" />
                                     <div class="single_work_overlay">
                                         <h4>golfino
                                             awards</h4>
@@ -233,7 +233,7 @@
                             </div>
                             <div class="col-sm-4 col-xs-12">
                                 <div class="single_mixi_portfolio">
-                                    <img src="resources/assets/images/pf4.png" alt="" />
+                                    <img src="/resources/assets/images/pf4.png" alt="" />
                                     <div class="single_work_overlay single_work_overlay2">
                                         <h4>golfino
                                             awards</h4>
@@ -245,7 +245,7 @@
 
                             <div class="col-sm-4 col-xs-12">
                                 <div class="single_mixi_portfolio">
-                                    <img src="resources/assets/images/pf6.png" alt="" />
+                                    <img src="/resources/assets/images/pf6.png" alt="" />
                                     <div class="single_work_overlay single_work_overlay2">
                                         <h4>golfino
                                             awards</h4>
@@ -257,7 +257,7 @@
 
                             <div class="col-sm-4 col-xs-12">
                                 <div class="single_mixi_portfolio">
-                                    <img src="resources/assets/images/pf5.png" alt="" />
+                                    <img src="/resources/assets/images/pf5.png" alt="" />
                                     <div class="single_work_overlay">
                                         <h4>golfino
                                             awards</h4>
@@ -291,7 +291,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team1.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team1.jpg" alt="" />
                                                 <h4>paul hall</h4>
                                                 <div class="separator"></div>
                                                 <p>art director</p>
@@ -299,7 +299,7 @@
                                         </div> <!-- End of col-sm-4 --> 
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team2.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team2.jpg" alt="" />
                                                 <h4>joshua spencer</h4>
                                                 <div class="separator"></div>
                                                 <p>founder</p>
@@ -307,7 +307,7 @@
                                         </div> <!-- End of col-sm-4 --> 
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team3.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team3.jpg" alt="" />
                                                 <h4>diane lewis</h4>
                                                 <div class="separator"></div>
                                                 <p>artist, designer</p>
@@ -321,7 +321,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team1.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team1.jpg" alt="" />
                                                 <h4>paul hall</h4>
                                                 <div class="separator"></div>
                                                 <p>art director</p>
@@ -329,7 +329,7 @@
                                         </div> <!-- End of col-sm-4 --> 
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team1.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team1.jpg" alt="" />
                                                 <h4>joshua spencer</h4>
                                                 <div class="separator"></div>
                                                 <p>founder</p>
@@ -337,7 +337,7 @@
                                         </div><!-- End of col-sm-4 -->  
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team1.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team1.jpg" alt="" />
                                                 <h4>diane lewis</h4>
                                                 <div class="separator"></div>
                                                 <p>artist, designer</p>
@@ -351,7 +351,7 @@
                                     <div class="row">
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team1.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team1.jpg" alt="" />
                                                 <h4>paul hall</h4>
                                                 <div class="separator"></div>
                                                 <p>art director</p>
@@ -359,7 +359,7 @@
                                         </div><!-- End of col-sm-4 -->  
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team1.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team1.jpg" alt="" />
                                                 <h4>joshua spencer</h4>
                                                 <div class="separator"></div>
                                                 <p>founder</p>
@@ -367,7 +367,7 @@
                                         </div> <!-- End of col-sm-4 --> 
                                         <div class="col-sm-4">
                                             <div class="team">
-                                                <img class="img-circle" src="resources/assets/images/team1.jpg" alt="" />
+                                                <img class="img-circle" src="/resources/assets/images/team1.jpg" alt="" />
                                                 <h4>diane lewis</h4>
                                                 <div class="separator"></div>
                                                 <p>artist, designer</p>
@@ -519,10 +519,10 @@
                                 </div>
 
                                 <div class="sp-thumbnails">
-                                    <img class="sp-thumbnail" src="resources/assets/images/c1.png"/>
-                                    <img class="sp-thumbnail" src="resources/assets/images/c1.png"/>
-                                    <img class="sp-thumbnail" src="resources/assets/images/c1.png"/>
-                                    <img class="sp-thumbnail" src="resources/assets/images/c1.png"/>
+                                    <img class="sp-thumbnail" src="/resources/assets/images/c1.png"/>
+                                    <img class="sp-thumbnail" src="/resources/assets/images/c1.png"/>
+                                    <img class="sp-thumbnail" src="/resources/assets/images/c1.png"/>
+                                    <img class="sp-thumbnail" src="/resources/assets/images/c1.png"/>
                                 </div>
                             </div>
                         </div>
@@ -626,16 +626,16 @@
             <a href="#"><i class="fa fa-chevron-up"></i></a>
         </div>
 
-        <script src="resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
-        <script src="resources/assets/js/vendor/bootstrap.min.js"></script>
+        <script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="/resources/assets/js/vendor/bootstrap.min.js"></script>
 
-        <script src="resources/assets/js/jquery.easing.1.3.js"></script>
-        <script src="resources/assets/js/masonry/masonry.min.js"></script>
+        <script src="/resources/assets/js/jquery.easing.1.3.js"></script>
+        <script src="/resources/assets/js/masonry/masonry.min.js"></script>
         <script type="text/javascript">
             $('.mixcontent').masonry();
         </script>
 
-        <script src="resources/assets/js/jquery.sliderPro.min.js"></script>
+        <script src="/resources/assets/js/jquery.sliderPro.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function ($) {
                 $('#example3').sliderPro({
@@ -656,8 +656,8 @@
                 });
             });
         </script>
-        <script src="resources/assets/js/plugins.js"></script>
-        <script src="resources/assets/js/main.js"></script>
+        <script src="/resources/assets/js/plugins.js"></script>
+        <script src="/resources/assets/js/main.js"></script>
 
     </body>
 </html>

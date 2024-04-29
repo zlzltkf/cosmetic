@@ -8,24 +8,24 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 <title>로그인 화면</title>
 <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
-<script src="resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<script src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<link rel="stylesheet" href="resources/assets/css/fonticons.css">
-<link rel="stylesheet" href="resources/assets/css/slider-pro.css">
-<link rel="stylesheet" href="resources/assets/css/stylesheet.css">
-<link rel="stylesheet" href="resources/assets/css/font-awesome.min.css">
-<link rel="stylesheet" href="resources/assets/css/bootstrap.min.css">
+<link rel="stylesheet" href="/resources/assets/css/fonticons.css">
+<link rel="stylesheet" href="/resources/assets/css/slider-pro.css">
+<link rel="stylesheet" href="/resources/assets/css/stylesheet.css">
+<link rel="stylesheet" href="/resources/assets/css/font-awesome.min.css">
+<link rel="stylesheet" href="/resources/assets/css/bootstrap.min.css">
 
 
 <!--For Plugins external css-->
-<link rel="stylesheet" href="resources/assets/css/plugins.css" />
+<link rel="stylesheet" href="/resources/assets/css/plugins.css" />
 <!--Theme custom css -->
-<link rel="stylesheet" href="resources/assets/css/style.css">
+<link rel="stylesheet" href="/resources/assets/css/style.css">
 <!--Theme Responsive css-->
-<link rel="stylesheet" href="resources/assets/css/responsive.css" />
+<link rel="stylesheet" href="/resources/assets/css/responsive.css" />
 
 <script>
 
@@ -89,7 +89,7 @@
 						</div>
 						<a href="page_join">회원가입</a>
 						<div class="col-sm-6" style="float: left;">
-							<img src="resources/assets/images/hh.jpg">
+							<img src="/resources/assets/images/hh.jpg">
 						</div>
 
 						<div class="col-sm-6 col-xs-12" style="width: 33%; float: left;">
@@ -158,11 +158,11 @@
 		<a href="#"><i class="fa fa-chevron-up"></i></a>
 	</div>
 
-	<script src="resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
-	<script src="resources/assets/js/vendor/bootstrap.min.js"></script>
-	<script src="resources/assets/js/jquery.easing.1.3.js"></script>
-	<script src="resources/assets/js/plugins.js"></script>
-	<script src="resources/assets/js/main.js"></script>
+	<script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
+	<script src="/resources/assets/js/vendor/bootstrap.min.js"></script>
+	<script src="/resources/assets/js/jquery.easing.1.3.js"></script>
+	<script src="/resources/assets/js/plugins.js"></script>
+	<script src="/resources/assets/js/main.js"></script>
 
 </body>
 </html>
