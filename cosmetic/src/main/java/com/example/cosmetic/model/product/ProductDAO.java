@@ -63,10 +63,11 @@ public class ProductDAO {
 	}
 
 	//디테일
-		public ProductDTO detail(int p_id) {
-			return sqlSession.selectOne("product.detail", p_id);
-		
-		}
+	public ProductDTO detail(int p_id) {
+		return sqlSession.selectOne("product.detail", p_id);
+	}
+	
+	// 최근 본 상품
 }
 
 

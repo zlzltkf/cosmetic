@@ -70,7 +70,7 @@ left: 1px;
                                             </li>
                                             <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">blog</a>
                                                 <ul class="dropdown-menu">
-                                                    <li><a href="blog.html">blog page</a></li>
+                                                    <li><a href="/product/recent_cookie">최근 본 상품</a></li>
                                                     <li><a href="bloginner.html">singleblog page</a></li>
                                                 </ul>
                                             </li>

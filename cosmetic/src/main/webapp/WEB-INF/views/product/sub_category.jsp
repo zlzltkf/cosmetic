@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -279,8 +281,8 @@
 				
 				<!-- 상품설명 -->
 				<div class="desc">
-					<div class="p_name"><a href="/product/detail/${row.p_id}">${row.p_name}</a></div>
-					<div class="p_price"><b>${row.p_price}원</b></div>
+					<div class="p_name"><a href="/product/detail_before?p_id=${row.p_id}">${row.p_name}</a></div>
+					<div class="p_price"><b><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"/>원</b></div>
 					<div class="p_delivery">무료배송</div>
 					<!-- ${row.p_delivery} -->
 				</div>

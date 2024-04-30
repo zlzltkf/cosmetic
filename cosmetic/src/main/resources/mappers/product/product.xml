@@ -85,5 +85,6 @@
 		where p.p_cate = c.ctg_s_no and p_id=#{p_id}
 	</select>
 	
+	
 
 </mapper>
