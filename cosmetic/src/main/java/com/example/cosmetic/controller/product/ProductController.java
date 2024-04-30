@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.cosmetic.model.category.CategoryDTO;
@@ -117,8 +118,9 @@ public class ProductController {
 		}
 
 		// 최근 본 상품
+		@ResponseBody
 		@GetMapping("recent_cookie")
-		public String recent_cookie(Model model, HttpServletRequest request) {
+		public List<ProductDTO> recent_cookie(Model model, HttpServletRequest request) {
 		    Cookie[] cookies = request.getCookies();
 		    List<ProductDTO> r_list = new ArrayList<>();
 		    if (cookies != null) {
@@ -130,9 +132,7 @@ public class ProductController {
 		            }
 		        }
 		    }
-		    model.addAttribute("r_list", r_list);
-		    //System.out.println("recent_cookie:"+r_list);
-		    return "product/recent";
+		    return r_list;
 		}
 		
 		// 최근 본 상품 삭제 (쿠키 한개씩 삭제)
