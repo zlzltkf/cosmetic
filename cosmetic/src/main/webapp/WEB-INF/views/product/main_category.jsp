@@ -27,11 +27,11 @@
 	src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <style>
 .left-menu {
-    position: fixed; /* 화면에 고정된 위치로 설정 */
-    top: 200px; /* 화면 맨 위에서부터의 거리 */
+    position: absolute; /* 화면에 고정된 위치로 설정 */
+    top: 220px; /* 화면 맨 위에서부터의 거리 */
     left: 0px; /* 화면 왼쪽에 위치 */
     height: 90%; /* 화면 높이의 90%만큼 설정 */
-    width: 286px; /* 메뉴 너비 설정 */
+    width: 260px; /* 메뉴 너비 설정 */
     padding: 50px; /* 내부 여백 설정 */
     z-index: 1; /* 다른 요소 위에 띄워지도록 설정 */
     overflow-y: auto; /* 세로 스크롤이 필요한 경우 스크롤 표시 */

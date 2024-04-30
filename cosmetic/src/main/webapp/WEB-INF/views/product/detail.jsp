@@ -105,7 +105,7 @@
 	color: #000;
 }
 
-.p_brand {
+.p_path {
 	font-size: 16px;
 	line-height: 24px;
 	color: #000;
@@ -195,28 +195,34 @@
 	<section class="service sections margin-top-120">
 		<div class="container">
 			<div class="prd_contents">
-				<div class="prd_detail_box">
 					<!-- 상품정보 -->
+				<div class="prd_detail_box">
+					
+					<!-- 왼쪽에 들어갈 사진 -->
 					<div class="left_area">
 						<div class="p_img">
 							<img id="main_img"
 								src="https://image.oliveyoung.co.kr/uploads/images/goods/550/10/0000/0020/A00000020209421ko.jpg?l=ko">
 						</div>
 					</div>
-					<div class="right_area">
+					
+					<!-- 오른쪽에 들어갈 정보 -->
+					<div class="right_area"> 
 						<div class="p_info">
-							<p class="p_brand">상품 브랜드</p>
+						
+							<p class="p_path">상품 경로</p> <!-- ex) 립 > 립스틱 -->
 							
-							<p class="p_name">판매할 상품의 제목</p>
+							<p class="p_name">판매할 상품의 제목</p> <!-- 제목 -->
 							
 							<div class="p_price">
-								<span class="p_price_color"> <strong>가격 (숫자) 원</strong>
+								<span class="p_price_color"> <strong>가격 (숫자) 원</strong>  <!-- 가격 -->
 								</span>
 							</div>
 					
+					<!-- 배송 -->
 					<div class="p_deli">
-									<p class="p_deli_tit">배송정보</p>
-							<div class="p_deli_">
+								<p class="p_deli_tit">배송정보</p>
+							<div class="p_deli_row"> <!-- 설명란 -->
 									<span style="font-size: 14px;" class="p_deli_s_tit">일반배송 |</span>
 									<ul style="list-style: none;">
 										<li>
@@ -226,6 +232,8 @@
 									</ul>
 							</div>
 							</div>
+							
+							<!-- 상품 종류 선택 -->
 							<div class="p_dropdown">
 								<button class="p_dropbtn">상품을 선택해주세요</button>
 								<div class="p_dropdown-content">
@@ -235,11 +243,14 @@
 								</div>
 							</div>
 						
+							<!-- 상품 금액 -->
 							<div class="p_total_price">
 								<span class="total_tit">상품금액 합계</span> <span class="total_won">
 									<span>가격(숫자)</span> 원
 								</span>
 							</div>
+							
+							<!-- 장바구니, 바로구매, 찜 버튼 -->
 							<div class="p_btn">
 								<button class="btn_Cart" id="btn_Cart">장바구니</button>
 								<button class="btn_Buy" id="btn_Buy">바로구매</button>
@@ -261,40 +272,40 @@
 
 
 	<style>
-.ec-base-tab { position:relative; }
-.ec-base-tab .menu {
-    margin:0 0 20px; border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
-    box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;
-}
-.ec-base-tab .menu:after { content:""; display:block; clear:both; }
-.ec-base-tab .menu li { float:left; border-left:1px solid #cbcdce; background:#f2f2f2; }
-.ec-base-tab .menu li a { display:block; min-width:187px; margin:0 0 0 -1px; padding:12px 5px 11px; border-right:1px solid #cbcdce; color:#707070; text-decoration:none; outline:0; text-align:center; background:#f2f2f2; }
-.ec-base-tab .menu li:first-child a { margin-left:0; }
-.ec-base-tab .menu li.selected a { position:relative; top:-1px; left:-2px; margin:0 0 -1px; border:1px solid #202020; border-bottom:0; color:#1d1e1f; font-weight:bold; background:#fff; }
-.ec-base-tab .menu li.selected:first-child a { left:-1px; }
-.ec-base-tab > .right { position:absolute; top:8px; right:10px; line-height:24px; color:#909090; }
-/* typeLight */
-.ec-base-tab.typeLight .menu li.selected a { margin:0 0 -2px; border-bottom:1px solid #fff; color:#404040; background:#fff; }
-/* grid (2~7) */
-.ec-base-tab[class*="grid"] .menu { display:table; table-layout:fixed; width:100%; }
-.ec-base-tab[class*="grid"] .menu li { float:none; display:table-cell; vertical-align:middle; }
-.ec-base-tab[class*="grid"] .menu li a { display:inline-block; width:100%; min-width:0; margin:0; padding:11px 0; border:0; }
-.ec-base-tab[class*="grid"] .menu li.selected { position:relative; top:0; right:-1px; border:1px solid #fff; border-bottom:0; background:#fff; }
-.ec-base-tab[class*="grid"] .menu li:first-child.selected { right:0; }
-.ec-base-tab[class*="grid"] .menu li.selected a { position:static; background:none; }
-.ec-base-tab.grid2 .menu li { width:50.5%; }
-.ec-base-tab.grid3 .menu li { width:34%; }
-.ec-base-tab.grid4 .menu li { width:25.5%; }
-.ec-base-tab.grid5 .menu li { width:20.5%; }
-.ec-base-tab.grid6 .menu li { width:17%; }
-.ec-base-tab.grid7 .menu li { width:14.8%; width:15% \0/; }
-.ec-base-tab.grid7 .menu li:first-child { width:13% \0/; }
-
+	/* 탭 메뉴 스타일 */
+	.ec-base-tab { position:relative; }
+	.ec-base-tab .menu {
+    	margin:0 0 20px; border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
+    	box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
+	.ec-base-tab .menu:after { content:""; display:block; clear:both; }
+	.ec-base-tab .menu li { float:left; border-left:1px solid #cbcdce; background:#f2f2f2; }
+	.ec-base-tab .menu li a { display:block; min-width:187px; margin:0 0 0 -1px; padding:12px 5px 11px; border-right:1px solid #cbcdce; color:#707070; text-decoration:none; outline:0; text-align:center; background:#f2f2f2; }
+	.ec-base-tab .menu li:first-child a { margin-left:0; }
+	.ec-base-tab .menu li.selected a { position:relative; top:-1px; left:-2px; margin:0 0 -1px; border:1px solid #202020; border-bottom:0; color:#1d1e1f; font-weight:bold; background:#fff; }
+	.ec-base-tab .menu li.selected:first-child a { left:-1px; }
+	.ec-base-tab > .right { position:absolute; top:8px; right:10px; line-height:24px; color:#909090; }
+	/* typeLight */
+	.ec-base-tab.typeLight .menu li.selected a { margin:0 0 -2px; border-bottom:1px solid #fff; color:#404040; background:#fff; }
+	/* grid (2~7) */
+	.ec-base-tab[class*="grid"] .menu { display:table; table-layout:fixed; width:100%; }
+	.ec-base-tab[class*="grid"] .menu li { float:none; display:table-cell; vertical-align:middle; }
+	.ec-base-tab[class*="grid"] .menu li a { display:inline-block; width:100%; min-width:0; margin:0; padding:11px 0; border:0; }
+	.ec-base-tab[class*="grid"] .menu li.selected { position:relative; top:0; right:-1px; border:1px solid #fff; border-bottom:0; background:#fff; }
+	.ec-base-tab[class*="grid"] .menu li:first-child.selected { right:0; }
+	.ec-base-tab[class*="grid"] .menu li.selected a { position:static; background:none; }
+	.ec-base-tab.grid2 .menu li { width:50.5%; }
+	.ec-base-tab.grid3 .menu li { width:34%; }
+	.ec-base-tab.grid4 .menu li { width:25.5%; }
+	.ec-base-tab.grid5 .menu li { width:20.5%; }
+	.ec-base-tab.grid6 .menu li { width:17%; }
+	.ec-base-tab.grid7 .menu li { width:14.8%; width:15% \0/; }
+	.ec-base-tab.grid7 .menu li:first-child { width:13% \0/; }
   </style>
 	
-	<!-- 상품설명, 상품리뷰, Q&A 네비게이션 바 -->
+	<!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
 	<div class="ec-base-tab grid3">
     <ul class="menu">
+    					<!-- 밑 컨텐츠 칸의 id와 일치해야함 -->
         <li class="selected"><a href="#description" data-bs-toggle="tab" aria-selected="true">상품 설명</a></li>
         <li><a href="#review" data-bs-toggle="tab">상품 리뷰</a></li>
         <li><a href="#qna" data-bs-toggle="tab">Q&A</a></li>
@@ -303,7 +314,8 @@
 
 <!-- 표시될 컨텐츠 -->
 <div class="tab-content" id="myTabContent">
-    <div class="tab-pane active" id="description" role="tabpanel">
+    <div class="tab-pane active" id="description" role="tabpanel"> <!-- 위의 id와 일치해야함 -->
+    
         <!-- 상품설명 섹션 -->
         <section id="product_infomation" class="service sections margin-top-120">
             <div class="container">
@@ -326,20 +338,47 @@
             </div>
         </section>
     </div>
+    
+    <!-- 상품리뷰 섹션 -->
     <div class="tab-pane" id="review" role="tabpanel">
-        <h3>상품 리뷰</h3>
-        <p>이곳에 상품 리뷰 내용을 입력하세요.</p>
+    <section id="product_infomation" class="service sections margin-top-120">
+    	<div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="head_title text-center">
+                            <h2>상품설명</h2>
+                        </div>
+        				<div class="main_service_area">
+        					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>
+        				</div>
+        		</div>
+        	</div>
+       	</div>
+   	</section>
     </div>
+    
+    <!-- Q&A 섹션 -->
     <div class="tab-pane" id="qna" role="tabpanel">
-        <h3>Q&A</h3>
-        <p>이곳에 Q&A 내용을 입력하세요.</p>
+    <section id="product_infomation" class="service sections margin-top-120">
+    	<div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="head_title text-center">
+                            <h2>Q&A</h2>
+                        </div>
+        				<div class="main_service_area">
+        					<p>이곳에 Q&A 내용을 입력하세요.</p>
+        				</div>
+        		</div>
+        	</div>
+       	</div>
+   	</section>
     </div>
+    
 </div>
 
 
-<!-- Bootstrap JS -->
-
-<!-- Custom JS -->
+<!-- 탭메뉴에 대한 JS -->
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const tabButtons = document.querySelectorAll('.ec-base-tab.grid3 .menu li');
@@ -366,28 +405,6 @@
   });
 </script>
 
-
-
-
-
-
-
-	
-	<!-- <ul class="p_nav nav-tabs" id="myTab" role="tablist">
-  		<li class="p_nav-item" role="presentation">
-    		<button class="p_nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#product_infomation" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">상품 설명</button>
-  		</li>
-  		<li class="p_nav-item" role="presentation">
-    		<button class="p_nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">상품 리뷰</button>
-  		</li>
-  		<li class="p_nav-item" role="presentation">
-    		<button class="p_nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Q & A</button>
-  		</li>
-	</ul>
-	
-	<section id="product_review">상품리뷰</section>
-	<section id="product_qna">Q & A</section>
-	 -->
 	
 
 	<!-- footer Section -->
