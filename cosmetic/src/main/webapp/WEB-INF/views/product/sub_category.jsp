@@ -65,13 +65,13 @@
 	border: none;
 }
 
-/* 클릭시 */
+/* 서브메뉴 클릭시 */
 #sub_menu ul li:hover {
 	background-color: green;
 	color: white;
 	cursor: pointer;
 }
-#sub_menu ul li.selected {
+#sub_menu .sub.selected {
 	background-color: green;
 	color: white;
 }
@@ -110,6 +110,9 @@
 #arr_box li:hover {
 	cursor: pointer;
 }
+.order.selected {
+	font-weight: bold;
+}
  
 /* 테이블 */
 .grid {
@@ -119,8 +122,6 @@
 	grid-template-rows: repeat(6, 1fr);
 }
 .grid .block {
-	/* border: 1px solid grey; */
-	/* border-right: 0.5px solid grey; */
 	border-bottom: 1px solid grey;
  	width: 255px;
 	height: 400px;
@@ -130,6 +131,7 @@
 	justify-content: center;
 	padding: 30px 20px;
 }
+
 .block .picture {
 	position: relative;
 	width: 215px;
@@ -243,7 +245,7 @@
 		<div id="sub_menu">
 			<ul>
 			<c:forEach var="ctg" items="${ctg_items}">
-				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}';" class="sub">${ctg.ctg_small}</li>
+				<li class="sub selected"  id="sub_${ctg.ctg_s_no}" onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}';" >${ctg.ctg_small}</li>
 			</c:forEach>
 			</ul>
 		</div>
@@ -256,10 +258,10 @@
 		
 		<div id="arrange">
 			<div id="arr_box">
-				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}';">인기순</li>
-				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=new';">신상품순</li>
-				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=sell';">판매순</li>
-				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=price';">낮은가격순</li>
+				<li class="order" onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}';">인기순</li>
+				<li class="order" onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=new';">신상품순</li>
+				<li class="order" onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=sell';">판매순</li>
+				<li class="order" onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=price';">낮은가격순</li>
 			</div>
 		</div>
 		<div class="grid">
@@ -283,8 +285,7 @@
 				<div class="desc">
 					<div class="p_name"><a href="/product/detail_before?p_id=${row.p_id}">${row.p_name}</a></div>
 					<div class="p_price"><b><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"/>원</b></div>
-					<div class="p_delivery">무료배송</div>
-					<!-- ${row.p_delivery} -->
+					<div class="p_delivery">${row.d_info}배송</div>
 				</div>
 				
 			</div>
@@ -322,8 +323,6 @@
 	</section>
 	
 
-
-
 <div class="scrollup">
    <a href="#"><i class="fa fa-chevron-up"></i></a>
 </div>
@@ -344,6 +343,41 @@ $(function(){
     	$(".like").css("cursor", "pointer");
     	$(this).toggleClass("liked");
     });
+	
+  //url에서 변수 가져오기
+    var urlParams = new URLSearchParams(window.location.search);
+    var no = urlParams.get('no');
+    var order = urlParams.get('order');
+	
+	if (urlParams != null) {
+		var no = urlParams.get('no');
+	    var order = urlParams.get('order');
+	    
+		//url에 전달된 카테고리 코드에 맞춰 서브메뉴 색깔 바꾸기
+		$(".sub").removeClass('selected');
+		
+		$(".sub").each(function() {
+			var id_no = $(this).attr("id").split("_")[1];
+			if (id_no === no) {
+	            $(this).addClass("selected");
+	        }
+		});
+		
+		//url에 전달된 정렬방식에 맞춰 화면의 정렬방식을 진한 글자로 표시
+		$(".order").removeClass("selected");
+		
+		if (order === "new") {
+            $(".order").eq(1).addClass("selected"); 
+        } else if (order === "sell") {
+            $(".order").eq(2).addClass("selected"); 
+        } else if (order === "price") {
+            $(".order").eq(3).addClass("selected"); 
+        } else {
+            $(".order").eq(0).addClass("selected"); 
+        }
+		
+	}
+	
 });
 </script>
 
