@@ -69,6 +69,11 @@
 	color: white;
 	cursor: pointer;
 }
+#sub_menu ul li.selected {
+	background-color: green;
+	color: white;
+}
+
 
 /* 테이블 */
 
@@ -234,11 +239,11 @@
 		<!-- 서브메뉴 -->
 		<div id="sub_menu">
 			<ul>
-				<li onclick="location.href='/product/sub_view.do?no=21';">싱글섀도우</li>
-				<li onclick="location.href='/product/sub_view.do?no=22';">아이팔레트</li>
-				<li onclick="location.href='/product/sub_view.do?no=23';">마스카라</li>
-				<li onclick="location.href='/product/sub_view.do?no=24';">아이라이너</li>
-				<li onclick="location.href='/product/sub_view.do?no=25';">아이브로우</li>
+				<li onclick="location.href='/product/sub_view.do?no=21';" class="sub">싱글섀도우</li>
+				<li onclick="location.href='/product/sub_view.do?no=22';" class="sub">아이팔레트</li>
+				<li onclick="location.href='/product/sub_view.do?no=23';" class="sub">마스카라</li>
+				<li onclick="location.href='/product/sub_view.do?no=24';" class="sub">아이라이너</li>
+				<li onclick="location.href='/product/sub_view.do?no=25';" class="sub">아이브로우</li>
 			</ul>
 		</div>
 		
@@ -315,7 +320,7 @@
 		</div>
 		</div>
 		
-		<!-- 페이지 번호 -->
+		<!-- 페이지 번호(나중에 추가) -->
 		
 		<div id="paging" align="center">
 			<c:if test="${map.page_info.curPage > 1 }">
@@ -360,6 +365,8 @@
 
 <script type="text/javascript">
 $(function(){
+	
+	//하트 아이콘 동작
     $(".like").click(function(){
     	$(".like").css("cursor", "pointer");
     	$(this).toggleClass("liked");
