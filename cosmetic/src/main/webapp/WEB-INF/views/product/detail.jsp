@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!doctype html>
 <head>
 <meta charset="utf-8">
@@ -26,8 +27,9 @@
 <!--Theme Responsive css-->
 <link rel="stylesheet" href="/resources/assets/css/responsive.css" />
 
-<script
-	src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<script src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>	
+	
 
 <style>
 .prd_contents {
@@ -70,6 +72,10 @@
 
 .p_deli_ {
 	display: flex;
+}
+
+.p_deli_row {
+	
 }
 
 .p_deli_tit {
@@ -197,12 +203,13 @@
 			<div class="prd_contents">
 					<!-- 상품정보 -->
 				<div class="prd_detail_box">
+				<input type="hidden" value="${dto.p_id}">
 					
 					<!-- 왼쪽에 들어갈 사진 -->
 					<div class="left_area">
 						<div class="p_img">
 							<img id="main_img"
-								src="https://image.oliveyoung.co.kr/uploads/images/goods/550/10/0000/0020/A00000020209421ko.jpg?l=ko">
+								src="${dto.p_img1}">
 						</div>
 					</div>
 					
@@ -210,12 +217,12 @@
 					<div class="right_area"> 
 						<div class="p_info">
 						
-							<p class="p_path">상품 경로</p> <!-- ex) 립 > 립스틱 -->
+							<p class="p_path">${dto.ctg_big} > ${dto.ctg_small}</p> <!-- ex) 립 > 립스틱 -->
 							
-							<p class="p_name">판매할 상품의 제목</p> <!-- 제목 -->
+							<p class="p_name">${dto.p_name}</p> <!-- 제목 -->
 							
 							<div class="p_price">
-								<span class="p_price_color"> <strong>가격 (숫자) 원</strong>  <!-- 가격 -->
+								<span class="p_price_color"> <strong>가격 ${dto.p_price}원</strong>  <!-- 가격 -->
 								</span>
 							</div>
 					
@@ -226,9 +233,9 @@
 									<span style="font-size: 14px;" class="p_deli_s_tit">일반배송 |</span>
 									<ul style="list-style: none;">
 										<li>
-									<span style="font-size: 14px;">2,500원 ( 20,000 원 이상 무료배송 )</span>
-									</li>								
-									<span style="font-size: 14px;">배송 평균 3일 이내 배송</span>
+											<span style="font-size: 14px;">2,500원 ( 20,000 원 이상 무료배송 )</span>
+											<span style="font-size: 14px;">배송 평균 3일 이내 배송</span>
+										</li>								
 									</ul>
 							</div>
 							</div>
@@ -317,7 +324,7 @@
     <div class="tab-pane active" id="description" role="tabpanel"> <!-- 위의 id와 일치해야함 -->
     
         <!-- 상품설명 섹션 -->
-        <section id="product_infomation" class="service sections margin-top-120">
+        <section id="bloginner" class="bloginner">
             <div class="container">
                 <div class="row">
                     <div class="col-sm-12">
@@ -325,15 +332,18 @@
                             <h2>상품설명</h2>
                         </div>
                         <!-- End of head title -->
-                        <div class="main_service_area">
-                            <div>
-                                <img src="https://cf-images.oliveyoung.co.kr/product/html/crop/A000000202094/202404080946/crop0/etude.speedgabia.com/webcatalogue/2024/03/OverGlowy/images/img1.jpg?created=202404080947" class="s-lazy s-lazy-s s-loaded" style="width: 100%;">
-                                <img src="https://cf-images.oliveyoung.co.kr/product/html/crop/A000000202094/202404080946/crop1/etude.speedgabia.com/webcatalogue/2024/03/OverGlowy/images/img1.jpg?created=202404080947" class="s-lazy s-lazy-s s-loaded" style="width: 100%;">
-                                <img src="https://cf-images.oliveyoung.co.kr/product/html/crop/A000000202094/202404080946/crop2/etude.speedgabia.com/webcatalogue/2024/03/OverGlowy/images/img1.jpg?created=202404080947" class="s-lazy s-lazy-s s-loaded" style="width: 100%;">
-                                <img src="https://cf-images.oliveyoung.co.kr/product/html/crop/A000000202094/202404080946/crop3/etude.speedgabia.com/webcatalogue/2024/03/OverGlowy/images/img1.jpg?created=202404080947" class="s-lazy s-lazy-s s-loaded" style="width: 100%;">
-                            </div>
-                        </div>
-                    </div>
+                        <div class="main_bloginner_area" style="">
+                            <div class="row">
+                            	<div class="col-sm-10 col-sm-offset-1">
+                            		<div class="main_bloginner_content">	
+                            			<div class="single_bloginner s_blogIner_1 text-center">
+				                            <img src="${dto.p_detail}">
+			                            </div>
+			                            </div>
+            		                </div>
+                    	        </div>
+                        	</div>
+                    	</div>
                 </div>
             </div>
         </section>
@@ -346,7 +356,7 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="head_title text-center">
-                            <h2>상품설명</h2>
+                            <h2>상품리뷰</h2>
                         </div>
         				<div class="main_service_area">
         					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>

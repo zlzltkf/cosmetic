@@ -16,17 +16,23 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProductDTO {
-	int p_id;
-	String p_name;
-	int p_price;
-	int p_stock;
-	String p_img1;
-	String p_img2;
-	String p_img3;
-	String p_detail;
-	Date p_date;
-	int p_delivery;
-	int p_hit;
-	int p_sel;
-	int p_cate;
+	private int p_id;
+	private String p_name;
+	private int p_price;
+	private int p_stock;
+	private String p_img1;
+	private String p_img2;
+	private String p_img3;
+	private String p_detail;
+	private Date p_date;
+	private int p_delivery;
+	private int p_hit;
+	private int p_sel;
+	private int p_cate;
+	
+	//조인한 목록
+	private String ctg_big;
+	private int ctg_b_no;
+	private String ctg_small;
+	private int ctg_s_no;
 }

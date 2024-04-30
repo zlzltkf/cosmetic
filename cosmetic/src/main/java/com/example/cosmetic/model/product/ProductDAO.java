@@ -62,6 +62,11 @@ public class ProductDAO {
 		return sqlSession.selectOne("product.get_cate_name", no);
 	}
 
+	//디테일
+		public ProductDTO detail(int p_id) {
+			return sqlSession.selectOne("product.detail", p_id);
+		
+		}
 }
 
 

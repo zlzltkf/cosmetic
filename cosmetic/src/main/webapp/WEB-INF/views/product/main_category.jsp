@@ -88,7 +88,7 @@
     <div class="left-menu">
 		<a style="font-weight: bold; font-size: 30px">${name}</a><br>
 <c:forEach items="${items}" var="var">
-        <a href="#">${var.ctg_small}</a><br> 
+        <a href="/product/sub_view.do?no=${var.ctg_s_no}">${var.ctg_small}</a><br> 
 </c:forEach>
 
     </div>

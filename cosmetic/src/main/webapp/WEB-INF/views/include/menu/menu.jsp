@@ -37,11 +37,17 @@
                                             <span class="icon-bar"></span>
                                             <span class="icon-bar"></span>
                                         </button>
-                                        <a class="navbar-brand" href="/">
-                                            <img src="/resources/assets/images/logo.png"/>
+                                        <a class="navbar-brand-logo" href="/">
+                                            <img src="/resources/assets/images/logo_eden.png" style="max-width: 150px; max-height: 150px;"/>
                                         </a>
                                     </div>
-
+<style>
+.navbar-brand-logo {
+position: absolute;
+bottom: 1px;
+left: 1px;
+}
+</style>
                                     <!-- Collect the nav links, forms, and other content for toggling -->
 
 

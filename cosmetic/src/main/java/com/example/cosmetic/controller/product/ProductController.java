@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,11 +28,6 @@ public class ProductController {
 	public String list(@RequestParam(name = "no", required = false) int no, Model model) {
 		model.addAttribute("no", no);
 		return "product/list";
-	}
-	// 테스트용 디테일 화면
-	@GetMapping("detail")
-	public String detail() {
-		return "product/detail";
 	}
 
 	@GetMapping("main_view")
@@ -80,4 +76,12 @@ public class ProductController {
 		return "product/sub_category";
 	}
 
+	// 디테일 화면
+		@GetMapping("/detail/{p_id}")
+		public ModelAndView detail(@PathVariable(name="p_id") int p_id, ModelAndView mav) {
+			mav.setViewName("product/detail");
+			mav.addObject("dto", productDao.detail(p_id));
+			return mav;
+		}
+	
 }

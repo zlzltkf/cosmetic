@@ -279,7 +279,7 @@
 				
 				<!-- 상품설명 -->
 				<div class="desc">
-					<div class="p_name"><a href="#">${row.p_name}</a></div>
+					<div class="p_name"><a href="/product/detail/${row.p_id}">${row.p_name}</a></div>
 					<div class="p_price"><b>${row.p_price}원</b></div>
 					<div class="p_delivery">무료배송</div>
 					<!-- ${row.p_delivery} -->
