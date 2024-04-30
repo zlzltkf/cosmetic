@@ -134,6 +134,79 @@ margin: 0 5% 12px 5%;
 <div id="ctg-content">
 <div id="ctg-grid">
 
+	<!-- 립 -->
+	<div class="b-ctg-content">
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=11">립스틱</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=12">틴트</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=13">글로스</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=14">립펜슬</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=15">립케어</a>
+		</ul>
+	</div>
+	
+	<!-- 아이 -->
+	<div class="b-ctg-content">
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=21">싱글섀도우</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=22">아이팔레트</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=23">마스카라</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=24">아이라이너</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=25">아이브로우</a>
+		</ul>
+	</div>
+	
+	<!-- 페이스 -->
+	<div class="b-ctg-content">
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=31">베이스-프라이머</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=32">쿠션-파운데이션</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=33">BB컨실러</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=34">팩트-파우더</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=35">컨투어링-하이라이터</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=36">블러셔</a>
+		</ul>
+	</div>
+	
+	<!-- 네일 -->
+	<div class="b-ctg-content">
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=41">네일컬러</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=42">네일케어</a>
+		</ul>
+		<ul class="s-ctg-content">
+			<a href="/product/sub_view.do?no=43">네일리무버</a>
+		</ul>
+	</div>
+
 	<!-- 스킨케어 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
@@ -205,79 +278,6 @@ margin: 0 5% 12px 5%;
 		</ul>
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=92">헤어케어</a>
-		</ul>
-	</div>
-	
-	<!-- 페이스 -->
-	<div class="b-ctg-content">
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=31">베이스-프라이머</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=32">쿠션-파운데이션</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=33">BB컨실러</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=34">팩트-파우더</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=35">컨투어링-하이라이터</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=36">블러셔</a>
-		</ul>
-	</div>
-	
-	<!-- 아이 -->
-	<div class="b-ctg-content">
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=21">싱글섀도우</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=22">아이팔레트</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=23">마스카라</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=24">아이라이너</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=25">아이브로우</a>
-		</ul>
-	</div>
-	
-	<!-- 립 -->
-	<div class="b-ctg-content">
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=11">립스틱</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=12">틴트</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=13">글로스</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=14">립펜슬</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=15">립케어</a>
-		</ul>
-	</div>
-	
-	<!-- 네일 -->
-	<div class="b-ctg-content">
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=41">네일컬러</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=42">네일케어</a>
-		</ul>
-		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=43">네일리무버</a>
 		</ul>
 	</div>
 	
