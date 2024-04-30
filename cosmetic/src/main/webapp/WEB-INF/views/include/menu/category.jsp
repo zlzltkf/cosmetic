@@ -116,18 +116,18 @@ margin: 0 5% 12px 5%;
 
 </style>
 
-<!-- 메인카테고리 -->
+<!-- 메인카테고리 번호와 소분류에 따른 이동 -->
 <div id="ctg">
-	<a href="/product/list.do?no=50">스킨케어</a>
-	<a href="/product/list.do?no=60">마스크</a>
-	<a href="/product/list.do?no=70">클렌저</a>
-	<a href="/product/list.do?no=80">바디</a>
-	<a href="/product/list.do?no=90">헤어</a>
-	<a href="/product/list.do?no=30">페이스</a>
-	<a href="/product/list.do?no=20">아이</a>
-	<a href="/product/list.do?no=10">립</a>
-	<a href="/product/list.do?no=40">네일</a>
-	<a href="/product/list.do?no=100">툴</a>
+	<a href="/product/main_view?ctg_b_no=10&name=${name}">립</a>
+	<a href="/product/main_view?ctg_b_no=20&name=${name}">아이</a>
+	<a href="/product/main_view?ctg_b_no=30&name=${name}">페이스</a>
+	<a href="/product/main_view?ctg_b_no=40&name=${name}">네일</a>
+	<a href="/product/main_view?ctg_b_no=50&name=${name}">스킨케어</a>
+	<a href="/product/main_view?ctg_b_no=60&name=${name}">마스크</a>
+	<a href="/product/main_view?ctg_b_no=70&name=${name}">클렌저</a>
+	<a href="/product/main_view?ctg_b_no=80&name=${name}">바디</a>
+	<a href="/product/main_view?ctg_b_no=90&name=${name}">헤어</a>
+	<a href="/product/main_view?ctg_b_no=100&name=${name}">툴</a>
 </div>
 
 <!-- 세부카테고리 -->

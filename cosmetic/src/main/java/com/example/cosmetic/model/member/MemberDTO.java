@@ -1,5 +1,7 @@
 package com.example.cosmetic.model.member;
 
+import java.util.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +24,7 @@ public class MemberDTO {
 	private String zipcode;
 	private int birth;
 	private String phone;
-	private int date;
+	private Date date;
 	private String skin;
 	private int level;
 	private int point;

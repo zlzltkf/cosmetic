@@ -143,7 +143,7 @@
 		      }
 		      
 		      alert("회원가입이 완료되었습니다.");
-		      document.form1.action = "join";
+		      document.form1.action = "/member/join";
 		      document.form1.submit();
 		   }
    
@@ -151,7 +151,7 @@
    function check() {
       let userid = document.getElementById("userid").value;
       $.ajax({
-         url : "id_check",
+         url : "/member/id_check",
          type : "POST",
          data : {
             userid : userid
@@ -304,7 +304,7 @@ span {
                   <div class="head_title text-center">
                      <h1 style="line-height: 2.1;">회원가입</h1>
                   </div>
-                  <form id="form1" name="form1" method="post" action="join">
+                  <form id="form1" name="form1" method="post" action="/member/join">
                      <!-- 회원가입 폼 -->
                      <section class="contents">
                         <article>
