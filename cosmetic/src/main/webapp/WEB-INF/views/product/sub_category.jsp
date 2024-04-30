@@ -105,6 +105,9 @@
 	line-height: 50px;
 	padding: 0 10px;
 }
+#arr_box li:hover {
+	cursor: pointer;
+}
  
 /* 테이블 */
 .grid {
@@ -115,7 +118,7 @@
 }
 .grid .block {
 	/* border: 1px solid grey; */
-	border-right: 0.5px solid grey;
+	/* border-right: 0.5px solid grey; */
 	border-bottom: 1px solid grey;
  	width: 255px;
 	height: 400px;
@@ -198,7 +201,6 @@
 	width:765px;
 	display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(6, 1fr);
 	}
 }
 @media (max-width: 1172px) {
@@ -206,7 +208,6 @@
 	width:510px;
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
-	grid-template-rows: repeat(6, 1fr);
 	}
 }
 @media (max-width: 786px) {
@@ -214,7 +215,6 @@
 	width:255px;
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
-	grid-template-rows: repeat(6, 1fr);
 	}
 }
 
@@ -231,19 +231,18 @@
 	
 	<section id="page-wrap">
 	
+		<!-- 소분류 제목 -->
 		<div id="title">
-			<h3>${list[0].ctg_small}</h3>
+			<h3>${ctg.ctg_small}</h3>
 			<hr>
 		</div>
 		
 		<!-- 서브메뉴 -->
 		<div id="sub_menu">
 			<ul>
-				<li onclick="location.href='/product/sub_view.do?no=21';" class="sub">싱글섀도우</li>
-				<li onclick="location.href='/product/sub_view.do?no=22';" class="sub">아이팔레트</li>
-				<li onclick="location.href='/product/sub_view.do?no=23';" class="sub">마스카라</li>
-				<li onclick="location.href='/product/sub_view.do?no=24';" class="sub">아이라이너</li>
-				<li onclick="location.href='/product/sub_view.do?no=25';" class="sub">아이브로우</li>
+			<c:forEach var="ctg" items="${ctg_items}">
+				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}';" class="sub">${ctg.ctg_small}</li>
+			</c:forEach>
 			</ul>
 		</div>
 		
@@ -255,10 +254,10 @@
 		
 		<div id="arrange">
 			<div id="arr_box">
-				<li>인기순</li>
-				<li>신상품순</li>
-				<li>판매순</li>
-				<li>낮은가격순</li>
+				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}';">인기순</li>
+				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=new';">신상품순</li>
+				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=sell';">판매순</li>
+				<li onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=price';">낮은가격순</li>
 			</div>
 		</div>
 		<div class="grid">
@@ -289,34 +288,6 @@
 			</div>
 		</c:forEach>
 		
-		<!-- 테스트 -->
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
-			
-			<div class="block"></div>
-			<div class="block"></div>
-			<div class="block"></div>
 		</div>
 		</div>
 		

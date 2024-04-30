@@ -2,14 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="product">
 
-	<!-- 소분류 -->
-	<select id="sub_list" resultType="java.util.Map">
-		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small
-		from product p, ctg c
-		where p_cate = ctg_s_no
-		and p_cate = #{no}
-	</select>
-
 	<!-- 상품 리스트 -->
 	<select id="product_list"
 		resultType="com.example.cosmetic.model.product.ProductDTO">
@@ -24,10 +16,11 @@
 		)
 		where rn between #{start} and #{end}
 	</select>
+	
 	<!-- 대분류 번호에 따른 소분류 제목,대분류 번호 -->
 	<select id="main_category"
 		resultType="com.example.cosmetic.model.category.CategoryDTO">
-		select ctg_small, ctg_b_no
+		select ctg_small, ctg_b_no, ctg_s_no
 		from ctg
 		where
 		ctg_b_no=#{ctg_b_no}
@@ -40,10 +33,47 @@
 		where ctg_b_no=#{ctg_b_no}
 	</select>
 
+	<!-- 소분류 -->
+	<!-- 정렬 -->
+	<!-- 인기순 -->
+	<select id="sub_list_best" resultType="java.util.Map">
+		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small
+		from product p, ctg c
+		where p_cate = ctg_s_no
+		and p_cate = #{no}
+		order by p_hit desc
+	</select>
+	
+	<!-- 신상품순 -->
+	<select id="sub_list_new" resultType="java.util.Map">
+		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small
+		from product p, ctg c
+		where p_cate = ctg_s_no
+		and p_cate = #{no}
+		order by p_date desc
+	</select>
 
+	<!-- 판매순 -->
+	<select id="sub_list_sell" resultType="java.util.Map">
+		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small
+		from product p, ctg c
+		where p_cate = ctg_s_no
+		and p_cate = #{no}
+		order by p_sell desc
+	</select>
 
-
-
-
+	<!-- 낮은가격순 -->
+	<select id="sub_list_price" resultType="java.util.Map">
+		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small
+		from product p, ctg c
+		where p_cate = ctg_s_no
+		and p_cate = #{no}
+		order by p_price
+	</select>
+	
+	<!-- 소분류 카테고리 코드 > 소분류 카테고리 이름, 소분류가 속한 대분류 코드 가져오기 -->
+	<select id="get_cate_name" resultType="java.util.Map">
+		SELECT ctg_s_no, ctg_b_no, ctg_small FROM ctg WHERE ctg_s_no=#{no}
+	</select>
 
 </mapper>

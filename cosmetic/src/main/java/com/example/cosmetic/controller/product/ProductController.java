@@ -28,15 +28,6 @@ public class ProductController {
 		model.addAttribute("no", no);
 		return "product/list";
 	}
-
-	// 소분류 카테고리 리스트
-	@GetMapping("sub_view.do")
-	public String sub(@RequestParam(name = "no", required = false) int no, Model model) {
-		List<Map<String, Object>> list = productDao.sub_list(no);
-		model.addAttribute("list", list);
-		return "product/sub_category";
-	}
-
 	// 테스트용 디테일 화면
 	@GetMapping("detail")
 	public String detail() {
@@ -52,6 +43,41 @@ public class ProductController {
 		mav.addObject("name", name);
 		System.out.println(name);
 		return mav;
+	}
+	
+	// 소분류 카테고리 리스트
+	@GetMapping("sub_view.do")
+	public String sub(
+			@RequestParam(name = "no", required = false) int no, 
+			@RequestParam(name = "order", required = false, defaultValue = "best") String order,
+			Model model) {
+		
+		List<Map<String, Object>> list = null;
+		
+		//카테고리 이름 가져오기
+		Map<String, Object> ctg = productDao.get_cate_name(no);
+
+		int ctg_b_no = (int) ctg.get("ctg_b_no");
+		
+		List<CategoryDTO> items = productDao.main_list(ctg_b_no);
+		
+		if (order.equals("best")) {
+			list = productDao.sub_list_best(no);
+			
+		} else if (order.equals("new")) {
+			list = productDao.sub_list_new(no);
+			
+		} else if (order.equals("sell")) {
+			list = productDao.sub_list_sell(no);
+			
+		} else if (order.equals("price")) {
+			list = productDao.sub_list_price(no);
+		} 
+		
+		model.addAttribute("ctg", ctg);
+		model.addAttribute("ctg_items", items);
+		model.addAttribute("list", list);
+		return "product/sub_category";
 	}
 
 }
