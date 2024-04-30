@@ -111,7 +111,7 @@ public class ProductController {
 		  //쿠키의 단점 : 클라이언트(=브라우저)에 저장이 되는데, 문자열만 저장할 수 있다.
 		  Cookie cookie = new Cookie("recent" + p_id, String.valueOf(p_id));
 		  cookie.setPath("/"); //root에 저장
-		  cookie.setMaxAge(60 * 60 * 24); //하루동안 저장
+		  cookie.setMaxAge(60 * 60 * 24); // 저장하는 시간 => 하루동안 저장(24시간)
 		  response.addCookie(cookie); //전송!
 		  return "redirect:/product/detail/" + p_id; // 여기서 디테일 화면으로!
 		}
@@ -131,7 +131,37 @@ public class ProductController {
 		        }
 		    }
 		    model.addAttribute("r_list", r_list);
-		    System.out.println("recent_cookie:"+r_list);
+		    //System.out.println("recent_cookie:"+r_list);
 		    return "product/recent";
+		}
+		
+		// 최근 본 상품 삭제 (쿠키 한개씩 삭제)
+		@GetMapping("cookie_delete")
+		public String cookie_delete(@RequestParam(name="p_id") int p_id, HttpServletRequest request, HttpServletResponse response) {
+		  Cookie[] cookies = request.getCookies();
+		  // 지금은 cookies가 null이 아님.
+		  for (int i = cookies.length - 1; i >= 0; i--) {
+		    if (cookies[i].getName().equals("recent" + p_id)) {
+		      cookies[i].setPath("/");
+		      cookies[i].setMaxAge(0); //이 MaxAge만 0으로 설정하면 시간이 0이라 바로 삭제됌
+		      response.addCookie(cookies[i]);
+		      break;
+		    }
+		  }
+		  return "redirect:/product/recent_cookie";
+		}
+
+		//최근 본 상품 전체 삭제 (쿠키 전체삭제)
+		@GetMapping("cookie_all_delete")
+		public String cookie_all_delete(HttpServletRequest request, HttpServletResponse response) {
+		  Cookie[] cookies = request.getCookies();
+		  for (int i = cookies.length - 1; i >= 0; i--) {
+		    if (cookies[i].getName().startsWith("recent")) {
+		      cookies[i].setPath("/");
+		      cookies[i].setMaxAge(0);
+		      response.addCookie(cookies[i]);
+		    }
+		  }
+		  return "redirect:/product/recent_cookie";
 		}
 }

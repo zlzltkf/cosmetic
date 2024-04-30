@@ -13,11 +13,22 @@
             <c:forEach var="product" items="${r_list}">
                 <li>${product.p_name} - 가격: ${product.p_price}</li>
                 <li><img src="${product.p_img1}"></li>
+                <button type="button" onclick="cookie_delete(${product.p_id})">쿠키 하나 삭제</button>
+                <button type="button" onclick="cookie_all_delete()">쿠키 전체 삭제</button>
             </c:forEach>
         </ul>
     </c:if>
     <c:if test="${empty r_list}">
         <p>최근 본 상품이 없습니다.</p>
     </c:if>
+    <script type="text/javascript">
+    function cookie_delete(p_id) {
+    	location.href="/product/cookie_delete?p_id="+p_id;
+    }
+    
+    function cookie_all_delete() {
+    	location.href="/product/cookie_all_delete";
+    }
+    </script>
 </body>
 </html>
