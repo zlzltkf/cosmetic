@@ -70,19 +70,21 @@ if (urlParams != null) {
 #sub_menu {
 	width: 100%;
 	height: 42px;
-	margin: 40px 0;
-	border: 1px solid grey;
+	margin: 40px 0 30px 0;
+	border: 1px solid #e0e0e0;
 	list-style: none;
 	line-height: 40px;
 }
 #sub_menu ul {
 	display: flex;
 	align-items: center;
+	justify-content: center;
+	
 }
 #sub_menu ul li {
 	flex-grow: 1;
 	text-align: center;
-	border-right: 1px solid grey;
+	border-right: 1px solid #e0e0e0;
 }
 #sub_menu ul li:last-child {
 	border: none;
@@ -90,13 +92,14 @@ if (urlParams != null) {
 
 /* 서브메뉴 클릭시 */
 #sub_menu ul li:hover {
-	background-color: green;
-	color: white;
+	color: #6eb853;
 	cursor: pointer;
+	outline: 1px solid #6eb853;
 }
 #sub_menu .sub.selected {
-	background-color: green;
-	color: white;
+	color: #6eb853;
+	padding: 0 1px;
+	outline: 1px solid #6eb853;
 }
 
 
@@ -119,8 +122,8 @@ if (urlParams != null) {
 #arrange {
 	width:90%;
 	height: 50px;
-	border-top: 1px solid grey;
-	border-bottom: 2px solid grey;
+	border-top: 1px solid gray;
+	border-bottom: 2px solid gray;
 }
 #arr_box {
 	display: flex;
@@ -141,14 +144,13 @@ if (urlParams != null) {
 .grid {
 	width:1020px;
 	display: grid;
-	grid-template-columns: repeat(4, 1fr);
-	/* grid-template-rows: repeat(2, 1fr); */
-}
-.grid .grid-wrap {
-	border-bottom: 1px solid grey;
+	grid-gap: 1px;
+	border-bottom: 1px solid #d4d4d4;
+	grid-template-columns: repeat(4, 1fr); /* 열개수 */
+	/* grid-template-rows: repeat(4, 1fr); */ /* 행개수 */
 }
 .grid .block {
-	border-bottom: 1px solid grey;
+	border-bottom: inherit;
  	width: 255px;
 	height: 400px;
 	display: flex;
@@ -209,7 +211,7 @@ if (urlParams != null) {
  	width: 70px;
 	height: 20px;
 	margin: 5px 0;
-	background-color: green;
+	background-color: #6eb853;
 	color: white;
 	border-radius: 7px;
 	text-align: center;
@@ -219,9 +221,45 @@ if (urlParams != null) {
 /* 페이지 번호 */
 
 #paging {
-	height: 25px;
 	margin: 5px 0;
-	line-height: 25px;
+	width: 100%;
+	height: 50px;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+#arrowsL, #arrowsR {
+	display: flex;
+	flex-direction: row;
+	width: 65px;
+}
+#arrowsL {
+	justify-content:flex-end;
+	margin: 0 10px 0 0;
+}
+#arrowsR {
+justify-content:flex-start;
+	margin: 0 0 0 10px;
+}
+#paging .page {
+	color: #656565;
+	width: 30px;
+	height: 30px;
+	line-height: 28px;
+	margin: 0 2px;
+	border: 1px solid #e0e0e0;
+	font-size: 0.8em;
+}
+#paging .page:hover {
+	cursor: pointer;
+	border: 1px solid #656565;
+	font-weight: bold;
+}
+#paging .page.selected {
+	border: 1px solid #656565;
+	font-weight: bold;
+	cursor: default;
 }
 
 /* 반응형 */
@@ -245,6 +283,26 @@ if (urlParams != null) {
 	width:255px;
 	display: grid;
 	grid-template-columns: repeat(1, 1fr);
+	}
+	#sub_menu {
+	width: 50%;
+	height: 100%;
+	margin: 40px auto 30px auto;
+	border-bottom: 1px solid #e0e0e0;
+	list-style: none;
+	line-height: 40px;
+	}
+	#sub_menu ul {
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	}
+	#sub_menu ul li {
+	width: 100%;
+	text-align: center;
+	border: none;
 	}
 }
 
@@ -291,11 +349,10 @@ if (urlParams != null) {
 			</div>
 		</div>
 		<div class="grid">
-		<div class="grid-wrap">
 		<c:forEach var="row" items="${list}">
 			
 			<!-- 데이터가 들어갈 부분 -->
-			<div class="block" id="${fn:length(list)}">
+			<div class="block">
 			
 				<!-- 상품사진 -->
 				<div class="picture">
@@ -318,33 +375,44 @@ if (urlParams != null) {
 		</c:forEach>
 		</div>
 		</div>
-		</div>
 		
 		<!-- 페이지 번호 -->
 		
 		<div id="paging" align="center">
-			<c:if test="${page_info.curPage > 1 }">
-				<a href="javascript:list('1')">[처음]</a>
-			</c:if>
-			<c:if test="${page_info.curBlock > 1}">
-				<a  href="javascript:list('${page_info.prevPage}')">[이전]</a>
-			</c:if>
+		
+			<!-- 화살표 -->
+			<div id="arrowsL">
+				<c:if test="${page_info.curPage > 1 }">
+					<div class="page" onclick="list('1')">❮❮</div>
+				</c:if>
+				<c:if test="${page_info.curBlock > 1}">
+					<div class="page" onclick="list('${page_info.prevPage}')">❮</div>
+				</c:if>
+			</div>
+			
+			<!-- 페이지 숫자 -->
 			<c:forEach  var="num"  begin="${page_info.blockStart}" end="${page_info.blockEnd}">
 				<c:choose>
 					<c:when  test="${num  ==  page_info.curPage }">
-						<span  style="color:red">${num}</span>&nbsp;
+						<div class="page selected">
+							<span>${num}</span>
+						</div>
 					</c:when>
 					<c:otherwise>
-						<a  href="javascript:list('${num}')">${num}</a>&nbsp;
+						<div class="page" onclick="list('${num}')">${num}</div>
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-			<c:if  test="${page_info.curBlock  <  page_info.totBlock }">
-				<a  href="javascript:list('${page_info.nextPage}')">[다음]</a>
-			</c:if>
-			<c:if  test="${page_info.curPage  <=  page_info.totPage}">
-				<a  href="javascript:list('${page_info.totPage}')">[끝]</a>
-			</c:if>
+			
+			<!-- 화살표 -->
+			<div id="arrowsR">
+				<c:if  test="${page_info.curBlock  <  page_info.totBlock }" >
+					<div class="page" onclick="list('${page_info.nextPage}')">❯</div>
+				</c:if>
+				<c:if  test="${page_info.curPage  <=  page_info.totPage}">
+					<div class="page" onclick="list('${page_info.totPage}')">❯❯</div>
+				</c:if>
+			</div>
 		</div>
 	</section>
 
