@@ -33,6 +33,29 @@
 
 </head>
 
+<!-- 페이지 번호 -->
+<!-- 이부분을 뒤로 보내면 페이징 버튼이 작동하지 않음 -->
+<script type="text/javascript">
+var urlParams = new URLSearchParams(window.location.search);
+var no = urlParams.get('no');
+var order = urlParams.get('order');
+
+if (urlParams != null) {
+	var no = urlParams.get('no'); //상품 카테고리
+    var order = urlParams.get('order'); //정렬방식
+    
+    if (order != null) {
+    	function list(page) {
+    		location.href = "/product/sub_view.do?curPage=" + page + "&no=" + no + "&order=" + order;
+    	}
+    } else {
+    	function list(page) {
+    		location.href = "/product/sub_view.do?curPage=" + page + "&no=" + no;
+    	}
+    }
+}
+</script>
+
 <style>
 #page-wrap {
 	margin: 155px auto 0 auto;
@@ -119,7 +142,10 @@
 	width:1020px;
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
-	grid-template-rows: repeat(6, 1fr);
+	/* grid-template-rows: repeat(2, 1fr); */
+}
+.grid .grid-wrap {
+	border-bottom: 1px solid grey;
 }
 .grid .block {
 	border-bottom: 1px solid grey;
@@ -253,7 +279,7 @@
 		<div id="content">
 		
 		<div id="info">
-			총 ${fn:length(list)} 개의 상품이 있습니다.
+			총 ${count} 개의 상품이 있습니다.
 		</div>
 		
 		<div id="arrange">
@@ -265,11 +291,11 @@
 			</div>
 		</div>
 		<div class="grid">
-		
+		<div class="grid-wrap">
 		<c:forEach var="row" items="${list}">
-		
+			
 			<!-- 데이터가 들어갈 부분 -->
-			<div class="block">
+			<div class="block" id="${fn:length(list)}">
 			
 				<!-- 상품사진 -->
 				<div class="picture">
@@ -290,22 +316,22 @@
 				
 			</div>
 		</c:forEach>
-		
 		</div>
 		</div>
+		</div>
 		
-		<!-- 페이지 번호(나중에 추가) -->
+		<!-- 페이지 번호 -->
 		
 		<div id="paging" align="center">
-			<c:if test="${map.page_info.curPage > 1 }">
-				<a href="javasript:list('1')">[처음]</a>
+			<c:if test="${page_info.curPage > 1 }">
+				<a href="javascript:list('1')">[처음]</a>
 			</c:if>
-			<c:if test="${map.page_info.curBlock > 1}">
-				<a  href="javascript:list('${map.page_info.prevPage}')">[이전]</a>
+			<c:if test="${page_info.curBlock > 1}">
+				<a  href="javascript:list('${page_info.prevPage}')">[이전]</a>
 			</c:if>
-			<c:forEach  var="num"  begin="${map.page_info.blockBegin}" end="${map.page_info.blockEnd}">
+			<c:forEach  var="num"  begin="${page_info.blockStart}" end="${page_info.blockEnd}">
 				<c:choose>
-					<c:when  test="${num  ==  map.page_info.curPage }">
+					<c:when  test="${num  ==  page_info.curPage }">
 						<span  style="color:red">${num}</span>&nbsp;
 					</c:when>
 					<c:otherwise>
@@ -313,15 +339,14 @@
 					</c:otherwise>
 				</c:choose>
 			</c:forEach>
-			<c:if  test="${map.page_info.curBlock  <=  map.page_info.totBlock }">
-				<a  href="javascript:list('${map.page_info.nextPage}')">[다음]</a>
+			<c:if  test="${page_info.curBlock  <  page_info.totBlock }">
+				<a  href="javascript:list('${page_info.nextPage}')">[다음]</a>
 			</c:if>
-			<c:if  test="${map.page_info.curPage  <=  map.page_info.totPage}">
-				<a  href="javascript:list('${map.page_info.totPage}')">[끝]</a>
+			<c:if  test="${page_info.curPage  <=  page_info.totPage}">
+				<a  href="javascript:list('${page_info.totPage}')">[끝]</a>
 			</c:if>
 		</div>
 	</section>
-	
 
 <div class="scrollup">
    <a href="#"><i class="fa fa-chevron-up"></i></a>
@@ -336,18 +361,12 @@
 <script src="/resources/assets/js/main.js"></script>
 
 <script type="text/javascript">
-$(function(){
+$(document).ready(function(){
 	
-	//하트 아이콘 동작
-    $(".like").click(function(){
-    	$(".like").css("cursor", "pointer");
-    	$(this).toggleClass("liked");
-    });
-	
-  //url에서 변수 가져오기
-    var urlParams = new URLSearchParams(window.location.search);
-    var no = urlParams.get('no');
-    var order = urlParams.get('order');
+	//url에서 변수 가져오기
+	var urlParams = new URLSearchParams(window.location.search);
+	var no = urlParams.get('no');
+	var order = urlParams.get('order');
 	
 	if (urlParams != null) {
 		var no = urlParams.get('no');
@@ -377,6 +396,12 @@ $(function(){
         }
 		
 	}
+	
+	//하트 아이콘 동작
+    $(".like").click(function(){
+    	$(".like").css("cursor", "pointer");
+    	$(this).toggleClass("liked");
+    });
 	
 });
 </script>

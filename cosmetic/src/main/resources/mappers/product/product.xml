@@ -34,45 +34,34 @@
 	</select>
 
 	<!-- 소분류 -->
-	<!-- 정렬 -->
-	<!-- 인기순(기본) -->
-	<select id="sub_list_best" resultType="java.util.Map">
-		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small, d_info
-		from product p, ctg c, delivery d
-		where p_cate = ctg_s_no
-		and p_delivery = d_num
-		and p_cate = #{no}
-		order by p_hit desc
+	<!-- 상품수 출력 -->
+	<select id="sub_count" resultType="int">
+		select count(*) from product
+		where p_cate = #{no}
 	</select>
 	
-	<!-- 신상품순 -->
-	<select id="sub_list_new" resultType="java.util.Map">
+	<!-- 리스트 -->
+	<select id="sub_list" resultType="java.util.Map">
 		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small, d_info
 		from product p, ctg c, delivery d
 		where p_cate = ctg_s_no
 		and p_delivery = d_num
 		and p_cate = #{no}
-		order by p_date desc
-	</select>
-
-	<!-- 판매순 -->
-	<select id="sub_list_sell" resultType="java.util.Map">
-		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small, d_info
-		from product p, ctg c, delivery d
-		where p_cate = ctg_s_no
-		and p_delivery = d_num
-		and p_cate = #{no}
-		order by p_sell desc
-	</select>
-
-	<!-- 낮은가격순 -->
-	<select id="sub_list_price" resultType="java.util.Map">
-		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small, d_info
-		from product p, ctg c, delivery d
-		where p_cate = ctg_s_no
-		and p_delivery = d_num
-		and p_cate = #{no}
-		order by p_price
+		<choose>
+	        <when test="order == 'best'">
+	            order by p_hit desc
+	        </when>
+	        <when test="order == 'new'">
+	            order by p_date desc
+	        </when>
+	        <when test="order == 'sell'">
+            order by p_sell desc
+	        </when>
+	        <when test="order == 'price'">
+	            order by p_price
+	        </when>
+    	</choose>
+		limit #{pageCnt} offset #{start}
 	</select>
 	
 	<!-- 소분류 카테고리 코드 > 카테고리 정보 가져오기 -->

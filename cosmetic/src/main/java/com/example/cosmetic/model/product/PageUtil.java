@@ -1,10 +1,10 @@
 package com.example.cosmetic.model.product;
 
 public class PageUtil {
-   public static final int PAGE_SCALE = 9;
+   public static final int PAGE_SCALE = 1; //수정
    //페이지당 게시물 수
    
-   public static final int BLOCK_SCALE = 10;
+   public static final int BLOCK_SCALE = 3; //수정
    //페이지 블록 단위(한 화면에 보여둘 페이지 수)
    
    private int curPage;   //현재 페이지
@@ -33,12 +33,6 @@ public class PageUtil {
       setTotBlock();     //전체 페이지 블록 개수 설정
       setBlockRange();  
       // curPage가 속한 페이지 블록의 시작번호,끝번호 계산
-      setTotalCount();
-      // 전체 게시글 개수
-   }
-   
-   private void setTotalCount() {
-      totalCount = 2;
    }
 
    public void setTotBlock() {
@@ -111,10 +105,6 @@ public class PageUtil {
 
    public int getTotBlock() {
       return totBlock;
-   }
-
-   public void setTotBlock(int totBlock) {
-      this.totBlock = totBlock;
    }
 
    public int getCurBlock() {

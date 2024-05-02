@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.cosmetic.model.category.CategoryDTO;
+import com.example.cosmetic.model.product.PageUtil;
 import com.example.cosmetic.model.product.ProductDAO;
 import com.example.cosmetic.model.product.ProductDTO;
 
@@ -51,35 +52,34 @@ public class ProductController {
 	// 소분류 카테고리 리스트
 	@GetMapping("sub_view.do")
 	public String sub(
+			@RequestParam(name = "curPage", defaultValue = "1") int curPage,
 			@RequestParam(name = "no", required = false) int no, 
 			@RequestParam(name = "order", required = false, defaultValue = "best") String order,
 			Model model) {
 		
 		List<Map<String, Object>> list = null;
 		
-		//카테고리 이름 가져오기
+		//카테고리 정보 가져오기
 		Map<String, Object> ctg = productDao.get_cate_name(no);
-
 		int ctg_b_no = (int) ctg.get("ctg_b_no");
-		
 		List<CategoryDTO> items = productDao.main_list(ctg_b_no);
 		
-		if (order.equals("best")) {
-			list = productDao.sub_list_best(no);
-			
-		} else if (order.equals("new")) {
-			list = productDao.sub_list_new(no);
-			
-		} else if (order.equals("sell")) {
-			list = productDao.sub_list_sell(no);
-			
-		} else if (order.equals("price")) {
-			list = productDao.sub_list_price(no);
-		} 
+		//페이지
+		int count = productDao.sub_count(no); //모든 체품 수
+		
+		PageUtil page_info = new PageUtil(count, curPage); 
+		int start = page_info.getPageBegin()-1;
+		int pageCnt = page_info.PAGE_SCALE;
+		
+		list = productDao.sub_list(start, pageCnt, no, order);
 		
 		model.addAttribute("ctg", ctg);
 		model.addAttribute("ctg_items", items);
 		model.addAttribute("list", list);
+		
+		model.addAttribute("page_info", page_info);
+		model.addAttribute("count", count);
+		
 		return "product/sub_category";
 	}
 

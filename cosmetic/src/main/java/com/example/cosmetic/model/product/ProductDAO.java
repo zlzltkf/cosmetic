@@ -36,25 +36,19 @@ public class ProductDAO {
 	}
 	
 	//소분류
-	//정렬
-	//인기순
-	public List<Map<String, Object>> sub_list_best(int no) {
-		return sqlSession.selectList("product.sub_list_best", no);
+	//상품수 출력
+	public int sub_count(int no) {
+		return sqlSession.selectOne("product.sub_count", no);
 	}
 	
-	//신상품순
-	public List<Map<String, Object>> sub_list_new(int no) {
-		return sqlSession.selectList("product.sub_list_new", no);
-	}
-	
-	//판매순
-	public List<Map<String, Object>> sub_list_sell(int no) {
-		return sqlSession.selectList("product.sub_list_sell", no);
-	}
-	
-	//닞은가격순
-	public List<Map<String, Object>> sub_list_price(int no) {
-		return sqlSession.selectList("product.sub_list_price", no);
+	//리스트
+	public List<Map<String, Object>> sub_list(int start, int pageCnt, int no, String order) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("start", start);
+		map.put("no", no);
+		map.put("order", order);
+		map.put("pageCnt", pageCnt);
+		return sqlSession.selectList("product.sub_list", map);
 	}
 	
 	//소분류 카테고리 코드 > 소분류 카테고리 이름으로 변환
