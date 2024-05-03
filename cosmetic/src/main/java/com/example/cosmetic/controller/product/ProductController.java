@@ -136,6 +136,7 @@ public class ProductController {
 		}
 		
 		// 최근 본 상품 삭제 (쿠키 한개씩 삭제)
+		@ResponseBody
 		@GetMapping("cookie_delete")
 		public String cookie_delete(@RequestParam(name="p_id") int p_id, HttpServletRequest request, HttpServletResponse response) {
 		  Cookie[] cookies = request.getCookies();
@@ -148,7 +149,19 @@ public class ProductController {
 		      break;
 		    }
 		  }
-		  return "redirect:/product/recent_cookie";
+		  
+//		  List<ProductDTO> r_list = new ArrayList<>();
+//		  if (cookies != null) {
+//		        for (Cookie cookie : cookies) {
+//		            if (cookie.getName().startsWith("recent")) {
+//		                int no = Integer.parseInt(cookie.getValue());
+//		                ProductDTO recent = productDao.detail(no);
+//		                r_list.add(recent);
+//		            }
+//		        }
+//		    }
+//		    return r_list;
+		    return "success";
 		}
 
 		//최근 본 상품 전체 삭제 (쿠키 전체삭제)
@@ -172,6 +185,6 @@ public class ProductController {
 			List<ProductDTO> list = productDao.detail_option(p_id);
 			//System.out.println(list);
 			return list;
-				}
+		}
 
 }

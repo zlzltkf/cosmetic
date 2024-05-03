@@ -45,42 +45,66 @@
 <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.dropdown-toggle1').click(function() {
-        var dropdownMenu = $(this).closest('.dropdown1').find('.dropdown-menu_recent');
-        $.ajax({
-            url: '/product/recent_cookie', // 최근 본 상품을 조회하는 엔드포인트
-            method: 'GET',
-            success: function(data) {
-                var htmlContent = '';
-                data.forEach(function(product) {
-                	// 이미지를 작게 하고, 상품 이름과 가격을 세로로 표시하며, 삭제 버튼을 한 줄에 3개씩 나열
-                	htmlContent += '<hr>';
-
-                	// 상품 요소들을 가로로 나열할 div 시작
-                	htmlContent += '<div style="display: flex; flex-wrap: wrap;">';
-
-                	// 각 상품 요소 시작
-                	htmlContent += '<div style="width: 33.33%; padding: 10px;">'; // 가로로 세 개씩 표시하기 위해 33.33%로 폭을 조절
-                	htmlContent += '<div style="margin-bottom: 10px;"><img src="' + product.p_img1 + '" style="width: 100px;"></div>';
-                	htmlContent += '<div>' + product.p_name + '</div>';
-                	htmlContent += '<div>' + product.p_price + '</div>';
-                	htmlContent += '<div>';
-                	htmlContent += '<button type="button" onclick="cookie_delete(' + product.p_id + ')">하나 삭제</button>';
-                	htmlContent += '</div>';
-                	htmlContent += '</div>';
-                	htmlContent += '<button type="button" onclick="cookie_all_delete()">전체 삭제</button>';
-                	// 각 상품 요소 종료
-
-                	// 이런 식으로 나머지 상품들도 추가해주면 됩니다.
-
-                	// 상품 요소들을 가로로 나열할 div 종료
-                	htmlContent += '</div>';
-                });
-                dropdownMenu.html(htmlContent); // 변환된 HTML을 dropdown-menu_recent에 삽입
-            },
-        });
-    });
+	
+	R_list();
 });
+
+function cookie_delete(id) {
+	//최근 본 상품 목록
+    var dropdownMenu = $('.dropdown-toggle1').closest('.dropdown1').find('.dropdown-menu_recent');
+    $.ajax({
+        url: '/product/cookie_delete?p_id=' + id, // 최근 본 상품을 조회하는 엔드포인트
+        method: 'GET',
+        success: function(data) {
+            if (data == "success") {
+            	R_list();
+            }
+        },
+    });
+}
+
+function cookie_all_delete() {
+	console.log('hello1');
+}
+
+//최근 본 상품목록 조회
+function R_list() {
+	//최근 본 상품 목록
+    var dropdownMenu = $('.dropdown-toggle1').closest('.dropdown1').find('.dropdown-menu_recent');
+    $.ajax({
+        url: '/product/recent_cookie', // 최근 본 상품을 조회하는 엔드포인트
+        method: 'GET',
+        success: function(data) {
+            var htmlContent = '';
+            data.forEach(function(product) {
+            	// 이미지를 작게 하고, 상품 이름과 가격을 세로로 표시하며, 삭제 버튼을 한 줄에 3개씩 나열
+            	htmlContent += '<hr>';
+
+            	// 상품 요소들을 가로로 나열할 div 시작
+            	htmlContent += '<div style="display: flex; flex-wrap: wrap;">';
+
+            	// 각 상품 요소 시작
+            	htmlContent += '<div style="width: 33.33%; padding: 10px;">'; // 가로로 세 개씩 표시하기 위해 33.33%로 폭을 조절
+            	htmlContent += '<div style="margin-bottom: 10px;"><img src="' + product.p_img1 + '" style="width: 100px;"></div>';
+            	htmlContent += '<div>' + product.p_name + '</div>';
+            	htmlContent += '<div>' + product.p_price + '</div>';
+            	htmlContent += '<div>';
+            	htmlContent += '<button type="button" id="delete' + product.p_id + '" onclick="cookie_delete(' + product.p_id + ')">하나 삭제</button>';
+            	htmlContent += '</div>';
+            	htmlContent += '</div>';
+            	htmlContent += '<button type="button" onclick="cookie_all_delete()">전체 삭제</button>';
+            	// 각 상품 요소 종료
+
+            	// 이런 식으로 나머지 상품들도 추가해주면 됩니다.
+
+            	// 상품 요소들을 가로로 나열할 div 종료
+            	htmlContent += '</div>';
+            });
+            dropdownMenu.html(htmlContent); // 변환된 HTML을 dropdown-menu_recent에 삽입
+        },
+    });
+}
+
 </script>
 
 <header id="main_menu" class="header navbar-fixed-top">
@@ -174,7 +198,9 @@ $(document).ready(function() {
                             <c:forEach var="product" items="${r_list}">
                                 <li>${product.p_name}- 가격: ${product.p_price}</li>
                                 <li><img src="${product.p_img1}"></li>
-                                <button type="button" onclick="cookie_delete(${product.p_id})">하나 삭제</button>
+                                
+                                <%-- <button type="button" id="delete${product.p_id}" onclick="location.href='/product/cookie_delete?p_id=${product.p_id}'">하나 삭제</button> --%>
+                                <button type="button" id="delete${product.p_id}" onclick="cookie_delete()">하나 삭제</button>
                                 <button type="button" onclick="cookie_all_delete()">전체 삭제</button>
                             </c:forEach>
                         </c:if>
@@ -201,4 +227,5 @@ $(document).ready(function() {
 	</div>
 
 </header>
+<%-- <button type="button" onclick="cookie_delete(${product.p_id})">하나 삭제</button> --%>
 <!--End of header -->
