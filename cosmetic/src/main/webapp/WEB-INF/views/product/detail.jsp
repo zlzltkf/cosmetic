@@ -273,7 +273,7 @@
 							<!-- 상품 금액 -->
 							<div class="p_total_price">
 								<span class="total_tit">상품금액 합계</span> <span class="total_won">
-									<span>가격(숫자)</span> 원
+									<span>가격 (숫자)</span> 원
 								</span>
 							</div>
 							
@@ -363,10 +363,6 @@ function loadProductOptions(p_id) {
                 bindEventHandlers();
             });
 
-            $("#select_option").on("click", ".delete-button", function() {
-                $(this).closest(".p_select_option").remove();
-            });
-
             // 이벤트 핸들러 바인딩
             bindEventHandlers();
         },
@@ -379,12 +375,12 @@ function loadProductOptions(p_id) {
 // 이벤트 핸들러 바인딩 함수
 function bindEventHandlers() {
     // 삭제 버튼 클릭 이벤트
-    $(".delete-button").on("click", function() {
+    $(".delete-button").off("click").on("click", function() {
         $(this).closest(".p_select_option").remove();
     });
 
     // 수량 버튼 클릭 이벤트
-    $(".quantity-button").on("click", function() {
+    $(".quantity-button").off("click").on("click", function() {
         var $input = $(this).parent().find(".quantity-input");
         var oldValue = parseInt($input.val());
         var newVal = oldValue;
@@ -398,6 +394,7 @@ function bindEventHandlers() {
 }
 
 </script>
+
 <style>
 /* 수량버튼 스타일 */
 .amount_select {
