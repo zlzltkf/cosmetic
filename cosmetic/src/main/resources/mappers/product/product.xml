@@ -77,5 +77,14 @@
 		from product p, ctg c
 		where p.p_cate = c.ctg_s_no and p_id=#{p_id}
 	</select>
+	
+	<!-- 디테일 화면해서 상품 선택시 해당하는 옵션 띄우기 -->
+	<select id="detail_option" resultType="java.util.Map">
+		select p.*, po.*
+		from product p
+		LEFT JOIN product_option po ON p.p_id = po.o_p_id
+		where p.p_id = #{p_id}
+	</select>
+	
 
 </mapper>

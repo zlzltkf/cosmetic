@@ -164,4 +164,14 @@ public class ProductController {
 		  }
 		  return "redirect:/product/recent_cookie";
 		}
+		
+		// 디테일화면에서 상품을 선택하세요 누르면 드롭메뉴 뜸
+		@ResponseBody
+		@GetMapping("detail_option/{p_id}")
+		public List<ProductDTO> detail_option(@PathVariable(name="p_id") int p_id) {
+			List<ProductDTO> list = productDao.detail_option(p_id);
+			//System.out.println(list);
+			return list;
+				}
+
 }

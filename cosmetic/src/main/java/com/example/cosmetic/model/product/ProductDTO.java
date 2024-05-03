@@ -30,9 +30,17 @@ public class ProductDTO {
 	private int p_sel;
 	private int p_cate;
 	
-	//조인한 목록
+	//카테고리 조인
 	private String ctg_big;
 	private int ctg_b_no;
 	private String ctg_small;
 	private int ctg_s_no;
+	
+	//옵션 조인
+	private int idx;
+	private int o_id;
+	private String o_name;
+	private int o_p_id;
+	private int o_price;
+	private int o_amount;
 }

@@ -121,7 +121,7 @@
 .prd_detail_box .right_area .p_total_price {
 	overflow: hidden;
 	height: 60px;
-	margin: 24px 0 0;
+	margin: 60px 0 0;
 	border-bottom: 2px solid #f27370;
 	color: #e02020;
 	font-weight: 700;
@@ -189,6 +189,23 @@
 	display: block; /* 수정된 부분 */
 }
 
+.p_select_option {
+    margin-bottom: -23px;
+}
+
+.prd_select_box {	
+	align-content: center;
+	margin-top: 30px;
+    min-height: 60px;
+    border: 1px solid #e9e9e9;
+    background: #f9f9f9;
+    padding: 10px; /* 내부 여백 추가 */
+    display: block; /* 블록 레벨 요소로 변경 */
+    clear: both; /* 요소들이 옆으로 붙는 것을 방지하기 위해 clear 추가 */
+    box-sizing: content-box;
+}
+
+
 </style>
 </head>
 
@@ -245,10 +262,12 @@
 							<div class="p_dropdown">
 								<button class="p_dropbtn">상품을 선택해주세요</button>
 								<div class="p_dropdown-content">
-									<a href="#">1</a> 
-									<a href="#">2</a> 
-									<a href="#">3</a>
+									
 								</div>
+							</div>
+							
+							<!-- 상품옵션 선택시 보이는 곳 (ajax) -->
+							<div id="select_option" class="p_select_option">
 							</div>
 						
 							<!-- 상품 금액 -->
@@ -271,13 +290,153 @@
 		</div>
 	</section>
 
-	<!-- <ul class="">
-		<li class=""><a href="#">상품설명</a></li>
-		<li class=""><a href="#">상품리뷰</a></li>
-		<li class=""><a href="#">Q & A</a></li>
-	</ul> -->
+<script>
+$(document).ready(function() {
+    let p_id = '${dto.p_id}';
+    loadProductOptions(p_id);
+});
 
+function loadProductOptions(p_id) {
+    $.ajax({
+        type: "GET",
+        url: "/product/detail_option/" + p_id,
+        success: function(data) {
+            var dropdownContent = $(".p_dropdown-content");
+            dropdownContent.empty();
 
+            var hasOption = false;
+            for (var i = 0; i < data.length; i++) {
+                var optionName = data[i].o_name;
+                var optionAmount = data[i].o_amount;
+                if (optionName) {
+                    hasOption = true;
+                    var optionText = optionName;
+                    if (optionAmount == 0) {
+                        optionText += " (품절)";
+                        dropdownContent.append("<a href='#' class='disabled' style='color: #808080; pointer-events: none;'>" + optionText + "</a>");
+                    } else {
+                        dropdownContent.append("<a href='#'>" + optionText + "</a>");
+                    }
+                }
+            }
+
+            if (!hasOption) {
+                $(".p_dropdown").hide();
+                var row = '<div class="p_select_option">';
+                row += '<div class="prd_select_box"> 구매수량';
+                row += '<div class="amount_select">'; 
+                row += '<button class="quantity-button minus" type="button">-</button>';
+                row += '<input class="quantity-input" type="text" value="1">';
+                row += '<button class="quantity-button plus" type="button">+</button>';
+                row += '</div>';
+                row += '</div>';
+                row += '</div>';
+                $(".p_dropdown").after(row);
+            } else {
+                $(".p_dropdown").show();
+            }
+
+            dropdownContent.on("click", "a", function() {
+                var selectedOptionText = $(this).text();
+                var existingOption = $("#select_option").find(".p_select_option:contains('" + selectedOptionText + "')");
+                if (existingOption.length > 0) {
+                    var $input = existingOption.find(".quantity-input");
+                    var oldValue = parseInt($input.val());
+                    var newVal = oldValue + 1;
+                    $input.val(newVal);
+                } else {
+                    var row = '<div class="p_select_option">';
+                    row += '<div class="prd_select_box">';
+                    row += '<div class="amount_select">'; 
+                    row += '<button class="quantity-button minus" type="button">-</button>';
+                    row += '<input class="quantity-input" type="text" value="1">';
+                    row += '<button class="quantity-button plus" type="button">+</button>';
+                    row += '</div>';
+                    row += '<button style="float: right;" class="delete-button">x</button>';
+                    row += selectedOptionText;
+                    row += '</div>';
+                    row += '</div>';
+                    $("#select_option").append(row);
+                }
+                
+                // 이벤트 다시 바인딩
+                bindEventHandlers();
+            });
+
+            $("#select_option").on("click", ".delete-button", function() {
+                $(this).closest(".p_select_option").remove();
+            });
+
+            // 이벤트 핸들러 바인딩
+            bindEventHandlers();
+        },
+        error: function() {
+            alert("상품 옵션을 불러오는 데 실패했습니다.");
+        }
+    });
+}
+
+// 이벤트 핸들러 바인딩 함수
+function bindEventHandlers() {
+    // 삭제 버튼 클릭 이벤트
+    $(".delete-button").on("click", function() {
+        $(this).closest(".p_select_option").remove();
+    });
+
+    // 수량 버튼 클릭 이벤트
+    $(".quantity-button").on("click", function() {
+        var $input = $(this).parent().find(".quantity-input");
+        var oldValue = parseInt($input.val());
+        var newVal = oldValue;
+        if ($(this).hasClass("plus")) {
+            newVal = oldValue + 1;
+        } else if ($(this).hasClass("minus")) {
+            newVal = oldValue > 1 ? oldValue - 1 : 1;
+        }
+        $input.val(newVal);
+    });
+}
+
+</script>
+<style>
+/* 수량버튼 스타일 */
+.amount_select {
+    display: flex;
+    align-items: center;
+    float: right;
+}
+
+.quantity-button {
+    width: 30px; /* 버튼의 너비 조정 */
+    height: 30px; /* 버튼의 높이 조정 */
+    background-color: #f0f0f0; /* 버튼 배경색 */
+    border: 1px solid #ccc; /* 버튼 테두리 스타일 */
+    color: #555; /* 버튼 텍스트 색상 */
+    font-size: 16px; /* 버튼 텍스트 크기 */
+    cursor: pointer; /* 커서 모양 변경 */
+    outline: none; /* 포커스 효과 제거 */
+}
+
+.quantity-input {
+    width: 50px; /* 입력란의 너비 조정 */
+    height: 30px; /* 입력란의 높이 조정 */
+    text-align: center; /* 텍스트 가운데 정렬 */
+    border: 1px solid #ccc; /* 입력란 테두리 스타일 */
+    outline: none; /* 포커스 효과 제거 */
+}
+
+.quantity-button:hover {
+    background-color: #e0e0e0; /* 마우스 오버 시 배경색 변경 */
+}
+
+.quantity-button.plus {
+    border-left: none; /* 오른쪽 버튼의 왼쪽 테두리 제거 */
+}
+
+.quantity-button.minus {
+    border-right: none; /* 왼쪽 버튼의 오른쪽 테두리 제거 */
+}
+</style>
 
 	<style>
 	/* 탭 메뉴 스타일 */

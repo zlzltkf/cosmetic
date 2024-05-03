@@ -61,7 +61,11 @@ public class ProductDAO {
 		return sqlSession.selectOne("product.detail", p_id);
 	}
 	
-	// 최근 본 상품
+	//디테일 화면에서 상품을 선택해주세요 클릭할때 옵션 조회
+	public List<ProductDTO> detail_option(int p_id) {
+		return sqlSession.selectList("product.detail_option",p_id);
+	}
+
 }
 
 
