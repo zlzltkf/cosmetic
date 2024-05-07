@@ -267,14 +267,15 @@
 							</div>
 							
 							<!-- 상품옵션 선택시 보이는 곳 (ajax) -->
-							<div id="select_option" class="p_select_option">
+							<div id="select_option">
 							</div>
 						
 							<!-- 상품 금액 -->
 							<div class="p_total_price">
-								<span class="total_tit">상품금액 합계</span> <span class="total_won">
-									<span>가격 (숫자)</span> 원
-								</span>
+    							<span class="total_tit">상품금액 합계</span> 
+    							<span class="total_won">
+        						가격 <span id="product_price">0</span> 원
+    							</span>
 							</div>
 							
 							<!-- 장바구니, 바로구매, 찜 버튼 -->
@@ -306,13 +307,14 @@ function loadProductOptions(p_id) {
 
             var hasOption = false;
             for (var i = 0; i < data.length; i++) {
+                var optionPrice = data[i].p_price;               
                 var optionName = data[i].o_name;
                 var optionAmount = data[i].o_amount;
                 if (optionName) {
                     hasOption = true;
                     var optionText = optionName;
                     if (optionAmount == 0) {
-                        optionText += " (품절)";
+                        optionText += "(품절)";
                         dropdownContent.append("<a href='#' class='disabled' style='color: #808080; pointer-events: none;'>" + optionText + "</a>");
                     } else {
                         dropdownContent.append("<a href='#'>" + optionText + "</a>");
@@ -322,6 +324,11 @@ function loadProductOptions(p_id) {
 
             if (!hasOption) {
                 $(".p_dropdown").hide();
+                var selectedOptionText = $(this).text();
+                
+                // 초기 합계금액 설정
+                $("#product_price").text(optionPrice);
+                
                 var row = '<div class="p_select_option">';
                 row += '<div class="prd_select_box"> 구매수량';
                 row += '<div class="amount_select">'; 
@@ -329,13 +336,16 @@ function loadProductOptions(p_id) {
                 row += '<input class="quantity-input" type="text" value="1">';
                 row += '<button class="quantity-button plus" type="button">+</button>';
                 row += '</div>';
+                row += '<div style="display:none;">'
+                row += selectedOptionText + ' - 가격: ' + optionPrice;  // 초기 합계금액으로 설정
                 row += '</div>';
                 row += '</div>';
-                $(".p_dropdown").after(row);
+                row += '</div>';
+                $("#select_option").append(row);
             } else {
                 $(".p_dropdown").show();
             }
-
+            
             dropdownContent.on("click", "a", function() {
                 var selectedOptionText = $(this).text();
                 var existingOption = $("#select_option").find(".p_select_option:contains('" + selectedOptionText + "')");
@@ -353,7 +363,7 @@ function loadProductOptions(p_id) {
                     row += '<button class="quantity-button plus" type="button">+</button>';
                     row += '</div>';
                     row += '<button style="float: right;" class="delete-button">x</button>';
-                    row += selectedOptionText;
+                    row += selectedOptionText + ' - 가격: ' + optionPrice;
                     row += '</div>';
                     row += '</div>';
                     $("#select_option").append(row);
@@ -361,7 +371,12 @@ function loadProductOptions(p_id) {
                 
                 // 이벤트 다시 바인딩
                 bindEventHandlers();
+                
+                 // 가격 업데이트
+                updateTotalPrice();
             });
+            
+            
 
             // 이벤트 핸들러 바인딩
             bindEventHandlers();
@@ -376,7 +391,18 @@ function loadProductOptions(p_id) {
 function bindEventHandlers() {
     // 삭제 버튼 클릭 이벤트
     $(".delete-button").off("click").on("click", function() {
-        $(this).closest(".p_select_option").remove();
+        // 삭제되는 상품의 가격 가져오기
+        var $deletedOption = $(this).closest(".p_select_option");
+        var priceToRemove = parseFloat($deletedOption.find(".prd_select_box").text().match(/(\d+)/)[0]);
+
+        // 현재 총 가격에서 삭제되는 상품의 가격 빼기
+        var currentTotalPrice = parseFloat($("#product_price").text().replace(/,/g, ''));
+        var quantity = parseInt($deletedOption.find(".quantity-input").val());
+        var newTotalPrice = currentTotalPrice - priceToRemove * quantity;
+        $("#product_price").text(newTotalPrice.toLocaleString());
+
+        // 삭제되는 상품 옵션 삭제
+        $deletedOption.remove();
     });
 
     // 수량 버튼 클릭 이벤트
@@ -390,10 +416,32 @@ function bindEventHandlers() {
             newVal = oldValue > 1 ? oldValue - 1 : 1;
         }
         $input.val(newVal);
+        
+        // 가격 업데이트
+        updateTotalPrice();
     });
 }
 
+function updateTotalPrice() {
+    var totalPrice = 0;
+    $("#select_option .p_select_option").each(function() {
+        var priceText = $(this).text();
+        var priceMatch = /- 가격: (\d+)/.exec(priceText); // 정규식을 사용하여 가격 정보 찾기
+        if (priceMatch) {
+            var price = parseFloat(priceMatch[1]); // 찾은 가격 정보 사용
+            var quantity = parseInt($(this).find(".quantity-input").val());
+            totalPrice += price * quantity;
+            console.log(quantity);
+            console.log(price);
+            console.log(totalPrice);
+        }
+    });
+    $("#product_price").text(totalPrice.toLocaleString());
+}
+
+
 </script>
+
 
 <style>
 /* 수량버튼 스타일 */
