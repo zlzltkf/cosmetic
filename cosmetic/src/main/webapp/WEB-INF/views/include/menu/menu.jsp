@@ -208,7 +208,7 @@ function R_list() {
 								&nbsp;</a>
 							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;주문배송
 								|&nbsp;</a>
-							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;장바구니
+							<a href="cart" style="float: right; font-size: small; color: gray;">&nbsp;장바구니
 								|&nbsp;</a>
 							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;마이페이지
 								|&nbsp;</a>

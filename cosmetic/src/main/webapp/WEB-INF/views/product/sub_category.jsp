@@ -349,31 +349,41 @@ justify-content:flex-start;
 			</div>
 		</div>
 		<div class="grid">
-		<c:forEach var="row" items="${list}">
-			
-			<!-- 데이터가 들어갈 부분 -->
-			<div class="block">
-			
-				<!-- 상품사진 -->
-				<div class="picture">
-					<div class="img">
-						<img src="${row.p_img1}" alt="상품 이미지">
+				<c:forEach var="row" items="${list}">
+					<div class="block">
+						<div class="picture">
+							<div class="img">
+								<img src="${row.p_img1}" alt="상품 이미지">
+							</div>
+							<div class="like">
+								<c:choose>
+									<c:when test="${fn:length(zzim) > 0}">
+										<c:forEach var="z" items="${zzim}">
+											<c:if test="${z.z_id == row.p_id}">
+												<i class="fa fa-heart liked"></i>
+												<c:set var="liked" value="true" />
+											</c:if>
+										</c:forEach>
+									</c:when>
+								</c:choose>
+								<c:if test="${empty liked}">
+									<i class="fa fa-heart"></i>
+								</c:if>
+							</div>
+						</div>
+						<div class="desc">
+							<div class="p_name">
+								<a href="/product/detail_before?p_id=${row.p_id}">${row.p_name}</a>
+							</div>
+							<div class="p_price">
+								<b><fmt:formatNumber type="number" value="${row.p_price}"
+										pattern="#,###" />원</b>
+							</div>
+							<div class="p_delivery">${row.d_info}배송</div>
+						</div>
 					</div>
-					<div class="like">
-						<i class="fa fa-heart"></i>
-					</div>
-				</div>
-				
-				<!-- 상품설명 -->
-				<div class="desc">
-					<div class="p_name"><a href="/product/detail_before?p_id=${row.p_id}">${row.p_name}</a></div>
-					<div class="p_price"><b><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"/>원</b></div>
-					<div class="p_delivery">${row.d_info}배송</div>
-				</div>
-				
+				</c:forEach>
 			</div>
-		</c:forEach>
-		</div>
 		</div>
 		
 		<!-- 페이지 번호 -->
@@ -465,14 +475,73 @@ $(document).ready(function(){
 		
 	}
 	
-	//하트 아이콘 동작
-    $(".like").click(function(){
-    	$(".like").css("cursor", "pointer");
-    	$(this).toggleClass("liked");
+	// 하트 아이콘 동작
+    $(document).on('click', '.like', function() {
+        $(this).find('.fa-heart').toggleClass('liked');
+        var isLiked = $(this).find('.fa-heart').hasClass('liked');
+        if (isLiked) {
+            // 좋아요 상태일 때 처리
+            // 여기에 좋아요 상태일 때 수행할 동작 추가
+            // 예: 좋아요 버튼을 클릭한 상품을 서버에 전송하여 저장
+            var productId = $(this).closest('.block').data('product-id');
+            // AJAX를 사용하여 좋아요한 상품을 서버에 전송하는 코드를 추가해주세요.
+        } else {
+            // 좋아요 상태가 아닐 때 처리
+            // 여기에 좋아요 상태가 아닐 때 수행할 동작 추가
+            // 예: 좋아요 버튼을 클릭한 상품을 서버에서 삭제
+            var productId = $(this).closest('.block').data('product-id');
+            // AJAX를 사용하여 좋아요를 취소한 상품을 서버에 전송하는 코드를 추가해주세요.
+        }
     });
 	
 });
 </script>
-
+<script>
+$(document).ready(function(){
+    // 하트 아이콘 클릭 시 동작
+    $(document).on('click', '.like', function() {
+        var z_id = $(this).closest('.block').data('product-id'); // 상품 ID 가져오기
+        var isLiked = $(this).find('.fa-heart').hasClass('liked'); // 현재 좋아요 상태 확인
+        
+        // AJAX를 사용하여 서버에 좋아요 상태를 전송
+        $.ajax({
+            type: 'POST',
+            url: '/zzim/zzim_apply', // 좋아요 추가 또는 삭제를 처리하는 컨트롤러 경로
+            data: { z_id: productId }, // 상품 ID를 서버로 전송
+            success: function(response) {
+                if (isLiked) {
+                    // 좋아요 상태를 취소한 경우
+                    $(this).find('.fa-heart').removeClass('liked'); // 하트 모양 변경
+                } else {
+                    // 좋아요를 추가한 경우
+                    $(this).find('.fa-heart').addClass('liked'); // 하트 모양 변경
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 실패: ', status, error);
+            }
+        });
+    });
+    
+    // 빨간색 하트가 눌렸을 때 좋아요 취소 기능 추가
+    $(document).on('click', '.liked', function() {
+        var productId = $(this).closest('.block').data('product-id'); // 상품 ID 가져오기
+        
+        // AJAX를 사용하여 서버에 좋아요 취소 요청 전송
+        $.ajax({
+            type: 'POST',
+            url: '/zzim/zzim_clear', // 좋아요 취소를 처리하는 컨트롤러 경로
+            data: { z_id: productId }, // 상품 ID를 서버로 전송
+            success: function(response) {
+                // 좋아요 취소에 성공한 경우
+                $(this).removeClass('liked'); // 하트 모양 변경
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 실패: ', status, error);
+            }
+        });
+    });
+});
+</script>
 </body>
 </html>
