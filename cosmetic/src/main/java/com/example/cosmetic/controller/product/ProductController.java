@@ -149,22 +149,11 @@ public class ProductController {
 		      break;
 		    }
 		  }
-		  
-//		  List<ProductDTO> r_list = new ArrayList<>();
-//		  if (cookies != null) {
-//		        for (Cookie cookie : cookies) {
-//		            if (cookie.getName().startsWith("recent")) {
-//		                int no = Integer.parseInt(cookie.getValue());
-//		                ProductDTO recent = productDao.detail(no);
-//		                r_list.add(recent);
-//		            }
-//		        }
-//		    }
-//		    return r_list;
 		    return "success";
 		}
 
 		//최근 본 상품 전체 삭제 (쿠키 전체삭제)
+		@ResponseBody
 		@GetMapping("cookie_all_delete")
 		public String cookie_all_delete(HttpServletRequest request, HttpServletResponse response) {
 		  Cookie[] cookies = request.getCookies();
@@ -175,7 +164,7 @@ public class ProductController {
 		      response.addCookie(cookies[i]);
 		    }
 		  }
-		  return "redirect:/product/recent_cookie";
+		  return "success";
 		}
 		
 		// 디테일화면에서 상품을 선택하세요 누르면 드롭메뉴 뜸, 옵션을 가져옴

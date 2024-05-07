@@ -4,56 +4,105 @@
 
 <style>
 .navbar-brand-logo {
-	position: absolute;
+	/* position: absolute;
 	bottom: 1px;
+	left: 1px; */
+	
+	position: fixed;
 	left: 1px;
+	top: 30px;
 }
 
-.dropdown-menu_recent {
-	position: absolute;
-	top: 100%;
-	left: 0;
-	z-index: 1000;
+/* 최근 본 목록박스 토글 */
+#recent_box {
 	display: none;
-	float: left;
-	width: 470px; /* 가로로 확장 */
-	height: 300px;
-	max-height: 400px; /* 세로로 길게 늘림 */
-	overflow-y: auto; /* 세로 스크롤 적용 */
-	padding: 10px 0; /* 패딩 조정 */
-	margin: 2px 0 0;
-	font-size: 14px;
-	text-align: left;
-	list-style: none;
-	background-color: #fff;
-	-webkit-background-clip: padding-box;
-	background-clip: padding-box;
+}
+
+#recent_box .show {
+	display: flex;
+}
+
+/* 목록박스 레이아웃 */
+#recent_content {
+	position: fixed;
+	
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 50px 1fr;
+	
 	border: 1px solid #ccc;
-	border-radius: 4px;
-	-webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-	box-shadow: 0 6px 12px rgba(0, 0, 0, .175);
-	max-height: 400px;
+	width: 600px; 
+	height: 310px;
+	background-color: #fff;
+	right: 5%;
+	z-index: 1000;
+}
+
+/* 전체 삭제 */
+#delete_all {
+	grid-column: 1 / 4;
+	grid-row: 1 / 2;
+	display: flex;
+	justify-content: flex-end;
+	border-bottom: 1px solid #ccc;
+	padding: 10px 5px 5px 0;
+	margin: 0 20px ;
+}
+#delete_all button {
+	margin: 2px;
+	font-size: 0.8em;
+	background-color: #fff;
+	border: 1px solid  #656565;
+	color:  #656565;
+	padding: 3px 7px;
+	font-weight: bold;
+}
+#delete_all button:active {
+	background-color: #656565;
+	color: white;
+}
+
+/* 최근 본 상품 레이아웃 */
+.dropdown-menu_recent {
+	height: 260px;
+
+	grid-column: 1 / 4;
+	grid-row: 2/3;
+	
+	display: flex;
+	flex-direction: row;
+	
+	align-items: center;
+	justify-content: flex-start;
+	
+	overflow-x: scroll; 
+	overflow-y: hidden;
+	scroll-margin-inline-start: 20px;
 }
 
 @media ( min-width : 768px) {
-	.navbar-right .dropdown-menu_recent {
+ 	/* .navbar-right .dropdown-menu_recent {
 		right: 0;
 		left: auto;
-	}
+	}  */
 }
 </style>
 <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
 $(document).ready(function() {
+	$('.dropdown-toggle1').click(function() { //최근 본 상품 클릭 시
+		$('#recent_box').toggleClass('show'); //recent box 토글
+		R_list(); //리스트 불러오기
+	});
 	
-	R_list();
+	$("#recent_content").mouseleave(function() {
+        $('#recent_box').removeClass('show');
+	});
 });
 
 function cookie_delete(id) {
-	//최근 본 상품 목록
-    var dropdownMenu = $('.dropdown-toggle1').closest('.dropdown1').find('.dropdown-menu_recent');
-    $.ajax({
-        url: '/product/cookie_delete?p_id=' + id, // 최근 본 상품을 조회하는 엔드포인트
+	$.ajax({
+        url: '/product/cookie_delete?p_id=' + id, 
         method: 'GET',
         success: function(data) {
             if (data == "success") {
@@ -64,42 +113,80 @@ function cookie_delete(id) {
 }
 
 function cookie_all_delete() {
-	console.log('hello1');
+	$.ajax({
+        url: '/product/cookie_all_delete', 
+        success: function(data) {
+            if (data == "success") {
+            	R_list();
+            }
+        },
+    });
 }
 
 //최근 본 상품목록 조회
 function R_list() {
 	//최근 본 상품 목록
     var dropdownMenu = $('.dropdown-toggle1').closest('.dropdown1').find('.dropdown-menu_recent');
+	
     $.ajax({
         url: '/product/recent_cookie', // 최근 본 상품을 조회하는 엔드포인트
         method: 'GET',
         success: function(data) {
             var htmlContent = '';
-            data.forEach(function(product) {
-            	// 이미지를 작게 하고, 상품 이름과 가격을 세로로 표시하며, 삭제 버튼을 한 줄에 3개씩 나열
-            	htmlContent += '<hr>';
-
-            	// 상품 요소들을 가로로 나열할 div 시작
-            	htmlContent += '<div style="display: flex; flex-wrap: wrap;">';
-
-            	// 각 상품 요소 시작
-            	htmlContent += '<div style="width: 33.33%; padding: 10px;">'; // 가로로 세 개씩 표시하기 위해 33.33%로 폭을 조절
-            	htmlContent += '<div style="margin-bottom: 10px;"><img src="' + product.p_img1 + '" style="width: 100px;"></div>';
-            	htmlContent += '<div>' + product.p_name + '</div>';
-            	htmlContent += '<div>' + product.p_price + '</div>';
-            	htmlContent += '<div>';
-            	htmlContent += '<button type="button" id="delete' + product.p_id + '" onclick="cookie_delete(' + product.p_id + ')">하나 삭제</button>';
-            	htmlContent += '</div>';
-            	htmlContent += '</div>';
-            	htmlContent += '<button type="button" onclick="cookie_all_delete()">전체 삭제</button>';
-            	// 각 상품 요소 종료
-
-            	// 이런 식으로 나머지 상품들도 추가해주면 됩니다.
-
-            	// 상품 요소들을 가로로 나열할 div 종료
-            	htmlContent += '</div>';
-            });
+            
+            if (data !== undefined && data !== null && data.length > 0) { //데이터가 있다면
+            	data.forEach(function(product) {
+            		
+            		//최근 본 상품 아이템 css
+            		htmlContent += '<div class="recent_wrap" ' +
+                	'style="display: flex; ' + 
+                	'flex-direction: column; ' + 
+                	'position:relative; ' + 
+                	'width: 200px; ' + 
+                	'height: 210px; ' + 
+                	'padding: 0 10px; ' + 
+                	'margin: 20px 0; ' + 
+                	'border-right: 1px solid #ccc; ' + 
+                	'align-items: center; ' + 
+                	'justify-content: center; ' + 
+                	'font-size: 0.8em;"> ';
+                	
+                	//상품 이미지
+                	htmlContent += '<div style="width: 140px; ' +  
+                	'height: 140px; margin: 0 10px 10px 10px;"> ' + 
+                	'<img src="' + product.p_img1 + '" style="width: 100%; height: 100%;">' + 
+                	'</div>';
+                	
+                	//상품 이름
+                	htmlContent += '<div style="width: 155px; height: 40px; ' + 
+                	'text-align: center; word-break: normal; overflow:hidden;">' + 
+                	'<a href="/product/detail_before?p_id=' + product.p_id + '">' +
+                	product.p_name + 
+                	'</a></div>';
+                	
+                	//상품 가격
+                	htmlContent += '<div style="padding: 0 5px; font-weight: bold">' + product.p_price + '</div>';
+                	
+                	//삭제버튼
+                	htmlContent += '<button type="button" ' + 
+                	'id="delete' + product.p_id + '" ' +  
+                	'onclick="cookie_delete(' + product.p_id + ')" ' + 
+                	'style="position:absolute; ' + 
+                	'border-radius: 50%; ' + 
+                	'border: 3px solid #fff; ' + 
+                	'background-color: transparent; ' + 
+                	'color: white; ' + 
+                	'top:10px; right: 30px;"> ' +
+                	'<i class="fa fa-remove"></i> ' +
+                	'</button>';
+                	
+                	htmlContent += '</div>';
+                });
+                
+            } else { //데이터가 없다면
+            	htmlContent += '<div style="width: 100%; text-align: center;">최근 본 상품이 없습니다.</div>';
+            }
+            
             dropdownMenu.html(htmlContent); // 변환된 HTML을 dropdown-menu_recent에 삽입
         },
     });
@@ -192,20 +279,21 @@ function R_list() {
         <c:choose>
             <c:when test="${sessionScope.userid != null}">
                 <li class="dropdown1">
+                
                     <a href="#" class="dropdown-toggle1" data-toggle="dropdown1" role="button" aria-haspopup="true">최근 본 상품</a>
-                    <ul class="dropdown-menu_recent">
-                        <c:if test="${not empty r_list}">
-                            <c:forEach var="product" items="${r_list}">
-                                <li>${product.p_name}- 가격: ${product.p_price}</li>
-                                <li><img src="${product.p_img1}"></li>
-                                
-                                <%-- <button type="button" id="delete${product.p_id}" onclick="location.href='/product/cookie_delete?p_id=${product.p_id}'">하나 삭제</button> --%>
-                                <button type="button" id="delete${product.p_id}" onclick="cookie_delete()">하나 삭제</button>
-                                <button type="button" onclick="cookie_all_delete()">전체 삭제</button>
-                            </c:forEach>
-                        </c:if>
-                    </ul>
+                    
+                    <div id="recent_box"> 
+                    <div id="recent_content">
+                    	
+                    	<div id="delete_all">
+                    		<button type="button" onclick="cookie_all_delete()">전체 삭제</button>
+                    	</div>
+                    
+	                    <ul class="dropdown-menu_recent"></ul>
+                    </div>
+                    </div>
                 </li>
+                
             </c:when>
             <c:otherwise>
                 <li class="dropdown">
@@ -227,5 +315,3 @@ function R_list() {
 	</div>
 
 </header>
-<%-- <button type="button" onclick="cookie_delete(${product.p_id})">하나 삭제</button> --%>
-<!--End of header -->
