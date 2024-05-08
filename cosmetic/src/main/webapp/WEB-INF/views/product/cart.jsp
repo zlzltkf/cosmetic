@@ -45,7 +45,7 @@ body {
 	font-weight: 300;
 }
 
-.cart ul :first-child {
+.cart ul :nth-child(3) {
 	color: limegreen;
 }
 
@@ -270,7 +270,7 @@ select:focus {
 }
 
 .li1, .li2, .li3 {
-    float: left;
+    float: right;
     height: 120px;
     padding: 0;
     line-height: 120px;
@@ -282,7 +282,7 @@ select:focus {
 }
 
 .li1 {
-    margin-left: 20px; /* .li1에 대해서만 왼쪽 여백을 설정합니다. */
+    margin-left: 1px; /* .li1에 대해서만 왼쪽 여백을 설정합니다. */
 }
 
 .li3 {
@@ -317,9 +317,9 @@ select:focus {
 				</h1>
 	
 				<ul class="step_list">
-					<li class="li1" style="font-size: 24px;">1 장바구니</li><!-- 현재단계 li에 클래스 on과 <span class="hide">현재단계</span> 넣어주세요 -->
+					<li class="li1" style="font-size: 24px;">3 결제완료</li><!-- 현재단계 li에 클래스 on과 <span class="hide">현재단계</span> 넣어주세요 -->
 					<li class="li2" style="font-size: 24px;">2 주문/결제</li>
-					<li class="li3"style="font-size: 24px;">3 주문완료</li>
+					<li class="li3"style="font-size: 24px;">1 장바구니</li>
 				</ul>
 			
 			</div>
