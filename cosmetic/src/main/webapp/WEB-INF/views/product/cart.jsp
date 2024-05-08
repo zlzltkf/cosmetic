@@ -7,6 +7,9 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/resources/assets/css/fonticons.css">
 <link rel="stylesheet" href="/resources/assets/css/slider-pro.css">
 <link rel="stylesheet" href="/resources/assets/css/stylesheet.css">
@@ -18,25 +21,88 @@
 <link rel="stylesheet" href="/resources/assets/css/style.css">
 <!--Theme Responsive css-->
 <link rel="stylesheet" href="/resources/assets/css/responsive.css" />
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/resources/assets/fonts/" />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<!-- <script>
+	$(function() {
+		$("#btnDeleteAll").click(function() {
+			if (confirm("장바구니를 비우시겠습니까?")) {
+				location.href = "/cart/deleteAll";
+			}
+		});
+	});
+	$(function(){
+		$("#btnDelete").click(function(){
+			if(confirm("해당 상품을 삭제 하시겠습니까?")){
+				location.href = "/cart/delete";
+			}
+		});
+	});
+</script> -->
+<script>
+$(function() {
+	   $("#chkAll").click(function() {
+	      if ($("#chkAll").prop("checked")) {
+	         $("input[name=num]").prop("checked",true);
+	      } else {
+	         $("input[name=num]").prop("checked",false);
+	      }
+	   });
+	   
+	   $("#btnDeleteAll").click(function() {
+	      let arr = $("input[name=num]"); //체크박스 배열
+	      let cnt = 0; //체크된 태그 카운트
+	      for(i=0; i<arr.length; i++) {
+	         if (arr[i].checked == true) cnt++;
+	      }
+	      if(cnt == 0) {
+	          alert("삭제할 상품을 선택해주세요");
+	          return;
+	      }
+	      if(confirm("전체 상품을 삭제하시겠습니까?")){
+	          location.href = "/cart/deleteAll";
+	      }
+	   });
+	   
+	   $("#btnDelete").click(function() {
+	      let arr = $("input[name=num]:checked"); //체크된 체크박스 배열
+	      let cnt = arr.length; //체크된 체크박스 개수
+	      if(cnt == 0) {
+	          alert("삭제할 상품을 선택해주세요");
+	          return;
+	      }
+	      if(confirm("선택한 상품을 삭제하시겠습니까?")){
+	          location.href = "/cart/selected_delete";
+	      }
+	   });
+	});
+
+</script>
 <style>
+.montserrat-<uniquifier> {
+  font-family: "Montserrat", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 500;
+  font-style: normal;
+}
+
 body {
 	margin: 0;
+	 
 }
 
 * {
 	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .cart {
-	width: 80%;
+	width: 60%;
 	margin: auto;
 	padding: 30px;
 }
 
 .cart ul {
-	background-color: whitesmoke;
 	padding: 30px;
 	margin-bottom: 50px;
 	border: whitesmoke solid 1px;
@@ -113,21 +179,10 @@ td {
 }
 
 .cart__list__detail :nth-child(4), 
-.cart__list__detail :nth-child(5),
 .cart__list__detail :nth-child(6) {
 	border-left: 2px solid whitesmoke;
 	text-align: center;
 }
-
-.cart__list__detail :nth-child(5) button {
-	color: white;
-	border: none;
-	border-radius: 5px;
-	padding: 4px 8px;
-	font-size: 12px;
-	margin-top: 5px;
-}
-
 .cart__mainbtns {
 	width: 420px;
 	height: 130px;
@@ -228,7 +283,6 @@ select:focus {
     display: inline-block;
     width: 30px;
     height: 30px;
-    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_sign_cal2.png) no-repeat;
     text-indent: -9999px;
     overflow: hidden;
 }
@@ -290,18 +344,21 @@ select:focus {
     margin-right: 20px; /* .li3에 대해서만 오른쪽 여백을 설정합니다. */
     margin-left: 20px; /* .li3에 대해서만 왼쪽 여백을 설정합니다. */
 }
-
-
-
 .title_box{
     overflow: hidden;
     height: 140px;
     border-radius: 5px;
     z-index: 0;
+    background-color:whitesmoke;
 }
-
-
-
+ tbody td.no_data {
+    height: 295px;
+    padding: 130px 0 0;
+    border-right: 0;
+    color: #888;
+    font-size: 16px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_nodata104x104.png) 50% 80px no-repeat;
+}
 </style>
 </head>
 <body>
@@ -312,25 +369,22 @@ select:focus {
 	<div>
 	<div class="title_box">
 				
-			<h1>장바구니 
-			<span class="tx_num">4</span>
+			<h1>&nbsp;장바구니 
+			<span class="tx_num">${map.count}</span>
 				</h1>
 	
 				<ul class="step_list">
-					<li class="li1" style="font-size: 24px;">3 결제완료</li><!-- 현재단계 li에 클래스 on과 <span class="hide">현재단계</span> 넣어주세요 -->
-					<li class="li2" style="font-size: 24px;">2 주문/결제</li>
-					<li class="li3"style="font-size: 24px;">1 장바구니</li>
+					<li class="li1" style="font-size: 24px;">3 결제완료 ></li><!-- 현재단계 li에 클래스 on과 <span class="hide">현재단계</span> 넣어주세요 -->
+					<li class="li2" style="font-size: 24px;">2 주문/결제 ></li>
+					<li class="li3"style="font-size: 24px;">1 장바구니 ></li>
 				</ul>
 			
 			</div>
 			</div>
-		<div style="color: black; width: 150px; height: 50px;"><p> EDEN 배송상품</p></div>
-
-
-
-		<table class="cart__list">
-			<form>
-				<thead>
+		<div style="color: black; width: 150px; height: 50px; padding-top: 27px;"><p style="line-height: 0.375rem; margin: -10px 0 15p;"> EDEN 배송상품</p></div>
+		<c:choose>
+		<c:when test="${map.count == 0}">
+				<table class="cart__list">
 					<tr>
 						<td style="background-color:#fafafa; "><input type="checkbox"></td>
 						<td style="background-color:#fafafa; " colspan="2">상품정보</td>
@@ -338,22 +392,41 @@ select:focus {
 						<td style="background-color:#fafafa; ">수량</td>
 						<td style="background-color:#fafafa; ">배송정보</td>
 						<td style="background-color:#fafafa; ">선택</td>
-
 					</tr>
-				</thead>
+					<tr><td colspan="7" class="no_data" style="text-align: center;">장바구니에 저장된 상품이 없습니다.</td></tr>
+					</table>
+				</c:when>
+				<c:otherwise>
+		<table class="cart__list">
+					<tr>
+						<td style="background-color:#fafafa; "><input type="checkbox" id="chkAll" name="num"></td>
+						<td style="background-color:#fafafa; " colspan="2">상품정보</td>
+						<td style="background-color:#fafafa; ">판매가</td>
+						<td style="background-color:#fafafa; ">수량</td>
+						<td style="background-color:#fafafa; ">배송정보</td>
+						<td style="background-color:#fafafa; ">선택</td>
+					</tr>
+			
+					
+				<c:forEach var="row" items="${map.list}">
 				<tbody>
+				
 					<tr class="cart__list__detail">
-						<td><input type="checkbox"></td>
-						<td><img style="width: 85px;height: 85px; margin: auto;" src="https://image.oliveyoung.co.kr/uploads/images/goods/220/10/0000/0012/A00000012595560ko.jpg?l=ko"></td>
-			<!--상품명--><td><p>롬앤 쥬시 래스팅 틴트</p> 
-						<span>옵션| 색상 </span>	<br>		
+						<td><input  type="checkbox" name="num" ></td>
+						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
+			<!--상품명--><td> <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
+						<c:if test="${not empty row.o_name}">
+    						<span>옵션| ${row.o_name}</span><br>		
+						</c:if>
+						
+
 						<span class="icon_flag sale">세일</span>
 						</td>
-						<td style="text-align: center; font-weight:bolder;"><span>15,000</span></td>
+						<td style="text-align: center; font-weight:bolder;"><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span></td>
 						<br>
-						<td>
+						<td style="border-left: 2px solid whitesmoke; text-align: center; ">
 						<select>
-  							<option selected>선택된 수량</option>
+  							<option selected>${row.amount}</option>
   							<option value="1">1</option>
  							<option value="2">2</option>
  							<option value="3">3</option>
@@ -367,40 +440,47 @@ select:focus {
  							
 						</select>
 						</td>
+					
 						<!--배송정보-->
-						<td><p class="prd_delivery">
-							<strong id="deliStrongText">2,500 <br>
+						<td>
+						<p class="prd_delivery">
+						<strong id="deliStrongText">${map.fee} <br>
 						<span class="ex">도서·산간 제외</span></strong>
-						</p> </td>
+						</p> 
+						</td>
 
 						<!--선택-->
 						<td align="center" style="border-left: 2px solid whitesmoke;">
+						<c:if test="${not empty row.o_name}">
    							<input type="button" value="옵션변경" onclick="" class="cart__list__optionbtn" style="margin-bottom: 5px;"><br> 
+						</c:if>
     						<input type="button" value="바로구매" onclick="" class="cart__list__optionbtn1" style="margin-bottom: 5px;"><br>
-    						<input style="width: 56px" type="button" value="✖️삭제" onclick="" class="cart__list__optionbtn1" style="margin-bottom: 5px;"><br>
+    						<button style="width: 56px" class="cart__list__optionbtn1" style="margin-bottom: 5px;">✖️삭제</button><br>
 						</td>
 					</tr>
 				</tbody>
+				</c:forEach>
 				<tfoot>
 
 					<tr>
-						<td colspan="3"><input type="checkbox">
-							<button class="cart__list__optionbtn1" onclick="">선택상품 삭제</button>
-							<button class="cart__list__optionbtn1" onclick="">전체삭제</button></td>
+						<td colspan="3">
+							<button id="btnDelete" class="cart__list__optionbtn1">선택상품 삭제</button>
+							<button id="btnDeleteAll" class="cart__list__optionbtn1" >전체삭제</button></td>
 					</tr>
 					
 					
 				</tfoot>
-			</form>
 		</table>
+		
 		<br>
 		<br>
 		
 	<div style="border-top: 2px solid #9bce26; display: flex; justify-content: space-between; border-bottom: 2px solid #d6d6d6; padding: 30px 0; border-right: 2px solid whitesmoke;border-left: 2px solid whitesmoke; ">
     <div style="width: 50%; text-align: center;">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
-            총 판매가 <br><span style="color: black;">149,600</span>원
-        </p>
+    총 판매가 <br><span style="color: black;"><fmt:formatNumber type="number" value="${map.sumMoney}" pattern="#,###"></fmt:formatNumber></span>원
+</p>
+
     </div>
    <div style="text-align: center;">
     <div style="display: inline-block;">
@@ -413,7 +493,7 @@ select:focus {
 
     <div style="width: 50%; text-align: center; ">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
-            배송비 <br><span style="color: black;">0</span>원
+            배송비 <br><span style="color: black;">${map.fee}</span>원
         </p>
     </div>
 </div>
@@ -424,10 +504,12 @@ select:focus {
        &nbsp;&nbsp;❗ 배송비는 결제금액에 따라 변경될 수 있습니다.
     </div>
     <div>
-        총 결제예상금액&nbsp; <span style="color: red; font-size: 24px; font-weight: bold;">146,300 원</span>
-    </div>
+    총 결제예상금액&nbsp; <span style="color: red; font-size: 24px; font-weight: bold;"><fmt:formatNumber type="number" value="${map.sum}" pattern="#,###"></fmt:formatNumber>원</span>
 </div>
 
+</div>
+</c:otherwise>	
+		</c:choose>
 
 	
 		<div class="cart__mainbtns">
@@ -439,7 +521,7 @@ select:focus {
 			<ul>
 				<li>장바구니 상품은 최대 30일간 저장됩니다.</li>
 				<li>가격, 옵션 등 정보가 변경된 경우 주문이 불가할 수 있습니다.</li>
-				<li>오늘출발 상품은 판매자 설정 시점에 따라 오늘출발 여부가 변경될 수 있으니 주문 시 꼭 다시 확인해 주시기바랍니다.</li>
+				<li style="color: #656565;">오늘출발 상품은 판매자 설정 시점에 따라 오늘출발 여부가 변경될 수 있으니 주문 시 꼭 다시 확인해 주시기바랍니다.</li>
 			</ul>
 		</div>
 	</section>

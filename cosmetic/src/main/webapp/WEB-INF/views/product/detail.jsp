@@ -280,7 +280,7 @@
 							
 							<!-- 장바구니, 바로구매, 찜 버튼 -->
 							<div class="p_btn">
-								<button class="btn_Cart" id="btn_Cart">장바구니</button>
+								<button class="btn_Cart" id="btn_Cart" onclick="cart_insert()">장바구니</button>
 								<button class="btn_Buy" id="btn_Buy">바로구매</button>
 								<button class="btn_Zzim" id="btn_Zzim">찜</button>
 							</div>
@@ -292,6 +292,10 @@
 	</section>
 
 <script>
+function cart_insert() {
+	location.href = '/cart/insert';
+}
+
 $(document).ready(function() {
     let p_id = '${dto.p_id}';
     loadProductOptions(p_id);

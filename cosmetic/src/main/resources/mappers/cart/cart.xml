@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cart">
+<!--장바구니 추가 -->
+<insert id="cart_insert">
+insert into cart(userid,p_id,amount,o_name) VALUES (#{userid}, #{p_id}, #{amount},#{o_name});
+</insert>
+
+<!--장바구니 목록-->
+<select id="cart_list" resultType="com.example.cosmetic.model.cart.CartDTO">
+select c.c_id, p.p_id, p.p_name, p.p_img1, p.p_price, c.amount,c.o_name, p_price*amount money
+from member m, cart c, product p
+where m.userid=c.userid and c.p_id=p.p_id and c.userid=#{userid}
+order by c_id
+</select>
+
+<!--상품 한개 삭제  -->
+<delete id="cart_delete">
+delete from cart where c_id=#{c_id}
+</delete>
+
+<!--상품 전체 삭제-->
+<delete id="cart_delete_all">
+delete from cart where userid=#{userid}
+</delete>
+
+<update id="cart_update">
+update cart set amount=#{amount}
+where c_id=#{c_id}
+</update>
+
+<!--상품 가격-->
+<!-- <select id="cart_product_money" resultType="com.example.cosmetic.model.cart.CartDTO">
+select p_name,sum(price*amount)money
+from cart c,product p
+where c.p_id=p.p_id
+group by p_name
+order by p_name
+</select> -->
+
+<!--장바구니 합계-->
+<select id="cart_sum_money" resultType="java.lang.Integer">
+SELECT IFNULL(SUM(p.p_price * c.amount), 0) AS money
+FROM cart c
+INNER JOIN product p ON c.p_id = p.p_id
+WHERE c.userid = #{userid}
+</select>
+
+
+</mapper>

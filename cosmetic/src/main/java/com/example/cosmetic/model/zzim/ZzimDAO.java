@@ -45,7 +45,7 @@ public class ZzimDAO {
 	public int zzim_Check(String userid, int z_id) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("userid", userid);
-		map.put("p_id", z_id);
+		map.put("z_id", z_id);
 		return sqlSession.selectOne("zzim.zzim_check", map);
 	}
 
