@@ -496,7 +496,7 @@ $(document).ready(function(){
 	
 });
 </script>
-<script>
+<!-- <script>
 $(document).ready(function(){
     // 하트 아이콘 클릭 시 동작
     $(document).on('click', '.like', function() {
@@ -542,6 +542,6 @@ $(document).ready(function(){
         });
     });
 });
-</script>
+</script> -->
 </body>
 </html>

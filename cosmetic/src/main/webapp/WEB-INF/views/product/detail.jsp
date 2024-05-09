@@ -293,7 +293,7 @@
 
 <script>
 function cart_insert() {
-	location.href = '/cart/insert';
+	window.location.href = '/cart/insert';
 }
 
 $(document).ready(function() {
@@ -622,6 +622,45 @@ function updateTotalPrice() {
       });
     });
   });
+</script>
+
+<script>
+
+function cart_insert() {
+    // 선택한 상품의 정보를 가져오는 부분
+    var productId = parseInt('${dto.p_id}'); // 상품 ID
+    var selectedOptions = []; // 선택한 옵션 배열 초기화
+    // 선택한 옵션의 정보를 가져와서 배열에 추가
+    $(".p_select_option").each(function() {
+    	var optionText = $(this).text(); // 옵션 텍스트 가져오기
+    	var startIdx = optionText.indexOf("-+x"); // "-+x"의 위치를 찾아 시작 인덱스로 설정
+    	var endIdx = optionText.indexOf(" - 가격:"); // " - 가격: 17400" 이전의 문자열 끝 인덱스
+    	var optionName = optionText.substring(startIdx + 3, endIdx); // 옵션명 추출
+        var priceMatch = /- 가격: (\d+)/.exec(optionText); // 가격 정보 추출
+        var price = parseFloat(priceMatch[1]); // 가격 변환
+        var quantity = parseInt($(this).find(".quantity-input").val()); // 수량 가져오기
+       	selectedOptions.push({ o_name: optionName, p_price: price, amount: quantity });
+      
+       	
+    });
+
+    // 선택한 상품 정보를 서버로 전송
+    $.ajax({
+        type: "POST",
+        url: "/cart/insert",
+        data: JSON.stringify({ p_id: productId, options: selectedOptions }),
+        contentType: "application/json",
+        success: function(response) {
+            alert("장바구니에 상품이 추가되었습니다.");
+            window.location.href = '/cart/list';
+        },
+        error: function(xhr, status, error) {
+            alert("장바구니에 상품을 추가하는 데 실패했습니다.");
+            console.error(xhr.responseText);
+        }
+    });
+
+}
 </script>
 
 	

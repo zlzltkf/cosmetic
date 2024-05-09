@@ -40,6 +40,10 @@
 	});
 </script> -->
 <script>
+function zzim_del(c_id) {
+	
+	   location.href = "/cart/delete/"+c_id;
+	}
 $(function() {
 	   $("#chkAll").click(function() {
 	      if ($("#chkAll").prop("checked")) {
@@ -64,17 +68,39 @@ $(function() {
 	      }
 	   });
 	   
-	   $("#btnDelete").click(function() {
-	      let arr = $("input[name=num]:checked"); //체크된 체크박스 배열
-	      let cnt = arr.length; //체크된 체크박스 개수
-	      if(cnt == 0) {
-	          alert("삭제할 상품을 선택해주세요");
-	          return;
-	      }
-	      if(confirm("선택한 상품을 삭제하시겠습니까?")){
-	          location.href = "/cart/selected_delete";
-	      }
-	   });
+	   
+	 
+	   $(function() {
+		    $("#btnDelete").click(function() {
+		        let selectedItems = [];
+		        $("input[name=num]:checked").each(function() {
+		            selectedItems.push($(this).val());
+		        });
+
+		        if (selectedItems.length === 0) {
+		            alert("삭제할 상품을 선택해주세요");
+		            return;
+		        }
+		        console.log(selectedItems);
+
+		        if (confirm("선택한 상품을 삭제하시겠습니까?")) {
+		            $.ajax({
+		                url: "/cart/select_delete",
+		                type: "POST",
+		                data: { nums: selectedItems }, // 여기서 c_id 배열을 보냅니다.
+		                success: function(response) {
+		                    console.log(response);
+		                    location.reload(); // 성공 시 페이지 새로고침
+		                },
+		                error: function(xhr, status, error) {
+		                    alert("오류가 발생했습니다. 다시 시도해주세요.");
+		                }
+		            });
+		        }
+		    });
+		});
+
+
 	});
 
 </script>
@@ -412,7 +438,7 @@ select:focus {
 				<tbody>
 				
 					<tr class="cart__list__detail">
-						<td><input  type="checkbox" name="num" ></td>
+						<td><input  type="checkbox" name="num" value="${row.c_id}"  ></td>
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
 			<!--상품명--><td> <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						<c:if test="${not empty row.o_name}">
@@ -455,7 +481,7 @@ select:focus {
    							<input type="button" value="옵션변경" onclick="" class="cart__list__optionbtn" style="margin-bottom: 5px;"><br> 
 						</c:if>
     						<input type="button" value="바로구매" onclick="" class="cart__list__optionbtn1" style="margin-bottom: 5px;"><br>
-    						<button style="width: 56px" class="cart__list__optionbtn1" style="margin-bottom: 5px;">✖️삭제</button><br>
+    						<button type="button" style="width: 56px" class="cart__list__optionbtn1" style="margin-bottom: 5px;" onclick="zzim_del('${row.c_id}')">✖️삭제</button><br>
 						</td>
 					</tr>
 				</tbody>

@@ -3,7 +3,7 @@
 <mapper namespace="cart">
 <!--장바구니 추가 -->
 <insert id="cart_insert">
-insert into cart(userid,p_id,amount,o_name) VALUES (#{userid}, #{p_id}, #{amount},#{o_name});
+INSERT INTO cart (userid, o_name, p_id, amount) VALUES (#{userid}, #{o_name}, #{p_id},#{amount})
 </insert>
 
 <!--장바구니 목록-->
