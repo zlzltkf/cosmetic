@@ -43,4 +43,7 @@ public class ProductDTO {
 	private int o_p_id;
 	private int o_price;
 	private int o_amount;
+	
+	//찜때문에 만듬
+	private int p_like;
 }

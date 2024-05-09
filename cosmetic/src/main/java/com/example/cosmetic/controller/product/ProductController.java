@@ -23,6 +23,7 @@ import com.example.cosmetic.model.product.ProductDTO;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/product/")
@@ -50,38 +51,42 @@ public class ProductController {
 	}
 	
 	// 소분류 카테고리 리스트
-	@GetMapping("sub_view.do")
-	public String sub(
-			@RequestParam(name = "curPage", defaultValue = "1") int curPage,
-			@RequestParam(name = "no", required = false) int no, 
-			@RequestParam(name = "order", required = false, defaultValue = "best") String order,
-			Model model) {
-		
-		List<Map<String, Object>> list = null;
-		
-		//카테고리 정보 가져오기
-		Map<String, Object> ctg = productDao.get_cate_name(no);
-		int ctg_b_no = (int) ctg.get("ctg_b_no");
-		List<CategoryDTO> items = productDao.main_list(ctg_b_no);
-		
-		//페이지
-		int count = productDao.sub_count(no); //모든 체품 수
-		
-		PageUtil page_info = new PageUtil(count, curPage); 
-		int start = page_info.getPageBegin()-1;
-		int pageCnt = page_info.PAGE_SCALE;
-		
-		list = productDao.sub_list(start, pageCnt, no, order);
-		
-		model.addAttribute("ctg", ctg);
-		model.addAttribute("ctg_items", items);
-		model.addAttribute("list", list);
-		
-		model.addAttribute("page_info", page_info);
-		model.addAttribute("count", count);
-		
-		return "product/sub_category";
-	}
+    @GetMapping("sub_view.do")
+    public String sub(
+          @RequestParam(name = "curPage", defaultValue = "1") int curPage,
+          @RequestParam(name = "no", required = false) int no, 
+          @RequestParam(name = "order", required = false, defaultValue = "best") String order,
+          Model model, HttpSession session) {
+       
+       List<Map<String, Object>> list = null;
+       
+       //카테고리 정보 가져오기
+       Map<String, Object> ctg = productDao.get_cate_name(no);
+       int ctg_b_no = (int) ctg.get("ctg_b_no");
+       List<CategoryDTO> items = productDao.main_list(ctg_b_no);
+       
+       //페이지
+       int count = productDao.sub_count(no); //모든 체품 수
+       
+       PageUtil page_info = new PageUtil(count, curPage); 
+       int start = page_info.getPageBegin()-1;
+       int pageCnt = page_info.PAGE_SCALE;
+       String userid = (String) session.getAttribute("userid");
+       
+       list = productDao.sub_list(start, pageCnt, no, order, userid);
+       
+       
+       //List<Map<String, Object>> zzim = zzimDao.sub_list_zzim(no, userid, order, pageCnt, start);
+       
+       model.addAttribute("ctg", ctg);
+       model.addAttribute("ctg_items", items);
+       model.addAttribute("list", list);
+       
+       model.addAttribute("page_info", page_info);
+       model.addAttribute("count", count);
+       
+       return "product/sub_category";
+    }
 
 	// 디테일 화면 ( detail_before => 여기서 온 쿠키 안에 리스트 저장)
 		@GetMapping("/detail/{p_id}")

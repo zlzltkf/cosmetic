@@ -41,28 +41,29 @@
 	</select>
 	
 	<!-- 리스트 -->
-	<select id="sub_list" resultType="java.util.Map">
-		select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small, d_info
-		from product p, ctg c, delivery d
-		where p_cate = ctg_s_no
-		and p_delivery = d_num
-		and p_cate = #{no}
-		<choose>
-	        <when test="order == 'best'">
-	            order by p_hit desc
-	        </when>
-	        <when test="order == 'new'">
-	            order by p_date desc
-	        </when>
-	        <when test="order == 'sell'">
+<select id="sub_list" resultType="java.util.Map">
+    select p_id, p_name, p_price, p_img1, p_delivery, p.p_cate, ctg_small, d_info,
+    (SELECT p_id FROM zzim WHERE userid=#{userid} AND p_id=p.p_id) p_like
+    from product p, ctg c, delivery d
+    where p_cate = ctg_s_no
+    and p_delivery = d_num
+    and p_cate = #{no}
+    <choose>
+        <when test="order == 'best'">
+            order by p_hit desc
+        </when>
+        <when test="order == 'new'">
+            order by p_date desc
+        </when>
+        <when test="order == 'sell'">
             order by p_sell desc
-	        </when>
-	        <when test="order == 'price'">
-	            order by p_price
-	        </when>
-    	</choose>
-		limit #{pageCnt} offset #{start}
-	</select>
+        </when>
+        <when test="order == 'price'">
+            order by p_price
+        </when>
+    </choose>
+    limit #{pageCnt} offset #{start}
+</select>
 	
 	<!-- 소분류 카테고리 코드 > 카테고리 정보 가져오기 -->
 	<select id="get_cate_name" resultType="java.util.Map">

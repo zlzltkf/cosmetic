@@ -14,5 +14,5 @@ import lombok.ToString;
 public class ZzimDTO {
 	private int idx;
 	private String userid;
-	private int z_id;
+	private int p_id;
 }

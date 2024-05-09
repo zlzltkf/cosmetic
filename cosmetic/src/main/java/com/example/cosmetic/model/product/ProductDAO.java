@@ -42,14 +42,15 @@ public class ProductDAO {
 	}
 	
 	//리스트
-	public List<Map<String, Object>> sub_list(int start, int pageCnt, int no, String order) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("start", start);
-		map.put("no", no);
-		map.put("order", order);
-		map.put("pageCnt", pageCnt);
-		return sqlSession.selectList("product.sub_list", map);
-	}
+	   public List<Map<String, Object>> sub_list(int start, int pageCnt, int no, String order, String userid) {
+	      Map<String, Object> map = new HashMap<>();
+	      map.put("userid",userid);
+	      map.put("start", start);
+	      map.put("no", no);
+	      map.put("order", order);
+	      map.put("pageCnt", pageCnt);
+	      return sqlSession.selectList("product.sub_list", map);
+	   }
 	
 	//소분류 카테고리 코드 > 소분류 카테고리 이름으로 변환
 	public Map<String, Object> get_cate_name(int no) {
