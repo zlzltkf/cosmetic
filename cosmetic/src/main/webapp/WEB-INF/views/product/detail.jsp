@@ -623,9 +623,8 @@ function updateTotalPrice() {
     });
   });
 </script>
-
 <script>
-
+//장바구니 담기 기능
 function cart_insert() {
     // 선택한 상품의 정보를 가져오는 부분
     var productId = parseInt('${dto.p_id}'); // 상품 ID
@@ -640,8 +639,6 @@ function cart_insert() {
         var price = parseFloat(priceMatch[1]); // 가격 변환
         var quantity = parseInt($(this).find(".quantity-input").val()); // 수량 가져오기
        	selectedOptions.push({ o_name: optionName, p_price: price, amount: quantity });
-      
-       	
     });
 
     // 선택한 상품 정보를 서버로 전송
@@ -659,7 +656,6 @@ function cart_insert() {
             console.error(xhr.responseText);
         }
     });
-
 }
 </script>
 

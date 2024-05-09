@@ -102,31 +102,29 @@ public class CartController {
 			return new ModelAndView("/member/page_login");
 		}
 	}
-	
+	//장바구니 담기 기능
 	@PostMapping("insert")
 	public String insert(@RequestBody Map<String, Object> requestMap, HttpSession session) {
 	    String userid = (String) session.getAttribute("userid");
 	    if (userid == null) {
 	        return "redirect:/member/page_login";
 	    }
-
 	    int p_id = (int) requestMap.get("p_id");
-	    System.out.println(p_id);
 	    List<Map<String, Object>> selectedOptions = (List<Map<String, Object>>) requestMap.get("options");
-	    System.out.println(selectedOptions);
 	    // 선택한 옵션들을 이용하여 CartDTO 생성 및 저장 로직 수행
 	    for (Map<String, Object> option : selectedOptions) {
 	        String optionName = (String) option.get("o_name");
+	        if (optionName.equals("매수량-+")) {
+		       optionName=null;
+		    }
 	        int money = (int) option.get("p_price");
 	        int quantity = (int) option.get("amount");
-	        
 	        CartDTO dto = new CartDTO();
 	        dto.setP_id(p_id);
 	        dto.setO_name(optionName);
 	        dto.setAmount(quantity);
 	        dto.setUserid(userid);
 	        dto.setMoney(money);
-	        System.out.println(dto);
 	        cartDao.insert(dto);
 	    }
 

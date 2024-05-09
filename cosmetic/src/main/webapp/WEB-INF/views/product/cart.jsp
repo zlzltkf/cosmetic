@@ -155,6 +155,8 @@ thead {
 }
 
 td {
+	font-weight:bold;
+	text-align: center;
 	padding: 15px 5px;
 	border-bottom: 1px solid lightgrey;
 }
@@ -440,7 +442,7 @@ select:focus {
 					<tr class="cart__list__detail">
 						<td><input  type="checkbox" name="num" value="${row.c_id}"  ></td>
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
-			<!--상품명--><td> <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
+			<!--상품명--><td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						<c:if test="${not empty row.o_name}">
     						<span>옵션| ${row.o_name}</span><br>		
 						</c:if>
