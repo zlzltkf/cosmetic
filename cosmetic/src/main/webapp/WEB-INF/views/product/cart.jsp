@@ -7,6 +7,10 @@
 <head>
 <meta charset="UTF-8">
 <title>장바구니</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
@@ -22,28 +26,18 @@
 <!--Theme Responsive css-->
 <link rel="stylesheet" href="/resources/assets/css/responsive.css" />
 <link rel="stylesheet" href="/resources/assets/fonts/" />
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<!-- <script>
-	$(function() {
-		$("#btnDeleteAll").click(function() {
-			if (confirm("장바구니를 비우시겠습니까?")) {
-				location.href = "/cart/deleteAll";
-			}
-		});
-	});
-	$(function(){
-		$("#btnDelete").click(function(){
-			if(confirm("해당 상품을 삭제 하시겠습니까?")){
-				location.href = "/cart/delete";
-			}
-		});
-	});
-</script> -->
 <script>
 function zzim_del(c_id) {
-	
-	   location.href = "/cart/delete/"+c_id;
-	}
+    var confirm = confirm("해당 상품을 삭제 하시겠습니까?");
+    if (confirm) {
+        location.href = "/cart/delete/" + c_id;
+    } else {
+        // "아니오"를 선택한 경우 아무 작업도 수행하지 않음
+    }
+}
+
 $(function() {
 	   $("#chkAll").click(function() {
 	      if ($("#chkAll").prop("checked")) {
@@ -104,6 +98,7 @@ $(function() {
 	});
 
 </script>
+
 <style>
 .montserrat-<uniquifier> {
   font-family: "Montserrat", sans-serif;
@@ -387,6 +382,44 @@ select:focus {
     font-size: 16px;
     background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_nodata104x104.png) 50% 80px no-repeat;
 }
+/* 모달 전체 스타일 */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgb(0,0,0);
+  background-color: rgba(0,0,0,0.4);
+}
+
+/* 모달 콘텐츠 스타일 */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 30%;
+  height: 25%;
+}
+
+/* 닫기 버튼 스타일 */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 </style>
 </head>
 <body>
@@ -444,9 +477,38 @@ select:focus {
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
 			<!--상품명--><td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						<c:if test="${not empty row.o_name}">
-    						<span>옵션| ${row.o_name}</span><br>		
+    						<span>옵션| ${row.o_name}</span>
 						</c:if>
+						<c:if test="${not empty row.o_name}">
+						<button style="border: none;font-weight:bold; border-bottom:1px solid #9bce26;; color: #9bce26; background-color: white; font-size: 12px;" id="openModal">모달 열기</button>
+						<div id="myModal" class="modal">
+  							<div class="modal-content">
+    							<span class="close">&times;</span>
+    							<p>옵션 변경</p>
+    							<hr>
+    							
+    							<select>
+  								<option selected>${row.o_name}</option>
+  								<option value="1">1</option>
+ 								<option value="2">2</option>
+ 								<option value="3">3</option>
+ 								<option value="4">4</option>
+ 								<option value="5">5</option>
+ 								<option value="6">6</option>
+ 								<option value="7">7</option>
+ 								<option value="8">8</option>
+ 								<option value="9">9</option>
+ 								<option value="10">10</option>
+								</select><br>
+								
+								<input type="button" value="취소" onclick="close()">
+								<input type="button" value="선택완료" onclick="update()">
+  								</div>
+						</div>
 						
+						
+						</c:if>
+						<br>
 
 						<span class="icon_flag sale">세일</span>
 						</td>
@@ -476,12 +538,11 @@ select:focus {
 						<span class="ex">도서·산간 제외</span></strong>
 						</p> 
 						</td>
+						
+
 
 						<!--선택-->
 						<td align="center" style="border-left: 2px solid whitesmoke;">
-						<c:if test="${not empty row.o_name}">
-   							<input type="button" value="옵션변경" onclick="" class="cart__list__optionbtn" style="margin-bottom: 5px;"><br> 
-						</c:if>
     						<input type="button" value="바로구매" onclick="" class="cart__list__optionbtn1" style="margin-bottom: 5px;"><br>
     						<button type="button" style="width: 56px" class="cart__list__optionbtn1" style="margin-bottom: 5px;" onclick="zzim_del('${row.c_id}')">✖️삭제</button><br>
 						</td>
@@ -555,4 +616,15 @@ select:focus {
 	</section>
 	</section>
 </body>
+<script>
+//모달 열기
+document.getElementById('openModal').onclick = function() {
+    document.getElementById('myModal').style.display = "block";
+}
+
+// 모달 닫기
+document.getElementsByClassName('close')[0].onclick = function() {
+    document.getElementById('myModal').style.display = "none";
+}
+</script>
 </html>

@@ -54,6 +54,7 @@ if (urlParams != null) {
        }
     }
 }
+
 </script>
 
 <style>
@@ -167,7 +168,7 @@ if (urlParams != null) {
    margin: 0 0 5px 0;
 }
 
-.picture .like {
+/* .picture .like {
    position: absolute;
    bottom: 0; right: 0;
    width: 40px;
@@ -175,15 +176,10 @@ if (urlParams != null) {
    color: white;
    font-size: 1.5em;
    text-align: center;
-}
+} */
 
 
 .button-img {
-  position: absolute;
-  bottom: 0; right: 0;
-  width: 40px;
-  height: 40px;
-  border: none;
   background-color: transparent;
   cursor: pointer;
 }
@@ -191,10 +187,10 @@ if (urlParams != null) {
 .zzim {
   position: absolute;
   bottom: 0; right: 0;
-  top: 50%;
   right: 0;
   width: 40px;
   height: 40px;
+  border: none;
   background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_zzim.png) 50% 50% no-repeat #fff;
 
 }
@@ -202,11 +198,10 @@ if (urlParams != null) {
 .zzimon {
 position: absolute;
 bottom: 0; right: 0;
-  top: 50%;
   right: 0;
-  transform: translateY(-50%);
   width: 40px;
   height: 40px;
+  border: none;
    background:url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_zzim_on.png) 50% 50% no-repeat #fff;
 }
 
@@ -379,6 +374,8 @@ justify-content:flex-start;
             <li class="order" onclick="location.href='/product/sub_view.do?no=${ctg.ctg_s_no}&order=price';">낮은가격순</li>
          </div>
       </div>
+      
+      <!-- 상품리스트 -->
       <div class="grid">
             <c:forEach var="row" items="${list}">
                <article class="block" data-product-id="${row.p_id}">
@@ -386,20 +383,33 @@ justify-content:flex-start;
                      <div class="img">
                         <img src="${row.p_img1}" alt="상품 이미지">
                      </div>
-                    <c:if test="${sessionScope.userid != null}">
-                   <div class="like">    
+                     <!-- 강사님이 알려주신거 -->
+                    <%-- <c:if test="${sessionScope.userid != null}">
+                   <div class="button-img">    
                           <c:if test="${row.p_like == row.p_id}">
-                              <button type="button" class="button-img" id="likeButton">
-                                     <i class="zzimon"></i>
-                              </button>
+                             <input type="hidden" id="like${row.p_id}" value="1">
+                            <input type="button" class="zzimon" onclick="test('like${row.p_id}','${row.p_id}',this)"/>
                           </c:if>  
-                          <c:if test="${row.p_like != row.p_id }">          
-                            <button type="button" class="button-img" id="likeButton">
-                                    <i class="zzim"></i>
-                             </button>
+                          <c:if test="${row.p_like != row.p_id }">
+                             <input type="hidden" id="like${row.p_id}" value="0">          
+                             <input type="button" class="zzim"  onclick="test('like${row.p_id}','${row.p_id}',this)"/>/>
                           </c:if>
                    </div>
-               </c:if>
+               </c:if> --%>
+               
+               <!-- 내가 만든거 -->
+               <c:if test="${sessionScope.userid != null}">
+    <c:choose>
+        <c:when test="${row.p_like == row.p_id}">
+            <input type="button" class="zzimon button-img"/>
+        </c:when>
+        <c:otherwise>
+            <input type="button" class="zzim button-img" />
+        </c:otherwise>
+    </c:choose>
+</c:if>
+
+               
                   </div>
                   <div class="desc">
                      <div class="p_name">
@@ -505,66 +515,100 @@ $(document).ready(function(){
       
    }
    
-  /*  var likeList = ${zzim}; // zzim을 JavaScript 리스트로 가져옵니다. */
-
-   /* $(".block").each(function() {
-       var product_id = $(this).data('product-id');
-       var likeInfo = false; // 좋아요 정보 초기값 설정
-
-       // 좋아요 정보가 있는지 확인
-       for (var i = 0; i < likeList.length; i++) {
-           if (likeList[i].z_id === product_id) { // 상품 ID와 일치하는 좋아요 정보가 있는지 확인
-               likeInfo = true; // 좋아요 정보가 있는 경우 true로 설정
-               break; // 반복문 종료
-           }
-       }
-
-       // 좋아요 정보에 따라 버튼 상태 변경
-       if (likeInfo) {
-           $(this).find(".zzim").hide(); // 좋아요 버튼 숨김
-           $(this).find(".zzimon").show(); // 좋아요 취소 버튼 표시
-       } else {
-           $(this).find(".zzim").show(); // 좋아요 버튼 표시
-           $(this).find(".zzimon").hide(); // 좋아요 취소 버튼 숨김
-       }
-   }); */
    
-    // 찜 누를때
-   $(document).on('click', '.button-img', function() {
-       var btn_zzim = $(this); // 찜버튼
+   
+});
+
+   /* function test(id,product_id,obj){
+      //alert("id:"+id);
+      //alert("id:"+$("#like"+id).val());
+      //alert($("#"+id).val());
+      isLiked=$("#"+id).val();
+      //alert(isLiked)
+      
+      
+       var btn_zzim = $(obj); // 찜버튼
        console.log(btn_zzim);
-       var isLiked = btn_zzim.hasClass('zzimon'); // 현재 좋아요 상태 확인
-       console.log(isLiked);
-       var product_id = $(this).closest('.block').data('product-id'); // 상품 ID 가져오기
-       console.log(product_id);
+       //var isLiked = btn_zzim.hasClass('zzimon'); // 현재 좋아요 상태 확인 true면 clear, false면 apply
+       //console.log(isLiked);
+       //var product_id = $(this).closest('.block').data('product-id'); // 상품 ID 가져오기
+       //console.log(product_id);
        
-       // AJAX를 사용하여 서버에 좋아요 상태를 전송
-       if (isLiked) {
+       // 좋아요 상태 확인해서
+       if (isLiked==1) {
            // 좋아요 상태를 취소한 경우
            $.ajax({
                type: 'POST',
                url: '/zzim/zzim_clear',
-               data: { p_id: product_id }, // 상품 ID를 서버로 전송
+               data: { p_id: product_id }, 
                success: function(response) {
-                  btn_zzim.removeClass('zzimon').addClass('zzim'); // 좋아요 취소 상태에서 좋아요 상태로 변경
-                  btn_zzim.parent().find(".zzim").show(); // 좋아요 버튼 표시
-                  btn_zzim.parent().find(".zzimon").hide(); // 좋아요 취소 버튼 숨김
+                  console.log(response);
+                  btn_zzim.removeClass('zzimon').addClass('zzim');
+                  btn_zzim.find(".zzim").show(); // 좋아요 버튼 표시
+                  btn_zzim.find(".zzimon").hide(); // 좋아요 취소 버튼 숨김
                   
                },
                error: function(xhr, status, error) {
                    console.error('AJAX 요청 실패: ', status, error);
                }
            });
-       } else if(!isLiked) {
+       } else {
            // 좋아요를 추가한 경우
            $.ajax({
                type: 'POST',
                url: '/zzim/zzim_apply',
-               data: { p_id: product_id }, // 상품 ID를 서버로 전송
+               data: { p_id: product_id }, 
                success: function(response) {
-                  btn_zzim.removeClass('zzim').addClass('zzimon'); // 좋아요 상태에서 좋아요 취소 상태로 변경
-                  btn_zzim.parent().find(".zzim").hide(); // 좋아요 버튼 숨김
-                  btn_zzim.parent().find(".zzimon").show(); // 좋아요 취소 버튼 표시
+                  console.log(response);
+                  btn_zzim.removeClass('zzim').addClass('zzimon'); 
+                  btn_zzim.find(".zzim").hide(); // 좋아요 버튼 숨김
+                  btn_zzim.find(".zzimon").show(); // 좋아요 취소 버튼 표시
+                  
+               },
+               error: function(xhr, status, error) {
+                   console.error('AJAX 요청 실패: ', status, error);
+               }
+           });
+       }   
+   } */
+   
+ 
+    // 찜 누를때
+   $(document).on('click', '.button-img', function() {
+       var btn_zzim = $(this); // 찜버튼
+       console.log(btn_zzim);
+       var isLiked = btn_zzim.hasClass('zzimon'); // 현재 좋아요 상태 확인 true면 clear, false면 apply
+       console.log(isLiked);
+       var product_id = $(this).closest('.block').data('product-id'); // 상품 ID 가져오기
+       console.log(product_id);
+       
+       // 좋아요 상태 확인해서
+       if (isLiked) {
+           // 좋아요 상태를 취소한 경우
+           $.ajax({
+               type: 'POST',
+               url: '/zzim/zzim_clear',
+               data: { p_id: product_id }, 
+               success: function(response) {
+                  btn_zzim.removeClass('zzimon').addClass('zzim');
+                  btn_zzim.find(".zzim").show(); // 좋아요 버튼 표시
+                  btn_zzim.find(".zzimon").hide(); // 좋아요 취소 버튼 숨김
+                  
+               },
+               error: function(xhr, status, error) {
+                   console.error('AJAX 요청 실패: ', status, error);
+               }
+           });
+       } else {
+           // 좋아요를 추가한 경우
+           $.ajax({
+               type: 'POST',
+               url: '/zzim/zzim_apply',
+               data: { p_id: product_id }, 
+               success: function(response) {
+                  btn_zzim.removeClass('zzim').addClass('zzimon'); 
+                  btn_zzim.find(".zzim").hide(); // 좋아요 버튼 숨김
+                  btn_zzim.find(".zzimon").show(); // 좋아요 취소 버튼 표시
                },
                error: function(xhr, status, error) {
                    console.error('AJAX 요청 실패: ', status, error);
@@ -572,11 +616,10 @@ $(document).ready(function(){
            });
        }
    }); 
-   
-});
+    
+
+
 </script>
-
-
 
 </body>
 </html>

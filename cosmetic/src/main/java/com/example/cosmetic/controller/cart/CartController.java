@@ -109,6 +109,9 @@ public class CartController {
 	    if (userid == null) {
 	        return "redirect:/member/page_login";
 	    }
+		/*
+		 * if (userid == null) { return "redirect:/member/page_login"; }
+		 */
 	    int p_id = (int) requestMap.get("p_id");
 	    List<Map<String, Object>> selectedOptions = (List<Map<String, Object>>) requestMap.get("options");
 	    // 선택한 옵션들을 이용하여 CartDTO 생성 및 저장 로직 수행
@@ -129,6 +132,6 @@ public class CartController {
 	    }
 
 	    return "redirect:/cart/list";
-	}
+	}//만약 cart DB에 
 
 }

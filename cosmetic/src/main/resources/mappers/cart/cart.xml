@@ -24,7 +24,12 @@ delete from cart where c_id=#{c_id}
 delete from cart where userid=#{userid}
 </delete>
 
-<update id="cart_update">
+<update id="option_update">
+update cart set o_name=#{o_name}
+where c_id=#{c_id}
+</update>
+
+<update id="amount_update">
 update cart set amount=#{amount}
 where c_id=#{c_id}
 </update>
