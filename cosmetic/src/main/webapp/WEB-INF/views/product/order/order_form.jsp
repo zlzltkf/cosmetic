@@ -183,6 +183,9 @@ h3 {
 	/* border: 1px solid black; */
 	min-width: 250px;
 	margin: 0 auto;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
 }
 
 /* 포인트/적립 */
@@ -289,7 +292,7 @@ h3 {
 #priceBox .c, #priceBox .d {
 	display: flex;
 	align-items: center;
-	height: 60px;
+	height: 50px;
 }
 #priceBox .c {
 	/* flex-basis: 30%; */
@@ -466,12 +469,16 @@ h3 {
 				<div class="d"><input class="read" id="price" name="price" value="${price}" readonly></div>
 				</div>
 				<div id="Point" class="priceInfo_content">
-					<div class="c">적립될 포인트</div>
+					<div class="c">적립 포인트</div>
 					<div class="d"><input class="read" id="addPoint" name="addPoint" value="${addPoint}" readonly></div>
 				</div>
 				<div id="Dprice" class="priceInfo_content">
 					<div class="c">배송비</div>
 					<div class="d"><input class="read" id="deliverCost"  name="deliverCost" value="${delfee}" readonly></div>
+				</div>
+				<div id="Usepoint" class="priceInfo_content">
+					<div class="c">사용 포인트</div>
+					<div class="d"><input class="read" id="minPoint"  name="minPoint" value="-사용포인트 불러오기" readonly></div>
 				</div>
 				<div id="Tprice" class="priceInfo_content">
 					<div class="c">총 합계</div>
@@ -505,15 +512,18 @@ h3 {
 //포인트 전액 사용
 function useAllPoint() {
 	
-	var pointAll = document.getElementById('currentPoint').value;
-	var setPoint = document.getElementById('usedPoint').value;
+	/* "${addPoint}" */
+	
+	var pointAll = parseInt(document.getElementById('currentPoint').value);
+	var price = parseInt(document.getElementById('price').value);
 	
 	if (pointAll == 0 || pointAll == null) {
 		alert('보유한 포인트가 없습니다.');
-	} else if (pointAll > "${addPoint}") {
-		setPoint = "${addPoint}";
-	} else if (pointAll <= "${addPoint}") {
-		setPoint = pointAll;
+		document.getElementById('usedPoint').value = 0;
+	} else if (price < pointAll) {
+		document.getElementById('usedPoint').value = price;
+	} else if (price >= pointAll) {
+		document.getElementById('usedPoint').value = pointAll;
 	} 
 }
 
@@ -522,6 +532,7 @@ function getInfo() {
 	var isChecked = document.getElementById('cusInfo').checked;
 	
 	if (isChecked) {
+		
 		$.ajax({
 			type: 'GET',
 			url: '/order/memberInfo.do',
@@ -542,6 +553,7 @@ function getInfo() {
 				}
 			}
 		});
+		
 	} else {
         // 체크되어 있지 않다면 값을 비웁니다.
         document.getElementById('name').value = '';
@@ -592,60 +604,71 @@ function Payment() {
 	
 	var c = valueCheck();
 	if (c != null) {
-		var userid = "${sessionScope.userid}";
-		var totalPrice = document.getElementById('totalPrice').value;
-		var tel = document.getElementById('tel').value;
-		var name = document.getElementById('name').value;
-		var zipcode = document.getElementById('zipcode').value;
-		var address1 = document.getElementById('address1').value;
 		
-		const methodList = document.getElementsByName("method");
-		var method;
+		//포인트 값 검사
+		var pointAll = parseInt(document.getElementById('currentPoint').value);
+		var usedPoint = parseInt(document.getElementById('usedPoint').value);
+		
+		if (pointAll < usedPoint) {
+			alert('보유한 포인트보다 더 높은 값을 작성할 수 없습니다.');
+			$("#usedPoint").focus();
+			return;
+		} else {
+			var userid = "${sessionScope.userid}";
+			var totalPrice = document.getElementById('totalPrice').value;
+			var tel = document.getElementById('tel').value;
+			var name = document.getElementById('name').value;
+			var zipcode = document.getElementById('zipcode').value;
+			var address1 = document.getElementById('address1').value;
+			
+			const methodList = document.getElementsByName("method");
+			var method;
 
-		if (confirm("구매 하시겠습니까?")) { // 구매 클릭시 한번 더 확인하기
+			if (confirm("구매 하시겠습니까?")) { // 구매 클릭시 한번 더 확인하기
+				
+				//구매방식 확인
+				methodList.forEach((node) => {
+					if(node.checked)  {
+						method = node.value;
+					}
+				})
+				
+				// 회원만 결제 가능
+		        if (userid != null) { 
+		            
+		            IMP.init("imp42661322"); // 가맹점 식별코드
+		            IMP.request_pay({
+		                pg: method, // PG사 코드표에서 선택
+		                pay_method: 'card', // 결제 방식
+		                merchant_uid: "IMP" + new Date().getTime(), // 결제 고유 번호
+		                name: 'EDEN', // 제품명
+		                amount: totalPrice, // 가격
+		                
+		                //구매자 정보 ↓
+		                buyer_name: name,
+		                buyer_tel : tel,
+		                buyer_addr : address1,
+		                buyer_postcode : zipcode
+		                
+		            }, async function (rsp) { // callback
+		                if (rsp.success) { //결제 성공시
+		                
+							alert('결제가 완료되었습니다.')
+		                    document.getElementById('form_order').submit();
+		                    
+		                } else if (rsp.success == false) { // 결제 실패시
+		                    alert(rsp.error_msg)
+		                }
+		            }); 
+		            
+		         } else { // 비회원 결제 불가
+		            alert('로그인이 필요합니다!')
+		        } 
 			
-			//구매방식 확인
-			methodList.forEach((node) => {
-				if(node.checked)  {
-					method = node.value;
-				}
-			})
-			
-			// 회원만 결제 가능
-	        if (userid != null) { 
-	            
-	            IMP.init("imp42661322"); // 가맹점 식별코드
-	            IMP.request_pay({
-	                pg: method, // PG사 코드표에서 선택
-	                pay_method: 'card', // 결제 방식
-	                merchant_uid: "IMP" + new Date().getTime(), // 결제 고유 번호
-	                name: 'EDEN', // 제품명
-	                amount: totalPrice, // 가격
-	                
-	                //구매자 정보 ↓
-	                buyer_name: name,
-	                buyer_tel : tel,
-	                buyer_addr : address1,
-	                buyer_postcode : zipcode
-	                
-	            }, async function (rsp) { // callback
-	                if (rsp.success) { //결제 성공시
-	                
-						alert('결제가 완료되었습니다.')
-	                    document.getElementById('form_order').submit();
-	                    
-	                } else if (rsp.success == false) { // 결제 실패시
-	                    alert(rsp.error_msg)
-	                }
-	            }); 
-	            
-	         } else { // 비회원 결제 불가
-	            alert('로그인이 필요합니다!')
-	        } 
-		
-	    } else { // 구매 확인 알림창 취소 클릭시 돌아가기
-	        return false;
-	    }
+		    } else { // 구매 확인 알림창 취소 클릭시 돌아가기
+		        return false;
+		    }
+		}
 	}
 }
 
