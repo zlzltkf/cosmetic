@@ -381,8 +381,7 @@ $(document).on('click', '.zzim_btn', function() {
             }
         });
     }
-}); 
-
+});  
 </script>
 
 <!-- 위의 상품표시와 아래의 상품설명 구분 -->

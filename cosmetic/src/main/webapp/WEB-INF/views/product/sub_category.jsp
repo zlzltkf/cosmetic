@@ -168,17 +168,6 @@ if (urlParams != null) {
    margin: 0 0 5px 0;
 }
 
-/* .picture .like {
-   position: absolute;
-   bottom: 0; right: 0;
-   width: 40px;
-   hight: 40px;
-   color: white;
-   font-size: 1.5em;
-   text-align: center;
-} */
-
-
 .button-img {
   background-color: transparent;
   cursor: pointer;
@@ -383,34 +372,21 @@ justify-content:flex-start;
                      <div class="img">
                         <img src="${row.p_img1}" alt="상품 이미지">
                      </div>
-                     <!-- 강사님이 알려주신거 -->
-                    <%-- <c:if test="${sessionScope.userid != null}">
-                   <div class="button-img">    
-                          <c:if test="${row.p_like == row.p_id}">
-                             <input type="hidden" id="like${row.p_id}" value="1">
-                            <input type="button" class="zzimon" onclick="test('like${row.p_id}','${row.p_id}',this)"/>
-                          </c:if>  
-                          <c:if test="${row.p_like != row.p_id }">
-                             <input type="hidden" id="like${row.p_id}" value="0">          
-                             <input type="button" class="zzim"  onclick="test('like${row.p_id}','${row.p_id}',this)"/>/>
-                          </c:if>
-                   </div>
-               </c:if> --%>
                
-               <!-- 내가 만든거 -->
-               <c:if test="${sessionScope.userid != null}">
-    <c:choose>
-        <c:when test="${row.p_like == row.p_id}">
-            <input type="button" class="zzimon button-img"/>
-        </c:when>
-        <c:otherwise>
-            <input type="button" class="zzim button-img" />
-        </c:otherwise>
-    </c:choose>
-</c:if>
-
-               
-                  </div>
+               <!-- 찜 버튼 -->
+               		<c:if test="${sessionScope.userid != null}">
+    		   		<c:choose>
+        				<c:when test="${row.p_like == row.p_id}">
+            				<input type="button" class="zzimon button-img"/>
+        				</c:when>
+        				<c:otherwise>
+            				<input type="button" class="zzim button-img" />
+        				</c:otherwise>
+    				</c:choose>
+					</c:if>
+                 </div>
+                  
+                  
                   <div class="desc">
                      <div class="p_name">
                         <a href="/product/detail_before?p_id=${row.p_id}">${row.p_name}</a>
@@ -427,7 +403,6 @@ justify-content:flex-start;
       </div>
       
       <!-- 페이지 번호 -->
-      
       <div id="paging" align="center">
       
          <!-- 화살표 -->
@@ -479,6 +454,7 @@ justify-content:flex-start;
 <script src="/resources/assets/js/main.js"></script>
 
 <script type="text/javascript">
+
 $(document).ready(function(){
    
    //url에서 변수 가져오기
@@ -519,59 +495,6 @@ $(document).ready(function(){
    
 });
 
-   /* function test(id,product_id,obj){
-      //alert("id:"+id);
-      //alert("id:"+$("#like"+id).val());
-      //alert($("#"+id).val());
-      isLiked=$("#"+id).val();
-      //alert(isLiked)
-      
-      
-       var btn_zzim = $(obj); // 찜버튼
-       console.log(btn_zzim);
-       //var isLiked = btn_zzim.hasClass('zzimon'); // 현재 좋아요 상태 확인 true면 clear, false면 apply
-       //console.log(isLiked);
-       //var product_id = $(this).closest('.block').data('product-id'); // 상품 ID 가져오기
-       //console.log(product_id);
-       
-       // 좋아요 상태 확인해서
-       if (isLiked==1) {
-           // 좋아요 상태를 취소한 경우
-           $.ajax({
-               type: 'POST',
-               url: '/zzim/zzim_clear',
-               data: { p_id: product_id }, 
-               success: function(response) {
-                  console.log(response);
-                  btn_zzim.removeClass('zzimon').addClass('zzim');
-                  btn_zzim.find(".zzim").show(); // 좋아요 버튼 표시
-                  btn_zzim.find(".zzimon").hide(); // 좋아요 취소 버튼 숨김
-                  
-               },
-               error: function(xhr, status, error) {
-                   console.error('AJAX 요청 실패: ', status, error);
-               }
-           });
-       } else {
-           // 좋아요를 추가한 경우
-           $.ajax({
-               type: 'POST',
-               url: '/zzim/zzim_apply',
-               data: { p_id: product_id }, 
-               success: function(response) {
-                  console.log(response);
-                  btn_zzim.removeClass('zzim').addClass('zzimon'); 
-                  btn_zzim.find(".zzim").hide(); // 좋아요 버튼 숨김
-                  btn_zzim.find(".zzimon").show(); // 좋아요 취소 버튼 표시
-                  
-               },
-               error: function(xhr, status, error) {
-                   console.error('AJAX 요청 실패: ', status, error);
-               }
-           });
-       }   
-   } */
-   
  
     // 찜 누를때
    $(document).on('click', '.button-img', function() {
@@ -617,8 +540,18 @@ $(document).ready(function(){
        }
    }); 
     
-
-
+// 뒤로가기 버튼 클릭시 이전 페이지에 캐시가 남아있어 
+//그상태로 좋아요를 클릭하면 중복이 될 가능성이 있음
+// 엣지와 크롬에서는 뒤로가기 버튼 누를시에는 이전 캐시가 초기화되지 않은 페이지 화면을 띄움
+// 따라서 뒤로가기 버튼 클릭시 캐시를 초기화 하기 위해 페이지 리로드를 해줌
+$(window).bind("pageshow", function(event) {
+	if (event.originalEvent.persisted || (window.performance && window.performance.navigation.type == 2)) {
+		console.log("뒤로가기 버튼 누를시 캐시 초기화");
+		location.reload();
+	} else {
+		console.log('새로열린 페이지');
+	}
+});
 </script>
 
 </body>
