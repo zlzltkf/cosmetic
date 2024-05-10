@@ -33,12 +33,30 @@
 	
 
 <style>
-.prd_contents {
+body {
+	margin: 0;
+	 
+}
+
+* {
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.detail_window_side{
+	width: 1020px;
+    height: 100%;
+    margin: 0 auto;
+    min-width: 1016px;
+}
+
+
+/* .prd_contents {
 	width: 1020px;
 	height: 100%;
 	margin: 0 auto;
 }
-
+ */
 .prd_detail_box {
 	padding: 35px 0 0;
 }
@@ -141,23 +159,22 @@
 .prd_detail_box .right_area .p_btn {
     display: flex;
     justify-content: space-between;
-    width: 450px; /* 수정된 부분: 버튼 전체 너비 조정 */
-    margin-top: 20px; /* 수정된 부분: 버튼과 위쪽 간격 조정 */
+    width: 416px; /* 수정된 부분: 버튼 전체 너비 조정 */
+    margin-top: 23px; /* 수정된 부분: 버튼과 위쪽 간격 조정 */
     padding: 0; /* 수정된 부분: 외부 여백 제거 */
+    
 }
 
 .prd_detail_box .right_area .p_btn button {
-    flex-grow: 1; /* 수정된 부분: 버튼이 동일한 너비를 가지도록 설정 */
-    margin-left: 10px; /* 수정된 부분: 버튼 간격 조정 */
+    flex-grow: 1;
+    margin-left: 10px;
     height: 65px;
-    border: 1px solid #ccc; /* 수정된 부분: 테두리 스타일 추가 */
-    color: #ff5753;
+    border: 1px solid #ccc; 
     font-size: 20px;
     font-weight: 500;
 }
 
 
-/* 드롭다운 메뉴의 기본 스타일 */
 .prd_detail_box .right_area .p_dropdown {
 	height: 51px;
     line-height: 50px;
@@ -205,6 +222,29 @@
     box-sizing: content-box;
 }
 
+.zzim_btn {
+	background-color: transparent;
+  	cursor: pointer;
+}
+
+.zzim{
+	display: flex;
+	width: 80px;
+	
+    border: 1px solid #e5e5e5;
+	background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-line.png) 50% 50% no-repeat #fff;
+}
+
+.zzimon{
+	display: flex;
+	width: 80px;
+	
+	border: 1px solid #e5e5e5;
+	background:url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-solid.png) 50% 50% no-repeat #fff;
+}
+
+
+
 
 </style>
 </head>
@@ -213,84 +253,240 @@
 	<div class='preloader'>
 		<div class='loaded'>&nbsp;</div>
 	</div>
-	<!-- 상단 메뉴 -->
-	<%@ include file="../include/menu/menu.jsp"%>
+	
+<!-- 상단 메뉴 -->
+<%@ include file="../include/menu/menu.jsp"%>
 
-	<section class="service sections margin-top-120">
-		<div class="container">
-			<div class="prd_contents">
-					<!-- 상품정보 -->
-				<div class="prd_detail_box">
-				<input type="hidden" value="${dto.p_id}">
+<section class="service sections margin-top-120">
+<section class="detail_window_side">
+	<div class="prd_contents">
+	
+		<!-- 상품정보 -->
+		<div class="prd_detail_box">
+			<input type="hidden" value="${dto.p_id}">
 					
-					<!-- 왼쪽에 들어갈 사진 -->
-					<div class="left_area">
-						<div class="p_img">
-							<img id="main_img"
-								src="${dto.p_img1}">
-						</div>
-					</div>
-					
-					<!-- 오른쪽에 들어갈 정보 -->
-					<div class="right_area"> 
-						<div class="p_info">
-						
-							<p class="p_path">${dto.ctg_big} > ${dto.ctg_small}</p> <!-- ex) 립 > 립스틱 -->
-							
-							<p class="p_name">${dto.p_name}</p> <!-- 제목 -->
-							
-							<div class="p_price">
-								<span class="p_price_color"> <strong>가격 <fmt:formatNumber type="number" value="${dto.p_price}" pattern="#,###"></fmt:formatNumber>원</strong>  <!-- 가격 -->
-								</span>
-							</div>
-					
-					<!-- 배송 -->
-					<div class="p_deli">
-								<p class="p_deli_tit">배송정보</p>
-							<div class="p_deli_row"> <!-- 설명란 -->
-									<span style="font-size: 14px;" class="p_deli_s_tit">일반배송 |</span>
-									<ul style="list-style: none;">
-										<li>
-											<span style="font-size: 14px;">2,500원 ( 20,000 원 이상 무료배송 )</span>
-											<span style="font-size: 14px;">배송 평균 3일 이내 배송</span>
-										</li>								
-									</ul>
-							</div>
-							</div>
-							
-							<!-- 상품 종류 선택 -->
-							<div class="p_dropdown">
-								<button class="p_dropbtn">상품을 선택해주세요</button>
-								<div class="p_dropdown-content">
-									
-								</div>
-							</div>
-							
-							<!-- 상품옵션 선택시 보이는 곳 (ajax) -->
-							<div id="select_option">
-							</div>
-						
-							<!-- 상품 금액 -->
-							<div class="p_total_price">
-    							<span class="total_tit">상품금액 합계</span> 
-    							<span class="total_won">
-        						가격 <span id="product_price">0</span> 원
-    							</span>
-							</div>
-							
-							<!-- 장바구니, 바로구매, 찜 버튼 -->
-							<div class="p_btn">
-								<button class="btn_Cart" id="btn_Cart" onclick="cart_insert()">장바구니</button>
-								<button class="btn_Buy" id="btn_Buy">바로구매</button>
-								<button class="btn_Zzim" id="btn_Zzim">찜</button>
-							</div>
-						</div>
+				<!-- 왼쪽에 들어갈 사진 -->
+				<div class="left_area">
+					<div class="p_img">
+						<img id="main_img" src="${dto.p_img1}">
 					</div>
 				</div>
-			</div>
+					
+		<!-- 오른쪽에 들어갈 정보 -->
+		<div class="right_area"> 
+			<div class="p_info" data-product-id="${dto.p_id}">
+				<p class="p_path">${dto.ctg_big} > ${dto.ctg_small}</p> <!-- ex) 립 > 립스틱 -->
+				<p class="p_name">${dto.p_name}</p> <!-- 제목 -->
+				<div class="p_price"> <!-- 가격 -->
+					<span class="p_price_color"> <strong>가격 <fmt:formatNumber type="number" value="${dto.p_price}" pattern="#,###"></fmt:formatNumber>원</strong></span>
+				</div>
+					
+				<!-- 배송 -->
+				<div class="p_deli">
+					<p class="p_deli_tit">배송정보</p>
+					<div class="p_deli_row"> <!-- 설명란 -->
+						<span style="font-size: 14px;" class="p_deli_s_tit">일반배송 |</span>
+						<ul style="list-style: none;">
+							<li>
+								<span style="font-size: 14px;">2,500원 ( 20,000 원 이상 무료배송 )</span>
+								<span style="font-size: 14px;">배송 평균 3일 이내 배송</span>
+							</li>								
+						</ul>
+					</div>
+				</div>
+							
+				<!-- 상품 종류 선택 -->
+				<div class="p_dropdown">
+					<button class="p_dropbtn">상품을 선택해주세요</button>
+					<div class="p_dropdown-content"></div>
+				</div>
+							
+				<!-- 상품옵션 선택시 보이는 곳 (ajax) -->
+				<div id="select_option"></div>
+						
+				<!-- 상품 금액 -->
+				<div class="p_total_price">
+    				<span class="total_tit">상품금액 합계</span> 
+    				<span class="total_won">가격 <span id="product_price">0</span> 원</span>
+				</div>
+				
+				<!-- 장바구니, 바로구매, 찜 버튼 -->
+				<div class="p_btn">
+					<button class="btn_Cart" id="btn_Cart" onclick="cart_insert()">장바구니</button>
+					<button class="btn_Buy" id="btn_Buy">바로구매</button>
+					
+               		<c:if test="${sessionScope.userid != null}">
+    				<c:choose>
+	        			<c:when test="${dto.p_like == dto.p_id}">
+    	        			<button type="button" class="zzimon zzim_btn"></button>
+        				</c:when>
+        				<c:otherwise>
+            				<button type="button" class="zzim zzim_btn"></button>
+        				</c:otherwise>
+    				</c:choose>
+					</c:if>
+				</div>
+				
+				
+				</div>
+											
+				
 		</div>
-	</section>
+	</div>
+	</div>
+</section>
+</section>
 
+<script>
+
+// 찜 누를때
+$(document).on('click', '.zzim_btn', function() {
+    var btn_zzim = $(this); // 찜버튼
+    console.log(btn_zzim);
+    var isLiked = btn_zzim.hasClass('zzimon'); // 현재 좋아요 상태 확인 true면 clear, false면 apply
+    console.log(isLiked);
+    var product_id = $(this).closest('.p_info').data('product-id'); // 상품 ID 가져오기
+    console.log(product_id);
+    
+    // 좋아요 상태 확인해서
+    if (isLiked) {
+        // 좋아요 상태를 취소한 경우
+        $.ajax({
+            type: 'POST',
+            url: '/zzim/zzim_clear',
+            data: { p_id: product_id }, 
+            success: function(response) {
+               btn_zzim.removeClass('zzimon').addClass('zzim');
+               btn_zzim.find(".zzim").show(); // 좋아요 버튼 표시
+               btn_zzim.find(".zzimon").hide(); // 좋아요 취소 버튼 숨김
+               
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 실패: ', status, error);
+            }
+        });
+    } else {
+        // 좋아요를 추가한 경우
+        $.ajax({
+            type: 'POST',
+            url: '/zzim/zzim_apply',
+            data: { p_id: product_id }, 
+            success: function(response) {
+               btn_zzim.removeClass('zzim').addClass('zzimon'); 
+               btn_zzim.find(".zzim").hide(); // 좋아요 버튼 숨김
+               btn_zzim.find(".zzimon").show(); // 좋아요 취소 버튼 표시
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 요청 실패: ', status, error);
+            }
+        });
+    }
+}); 
+
+</script>
+
+<!-- 위의 상품표시와 아래의 상품설명 구분 -->
+<section class="tab_menu_top">
+<section class="detail_window_side">
+				
+<!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
+<div class="ec-base-tab grid3">
+<ul class="menu">
+
+	<!-- 밑 컨텐츠 칸의 id와 일치해야함 -->
+    <li class="selected"><a href="#description" data-bs-toggle="tab" aria-selected="true">상품 설명</a></li>
+    <li><a href="#review" data-bs-toggle="tab">상품 리뷰</a></li>
+    <li><a href="#qna" data-bs-toggle="tab">Q&A</a></li>
+</ul>
+</div>
+
+<!-- 표시될 컨텐츠 -->
+<div class="tab-content" id="myTabContent">
+    <div class="tab-pane active" id="description" role="tabpanel"> <!-- 위의 id와 일치해야함 -->
+    
+  		<!-- 상품설명 섹션 -->
+        <section id="bloginner" class="bloginner">
+                    <div class="col-sm-12">
+                        <div class="head_title text-center" style="margin-top: 40px;">
+                            <h2>상품설명</h2>
+                        </div>
+                        
+                    <!-- End of head title -->
+                        <div class="main_bloginner_area" style="">
+                            <div class="row">
+                            	<div class="col-sm-10 col-sm-offset-1">
+                            		<div class="main_bloginner_content">	
+                            			<div class="single_bloginner s_blogIner_1 text-center">
+				                            <img src="${dto.p_detail}">
+				                            <br>
+				                            <br><br><br><br><br><br><br>aaaaaaaaaaaaaaaaaaaa<br><br><br><br><br><br>
+			                            </div>
+			                            </div>
+            		                </div>
+                    	        </div>
+                        	</div>
+                    	</div>
+        </section>
+    </div>
+    
+    <!-- 상품설명 섹션 -->
+    <div class="tab-pane" id="product_description" role="tabpanel">
+    <section id="product_infomation" class="service sections margin-top-120">
+    	<div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="head_title text-center">
+                            <h2>상품설명</h2>
+                        </div>
+        				<div class="main_service_area">
+        					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>
+        				</div>
+        		</div>
+        	</div>
+       	</div>
+   	</section>
+    </div>
+    
+    <!-- 상품리뷰 섹션 -->
+    <div class="tab-pane" id="review" role="tabpanel">
+    <section id="product_infomation" class="service sections margin-top-120">
+    	<div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="head_title text-center">
+                            <h2>상품리뷰</h2>
+                        </div>
+        				<div class="main_service_area">
+        					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>
+        				</div>
+        		</div>
+        	</div>
+       	</div>
+   	</section>
+    </div>
+    
+    <!-- Q&A 섹션 -->
+    <div class="tab-pane" id="qna" role="tabpanel">
+    <section id="product_infomation" >
+    	<div class="container">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="head_title text-center">
+                            <h2>Q&A</h2>
+                        </div>
+        				<div class="main_service_area">
+        					<p>이곳에 Q&A 내용을 입력하세요.</p>
+        				</div>
+        		</div>
+        	</div>
+       	</div>
+   	</section>
+    </div>
+		
+		</section>
+	</section>			
+    
+</div>
 <script>
 function cart_insert() {
 	window.location.href = '/cart/insert';
@@ -488,8 +684,12 @@ function updateTotalPrice() {
 </style>
 
 	<style>
+	.tab_menu_top{
+	margin-top: 40px;
+	}
+	
 	/* 탭 메뉴 스타일 */
-	.ec-base-tab { position:relative; }
+	.ec-base-tab { position:relative; margin-top: 40px;}
 	.ec-base-tab .menu {
     	margin:0 0 20px; border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
     	box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
@@ -518,7 +718,7 @@ function updateTotalPrice() {
 	.ec-base-tab.grid7 .menu li:first-child { width:13% \0/; }
   </style>
 	
-	<!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
+	<%-- <!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
 	<div class="ec-base-tab grid3">
     <ul class="menu">
     					<!-- 밑 컨텐츠 칸의 id와 일치해야함 -->
@@ -594,7 +794,7 @@ function updateTotalPrice() {
    	</section>
     </div>
     
-</div>
+</div> --%>
 
 
 <!-- 탭메뉴에 대한 JS -->
