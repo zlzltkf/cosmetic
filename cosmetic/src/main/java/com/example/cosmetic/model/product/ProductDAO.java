@@ -57,11 +57,7 @@ public class ProductDAO {
 		return sqlSession.selectOne("product.get_cate_name", no);
 	}
 
-//	//디테일
-//	public ProductDTO detail(int p_id, String userid) {
-//		return sqlSession.selectOne("product.detail", p_id);
-//	}
-	
+	//디테일
 	public ProductDTO detail(int p_id, String userid) {
 	    Map<String, Object> map = new HashMap<>();
 	    map.put("p_id", p_id);
