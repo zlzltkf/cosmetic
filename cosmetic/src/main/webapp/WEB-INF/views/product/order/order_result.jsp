@@ -88,39 +88,37 @@
 
 <div id ="orderInfo">
 <table border="1">
-	<c:forEach var="row" items="${list}">
-		<tr>
-			<td>주문번호</td>
-			<td>${row.orderid}</td>
-		</tr>
-		<tr>
-			<td>상품금액</td>
-			<td>${row.price}</td>
-		</tr>
-		<tr>
-			<td>배송비</td>
-			<td>${row.deliverCost}</td>
-		</tr>
-		<tr>
-			<td>총합계</td>
-			<td>${row.totalPrice}</td>
-		</tr>
-		<tr>
-			<td>포인트</td>
-			<td>${row.userPoint}</td>
-		</tr>
-		<tr>
-			<td>배송정보</td>
-			<td>
-				<div id="delInfo">
-					<div>${row.username}</div>
-					<div>${row.zipcode}</div>
-					<div>${row.address1}</div>
-					<div>${row.address2}</div>
-				</div>
-			</td>
-		</tr>
-	</c:forEach>
+	<tr>
+		<td>주문번호</td>
+		<td>${order.orderid}</td>
+	</tr>
+	<tr>
+		<td>상품금액</td>
+		<td>${order.price}</td>
+	</tr>
+	<tr>
+		<td>배송비</td>
+		<td>${order.deliverCost}</td>
+	</tr>
+	<tr>
+		<td>총합계</td>
+		<td>${order.totalPrice}</td>
+	</tr>
+	<tr>
+		<td>포인트</td>
+		<td>${totalPoint}</td>
+	</tr>
+	<tr>
+		<td>배송정보</td>
+		<td>
+			<div id="delInfo">
+				<div>${order.username}</div>
+				<div>${order.zipcode}</div>
+				<div>${order.address1}</div>
+				<div>${order.address2}</div>
+			</div>
+		</td>
+	</tr>
 </table>
 </div>
 
@@ -152,7 +150,14 @@
 </div>
 </div>
 
-
+<div id="footer">
+	<button id="toList" onclick="
+		location.href = '/order/orderlist.do';
+	">주문배송목록</button>
+	<button id="toReview" onclick="
+		location.href = '/review/??'; 
+	">리뷰작성</button>
+</div>
 
 </div>
 

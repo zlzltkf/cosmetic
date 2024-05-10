@@ -93,7 +93,21 @@ $(function() {
 		        }
 		    });
 		});
-
+	
+	 //주문 버튼 클릭 시
+	   $("#orderbtn").click(function() {
+		   
+		   //수량을 input에 담기
+		   $(".amount-select").each(function () {
+               var selectedValue = $(this).val();
+               $(this).siblings(".amount-hidden").val(selectedValue);
+           });
+		   
+		   var form = document.forms["form1"];
+		   form.method = "post";
+		   form.action = "/order/orderform.do";
+		   form.submit();
+	   });
 
 	});
 
@@ -443,6 +457,10 @@ select:focus {
 			</div>
 			</div>
 		<div style="color: black; width: 150px; height: 50px; padding-top: 27px;"><p style="line-height: 0.375rem; margin: -10px 0 15p;"> EDEN 배송상품</p></div>
+		
+		<!-- 주문화면으로 보내기 -->
+		<form name="form1">	
+		
 		<c:choose>
 		<c:when test="${map.count == 0}">
 				<table class="cart__list">
@@ -473,7 +491,11 @@ select:focus {
 				<tbody>
 				
 					<tr class="cart__list__detail">
-						<td><input  type="checkbox" name="num" value="${row.c_id}"  ></td>
+						<td>
+						<input  type="checkbox" name="num" value="${row.c_id}"  >
+						<!-- 주문테이블로 보낼 p_id -->
+						<input type="hidden" name="p_id" value="${row.p_id}"> 
+						</td>
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
 			<!--상품명--><td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						<c:if test="${not empty row.o_name}">
@@ -487,7 +509,7 @@ select:focus {
     							<p>옵션 변경</p>
     							<hr>
     							
-    							<select>
+    							<select  class="amount-select">
   								<option selected>${row.o_name}</option>
   								<option value="1">1</option>
  								<option value="2">2</option>
@@ -499,7 +521,11 @@ select:focus {
  								<option value="8">8</option>
  								<option value="9">9</option>
  								<option value="10">10</option>
-								</select><br>
+								</select>
+								
+								<input class="amount-hidden" type="hidden" name="amount"> <!-- 주문 테이블로 보낼 amount -->
+								
+								<br>
 								
 								<input type="button" value="취소" onclick="close()">
 								<input type="button" value="선택완료" onclick="update()">
@@ -515,7 +541,7 @@ select:focus {
 						<td style="text-align: center; font-weight:bolder;"><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span></td>
 						<br>
 						<td style="border-left: 2px solid whitesmoke; text-align: center; ">
-						<select>
+						<select class="amount-select">
   							<option selected>${row.amount}</option>
   							<option value="1">1</option>
  							<option value="2">2</option>
@@ -529,6 +555,9 @@ select:focus {
  							<option value="10">10</option>
  							
 						</select>
+						
+						<input class="amount-hidden" type="hidden" name="amount"> <!-- 주문 테이블로 보낼 amount -->
+						
 						</td>
 					
 						<!--배송정보-->
@@ -568,6 +597,7 @@ select:focus {
     <div style="width: 50%; text-align: center;">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
     총 판매가 <br><span style="color: black;"><fmt:formatNumber type="number" value="${map.sumMoney}" pattern="#,###"></fmt:formatNumber></span>원
+    <input type="hidden" id="price" name="price" value="${map.sumMoney}"> <!-- 주문 테이블로 보낼 상품금액 -->
 </p>
 
     </div>
@@ -583,6 +613,7 @@ select:focus {
     <div style="width: 50%; text-align: center; ">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
             배송비 <br><span style="color: black;">${map.fee}</span>원
+           <input type="hidden" id="delfee" name="delfee" value="${map.fee}"> <!-- 주문 테이블로 보낼 배송비 --> 
         </p>
     </div>
 </div>
@@ -594,6 +625,7 @@ select:focus {
     </div>
     <div>
     총 결제예상금액&nbsp; <span style="color: red; font-size: 24px; font-weight: bold;"><fmt:formatNumber type="number" value="${map.sum}" pattern="#,###"></fmt:formatNumber>원</span>
+    <input type="hidden" id="totalPrice" name="totalPrice" value="${map.sum}"> <!-- 주문 테이블로 보낼 총 금액 -->
 </div>
 
 </div>
@@ -603,7 +635,7 @@ select:focus {
 	
 		<div class="cart__mainbtns">
 			<button class="cart__bigorderbtn left">쇼핑 계속하기</button>
-			<button class="cart__bigorderbtn right">주문하기</button>
+			<button class="cart__bigorderbtn right" id="orderbtn">주문하기</button>
 		</div>
 
 			<div class="cart__information">

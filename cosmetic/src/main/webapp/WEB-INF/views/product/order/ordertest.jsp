@@ -46,14 +46,13 @@
 			</td>
 			<td>
 				${i * 10}
-				<input type="hidden" name="amount" value="${i * 10}">
+				<input id="amount" type="hidden" name="amount" value="${i * 10}">
 			</td>
 		</tr>
 	</c:forEach>
 	<div>
 		상품 총 금액 <input id="price" name="price" value="1000"><br>
 		배송비 <input id="delfee" name="delfee" value="1000"><br>
-		포인트 <input id="point" name="point" value="1000"><br>
 		총 금액<input id="totalPrice" name="totalPrice" value="1"><br>
 	</div>
 	

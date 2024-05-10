@@ -22,7 +22,7 @@
 </insert>
 
 <!-- 주문한 상품 목록 확인 -->
-<select id="orderList" resultType="java.util.Map">
+<select id="orderItems" resultType="java.util.Map">
 	select * from orderitem
 	where orderItemId = #{itemId}
 </select>
@@ -56,5 +56,23 @@
 	where orderId = #{orderid}
 </select>
 
+<!-- 포인트 적립 -->
+<update id="pointUpdate">
+	UPDATE MEMBER
+	SET POINT = POINT + #{point}
+	WHERE userid = #{userid}
+</update>
+
+<!-- 적립된 포인트 보여주기 -->
+<select id="showPoint" resultType="int">
+	select POINT from member
+	where userid = #{userid}
+</select>
+
+<!-- 주문 목록 출력 -->
+<select id="orderList" resultType="com.example.cosmetic.model.order.OrderDTO">
+	select * from orderlist
+	where userid = #{userid}
+</select>
 
 </mapper>

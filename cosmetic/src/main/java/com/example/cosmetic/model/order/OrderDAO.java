@@ -28,8 +28,8 @@ public class OrderDAO {
 	}
 	
 	//주문한 상품 목록 확인
-	public Map<String, Object> orderList(int itemId) {
-		return sqlSession.selectOne("order.orderList", itemId);
+	public Map<String, Object> orderItems(int itemId) {
+		return sqlSession.selectOne("order.orderItems", itemId);
 	}
 	
 	//상품정보 가져오기
@@ -43,7 +43,30 @@ public class OrderDAO {
 	}
 	
 	//주문결과 확인
-	public List<OrderDTO> orderSelect(int orderId) {
-		return sqlSession.selectList("order.orderSelect", orderId);
+	public OrderDTO orderSelect(int orderId) {
+		return sqlSession.selectOne("order.orderSelect", orderId);
 	}
+	
+	//포인트 적립
+	public void pointUpdate(Map<String, Object> map) {
+		sqlSession.update("order.pointUpdate", map);
+	}
+	
+	//포인트 불러오기
+	public Integer  showPoint(String userid) {
+		int point;
+		Integer p = sqlSession.selectOne("order.showPoint", userid);
+		if (p != null) {
+			point = p.intValue();
+		} else {
+			point = 0;
+		}
+		return point;
+	}
+	
+	//주문 목록 출력
+	public List<OrderDTO> orderList(String userid) {
+		return sqlSession.selectList("order.orderList", userid);
+	}
+	
 }
