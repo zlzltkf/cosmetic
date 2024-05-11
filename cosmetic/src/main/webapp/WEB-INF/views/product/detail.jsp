@@ -43,14 +43,6 @@ body {
 	font-family: 'Montserrat', sans-serif;
 }
 
-.detail_window_side{
-	width: 1020px;
-    height: 100%;
-    margin: 0 auto;
-    min-width: 1016px;
-}
-
-
 /* .prd_contents {
 	width: 1020px;
 	height: 100%;
@@ -243,9 +235,6 @@ body {
 	background:url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-solid.png) 50% 50% no-repeat #fff;
 }
 
-
-
-
 </style>
 </head>
 
@@ -401,91 +390,49 @@ $(document).on('click', '.zzim_btn', function() {
 
 <!-- 표시될 컨텐츠 -->
 <div class="tab-content" id="myTabContent">
+
     <div class="tab-pane active" id="description" role="tabpanel"> <!-- 위의 id와 일치해야함 -->
-    
   		<!-- 상품설명 섹션 -->
-        <section id="bloginner" class="bloginner">
-                    <div class="col-sm-12">
-                        <div class="head_title text-center" style="margin-top: 40px;">
-                            <h2>상품설명</h2>
-                        </div>
-                        
-                    <!-- End of head title -->
-                        <div class="main_bloginner_area" style="">
-                            <div class="row">
-                            	<div class="col-sm-10 col-sm-offset-1">
-                            		<div class="main_bloginner_content">	
-                            			<div class="single_bloginner s_blogIner_1 text-center">
-				                            <img src="${dto.p_detail}">
-				                            <br>
-				                            <br><br><br><br><br><br><br>aaaaaaaaaaaaaaaaaaaa<br><br><br><br><br><br>
-			                            </div>
-			                            </div>
-            		                </div>
-                    	        </div>
-                        	</div>
-                    	</div>
-        </section>
-    </div>
-    
-    <!-- 상품설명 섹션 -->
-    <div class="tab-pane" id="product_description" role="tabpanel">
-    <section id="product_infomation" class="service sections margin-top-120">
-    	<div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
+        <section id="product_infomation" class="service sections margin-top-20">
                         <div class="head_title text-center">
                             <h2>상품설명</h2>
                         </div>
         				<div class="main_service_area">
-        					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>
+        					<p><img src="${dto.p_detail}"></p>
         				</div>
-        		</div>
-        	</div>
-       	</div>
    	</section>
     </div>
     
+    
+    
     <!-- 상품리뷰 섹션 -->
     <div class="tab-pane" id="review" role="tabpanel">
-    <section id="product_infomation" class="service sections margin-top-120">
-    	<div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
+    <section id="product_infomation" class="service sections margin-top-20">
                         <div class="head_title text-center">
                             <h2>상품리뷰</h2>
                         </div>
         				<div class="main_service_area">
         					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>
         				</div>
-        		</div>
-        	</div>
-       	</div>
    	</section>
     </div>
     
     <!-- Q&A 섹션 -->
     <div class="tab-pane" id="qna" role="tabpanel">
-    <section id="product_infomation" >
-    	<div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
+    <section id="product_infomation" class="service sections margin-top-20">
                         <div class="head_title text-center">
                             <h2>Q&A</h2>
                         </div>
         				<div class="main_service_area">
         					<p>이곳에 Q&A 내용을 입력하세요.</p>
         				</div>
-        		</div>
-        	</div>
-       	</div>
    	</section>
     </div>
+</div>
 		
 		</section>
 	</section>			
     
-</div>
 <script>
 function cart_insert() {
 	window.location.href = '/cart/insert';
@@ -682,13 +629,8 @@ function updateTotalPrice() {
 }
 </style>
 
-	<style>
-	.tab_menu_top{
-	margin-top: 40px;
-	}
-	
-	/* 탭 메뉴 스타일 */
-	.ec-base-tab { position:relative; margin-top: 40px;}
+	<!-- <style>
+	.ec-base-tab { position:relative; margin-top: 40px; text-align: center;}
 	.ec-base-tab .menu {
     	margin:0 0 20px; border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
     	box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
@@ -701,21 +643,158 @@ function updateTotalPrice() {
 	.ec-base-tab > .right { position:absolute; top:8px; right:10px; line-height:24px; color:#909090; }
 	/* typeLight */
 	.ec-base-tab.typeLight .menu li.selected a { margin:0 0 -2px; border-bottom:1px solid #fff; color:#404040; background:#fff; }
-	/* grid (2~7) */
 	.ec-base-tab[class*="grid"] .menu { display:table; table-layout:fixed; width:100%; }
 	.ec-base-tab[class*="grid"] .menu li { float:none; display:table-cell; vertical-align:middle; }
 	.ec-base-tab[class*="grid"] .menu li a { display:inline-block; width:100%; min-width:0; margin:0; padding:11px 0; border:0; }
 	.ec-base-tab[class*="grid"] .menu li.selected { position:relative; top:0; right:-1px; border:1px solid #fff; border-bottom:0; background:#fff; }
 	.ec-base-tab[class*="grid"] .menu li:first-child.selected { right:0; }
 	.ec-base-tab[class*="grid"] .menu li.selected a { position:static; background:none; }
-	.ec-base-tab.grid2 .menu li { width:50.5%; }
 	.ec-base-tab.grid3 .menu li { width:34%; }
-	.ec-base-tab.grid4 .menu li { width:25.5%; }
-	.ec-base-tab.grid5 .menu li { width:20.5%; }
-	.ec-base-tab.grid6 .menu li { width:17%; }
-	.ec-base-tab.grid7 .menu li { width:14.8%; width:15% \0/; }
-	.ec-base-tab.grid7 .menu li:first-child { width:13% \0/; }
-  </style>
+  </style> -->
+  
+  <style>
+    .tab_menu_top {
+        margin-top: 20px;
+    }
+
+    .detail_window_side {
+        width: 1020px;
+        height: 100%;
+        margin: 0 auto;
+        min-width: 1016px;
+    }
+
+    .main_service_area {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        text-align: center; /* 수정된 부분: 가운데 정렬을 위해 추가 */
+    }
+
+    .ec-base-tab {
+        /* 수정된 부분: margin-top 제거 */
+        position: relative;
+        text-align: center;
+    }
+
+    .ec-base-tab .menu {
+        margin: 0 0 20px;
+        border: 1px solid #cbcdce;
+        border-bottom-color: #202020;
+        border-left: 0;
+        background: #f2f2f2;
+        box-sizing: border-box;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+    }
+
+    .ec-base-tab .menu:after {
+        content: "";
+        display: block;
+        clear: both;
+    }
+
+    .ec-base-tab .menu li {
+        float: left;
+        border-left: 1px solid #cbcdce;
+        background: #f2f2f2;
+    }
+
+    .ec-base-tab .menu li a {
+        display: block;
+        min-width: 187px;
+        margin: 0 0 0 -1px;
+        padding: 12px 5px 11px;
+        border-right: 1px solid #cbcdce;
+        color: #707070;
+        text-decoration: none;
+        outline: 0;
+        text-align: center;
+        background: #f2f2f2;
+    }
+
+    .ec-base-tab .menu li:first-child a {
+        margin-left: 0;
+    }
+
+    .ec-base-tab .menu li.selected a {
+        position: relative;
+        top: -1px;
+        left: -2px;
+        margin: 0 0 -1px;
+        border: 1px solid #202020;
+        border-bottom: 0;
+        color: #1d1e1f;
+        font-weight: bold;
+        background: #fff;
+    }
+
+    .ec-base-tab .menu li.selected:first-child a {
+        left: -1px;
+    }
+
+    .ec-base-tab > .right {
+        position: absolute;
+        top: 8px;
+        right: 10px;
+        line-height: 24px;
+        color: #909090;
+    }
+
+    /* typeLight */
+    .ec-base-tab.typeLight .menu li.selected a {
+        margin: 0 0 -2px;
+        border-bottom: 1px solid #fff;
+        color: #404040;
+        background: #fff;
+    }
+
+    .ec-base-tab[class*="grid"] .menu {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+    }
+
+    .ec-base-tab[class*="grid"] .menu li {
+        float: none;
+        display: table-cell;
+        vertical-align: middle;
+    }
+
+    .ec-base-tab[class*="grid"] .menu li a {
+        display: inline-block;
+        width: 100%;
+        min-width: 0;
+        margin: 0;
+        padding: 11px 0;
+        border: 0;
+    }
+
+    .ec-base-tab[class*="grid"] .menu li.selected {
+        position: relative;
+        top: 0;
+        right: -1px;
+        border: 1px solid #fff;
+        border-bottom: 0;
+        background: #fff;
+    }
+
+    .ec-base-tab[class*="grid"] .menu li:first-child.selected {
+        right: 0;
+    }
+
+    .ec-base-tab[class*="grid"] .menu li.selected a {
+        position: static;
+        background: none;
+    }
+
+    .ec-base-tab.grid3 .menu li {
+        width: 34%;
+    }
+</style>
+  
+  
 	
 	<%-- <!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
 	<div class="ec-base-tab grid3">
