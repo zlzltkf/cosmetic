@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.cosmetic.model.cart.CartDAO;
 import com.example.cosmetic.model.cart.CartDTO;
 import com.example.cosmetic.model.member.MemberDAO;
+import com.example.cosmetic.model.product.ProductDTO;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -61,26 +62,29 @@ public class CartController {
 		return "redirect:/cart/list";
 	}
 
-	@PostMapping("update")
-	public String update(@RequestParam(name = "amount") int[] amount, @RequestParam(name = "c_id") int[] c_id,
+	@PostMapping("amount_update")
+	public String amount_update(@RequestParam(name = "amount") int amount, @RequestParam(name = "c_id") int c_id,
 			HttpSession session) {
 		String userid = (String) session.getAttribute("userid");
-		if (userid == null) {
-			return "redirect:/member/login.do";
-		}
-		for (int i = 0; i < c_id.length; i++) {
-			if (amount[i] == 0) {
-				cartDao.delete(c_id[i]);
-			} else {
 				CartDTO dto = new CartDTO();
 				dto.setUserid(userid);
-				dto.setC_id(c_id[i]);
-				dto.setAmount(amount[i]);
-				cartDao.update_cart(dto);
-			}
-		}
-		return "redirect:/shop/cart/list.do";
+				dto.setC_id(c_id);
+				dto.setAmount(amount);;
+				cartDao.amount_update(dto);
+		return "redirect:/cart/list";
 	}
+	
+	@PostMapping("o_name_update")
+	public ModelAndView o_name_update(HttpSession session, @RequestParam(name = "o_name") String o_name, @RequestParam(name = "c_id") int c_id) {
+	    String userid = (String) session.getAttribute("userid");
+	        CartDTO dto = new CartDTO();
+	        dto.setUserid(userid);
+	        dto.setC_id(c_id);
+	        dto.setO_name(o_name);
+	        cartDao.o_name_update(dto);
+	        return new ModelAndView("redirect:/cart/list");
+	    }
+	
 
 	@GetMapping("list")
 	public ModelAndView list(HttpSession session, ModelAndView mav) {

@@ -24,9 +24,13 @@ public class CartDAO {
 		sqlSession.insert("cart.cart_insert", dto);
 	}
 
-	// 카트 수정(수량, 색깔 변경)
-	public void update_cart(CartDTO dto) {
-		sqlSession.update("cart.cart_update", dto);
+	// 카트 옵션 변경
+	public void o_name_update(CartDTO dto) {
+		sqlSession.update("cart.o_name_update", dto);
+	}
+	//카트 수량 변경
+	public void amount_update(CartDTO dto) {
+		sqlSession.update("cart.amount_update", dto);
 	}
 
 	// 장바구니 합계

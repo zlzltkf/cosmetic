@@ -24,11 +24,13 @@ delete from cart where c_id=#{c_id}
 delete from cart where userid=#{userid}
 </delete>
 
-<update id="option_update">
+<!--상품의 옵션 변경-->
+<update id="o_name_update">
 update cart set o_name=#{o_name}
 where c_id=#{c_id}
 </update>
 
+<!--상품의 수량 변경-->
 <update id="amount_update">
 update cart set amount=#{amount}
 where c_id=#{c_id}

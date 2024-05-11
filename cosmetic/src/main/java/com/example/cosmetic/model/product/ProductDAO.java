@@ -73,6 +73,11 @@ public class ProductDAO {
 	public List<ProductDTO> detail_option(int p_id) {
 		return sqlSession.selectList("product.detail_option",p_id);
 	}
+	//o_name 가지고 오기
+		public List<ProductDTO> get_o_name(int p_id) {
+			return sqlSession.selectList("product.get_o_name",p_id);
+		}
+	
 
 }
 

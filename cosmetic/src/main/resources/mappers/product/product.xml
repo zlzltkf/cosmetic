@@ -87,5 +87,14 @@
 		where p.p_id = #{p_id}
 	</select>
 	
+	<!--p_id에 다른  o_name 가지고오기-->
+	<select id="get_o_name" resultType="java.util.Map">
+    SELECT p.*, po.*
+    FROM product p
+    LEFT JOIN product_option po ON p.p_id = po.o_p_id
+    WHERE p.p_id = #{p_id} AND o_amount !=0
+</select>
+	
+	
 
 </mapper>

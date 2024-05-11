@@ -8,9 +8,7 @@
 <meta charset="UTF-8">
 <title>장바구니</title>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
+ 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
@@ -26,17 +24,19 @@
 <!--Theme Responsive css-->
 <link rel="stylesheet" href="/resources/assets/css/responsive.css" />
 <link rel="stylesheet" href="/resources/assets/fonts/" />
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>   
 <script>
 function zzim_del(c_id) {
-    var confirm = confirm("해당 상품을 삭제 하시겠습니까?");
-    if (confirm) {
+    var confirmDelete = window.confirm("해당 상품을 삭제 하시겠습니까?");
+    if (confirmDelete) {
         location.href = "/cart/delete/" + c_id;
     } else {
-        // "아니오"를 선택한 경우 아무 작업도 수행하지 않음
+        console.log("삭제가 취소되었습니다.");
     }
 }
+
 
 $(function() {
 	   $("#chkAll").click(function() {
@@ -93,25 +93,12 @@ $(function() {
 		        }
 		    });
 		});
-	
-	 //주문 버튼 클릭 시
-	   $("#orderbtn").click(function() {
-		   
-		   //수량을 input에 담기
-		   $(".amount-select").each(function () {
-               var selectedValue = $(this).val();
-               $(this).siblings(".amount-hidden").val(selectedValue);
-           });
-		   
-		   var form = document.forms["form1"];
-		   form.method = "post";
-		   form.action = "/order/orderform.do";
-		   form.submit();
-	   });
+
 
 	});
-
 </script>
+
+
 
 <style>
 .montserrat-<uniquifier> {
@@ -132,7 +119,7 @@ body {
 }
 
 .cart {
-	width: 60%;
+	width: 900px;
 	margin: auto;
 	padding: 30px;
 }
@@ -165,9 +152,12 @@ thead {
 
 td {
 	font-weight:bold;
-	text-align: center;
+	text-align: left;
 	padding: 15px 5px;
 	border-bottom: 1px solid lightgrey;
+}
+.top{
+
 }
 
 .cart__list__option {
@@ -288,6 +278,12 @@ select {
     appearance: none; /* 기본 UI 제거 */
     text-align: center;
 }
+.option{
+	background-color: white; /* 배경색 */
+	border: none;
+	
+
+}
 
 /* 선택된 항목 스타일 */
 select:focus {
@@ -396,44 +392,8 @@ select:focus {
     font-size: 16px;
     background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_nodata104x104.png) 50% 80px no-repeat;
 }
-/* 모달 전체 스타일 */
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0,0.4);
-}
 
-/* 모달 콘텐츠 스타일 */
-.modal-content {
-  background-color: #fefefe;
-  margin: 15% auto;
-  padding: 20px;
-  border: 1px solid #888;
-  width: 30%;
-  height: 25%;
-}
 
-/* 닫기 버튼 스타일 */
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
-}
 </style>
 </head>
 <body>
@@ -449,28 +409,23 @@ select:focus {
 				</h1>
 	
 				<ul class="step_list">
-					<li class="li1" style="font-size: 24px;">3 결제완료 ></li><!-- 현재단계 li에 클래스 on과 <span class="hide">현재단계</span> 넣어주세요 -->
+					<li class="li1" style="font-size: 24px;">3 결제완료 </li><!-- 현재단계 li에 클래스 on과 <span class="hide">현재단계</span> 넣어주세요 -->
 					<li class="li2" style="font-size: 24px;">2 주문/결제 ></li>
 					<li class="li3"style="font-size: 24px;">1 장바구니 ></li>
 				</ul>
 			
 			</div>
 			</div>
-		<div style="color: black; width: 150px; height: 50px; padding-top: 27px;"><p style="line-height: 0.375rem; margin: -10px 0 15p;"> EDEN 배송상품</p></div>
-		
-		<!-- 주문화면으로 보내기 -->
-		<form name="form1">	
-		
 		<c:choose>
 		<c:when test="${map.count == 0}">
 				<table class="cart__list">
 					<tr>
-						<td style="background-color:#fafafa; "><input type="checkbox"></td>
-						<td style="background-color:#fafafa; " colspan="2">상품정보</td>
-						<td style="background-color:#fafafa; ">판매가</td>
-						<td style="background-color:#fafafa; ">수량</td>
-						<td style="background-color:#fafafa; ">배송정보</td>
-						<td style="background-color:#fafafa; ">선택</td>
+						<td class="top" style="background-color:#fafafa; "><input type="checkbox"></td>
+						<td style="background-color:#fafafa; text-align: center; " colspan="2">상품정보</td>
+						<td style="background-color:#fafafa;text-align: center; ">판매가</td>
+						<td style="background-color:#fafafa;text-align: center; ">수량</td>
+						<td style="background-color:#fafafa;text-align: center; ">배송정보</td>
+						<td style="background-color:#fafafa;text-align: center; ">선택</td>
 					</tr>
 					<tr><td colspan="7" class="no_data" style="text-align: center;">장바구니에 저장된 상품이 없습니다.</td></tr>
 					</table>
@@ -479,89 +434,61 @@ select:focus {
 		<table class="cart__list">
 					<tr>
 						<td style="background-color:#fafafa; "><input type="checkbox" id="chkAll" name="num"></td>
-						<td style="background-color:#fafafa; " colspan="2">상품정보</td>
-						<td style="background-color:#fafafa; ">판매가</td>
-						<td style="background-color:#fafafa; ">수량</td>
-						<td style="background-color:#fafafa; ">배송정보</td>
-						<td style="background-color:#fafafa; ">선택</td>
+						<td style="background-color:#fafafa; text-align: center;" colspan="2">상품정보</td>
+						<td style="background-color:#fafafa; text-align: center;">판매가</td>
+						<td style="background-color:#fafafa; text-align: center;">수량</td>
+						<td style="background-color:#fafafa; text-align: center;">배송정보</td>
+						<td style="background-color:#fafafa; text-align: center;">선택</td>
 					</tr>
 			
 					
 				<c:forEach var="row" items="${map.list}">
 				<tbody>
-				
+					
 					<tr class="cart__list__detail">
-						<td>
-						<input  type="checkbox" name="num" value="${row.c_id}"  >
-						<!-- 주문테이블로 보낼 p_id -->
-						<input type="hidden" name="p_id" value="${row.p_id}"> 
-						</td>
+						<td class="get_p_id" style="display: none;" data-p_id="${row.p_id}"><input type="hidden" name="p_id"></td>
+						<td><input  type="checkbox" name="num" value="${row.c_id}"  ></td>
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
 			<!--상품명--><td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						<c:if test="${not empty row.o_name}">
     						<span>옵션| ${row.o_name}</span>
-						</c:if>
-						<c:if test="${not empty row.o_name}">
-						<button style="border: none;font-weight:bold; border-bottom:1px solid #9bce26;; color: #9bce26; background-color: white; font-size: 12px;" id="openModal">모달 열기</button>
-						<div id="myModal" class="modal">
-  							<div class="modal-content">
-    							<span class="close">&times;</span>
-    							<p>옵션 변경</p>
-    							<hr>
-    							
-    							<select  class="amount-select">
-  								<option selected>${row.o_name}</option>
-  								<option value="1">1</option>
- 								<option value="2">2</option>
- 								<option value="3">3</option>
- 								<option value="4">4</option>
- 								<option value="5">5</option>
- 								<option value="6">6</option>
- 								<option value="7">7</option>
- 								<option value="8">8</option>
- 								<option value="9">9</option>
- 								<option value="10">10</option>
-								</select>
-								
-								<input class="amount-hidden" type="hidden" name="amount"> <!-- 주문 테이블로 보낼 amount -->
-								
-								<br>
-								
-								<input type="button" value="취소" onclick="close()">
-								<input type="button" value="선택완료" onclick="update()">
-  								</div>
-						</div>
-						
-						
-						</c:if>
+    							<!-- 상품 종류 선택 -->
+    <!-- 각각의 장바구니 아이템에 대한 옵션 정보를 관리하기 위해 버튼 클릭 이벤트를 수정 -->
+  					 
+                        <form id="updateForm${row.c_id}" method="post" action="/cart/o_name_update">
+       							 <select name="o_name" class="o_name_btn" >
+           							<option value="">옵션 변경</option>
+           							
+       								 </select>
+                            <input type="hidden" name="c_id" value="${row.c_id}">
+                        </form>
+                    
+                    
+                </c:if>
+						<!-- <span class="icon_flag sale">세일</span> -->
+						</td>
+						<td style="text-align: center; font-weight:bolder; border-left:2px solid whitesmoke; "><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span></td>
 						<br>
+						<td style="border-left: 2px solid whitesmoke; text-align: center;">
+    <input type="hidden" class="get_c_id" data-c_id="${row.c_id}">
+    <select class="AmountSelect">
+        <option selected>${row.amount}</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+    </select>
+</td>
 
-						<span class="icon_flag sale">세일</span>
-						</td>
-						<td style="text-align: center; font-weight:bolder;"><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span></td>
-						<br>
-						<td style="border-left: 2px solid whitesmoke; text-align: center; ">
-						<select class="amount-select">
-  							<option selected>${row.amount}</option>
-  							<option value="1">1</option>
- 							<option value="2">2</option>
- 							<option value="3">3</option>
- 							<option value="4">4</option>
- 							<option value="5">5</option>
- 							<option value="6">6</option>
- 							<option value="7">7</option>
- 							<option value="8">8</option>
- 							<option value="9">9</option>
- 							<option value="10">10</option>
- 							
-						</select>
-						
-						<input class="amount-hidden" type="hidden" name="amount"> <!-- 주문 테이블로 보낼 amount -->
-						
-						</td>
 					
 						<!--배송정보-->
-						<td>
+						<td style="text-align: center; font-weight:bolder; border-left:2px solid whitesmoke;">
 						<p class="prd_delivery">
 						<strong id="deliStrongText">${map.fee} <br>
 						<span class="ex">도서·산간 제외</span></strong>
@@ -597,7 +524,6 @@ select:focus {
     <div style="width: 50%; text-align: center;">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
     총 판매가 <br><span style="color: black;"><fmt:formatNumber type="number" value="${map.sumMoney}" pattern="#,###"></fmt:formatNumber></span>원
-    <input type="hidden" id="price" name="price" value="${map.sumMoney}"> <!-- 주문 테이블로 보낼 상품금액 -->
 </p>
 
     </div>
@@ -613,7 +539,6 @@ select:focus {
     <div style="width: 50%; text-align: center; ">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
             배송비 <br><span style="color: black;">${map.fee}</span>원
-           <input type="hidden" id="delfee" name="delfee" value="${map.fee}"> <!-- 주문 테이블로 보낼 배송비 --> 
         </p>
     </div>
 </div>
@@ -625,7 +550,6 @@ select:focus {
     </div>
     <div>
     총 결제예상금액&nbsp; <span style="color: red; font-size: 24px; font-weight: bold;"><fmt:formatNumber type="number" value="${map.sum}" pattern="#,###"></fmt:formatNumber>원</span>
-    <input type="hidden" id="totalPrice" name="totalPrice" value="${map.sum}"> <!-- 주문 테이블로 보낼 총 금액 -->
 </div>
 
 </div>
@@ -635,7 +559,7 @@ select:focus {
 	
 		<div class="cart__mainbtns">
 			<button class="cart__bigorderbtn left">쇼핑 계속하기</button>
-			<button class="cart__bigorderbtn right" id="orderbtn">주문하기</button>
+			<button class="cart__bigorderbtn right">주문하기</button>
 		</div>
 
 			<div class="cart__information">
@@ -647,16 +571,93 @@ select:focus {
 		</div>
 	</section>
 	</section>
-</body>
 <script>
-//모달 열기
-document.getElementById('openModal').onclick = function() {
-    document.getElementById('myModal').style.display = "block";
-}
+$(document).ready(function() {
+    // select 요소 클릭 시 이벤트
+    $('.o_name_btn').click(function() {
+        // 해당 select 요소의 부모 요소에서 c_id 값을 가져옵니다.
+        var p_id = $(this).closest('tr').find('.get_p_id').data('p_id');
+        
+        // AJAX 요청을 통해 서버에 해당 제품의 옵션 목록을 요청합니다.
+        $.ajax({
+            url: '/product/o_name/' + p_id, // 서버에서 옵션 목록을 가져올 경로
+            type: 'GET',
+            success: function(data) {
+                // 서버에서 받은 옵션 목록을 select 요소에 추가합니다.
+                var select = $('.o_name_btn');
+                select.empty(); // 기존 옵션 제거
+                select.append('<option value="">옵션 변경</option>'); // 기본 옵션 추가
+                $.each(data, function(index, option) {
+                    // 옵션의 amount가 0이 아닌 경우에만 추가합니다.
+                    if (option.amount !== 0) {
+                        select.append('<option value="' + option.o_name + '">' + option.o_name + '</option>'); // 받은 옵션 추가
+                    }
+                });
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 오류: ' + status + ', ' + error); // 오류 발생 시 콘솔에 표시
+            }
+        });
+    });
 
-// 모달 닫기
-document.getElementsByClassName('close')[0].onclick = function() {
-    document.getElementById('myModal').style.display = "none";
-}
+    // select 요소 변경 시 이벤트
+    $(document).on('change', '.o_name_btn', function() {
+        // 선택된 옵션 값을 가져옵니다.
+        var selectedOption = $(this).val();
+        
+        // 해당 select 요소의 부모 요소에서 c_id 값을 가져옵니다.
+        var c_id = $(this).closest('form').find('input[name="c_id"]').val();
+        
+        // AJAX 요청을 통해 서버에 해당 제품의 옵션 정보를 업데이트합니다.
+        $.ajax({
+            url: '/cart/o_name_update', // 서버에서 옵션 정보를 업데이트할 경로
+            type: 'POST',
+            data: {
+                o_name: selectedOption, // 선택된 옵션 값
+                c_id: c_id // 해당 제품의 c_id 값
+            },
+            success: function(response) {
+                console.log('옵션 업데이트 성공');
+                alert('옵션이 변경 되었습니다.');
+                location.reload();
+                // 여기에 성공 시 수행할 작업 추가
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 오류: ' + status + ', ' + error); // 오류 발생 시 콘솔에 표시
+            }
+        });
+    });
+});
+
+$(document).ready(function() {
+    // select 요소 변경 시 이벤트
+    $('.AmountSelect').change(function() {
+        // 선택된 수량을 가져옵니다.
+        var selectedQuantity = $(this).val();
+        console.log(selectedQuantity);
+        // 해당 select 요소의 부모 요소에서 상품 ID 값을 가져옵니다.
+        var c_id = $(this).closest('td').find('.get_c_id').data('c_id');
+        console.log(c_id);
+        // AJAX 요청을 통해 서버에 해당 제품의 수량 정보를 업데이트합니다.
+        $.ajax({
+            url: '/cart/amount_update', // 서버에서 수량 정보를 업데이트할 경로
+            type: 'POST',
+            data: {
+                amount: selectedQuantity, // 선택된 수량 값
+                c_id: c_id // 해당 제품의 ID 값
+            },
+            success: function(response) {
+                console.log('수량 업데이트 성공');
+                alert('수량이 변경되었습니다.');
+                location.reload();
+                // 여기에 성공 시 수행할 작업 추가
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX 오류: ' + status + ', ' + error); // 오류 발생 시 콘솔에 표시
+            }
+        });
+    });
+});
 </script>
+</body>
 </html>
