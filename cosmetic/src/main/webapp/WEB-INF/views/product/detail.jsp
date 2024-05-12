@@ -408,12 +408,8 @@ $(document).on('click', '.zzim_btn', function() {
     <!-- 상품리뷰 섹션 -->
     <div class="tab-pane" id="review" role="tabpanel">
     <section id="product_infomation" class="service sections margin-top-20">
-                        <div class="head_title text-center">
-                            <h2>상품리뷰</h2>
-                        </div>
-        				<div class="main_service_area">
-        					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>
-        				</div>
+    	<!-- 상단 메뉴 -->
+		<%@ include file="../product/review.jsp"%>
    	</section>
     </div>
     

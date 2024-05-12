@@ -134,7 +134,6 @@ public class CartController {
 	        dto.setMoney(money);
 	        cartDao.insert(dto);
 	    }
-
 	    return "redirect:/cart/list";
 	}//만약 cart DB에 
 
