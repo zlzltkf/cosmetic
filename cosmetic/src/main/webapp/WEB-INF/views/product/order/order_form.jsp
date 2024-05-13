@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +58,6 @@ input {
 	margin: 230px auto 200px auto;
 	width: 60%;
 	height: 100%;
-	/* border: 1px solid black; */
 	
 	display: grid;
 	grid-template-rows: 140px 1fr;
@@ -85,7 +85,9 @@ h3 {
 #infoHeader h1 {
 	text-align: center;
 	width: 160px;
-	font-size: 30px;
+	font-size: 2em;
+	margin: 0 0 0 15px;
+	font-weight: bold;
 }
 .step_list {
 	font-size: 1.3em;
@@ -96,6 +98,7 @@ h3 {
 }
 .step_list li:nth-child(2) {
 	font-weight: bold;
+	color: limegreen;
 }
 
 #process ul {
@@ -105,9 +108,7 @@ h3 {
 
 /* 배송정보 */
 #deliveryInfo {
-	/* border: 1px solid black; */
 }
-
 
 #delTable {
 	height: 300px;
@@ -165,10 +166,10 @@ h3 {
 	color: #9bce26;
 	border-radius: 0.5em;
 	transition: 0.2s;
-	&:hover, &:focus, &:active {
-		background: #9bce26;
-		color: #fff;
-	}
+}
+.btn_check:hover, .btn_check:focus, .btn_check:active {
+	background: #9bce26;
+	color: #fff;
 }
 
 /* 결제부분 */
@@ -180,17 +181,16 @@ h3 {
 
 /* 결제-왼쪽 부분 */
 #choosePay {
-	/* border: 1px solid black; */
 	min-width: 250px;
-	margin: 0 auto;
+	margin: 0 30px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: flex-start;
+	width: 100%;
 }
 
 /* 포인트/적립 */
 #pointBox {
-	/* border: 1px solid black; */
 	width: 100%;
 }
 #hasPoint, #usePoint {
@@ -210,10 +210,12 @@ h3 {
 #pointinfo .d {
 	flex-basis: 70%;
 	padding: 0 20px;
+	width: 100%;
 }
 #usePoint .d {
 	display: flex;
 	flex-direction: row;
+	width: 100%;
 }
 #usedPoint {
 	width: 150px;
@@ -229,15 +231,14 @@ h3 {
 	color: #9bce26;
 	border-radius: 0.5em;
 	transition: 0.2s;
-	&:hover, &:focus, &:active {
-		background: #9bce26;
-		color: #fff;
-	} 
 } 
+#allPoint:hover, #allPoint:focus, #allPoint:active {
+	background: #9bce26;
+	color: #fff;
+}
 
 /* 결제수단 */
 #methodBox {
-	/* border: 1px solid black; */
 	width: 100%;
 	border-bottom: 1px solid gray;
 }
@@ -273,10 +274,8 @@ h3 {
 /* 결제-오른쪽 부분 */
 /* 최종결제정보 */
 #priceBox {
-	/* border: 1px solid black; */
-	min-width: 50px;
 	margin: 0 0 0 50px;
-	width: 300px;
+	width: 400px;
 }
 #priceBox #priceInfo {
 	display: flex;
@@ -292,15 +291,13 @@ h3 {
 #priceBox .c, #priceBox .d {
 	display: flex;
 	align-items: center;
-	height: 50px;
+	height: 60px;
 }
 #priceBox .c {
-	/* flex-basis: 30%; */
 	min-width: 90px;
 	margin: 0 20px 0 0;
 }
 #priceBox .d input {
-	/* flex-basis: 30%; */
 	width: 100%;
 	text-align: right;
 }
@@ -327,10 +324,10 @@ h3 {
 	color: #ff7878;
 	border-radius: 0.5em;
 	transition: 0.2s;
-	&:hover, &:focus, &:active {
-		background: #ff7878;
-		color: #fff;
-	}
+}
+#payment:hover, #payment:hover, #payment:hover {
+	background: #ff7878;
+	color: #fff;
 }
 
 /* 읽기 전용 input 태그 */
@@ -466,23 +463,31 @@ h3 {
 			<div id="priceInfo">
 				<div id="Pprice" class="priceInfo_content">
 				<div class="c">총 상품금액</div>
-				<div class="d"><input class="read" id="price" name="price" value="${price}" readonly></div>
+				<div class="d">
+					<span class="read" id="price" ><fmt:formatNumber pattern="#,###" value="${price}"></fmt:formatNumber></span>
+					<input type="hidden" name="price" value="${price}" readonly>
+				</div>
 				</div>
 				<div id="Point" class="priceInfo_content">
 					<div class="c">적립 포인트</div>
-					<div class="d"><input class="read" id="addPoint" name="addPoint" value="${addPoint}" readonly></div>
+					<div class="d">
+						<span class="read" id="addPoint" ><fmt:formatNumber pattern="#,###" value="${addPoint}"></fmt:formatNumber></span>
+						<input type="hidden" name="addPoint" value="${addPoint}" readonly>
+					</div>
 				</div>
 				<div id="Dprice" class="priceInfo_content">
 					<div class="c">배송비</div>
-					<div class="d"><input class="read" id="deliverCost"  name="deliverCost" value="${delfee}" readonly></div>
-				</div>
-				<div id="Usepoint" class="priceInfo_content">
-					<div class="c">사용 포인트</div>
-					<div class="d"><input class="read" id="minPoint"  name="minPoint" value="-사용포인트 불러오기" readonly></div>
+					<div class="d">
+						<span class="read" id="deliverCost" ><fmt:formatNumber pattern="#,###" value="${delfee}"></fmt:formatNumber></span>
+						<input type="hidden" name="deliverCost" value="${delfee}" readonly>
+					</div>
 				</div>
 				<div id="Tprice" class="priceInfo_content">
 					<div class="c">총 합계</div>
-					<div class="d"><input class="read" id="totalPrice"  name="totalPrice" value="${totalPrice}" readonly></div>
+					<div class="d">
+						<span class="read" id="totalPrice" ><fmt:formatNumber pattern="#,###" value="${totalPrice}"></fmt:formatNumber></span>
+						<input type="hidden" name="totalPrice" value="${totalPrice}" readonly>
+					</div>
 				</div>
 				<div id="pay">
 					
@@ -490,7 +495,7 @@ h3 {
 					<button type="button" id="payment" onclick="Payment()">구매하기</button>
 					
 					<!-- 테스트 -->
-					<!-- <button type="submit">제출</button> -->
+					<button type="submit">테스트버튼</button>
 				</div>
 			</div>
 		</div>
@@ -512,17 +517,15 @@ h3 {
 //포인트 전액 사용
 function useAllPoint() {
 	
-	/* "${addPoint}" */
-	
 	var pointAll = parseInt(document.getElementById('currentPoint').value);
-	var price = parseInt(document.getElementById('price').value);
+	var totalPrice = "${totalPrice}";
 	
 	if (pointAll == 0 || pointAll == null) {
 		alert('보유한 포인트가 없습니다.');
 		document.getElementById('usedPoint').value = 0;
-	} else if (price < pointAll) {
-		document.getElementById('usedPoint').value = price;
-	} else if (price >= pointAll) {
+	} else if (totalPrice < pointAll) {
+		document.getElementById('usedPoint').value = totalPrice;
+	} else if (totalPrice >= pointAll) {
 		document.getElementById('usedPoint').value = pointAll;
 	} 
 }
@@ -538,12 +541,13 @@ function getInfo() {
 			url: '/order/memberInfo.do',
 			data: { userid: "${sessionScope.userid}" },
 			success: function(response) {
+				console.log(response);
 				if (response != undefined && response != null) {
-					document.getElementById('name').value = response.NAME;
-		            document.getElementById('tel').value = response.phone; 
-		            document.getElementById('zipcode').value = response.zipcode;
-		            document.getElementById('address1').value = response.address1;
-		            document.getElementById('address2').value = response.address2;
+					document.getElementById('name').value = response.NAME ? response.NAME : '';
+		            document.getElementById('tel').value = response.phone ? response.phone : ''; 
+		            document.getElementById('zipcode').value = response.zipcode ? response.zipcode : '';
+		            document.getElementById('address1').value = response.address1 ? response.address1 : '';
+		            document.getElementById('address2').value = response.address2 ? response.address2 : '';
 				} else {
 					document.getElementById('name').value = '';
 		            document.getElementById('tel').value = ''; 

@@ -124,12 +124,15 @@ public class OrderController {
 		
 		//포인트 계산
 		Map<String, Object> pointinfo = new HashMap<>();
-		pointinfo.put("point", addPoint-usedPoint);
+		pointinfo.put("point", addPoint - usedPoint);
 		pointinfo.put("userid", userid);
 		orderDAO.pointUpdate(pointinfo);
 		
+		//총합계 계산
+		totalPrice = totalPrice - usedPoint;
+		
 		//적립된 포인트 불러오기
-		int totalPoint = orderDAO.showPoint(userid);
+		int userPoint = orderDAO.showPoint(userid);
 		
 		//주문 테이블과 주문 아이템 테이블 출력하기
 		
@@ -201,7 +204,8 @@ public class OrderController {
 		//데이터 전달
 		model.addAttribute("order", order); //주문 테이블
 		model.addAttribute("orderitems", orderitems); //주문 아이템 테이블
-		model.addAttribute("totalPoint", totalPoint);
+		model.addAttribute("userPoint", userPoint); //보유한 포인트
+		model.addAttribute("usedPoint", usedPoint); //사용한 포인트
 		
 		return "/product/order/order_result";
 	}
