@@ -204,6 +204,10 @@ function R_list() {
 				<div>
 					<c:choose>
 						<c:when test="${sessionScope.userid != null}">
+						<c:if test="${sessionScope.userid =='admin'}">
+						<a href="/admin/admin" style="float: right; font-size: small; color: gray;">&nbsp;관리자 화면
+								&nbsp;</a>
+						</c:if>
 							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;고객센터
 								&nbsp;</a>
 							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;주문배송

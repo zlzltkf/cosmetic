@@ -77,7 +77,7 @@ public class MemberController {
 		dto.setAddress1(address1);
 		dto.setAddress2(address2);
 		memberDao.join(dto); // document 저장
-		return "redirect:/page_login";
+		return "redirect:/member/page_login";
 	}
 
 	// 회원가입 => 아이디 중복확인
