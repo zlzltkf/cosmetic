@@ -53,5 +53,27 @@ INNER JOIN product p ON c.p_id = p.p_id
 WHERE c.userid = #{userid}
 </select>
 
+<!--장바구니에 상품 존재 여부 확인  -->
+<select id="exist_cart" resultType="com.example.cosmetic.model.cart.CartDTO">
+    SELECT o_name, p_id, userid, amount,c_id
+    FROM cart
+    WHERE userid = #{userid}
+</select>
+
+<update id="update_amount">
+update cart set
+amount=#{amount} where c_id =#{c_id} 
+</update>
+
+<select id="amount" resultType="int">
+select amount
+from cart 
+where c_id= #{c_id}
+</select>
+
+<delete id="c_id_delete">
+delete from cart
+where c_id=#{c_id}
+</delete>
 
 </mapper>

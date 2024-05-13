@@ -28,6 +28,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>   
 <script>
+/*상품 한개 삭제*/
 function zzim_del(c_id) {
     var confirmDelete = window.confirm("해당 상품을 삭제 하시겠습니까?");
     if (confirmDelete) {
@@ -37,7 +38,7 @@ function zzim_del(c_id) {
     }
 }
 
-
+/*전체 삭제*/
 $(function() {
 	   $("#chkAll").click(function() {
 	      if ($("#chkAll").prop("checked")) {
@@ -97,9 +98,6 @@ $(function() {
 
 	});
 </script>
-
-
-
 <style>
 .montserrat-<uniquifier> {
   font-family: "Montserrat", sans-serif;
@@ -449,42 +447,39 @@ select:focus {
 						<td class="get_p_id" style="display: none;" data-p_id="${row.p_id}"><input type="hidden" name="p_id"></td>
 						<td><input  type="checkbox" name="num" value="${row.c_id}"  ></td>
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
-			<!--상품명--><td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
-						<c:if test="${not empty row.o_name}">
-    						<span>옵션| ${row.o_name}</span>
-    							<!-- 상품 종류 선택 -->
-    <!-- 각각의 장바구니 아이템에 대한 옵션 정보를 관리하기 위해 버튼 클릭 이벤트를 수정 -->
-  					 
-                        <form id="updateForm${row.c_id}" method="post" action="/cart/o_name_update">
-       							 <select name="o_name" class="o_name_btn" >
-           							<option value="">옵션 변경</option>
-           							
-       								 </select>
-                            <input type="hidden" name="c_id" value="${row.c_id}">
-                        </form>
-                    
-                    
-                </c:if>
+						<td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
+						
+						<c:if test="${row.o_name != '없음'}">
+    					<span>옵션| ${row.o_name}</span>
+    					<form id="updateForm${row.c_id}" method="post" action="/cart/o_name_update">
+        				<select name="o_name" class="o_name_btn">
+          					  <option value="">옵션 변경</option>
+            <!-- 여기에 옵션 목록 추가 -->
+       					 </select>
+       				 <input type="hidden" name="c_id" value="${row.c_id}">
+    					</form>
+						</c:if>
+
 						<!-- <span class="icon_flag sale">세일</span> -->
 						</td>
 						<td style="text-align: center; font-weight:bolder; border-left:2px solid whitesmoke; "><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span></td>
 						<br>
 						<td style="border-left: 2px solid whitesmoke; text-align: center;">
-    <input type="hidden" class="get_c_id" data-c_id="${row.c_id}">
-    <select class="AmountSelect">
-        <option selected>${row.amount}</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-        <option value="5">5</option>
-        <option value="6">6</option>
-        <option value="7">7</option>
-        <option value="8">8</option>
-        <option value="9">9</option>
-        <option value="10">10</option>
-    </select>
-</td>
+   								 <input type="hidden" class="get_c_id" data-c_id="${row.c_id}">
+   										 <select class="AmountSelect">
+									        <option selected>${row.amount}</option>
+									        <option value="1">1</option>
+									        <option value="2">2</option>
+									        <option value="3">3</option>
+									        <option value="4">4</option>
+									        <option value="5">5</option>
+									        <option value="6">6</option>
+									        <option value="7">7</option>
+									        <option value="8">8</option>
+									        <option value="9">9</option>
+									        <option value="10">10</option>
+									    </select>
+									</td>
 
 					
 						<!--배송정보-->
@@ -558,7 +553,7 @@ select:focus {
 
 	
 		<div class="cart__mainbtns">
-			<button class="cart__bigorderbtn left">쇼핑 계속하기</button>
+			<button class="cart__bigorderbtn left" id="menu" onclick="menu()">쇼핑 계속하기</button>
 			<button class="cart__bigorderbtn right">주문하기</button>
 		</div>
 
