@@ -73,8 +73,6 @@ public class ProductDAO {
 		public List<ProductDTO> get_o_name(int p_id) {
 			return sqlSession.selectList("product.get_o_name",p_id);
 		}
-	
-
 }
 
 

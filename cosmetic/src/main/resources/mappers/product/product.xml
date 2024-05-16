@@ -32,6 +32,7 @@
 		from ctg
 		where ctg_b_no=#{ctg_b_no}
 	</select>
+	
 
 	<!-- 소분류 -->
 	<!-- 상품수 출력 -->

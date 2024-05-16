@@ -3,6 +3,7 @@ package com.example.cosmetic.model.product;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -46,4 +47,7 @@ public class ProductDTO {
 	
 	//찜때문에 만듬
 	private int p_like;
+	
+	//파일 첨부
+	private MultipartFile file;
 }
