@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="review">
+	
+	<!-- 리뷰 테이블 -->
+	
+	<select id="review_list" resultType="com.example.cosmetic.model.review.ReviewDTO">
+	select idx, r_subject, r_contents, r_date, m.userid, m.nickname
+	from member m, review r
+	where m.userid=r.userid
+	order by idx desc, r_date desc
+	</select>
+	
+	<insert id="review_insert">
+	insert into review(userid, r_subject, r_contents, r_date) values(#{userid}, #{r_subject}, #{r_contents}, now());
+	</insert>
+	
+	<delete id="review_delete">
+	delete from review where r_idx=#{r_idx}
+	</delete>
+
+
+	<!-- 파일 테이블 -->
+	<select id="list_file" resultType="String">
+		select file from r_file
+		where r_f_idx=#{r_f_idx}
+		order by f_date
+	</select>
+	
+	<insert id="insert_file">
+		insert into r_file(file)
+		values (#{file})
+	</insert>
+	
+	<insert id="update_file">
+		insert into r_file(file,r_f_idx)
+		values (#{file},#{r_f_idx})
+	</insert>
+	
+	<delete id="delete_file">
+		delete from r_file where file=#{file}
+	</delete>
+	
+	
+</mapper>

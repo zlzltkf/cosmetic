@@ -187,7 +187,7 @@ ol, ul{
 <body data-spy="scroll" data-target=".navbar-collapse">
 	
 	<div class="head_title text-center">
-		<h2>상품리뷰</h2>
+		<h2>상품리뷰</h2> 
     </div>
     <div class="review_list">
     <ul class="inner_list">
