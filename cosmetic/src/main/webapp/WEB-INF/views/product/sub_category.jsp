@@ -370,7 +370,7 @@ justify-content:flex-start;
                <article class="block" data-product-id="${row.p_id}">
                   <div class="picture">
                      <div class="img">
-                        <img src="${row.p_img1}" alt="상품 이미지">
+                        <img src="/resources/admin/img/${row.p_img1}" alt="상품 이미지">
                      </div>
                
                <!-- 찜 버튼 -->

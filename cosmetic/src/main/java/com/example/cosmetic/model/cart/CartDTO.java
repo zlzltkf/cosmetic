@@ -24,5 +24,6 @@ public class CartDTO {
 	private String p_img1;
 	private int p_price;
 	private int money;
+	private String ctg_big;
 	
 }

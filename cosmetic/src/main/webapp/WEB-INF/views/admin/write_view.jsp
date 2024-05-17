@@ -29,14 +29,35 @@
 font-weight: bold;
 border-top: 1px solid #dddddd; /* 위쪽 테두리를 1픽셀 두께의 실선으로 설정합니다. */
 border-bottom: 1px solid #dddddd;
-
-.col-md-6 {
-    width: 50%; /* 또는 원하는 너비로 조정 */
 }
+.col-md-6 {
+ width: 50%; /* 또는 원하는 너비로 조정 */
+}
+.color-span {
+    color: black;
+    font-weight: bold;
+   /*  border-top: 1px solid gray; */
+    /* border-bottom: 1px solid gray; */
+    display: inline-block;
+    padding: 0.7em 0.5em;
+    width: 204px;
+}
+
+.amount-span {
+    color: black;
+    font-weight: bold;
+    border-left: 1px solid gray;
+   /*  border-top: 1px solid gray; */
+    /* border-bottom: 1px solid gray; */
+    display: inline-block;
+    padding: -1.5em 0.5em;
+    width: 204px;
 }
 </style>
 
 <script>
+
+/*대표 이미지 미리보기*/
 function previewImage(event) {
     var reader = new FileReader();
     reader.onload = function () {
@@ -45,6 +66,57 @@ function previewImage(event) {
     };
     reader.readAsDataURL(event.target.files[0]);
 }
+
+/* 한 개의 체크박스만 선택할 수 있도록 하는 함수 */
+function checkOnlyOne(element) {
+    const checkboxes = document.getElementsByName("yes_no");
+    checkboxes.forEach((cb) => {
+        cb.checked = false;
+    });
+    element.checked = true;
+}
+function save_form(){
+	//document.form1.o_amount[0]='0';
+	//document.form1.o_name[0]='0';
+	document.form1.submit();
+	
+}
+/* "있음" 체크박스가 선택되었을 때 입력 필드를 활성화하거나 비활성화하는 함수 */
+function look() {
+    // "yes_no"라는 이름을 갖는 모든 체크박스를 가져옵니다.
+    const checkboxes = document.getElementsByName("yes_no");
+    const stockInput = document.getElementById("p_stock");
+    const amountInput = document.getElementById("o_amount");
+    
+    const nameInput = document.getElementById("o_name");
+	const insertBtn = document.getElementById("insert");
+	const deleteBtn = document.getElementById("delete");
+	
+    let isChecked = false; // "있음" 체크박스가 선택되었는지 여부를 확인하는 변수
+
+    // 모든 체크박스를 반복하여 "있음" 체크박스가 선택되었는지 확인합니다.
+    checkboxes.forEach(checkbox => {
+        if (checkbox.checked && checkbox.value === "1") {
+            isChecked = true; // "있음" 체크박스가 선택되었다면 isChecked 값을 true로 설정
+            stockInput.value = null;
+            
+        }
+    });
+    // "있음" 체크박스가 선택되었다면 재고 입력 필드를 비활성화하고, 그렇지 않다면 활성화합니다.
+    insertBtn.disabled = !isChecked;
+    deleteBtn.disabled = !isChecked;
+    stockInput.disabled = isChecked;
+    amountInput.disabled = !isChecked;
+    nameInput.disabled = !isChecked;
+}
+
+function save(){
+	const savebtn = document.getxElementById("save");
+	savebtn.onclick
+}
+
+
+
 </script>
 </head>
 
@@ -170,9 +242,10 @@ function previewImage(event) {
 
                 <!-- ----------------------------------------- 내용 시작 --------------------------------->
                 <div class="container-fluid" style="height: 750px;">
-    <h1 class="h3 mb-4 text-gray-800">상품 등록</h1>
-    <div class="row">
+  					  <h1 class="h3 mb-4 text-gray-800">상품 등록</h1>
+    					<div class="row">
         <!-- 이미지 -->
+        <form method="post" name="form1" action="/admin/insert" >
         <div style="text-align: center;">
             <div  style="width: 100%; height: 50%;">
                 <div style="width: 300px;" class="form_section">
@@ -207,44 +280,49 @@ function previewImage(event) {
                         <label for="amount">수량</label>&nbsp;&nbsp;&nbsp;
                         <input type="number" id="p_stock" name="p_stock"></td>
                 </tr>
-                <tr>
+                <!-- <tr>
                     <td id="td1" style="font-weight: bold;">상세 이미지</td>
                     <td id="td1"><input type="file" id="p_detail" name="p_detail" ></td>
-                </tr>
+                </tr> -->
                 
                 
                 <tr>
-                    <td id="td1"><label for="category">상품 분류</label></td>
-                    <td colspan="3" id="td1">
+                    <td id="td1"><label>상품 분류</label></td>
+                    <td colspan="3" id="td1"> 
                     
-                  	<select id="category">
+                  	<select id="category" name="ctg_big" >
+                  	<option value="" selected disabled hidden>대분류</option>
    					<c:forEach var="row" items="${list}">
        				 <option value="${row}">${row}</option>
     				</c:forEach>
 						</select>
 
-                        <select id="subcategory">
-                            <option value="의류">소분류</option>
-                            <option value="전자제품">전자제품</option>
+                        <select id="subcategory" name="ctg_small">
+                           <option value="" selected disabled hidden>소분류</option>
+                           <option value="small"></option>
                         </select>
-                        <input type="checkbox" value="0" name="checkbox1">없음
-                <input type="checkbox" value="1" name="checkbox2">있음
+                        <input type="checkbox" value="0" name="yes_no" id="yes_no" onclick='checkOnlyOne(this); look();' checked >없음
+                <input type="checkbox" value="1" name="yes_no" id="yes_no" onclick='checkOnlyOne(this); look();'>있음
                     </td>
                 </tr>
                 
                 <tr>
                 <td>옵션</td>
                 <td>
-                <input type="text" placeholder="색상">
-              <button type="button">추가</button>
+                <input type="text" placeholder="색상" name="o_name" id="o_name" disabled="disabled">
+                <input type="number" placeholder="수량" name="o_amount" id="o_amount" disabled="disabled">
+              <!--   <input type="hidden" id="o_id" name="o_id"> -->
+              <button type="button" onclick="Preview()"  id="insert" disabled="disabled">추가</button>
+              <button type="button" onclick="Delete()" id="delete" disabled="disabled">삭제</button>
+              
                 </td>
                 
                 </tr>
                 <tr style="border-top: solid 1px gray;">
                     <br>
                     <td colspan="4" align="center">
-                        <div id="preview-area">
-                            미리보기
+                        <div id="preview" class="preview">
+                            
                         </div>
                     </td>
                         
@@ -254,9 +332,10 @@ function previewImage(event) {
     </div>
     <br>
     <div style="text-align: center;">
-        <button type="button">확인</button>
+        <button type="button" id="save" name="save" onclick="save_form()">확인</button>
         <button type="button">취소</button>
     </div>
+    </form>
 </div>
                 </div> 
                 <!----------------------------------------------내용 끝------------------------ -->
@@ -288,5 +367,133 @@ function previewImage(event) {
     <!-- Custom scripts for all pages-->
     <script src="/resources/admin/js/sb-admin-2.min.js"></script>
 </body>
+<script>
+
+document.getElementById('category').addEventListener('change', function() {
+	 var Big = this.value;
+	    // 선택된 대분류 값이 콘솔에 로그로 출력됩니다.
+	     // 대분류 선택 값 로그 확인
+	    // 만약 선택된 대분류 값이 비어 있지 않다면 아래 코드를 실행합니다.
+	    if (Big !== '') {
+        fetch('/admin/Small?ctg_big=' + Big) // 대분류 값 전달
+            .then(response => response.json())
+            .then(data => {//서버에서 받은 소분류 데이터 처리
+            	 console.log('서버에서 받은 소분류 데이터:', data); // 소분류 데이터 확인
+                const Dropdown = document.getElementById('subcategory');
+                Dropdown.innerHTML = ''; // 기존 옵션을 모두 지움
+                const Option = document.createElement('option');
+                Option.value = '';
+                Option.text = '소분류';
+                Dropdown.add(Option);
+                data.forEach(subcategory => {
+                    const option = document.createElement('option');
+                    option.value = subcategory;
+                    option.text = subcategory;
+                    Dropdown.add(option);
+                });
+            })
+            .catch(error => console.error('Error:', error));
+    } else {
+        // 대분류가 선택되지 않은 경우 소분류를 초기화
+        document.getElementById('subcategory').innerHTML = '<option value="" selected disabled hidden>소분류</option>';
+    }
+});
+
+//let optionCounter = 1;
+function Preview() {
+    // 입력된 색상과 수량을 가져옵니다.
+    const colorInput = document.getElementById("o_name");
+    const amountInput = document.getElementById("o_amount");
+    // 색상과 수량을 가져옵니다.
+    const color = colorInput.value.trim();
+    const amount = amountInput.value.trim(); // 공백만 제거하고 쉼표는 그대로 유지
+	console.log('amount:'+amount);
+    if(color==="" || amount ===""){
+        alert("색상과 수량을 모두 입력해주세요.")
+        return;
+    }
+    
+    // 미리보기에 색상과 수량을 추가합니다.
+    const previewDiv = document.getElementById("preview");
+    const newItem = document.createElement("div");
+    newItem.classList.add("preview-item");
+    
+    const colorSpan = document.createElement("span");
+    colorSpan.textContent = color;
+    console.log(color);
+    colorSpan.classList.add("color-span");
+    
+    const amountSpan = document.createElement("span");
+    amountSpan.textContent = amount + '개';
+    console.log(amount);
+    amountSpan.classList.add("amount-span");
+    // 색상과 수량을 하나의 div 안에 추가합니다.
+    newItem.appendChild(colorSpan);
+    newItem.appendChild(amountSpan);
+
+    const hiddenColor = document.createElement("input");
+    hiddenColor.type="hidden";
+    hiddenColor.name="o_name";
+    hiddenColor.value=color;
+    
+    const hiddenAmount = document.createElement("input");
+    hiddenAmount.type="hidden";
+    hiddenAmount.name="o_amount";
+    hiddenAmount.value=amount;
+    
+    newItem.appendChild(hiddenColor);
+    newItem.appendChild(hiddenAmount);
+    console.log('hiddenAmount:'+JSON.stringify(hiddenAmount));
+    
+    // 미리보기에 새로운 항목을 추가합니다.
+    previewDiv.appendChild(newItem);
+
+    // 입력 필드를 비웁니다.
+    colorInput.value = "0";
+    amountInput.value = "0";
+}
+
+
+function Delete() {
+    // 삭제할 대상인 프리뷰 아이템을 선택합니다.
+    const previewItem = document.querySelector(".preview-item");
+    // 선택된 아이템이 있다면 삭제합니다.
+    if (previewItem) {
+        previewItem.remove();
+    }
+}
+
+document.getElementById('save').addEventListener('click', function() {
+    var small = document.getElementById('subcategory').value;
+    
+    // 선택된 소분류 값을 서버로 전송
+    fetch('/admin/insert'+small, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ctg_small: small }) // 'small' 대신 'ctg_small'로 변경
+    })
+    .then(response => {
+        // 서버 응답에 대한 처리
+        if (response.ok) {
+            return response.text(); // 텍스트 형태로 반환
+        } else {
+            throw new Error('서버 응답이 실패했습니다.');
+        }
+    })
+    .then(data => {
+        // 서버 응답을 받아 처리
+        console.log('서버 응답:', data);
+        // 여기서 추가적인 클라이언트 측 처리를 수행할 수 있습니다.
+    })
+    .catch(error => {
+        // 오류 처리
+        console.error('Error:', error);
+    });
+});
+
+
+</script>
 
 </html>
