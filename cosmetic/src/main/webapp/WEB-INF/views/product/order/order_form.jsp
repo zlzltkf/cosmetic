@@ -168,8 +168,69 @@ h3 {
 	transition: 0.2s;
 }
 .btn_check:hover, .btn_check:focus, .btn_check:active {
+	border: 1px solid #9bce26;
 	background: #9bce26;
 	color: #fff;
+}
+
+/* 상품정보부분 */
+#info_transfer {
+	display: none;
+}
+
+#productBox {
+	border-bottom: 1px solid gray;
+	width: 100%;
+}
+#p_info {
+	width: 100%;
+	min-width: 800px;
+}
+#p_info tr:nth-child(1) {
+	border-bottom: 1px solid gray; 
+	height: 40px;
+}
+#p_info tr {
+	border-bottom: 1px solid #d7d7d9; 
+}
+#p_info th {
+	text-align: center;
+	color: gray;
+	font-size: 0.9em;
+}
+
+#p_info td {
+	border-right: 1px solid #d7d7d9; 
+	padding: 10px 20px;
+}
+#p_info td:last-child {
+	border: none;
+}
+#p_info td:nth-child(1) {
+	width: 20%;
+}
+#p_info .img {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
+#p_info .img div {
+	width: 85px;
+	height: 85px;
+}
+#p_info td:nth-child(2) {
+	width: 50%;
+	text-align: left;
+}
+#p_info td:nth-child(3) {
+	width: 15%;
+	text-align: center;
+}
+#p_info td:nth-child(4) {
+	width: 15%;
+	text-align: center;
 }
 
 /* 결제부분 */
@@ -233,6 +294,7 @@ h3 {
 	transition: 0.2s;
 } 
 #allPoint:hover, #allPoint:focus, #allPoint:active {
+	border: 1px solid #9bce26;
 	background: #9bce26;
 	color: #fff;
 }
@@ -326,6 +388,7 @@ h3 {
 	transition: 0.2s;
 }
 #payment:hover, #payment:hover, #payment:hover {
+	border: 1px solid #ff7878;
 	background: #ff7878;
 	color: #fff;
 }
@@ -350,6 +413,7 @@ h3 {
 <%@ include file="../../include/menu/menu.jsp"%>
 
 <div id="pageWrap">
+
 <div id ="infoHeader">
 	<h1>주문/결제</h1>
 	<div id="process">
@@ -413,6 +477,38 @@ h3 {
 		</table>
 	</div>
 	
+	<!-- 상품정보 -->
+	<div id="productBox">
+	
+	<div id="info_transfer">
+		<c:forEach var="row" items="${list}">
+			<input type="hidden" name="p_id" value="${row.p_id}">
+			<input type="hidden" name="amount" value="${row.amount}">
+			<input type="hidden" name="c_id" value="${row.c_id}">
+		</c:forEach>
+	</div>
+	
+	<div>
+		<h3>상품정보</h3>
+	</div>
+	
+	<table id="p_info">
+		<tr>
+			<th colspan="2">상품정보</th>
+			<th>판매가</th>
+			<th>수량</th>
+		</tr>
+	<c:forEach var="row" items="${list}">
+		<tr>
+			<td><div class="img"><div><img src="${row.p_img}"/></div></div></td>
+			<td>${row.p_name}</td>
+			<td><fmt:formatNumber pattern="#,###" value="${row.p_price}"></fmt:formatNumber>원</td>
+			<td>${row.amount}개</td>
+		</tr>
+	</c:forEach>
+	</table>
+	</div>
+	
 	<!-- 결제 -->
 	<div id="payBox">
 	
@@ -471,7 +567,7 @@ h3 {
 				<div id="Point" class="priceInfo_content">
 					<div class="c">적립 포인트</div>
 					<div class="d">
-						<span class="read" id="addPoint" ><fmt:formatNumber pattern="#,###" value="${addPoint}"></fmt:formatNumber></span>
+						<span class="read" id="addPoint" >${addPoint}</span>
 						<input type="hidden" name="addPoint" value="${addPoint}" readonly>
 					</div>
 				</div>
@@ -541,7 +637,6 @@ function getInfo() {
 			url: '/order/memberInfo.do',
 			data: { userid: "${sessionScope.userid}" },
 			success: function(response) {
-				console.log(response);
 				if (response != undefined && response != null) {
 					document.getElementById('name').value = response.NAME ? response.NAME : '';
 		            document.getElementById('tel').value = response.phone ? response.phone : ''; 
@@ -601,7 +696,7 @@ function showPostcode() {
  
  
 
-//카카오 페이 결제
+//결제
 var IMP = window.IMP;
 
 function Payment() {
@@ -619,7 +714,8 @@ function Payment() {
 			return;
 		} else {
 			var userid = "${sessionScope.userid}";
-			var totalPrice = document.getElementById('totalPrice').value;
+			var totalPrice = "${totalPrice}";
+			console.log(totalPrice);
 			var tel = document.getElementById('tel').value;
 			var name = document.getElementById('name').value;
 			var zipcode = document.getElementById('zipcode').value;
@@ -657,7 +753,7 @@ function Payment() {
 		            }, async function (rsp) { // callback
 		                if (rsp.success) { //결제 성공시
 		                
-							alert('결제가 완료되었습니다.')
+							alert('결제가 완료되었습니다.');
 		                    document.getElementById('form_order').submit();
 		                    
 		                } else if (rsp.success == false) { // 결제 실패시

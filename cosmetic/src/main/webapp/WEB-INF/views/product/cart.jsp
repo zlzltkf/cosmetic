@@ -414,6 +414,10 @@ select:focus {
 			
 			</div>
 			</div>
+			
+		<!-- 주문화면으로 보내기 -->
+		<form name="form1">	
+			
 		<c:choose>
 		<c:when test="${map.count == 0}">
 				<table class="cart__list">
@@ -442,10 +446,14 @@ select:focus {
 					
 				<c:forEach var="row" items="${map.list}">
 				<tbody>
-					
 					<tr class="cart__list__detail">
+					
 						<td class="get_p_id" style="display: none;" data-p_id="${row.p_id}"><input type="hidden" name="p_id"></td>
-						<td><input  type="checkbox" name="num" value="${row.c_id}"  ></td>
+						<td>
+						<input  type="checkbox" name="num" value="${row.c_id}"  >
+						<!-- 주문테이블로 보낼 p_id -->
+						<input type="hidden" name="p_order_id" value="${row.p_id}">
+						</td>
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
 						<td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						
@@ -462,7 +470,7 @@ select:focus {
 
 						<!-- <span class="icon_flag sale">세일</span> -->
 						</td>
-						<td style="text-align: center; font-weight:bolder; border-left:2px solid whitesmoke; "><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span></td>
+						<td style="text-align: center; font-weight:bolder; border-left:2px solid whitesmoke; "><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span><input type="hidden" name="p_o_price" value="${row.p_price}"></td>
 						<br>
 						<td style="border-left: 2px solid whitesmoke; text-align: center;">
    								 <input type="hidden" class="get_c_id" data-c_id="${row.c_id}">
@@ -479,6 +487,8 @@ select:focus {
 									        <option value="9">9</option>
 									        <option value="10">10</option>
 									    </select>
+									    <input class="amount-hidden" type="hidden" name="amount"> <!-- 주문 테이블로 보낼 amount -->
+									    <input type="hidden" name="cart_id" value="${row.c_id}"> <!-- 주문 테이블로 보낼 cart_id -->
 									</td>
 
 					
@@ -494,9 +504,11 @@ select:focus {
 
 						<!--선택-->
 						<td align="center" style="border-left: 2px solid whitesmoke;">
-    						<input type="button" value="바로구매" onclick="" class="cart__list__optionbtn1" style="margin-bottom: 5px;"><br>
+						<div style="display: none;"><form name="form2" id="form2"></form></div>
+    						<input type="button" value="바로구매" class="cart__list__optionbtn1 purchase" style="margin-bottom: 5px;"><br>
     						<button type="button" style="width: 56px" class="cart__list__optionbtn1" style="margin-bottom: 5px;" onclick="zzim_del('${row.c_id}')">✖️삭제</button><br>
 						</td>
+						
 					</tr>
 				</tbody>
 				</c:forEach>
@@ -519,6 +531,7 @@ select:focus {
     <div style="width: 50%; text-align: center;">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
     총 판매가 <br><span style="color: black;"><fmt:formatNumber type="number" value="${map.sumMoney}" pattern="#,###"></fmt:formatNumber></span>원
+    <input type="hidden" id="price" name="price" value="${map.sumMoney}"> <!-- 주문 테이블로 보낼 상품금액 -->
 </p>
 
     </div>
@@ -534,6 +547,7 @@ select:focus {
     <div style="width: 50%; text-align: center; ">
         <p class="p1" style="margin: 0; color: #666; font-weight: bold; font-size: 20px;">
             배송비 <br><span style="color: black;">${map.fee}</span>원
+            <input type="hidden" id="delfee" name="delfee" value="${map.fee}"> <!-- 주문 테이블로 보낼 배송비 -->
         </p>
     </div>
 </div>
@@ -545,16 +559,18 @@ select:focus {
     </div>
     <div>
     총 결제예상금액&nbsp; <span style="color: red; font-size: 24px; font-weight: bold;"><fmt:formatNumber type="number" value="${map.sum}" pattern="#,###"></fmt:formatNumber>원</span>
+    <input type="hidden" id="totalPrice" name="totalPrice" value="${map.sum}"> <!-- 주문 테이블로 보낼 총 금액 -->
 </div>
 
 </div>
 </c:otherwise>	
 		</c:choose>
 
+		</form>
 	
 		<div class="cart__mainbtns">
 			<button class="cart__bigorderbtn left" id="menu" onclick="menu()">쇼핑 계속하기</button>
-			<button class="cart__bigorderbtn right">주문하기</button>
+			<button class="cart__bigorderbtn right" id="orderbtn">주문하기</button>
 		</div>
 
 			<div class="cart__information">
@@ -652,6 +668,68 @@ $(document).ready(function() {
             }
         });
     });
+    
+  //주문 버튼 클릭 시
+   $("#orderbtn").click(function() {
+	   
+	   //수량을 input에 담기
+	   $(".AmountSelect").each(function () {
+           var selectedValue = $(this).val();
+           console.log(selectedValue);
+           $(this).siblings(".amount-hidden").val(selectedValue);
+       });
+	   
+	  var form = document.forms["form1"];
+	   form.method = "post";
+	   form.action = "/order/orderform.do";
+	   form.submit();
+   });
+   
+// 바로구매 클릭 시
+   $(".cart__list__optionbtn1.purchase").click(function() {
+	   var formElement = document.getElementById("form2");
+       var $row = $(this).closest("tr");
+       
+       // 수량을 input에 담기
+       $row.find(".AmountSelect").each(function () {
+           var selectedValue = $(this).val();
+           $(this).siblings(".amount-hidden").val(selectedValue);
+       });
+
+       // cart 단품 구매정보 가져오기
+       var cart_id = $row.find("input[name='cart_id']").val();
+       var p_order_id = $row.find("input[name='p_order_id']").val();
+       var amount = $row.find("input[name='amount']").val();
+       var p_o_price = parseInt($row.find("input[name='p_o_price']").val());
+
+       var delfee = p_o_price >= 30000 ? 0 : 2500;
+       var totalPrice = p_o_price + delfee;
+       
+       var formData = new FormData();
+       
+        // 새로운 데이터 추가
+       formData.append('cart_id', cart_id);
+       formData.append('p_order_id', p_order_id);
+       formData.append('amount', amount);
+       formData.append('p_o_price', p_o_price); 
+       formData.append('delfee', delfee);
+       formData.append('totalPrice', totalPrice); 
+    
+       formElement.innerHTML = '';
+       for (var pair of formData.entries()) {
+           var input = document.createElement("input");
+           input.setAttribute("type", "hidden");
+           input.setAttribute("name", pair[0]);
+           input.setAttribute("value", pair[1]);
+           formElement.appendChild(input);
+       } 
+
+       formElement.method = "post";
+       formElement.action = "/order/orderform_item.do";
+       formElement.submit(); 
+       
+       
+   });
 });
 </script>
 </body>

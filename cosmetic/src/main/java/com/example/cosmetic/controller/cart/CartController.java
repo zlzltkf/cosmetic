@@ -141,6 +141,7 @@ public class CartController {
 	        return "redirect:/member/page_login";
 	    }
 	    int p_id = (int) requestMap.get("p_id");
+	    
 	    List<Map<String, Object>> selectedOptions = (List<Map<String, Object>>) requestMap.get("options");
 	    
 	    for (Map<String, Object> option : selectedOptions) {

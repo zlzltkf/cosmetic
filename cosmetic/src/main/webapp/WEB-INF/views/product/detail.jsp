@@ -302,8 +302,8 @@ body {
 				<!-- 장바구니, 바로구매, 찜 버튼 -->
 				<div class="p_btn">
 					<button class="btn_Cart" id="btn_Cart" onclick="cart_insert()">장바구니</button>
-					<button class="btn_Buy" id="btn_Buy">바로구매</button>
-					
+					<button class="btn_Buy" id="btn_buy">바로구매</button>
+					<div style="display:none;"><form name="form1" id="form1"></form></div>
                		<c:if test="${sessionScope.userid != null}">
     				<c:choose>
 	        			<c:when test="${dto.p_like == dto.p_id}">
@@ -371,6 +371,51 @@ $(document).on('click', '.zzim_btn', function() {
         });
     }
 });  
+
+//바로구매
+$(document).ready(function() {
+	$(".btn_Buy").click(function() {
+		
+		var formElement = document.getElementById("form1");
+		var amountArray = [];
+		var priceText = $("#product_price").text().trim();
+		var price = parseInt(priceText.replace(/,/g, ''));
+		var p_id_array = [];
+		var delfee = price >= 30000 ? 0 : 2500;
+	    var totalPrice = price + delfee;
+	    
+	    $('.quantity-input').each(function() {
+		    var quantityValue = $(this).val();
+		    amountArray.push(quantityValue);
+		    p_id_array.push('${dto.p_id}');
+		});
+		
+	    var formData = new FormData();
+	    
+	    formData.append('p_o_price', price); 
+        formData.append('delfee', delfee);
+        formData.append('totalPrice', totalPrice); 
+	    
+	    for (i=0; i<amountArray.length; i++) {
+	    	formData.append('p_order_id', p_id_array[i]);
+	    	formData.append('amount', amountArray[i]);
+	    }
+	       
+	    formElement.innerHTML = '';
+		for (var pair of formData.entries()) {
+		    var input = document.createElement("input");
+		    input.setAttribute("type", "hidden");
+		    input.setAttribute("name", pair[0]);
+		    input.setAttribute("value", pair[1]);
+		    formElement.appendChild(input);
+		} 
+		
+		formElement.method = "post";
+		formElement.action = "/order/orderform_item.do";
+		formElement.submit(); 
+	});
+});
+
 </script>
 
 <!-- 위의 상품표시와 아래의 상품설명 구분 -->

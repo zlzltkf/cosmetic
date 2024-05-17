@@ -1,11 +1,14 @@
 package com.example.cosmetic.model.order;
 
+import java.security.PublicKey;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import lombok.val;
 
 @Repository
 public class OrderDAO {
@@ -16,6 +19,9 @@ public class OrderDAO {
 	//데이터 입력시 새로 생성된 primary key 가져오기
 	public int getId() {
 		return sqlSession.selectOne("order.getId");
+	}
+	public long getOrderId() {
+		return sqlSession.selectOne("order.getOrderId");
 	}
 	
 	public Map<String, Object> memberInfo(String userid) {
@@ -43,7 +49,7 @@ public class OrderDAO {
 	}
 	
 	//주문결과 확인
-	public OrderDTO orderSelect(int orderId) {
+	public OrderDTO orderSelect(long orderId) {
 		return sqlSession.selectOne("order.orderSelect", orderId);
 	}
 	
@@ -69,4 +75,28 @@ public class OrderDAO {
 		return sqlSession.selectList("order.orderList", userid);
 	}
 	
+	//주문된 상품 카트에서 지우기
+	public void cartDelete(int c_id) {
+		sqlSession.delete("order.cartDelete", c_id);
+	}
+	
+	//상품리스트에서 주문 아이템 삭제
+	public void orderItemDelete(int orderItemId) {
+		sqlSession.delete("order.orderItemDelete", orderItemId);
+	}
+	
+	//주문 리스트에서 주문 아이템 id 선택
+	public String orderItemIdSelect(long orderid) {
+		return sqlSession.selectOne("order.orderItemIdSelect", orderid);
+	}
+	
+	//주문 리스트 업데이트
+	public void orderlistUpdate(Map<String, Object> map) {
+		sqlSession.update("order.orderlistUpdate", map);
+	}
+	
+	//주문 리스트에서 특정 주문 삭제
+	public void orderDelete(long orderid) {
+		sqlSession.delete("order.orderDelete", orderid);
+	}
 }

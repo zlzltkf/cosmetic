@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -83,7 +84,7 @@
 	justify-content: center;
 	align-content: center;
 	border-bottom: 1px solid gray;
-	padding: 0 0 50px 0;
+	padding: 0 20px 50px 20px;
 }
 
 /* 주문정보 */
@@ -92,7 +93,7 @@
 	 /* border: 1px solid black;  */
 	 min-width: 350px;
 	width: 100%;
-	margin: 0 5%;
+	margin: 0 5% 0 0;
 	display: flex;
 	flex-direction: column;
 	align-content: center;
@@ -103,7 +104,7 @@
 	font-weight: bold;
 	font-size: 1.5em;
 	margin: 60px auto;
-	word-break: break-all;
+	word-break: break-word;
 }
 
 #orderedTable {
@@ -126,12 +127,14 @@
 
 /* 우측화면 */
 #rightBox {
-	border: 1px solid black; 
+	/* border: 1px solid black;  */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	height: 100%;
+	box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
+
 
 /* 주문 아이템 정보 */
 
@@ -142,9 +145,28 @@
 	align-items: center;
 	justify-content: space-around;
 	width: 100%;
-	height: 70%;
+	padding: 0;
+	max-height: 300px;
 	overflow-y: scroll;
 	overflow-x: none; 
+	
+}
+#itemInfo::-webkit-scrollbar-track
+{=
+	border-radius: 8px;
+	background-color: #F5F5F5;
+}
+
+#itemInfo::-webkit-scrollbar
+{
+	width: 8px;
+	background-color: #656565;
+}
+
+#itemInfo::-webkit-scrollbar-thumb
+{
+	border-radius: 8px;
+	background-color: #a8a8a8;
 }
 
 .rowBox {
@@ -153,7 +175,8 @@
 	border-bottom: 1px solid gray;
 	width: 300px;
 	align-items: center;
-	padding: 10px;
+	padding: 10px 0;
+	margin: 0 0 0 10px;
 }
 .img {
 	width: 100px;
@@ -184,15 +207,20 @@
 	overflow: hidden; 
 	color: black;
 }
-
+#priceBox {
+	flex-grow: 1;
+	width: 100%;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+}
 #priceCal {
 	border-top: 1px solid black;
 	width: 100%;
-	height: 30%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	
+	margin: 0 10px 10px 10px;
 }
 #priceCal .p {
 	display: flex;
@@ -211,7 +239,12 @@
 	border-top: 1px solid gray;
 	margin: 0 30px;
 	padding: 10px 0;
+	
 }
+#priceCal .p:last-child .d {
+	color: red;
+}
+
 #priceCal .p:not(:last-child) {
 	font-size: 0.9em;
 }
@@ -224,9 +257,20 @@
 	flex-direction: row;
 	justify-content: center;
 }
-#footerarea button {
-	margin: 5px;
-	padding: 0 10px;
+.btn {
+	width: 200px;
+	height: 50px;
+	font-size: 16px;
+	border-radius: 5px;
+	border: 1px solid #9bce26;
+	background-color: white;
+	color: #9bce26;
+	margin: 30px 2px 0 2px;
+}
+.btn:hover, .btn:focus, .btn:active {
+	border: 1px solid #9bce26;
+	background: #9bce26;
+	color: #fff;
 }
 
 </style>
@@ -298,7 +342,7 @@
 			${row.p_name}
 		</div>
 		<div>
-			상품 금액: ${row.p_price}원
+			상품 금액: <fmt:formatNumber pattern="#,###" value="${row.p_price}"/>원
 		</div>
 		<div>
 			상품 수량: ${row.amount}개
@@ -312,15 +356,16 @@
 
 </div>
 
+<div id="priceBox">
 <div id="priceCal">
 
 	<div class="p">
 		<div class="c">상품금액</div>
-		<div class="d">${order.price}</div>
+		<div class="d"><fmt:formatNumber pattern="#,###" value="${order.price}"/></div>
 	</div>
 	<div class="p">
 		<div class="c">배송비</div>
-		<div class="d">${order.deliverCost}</div>
+		<div class="d"><fmt:formatNumber pattern="#,###" value="${order.deliverCost}"/></div>
 	</div>
 	<div class="p">
 		<div class="c">사용한 포인트</div>
@@ -328,7 +373,7 @@
 	</div>
 	<div class="p">
 		<div class="c">주문금액</div>
-		<div class="d">${order.totalPrice}</div>
+		<div class="d"><fmt:formatNumber pattern="#,###" value="${order.totalPrice}"/></div>
 	</div>
 	
 </div>
@@ -336,11 +381,13 @@
 
 </div>
 
+</div>
+
 <div id="footerarea">
-	<button id="toList" onclick="
+	<button class="btn" id="toList" onclick="
 		location.href = '/order/orderlist.do';
 	">주문배송목록</button>
-	<button id="toReview" onclick="
+	<button class="btn" id="toReview" onclick="
 		location.href = '/review/??'; 
 	">리뷰작성</button>
 </div>

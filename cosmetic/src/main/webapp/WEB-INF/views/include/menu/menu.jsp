@@ -210,7 +210,7 @@ function R_list() {
 						</c:if>
 							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;고객센터
 								&nbsp;</a>
-							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;주문배송
+							<a href="/order/orderlist.do" style="float: right; font-size: small; color: gray;">&nbsp;주문배송
 								|&nbsp;</a>
 							<a onclick="location.href='/cart/list?userid=${sessionScope.userid}'" style="float: right; font-size: small; color: gray; cursor: pointer;">&nbsp;장바구니
 								|&nbsp;</a>

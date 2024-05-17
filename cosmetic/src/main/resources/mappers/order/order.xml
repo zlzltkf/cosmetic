@@ -6,10 +6,13 @@
 <select id="getId" resultType="int">
 	select LAST_INSERT_ID()
 </select>
+<select id="getOrderId" resultType="long">
+	SELECT orderid FROM orderList ORDER BY orderid DESC LIMIT 1
+</select>
 
 <select id="memberInfo" resultType="java.util.Map">
 	SELECT NAME, phone, zipcode, address1, address2 FROM member
-	WHERE userid=#{userid};
+	WHERE userid=#{userid}
 </select>
 
 <!-- 장바구니의 상품 > 주문 아이템 테이블에 저장 -->
@@ -73,6 +76,38 @@
 <select id="orderList" resultType="com.example.cosmetic.model.order.OrderDTO">
 	select * from orderlist
 	where userid = #{userid}
+	ORDER BY orderDate
 </select>
+
+<!-- 주문된 상품 카트에서 지우기 -->
+<delete id="cartDelete">
+	delete from cart
+	where c_id=#{c_id}
+</delete>
+
+<!-- 상품리스트에서 주문 아이템 삭제 -->
+<delete id="orderItemDelete">
+	DELETE FROM orderitem
+	WHERE orderItemId = #{orderItemId}
+</delete>
+
+<!-- 주문 리스트에서 특정 주문 삭제 -->
+<delete id="orderDelete">
+	DELETE FROM orderlist
+	where orderid = #{orderid}
+</delete>
+
+<!-- 주문 리스트에서 주문 아이템 id 선택 -->
+<select id="orderItemIdSelect" resultType="String">
+	select orderItemId from orderlist
+	where orderid = #{orderid}
+</select>
+
+<!-- 주문 리스트 업데이트 -->
+<update id="orderlistUpdate">
+	UPDATE orderlist
+	SET orderItemId = CAST(#{orderItemId} AS JSON)
+	WHERE orderid = #{orderid}
+</update>
 
 </mapper>
