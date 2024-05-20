@@ -160,7 +160,7 @@ function save(){
                 <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="buttons.html">고객목록</a>
+                        <a class="collapse-item" href="/admin/user_list">고객목록</a>
                         <a class="collapse-item active" href="cards.html">고객</a>
                     </div>
                 </div>
@@ -209,7 +209,7 @@ function save(){
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column">
+        <!-- <div id="content-wrapper" class="d-flex flex-column"> -->
 
             <!-- Main Content -->
             <div id="content">
@@ -309,8 +309,8 @@ function save(){
                 <tr>
                 <td>옵션</td>
                 <td>
-                <input type="text" placeholder="색상" name="o_name" id="o_name" disabled="disabled">
-                <input type="number" placeholder="수량" name="o_amount" id="o_amount" disabled="disabled">
+                <input type="text" placeholder="색상" name="O_name" id="O_name">
+                <input type="number" placeholder="수량" name="O_amount" id="O_amount">
               <!--   <input type="hidden" id="o_id" name="o_id"> -->
               <button type="button" onclick="Preview()"  id="insert" disabled="disabled">추가</button>
               <button type="button" onclick="Delete()" id="delete" disabled="disabled">삭제</button>
@@ -351,7 +351,7 @@ function save(){
             </footer>
             <!-- Footer 끝 -->
 
-            </div>
+           <!--  </div> -->
         </div>
 
 
@@ -402,8 +402,8 @@ document.getElementById('category').addEventListener('change', function() {
 //let optionCounter = 1;
 function Preview() {
     // 입력된 색상과 수량을 가져옵니다.
-    const colorInput = document.getElementById("o_name");
-    const amountInput = document.getElementById("o_amount");
+    const colorInput = document.getElementById("O_name");
+    const amountInput = document.getElementById("O_amount");
     // 색상과 수량을 가져옵니다.
     const color = colorInput.value.trim();
     const amount = amountInput.value.trim(); // 공백만 제거하고 쉼표는 그대로 유지

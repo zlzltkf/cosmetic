@@ -1,10 +1,10 @@
-package com.example.cosmetic.model.product;
+package com.example.cosmetic.controller.admin;
 
 public class PageUtil {
-   public static final int PAGE_SCALE = 3; //수정
+   public  int PAGE_SCALE = 5; //수정
    //페이지당 게시물 수
    
-   public static final int BLOCK_SCALE = 3; //수정
+   public static final int BLOCK_SCALE = 5; //수정
    //페이지 블록 단위(한 화면에 보여둘 페이지 수)
    
    private int curPage;   //현재 페이지
@@ -25,18 +25,23 @@ public class PageUtil {
    
    
                     //  991       1
-   public PageUtil(int count,int curPage) {
-      curBlock = 1;    
-      this.curPage = curPage;
-      setTotPage(count); //전체 페이지 개수 설정
-      setPageRange();   
-      setTotBlock();     //전체 페이지 블록 개수 설정
-      setBlockRange();  
-      // curPage가 속한 페이지 블록의 시작번호,끝번호 계산
+  
+   public PageUtil(int count, int curPage) {
+       this(count, curPage, 5); // 기본 페이지당 게시물 수를 5로 설정
+   }
+   
+   public PageUtil(int count, int curPage, int pageScale) {
+       this.PAGE_SCALE = pageScale; //동적으로 페이지당 게시물 수 설정
+       curBlock = 1;    
+       this.curPage = curPage;
+       setTotPage(count); //전체 페이지 개수 설정
+       setPageRange();   
+       setTotBlock();     //전체 페이지 블록 개수 설정
+       setBlockRange();  
+       // curPage가 속한 페이지 블록의 시작번호, 끝번호 계산
    }
 
-
-public void setTotBlock() {
+   public void setTotBlock() {
       // 전체 페이지 개수 / 페이지 블록 단위
       totBlock =(int) Math.ceil(totPage*1.0/BLOCK_SCALE);
       // 블록 => 밑에 페이지 숫자

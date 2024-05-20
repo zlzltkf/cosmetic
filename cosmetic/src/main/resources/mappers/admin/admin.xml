@@ -3,36 +3,72 @@
 <mapper namespace="admin">
 
 
-<select id="big" resultType="String" >
-select DISTINCT ctg_big from ctg
-</select>
+	<select id="big" resultType="String">
+		select DISTINCT ctg_big from ctg
+	</select>
 
-<select id="small" resultType="String">
-SELECT ctg_small FROM ctg WHERE ctg_big=#{ctg_big}
-</select>
+	<select id="small" resultType="String">
+		SELECT ctg_small FROM ctg WHERE ctg_big=#{ctg_big}
+	</select>
 
-<insert id="product_insert">
-insert into product (p_name, p_price, p_stock, p_img1, p_detail, p_cate)
-values(#{p_name},#{p_price}, #{p_stock}, #{p_img1},#{p_detail}, #{p_cate})
-</insert>
+	<insert id="product_insert">
+		insert into product (p_name, p_price, p_stock, p_img1, p_detail, p_cate)
+		values(#{p_name},#{p_price}, #{p_stock}, #{p_img1},#{p_detail},
+		#{p_cate})
+	</insert>
 
 
-<select id="small_no" resultType="int">
-select DISTINCT ctg_s_no from ctg where ctg_small=#{ctg_small}
-</select>
+	<select id="small_no" resultType="int">
+		select DISTINCT ctg_s_no from ctg where ctg_small=#{ctg_small}
+	</select>
 
-<insert id="option_insert">
-insert into product_option (o_name, o_p_id, o_price, o_amount) values( #{o_name}, #{o_p_id}, #{o_price}, #{o_amount})
-</insert>
+	<insert id="option_insert">
+		insert into product_option (o_name, o_p_id, o_price, o_amount) values(
+		#{o_name}, #{o_p_id}, #{o_price}, #{o_amount})
+	</insert>
 
-<select id="get_id" resultType="int">
-SELECT LAST_INSERT_ID()
-</select>
+	<select id="get_id" resultType="int">
+		SELECT LAST_INSERT_ID()
+	</select>
 
-<update id="update_product_stock" parameterType="java.util.Map">
-    UPDATE product
-    SET p_stock = p_stock + #{o_amount}
-    WHERE p_id = #{p_id}
-</update>
+	<update id="update_product_stock" parameterType="java.util.Map">
+		UPDATE product
+		SET p_stock = p_stock + #{o_amount}
+		WHERE p_id = #{p_id}
+	</update>
+
+	<select id="user_list"
+		resultType="com.example.cosmetic.model.member.MemberDTO">
+		select userid, name, nickname, email,birth, address1,address2, zipcode,
+		phone, date, skin, level, point 
+		from member
+		LIMIT #{pageCnt} OFFSET #{start}
+	</select>
+
+	<!--사용자 수 -->
+	<select id="user_count" resultType="int">
+		select count(*) from member
+	</select>
+	
+	 <select id="search" resultType="com.example.cosmetic.model.product.ProductDTO">
+      select * from (
+      select rownum as
+      rn, A.*
+      from (
+      SELECT userid 
+	  FROM member 
+	  WHERE userid LIKE CONCAT('%', #{keyword}, '%') 
+	  ORDER BY userid DESC
+      ) A
+      )
+      where rn
+      between #{start} and #{end}
+   </select>
+   
+    <select id="search_count" resultType="int">
+      select count(*) from
+      member where userid LIKE CONCAT('%', #{keyword}, '%') 
+   </select>
+
 
 </mapper>

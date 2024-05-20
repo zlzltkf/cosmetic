@@ -23,11 +23,11 @@
     </c:if>
     <script type="text/javascript">
     function cookie_delete(p_id) {
-    	location.href="/product/cookie_delete?p_id="+p_id;
+       location.href="/product/cookie_delete?p_id="+p_id;
     }
     
     function cookie_all_delete() {
-    	location.href="/product/cookie_all_delete";
+       location.href="/product/cookie_all_delete";
     }
     </script>
 </body>
