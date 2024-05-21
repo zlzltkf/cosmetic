@@ -161,7 +161,7 @@ function save(){
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/admin/user_list">고객목록</a>
-                        <a class="collapse-item active" href="cards.html">고객</a>
+                        <a class="collapse-item active" href="#">고객</a>
                     </div>
                 </div>
             </li>
@@ -176,7 +176,7 @@ function save(){
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/admin/write_product">상품등록</a>
-                        <a class="collapse-item" href="register.html">상품목록</a>
+                        <a class="collapse-item" href="#">상품목록</a>
                         <div class="collapse-divider"></div>
                        
                     </div>
@@ -185,9 +185,9 @@ function save(){
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="/admin/order_list">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                    <span>주문목록</span></a>
             </li>
 
             <!-- Nav Item - Tables -->

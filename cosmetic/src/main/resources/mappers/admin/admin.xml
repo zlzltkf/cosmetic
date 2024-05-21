@@ -39,15 +39,32 @@
 
 	<select id="user_list"
 		resultType="com.example.cosmetic.model.member.MemberDTO">
-		select userid, name, nickname, email,birth, address1,address2, zipcode,
+		select userid, name, nickname,birth, address1,address2, zipcode,
 		phone, date, skin, level, point 
 		from member
+		LIMIT #{pageCnt} OFFSET #{start}
+	</select>
+	
+	<select id="order_list"
+		resultType="com.example.cosmetic.model.order.OrderDTO">
+		select orderid, userid, orderdate, totalprice, method, orderitemid
+		from orderlist order by orderdate
 		LIMIT #{pageCnt} OFFSET #{start}
 	</select>
 
 	<!--사용자 수 -->
 	<select id="user_count" resultType="int">
 		select count(*) from member
+	</select>
+	
+	<select id="order_count" resultType="int">
+		select count(*) from orderlist
+	</select> 
+	
+	<!--주문번호에 따른 결제 상품 갯수-->
+	<select id="user_order_count" resultType="int">
+		SELECT COUNT(*) FROM orderlist l, orderitem i
+		WHERE l.orderid = i.orderid AND i.orderid=#{orderid}
 	</select>
 	
 	 <select id="search" resultType="com.example.cosmetic.model.product.ProductDTO">
@@ -69,6 +86,17 @@
       select count(*) from
       member where userid LIKE CONCAT('%', #{keyword}, '%') 
    </select>
+   
+   <!--orderid 뽑기 위함-->
+   <select id="list" resultType="java.util.Map">
+   select orderid from orderlist
+   </select>
 
+	<select id="status" resultType="String">
+	select orderstatus from orderitem where orderid=#{orderid}
+	</select>
+	
+	
+	<!-- 상품목록 -->
 
 </mapper>

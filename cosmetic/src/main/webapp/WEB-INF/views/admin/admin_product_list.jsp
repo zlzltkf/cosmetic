@@ -35,7 +35,7 @@
 
 <script>
 	function list(page) {
-		location.href = "/admin/user_list?curPage=" + page;
+		location.href = "/admin/order_list?curPage=" + page;
 	}
 </script>
 
@@ -85,8 +85,8 @@
 				<div id="collapseTwo" class="collapse show"
 					aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" href="buttons.html">고객목록</a> <a
-							class="collapse-item active" href="cards.html">고객</a>
+						<a class="collapse-item" href="/admin/user_list">고객목록</a> <a
+							class="collapse-item active" href="#">고객</a>
 					</div>
 				</div></li>
 
@@ -100,7 +100,7 @@
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<a class="collapse-item" href="/admin/write_product">상품등록</a> <a
-							class="collapse-item" href="register.html">상품목록</a>
+							class="collapse-item" href="/admin/list_product">상품목록</a>
 						<div class="collapse-divider"></div>
 
 					</div>
@@ -158,7 +158,7 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">EDEN 고객 목록</h1>
+					<h1 class="h3 mb-2 text-gray-800">EDEN 상품목록</h1>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -173,7 +173,7 @@
 									<div class="row">
 										<div class="col-sm-12 col-md-6">
 											<div class="dataTables_length" id="dataTable_length">
-											<form action="/admin/select_user_list" method="Get" name="form1">
+										<!-- 	<form action="/admin/select_user_list" method="Get" name="form1"> -->
 												<label>Show <select name="pageCnt"
 													aria-controls="dataTable"
 													class="custom-select custom-select-sm form-control form-control-sm" onchange="changelist(this)">
@@ -184,11 +184,9 @@
 														<option value="50">50</option>
 														<option value="100">100</option></select> 
 												</label>
-												</form>
+												<!-- </form> -->
 											</div>
-											<div>
-											고객수 : ${count}명
-											</div>
+											
 										</div>
 										<div class="col-sm-12 col-md-6">
    											 <div class="input-group mb-3" style="width: 300px;">
@@ -212,61 +210,45 @@
 															aria-controls="dataTable" rowspan="1" colspan="1"
 															aria-sort="ascending"
 															aria-label="Name: activate to sort column descending"
-															style="width: 50px; text-align: center;">이름</th>
+															style="width: 50px; text-align: center;">대분류</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Position: activate to sort column ascending"
-															style="width: 50px; text-align: center;">아이디</th>
+															style="width: 50px; text-align: center;">소분류</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Office: activate to sort column ascending"
-															style="width: 50px; text-align: center;">닉네임</th>
+															style="width: 50px; text-align: center;">상품번호</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Age: activate to sort column ascending"
-															style="width: 31px; text-align: center;">이메일</th>
+															style="width: 31px; text-align: center;">상품이름</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Start date: activate to sort column ascending"
-															style="width: 50px; text-align: center;">생년월일</th>
+															style="width: 50px; text-align: center;">상품수량</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Start date: activate to sort column ascending"
-															style="width: 50px; text-align: center;">휴대폰</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Age: activate to sort column ascending"
-															style="width: 31px; text-align: center;">주소</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Salary: activate to sort column ascending"
-															style="width: 31px; text-align: center;">Point</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Salary: activate to sort column ascending"
-															style="width: 67px; text-align: center;">가입일</th>
-
+															style="width: 50px; text-align: center;">옵션현황</th>
 													</tr>
 												</thead>
 												
-												<tbody>
+												<%-- <tbody>
 													<c:forEach var="row" items="${list}">
 														<tr class="odd">
 															<td  style="text-align: center;" class="sorting_1"><a
-																href="/admin/user_detail?userid=${row.userid}">${row.name}</a><br>
-																[${row.level}]</td>
-															<td style="text-align: center;">${row.userid}</td>
-															<td  style="text-align: center;">${row.nickname}</td>
-															<td  style="text-align: center;">${row.zipcode}</td>
-															<td  style="text-align: center;">${row.birth}</td>
-															<td  style="text-align: center;">${row.phone}</td>
-															<td  style="text-align: center;">${row.address1}&nbsp;${row.address2}</td>
-															<td  style="text-align: center;">${row.point}</td>
-															<td  style="text-align: center;"><fmt:formatDate value="${row.date}"
-																	pattern="yy.M.d" /></td>
+																href="/admin/user_detail?userid=${row.userid}">${row.orderid}</a><br>
+																</td>
+															<td style="text-align: center;"> ${orderstatus[row.orderid]}</td>
+															<td  style="text-align: center;"><fmt:formatDate value="${row.orderDate}" pattern="yy.M.d" /></td>
+															<td  style="text-align: center;">${row.userid}</td>
+															<td  style="text-align: center;">${row.method}</td>
+															<td  style="text-align: center;">${ordercount[row.orderid]}</td>
+															<td  style="text-align: center;"><fmt:formatNumber value="${row.totalPrice}" pattern="##,###" /></td>
 														</tr>
 													</c:forEach>
-												</tbody>
+												</tbody> --%>
 											</table>
 										</div>
 									</div>

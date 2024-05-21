@@ -1,7 +1,9 @@
 package com.example.cosmetic.controller.admin;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +20,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.example.cosmetic.model.admin.AdminDao;
+import com.example.cosmetic.model.member.MemberDTO;
 import com.example.cosmetic.model.product.ProductDTO;
-
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -53,8 +59,7 @@ public class AdminController {
 	    return Small;
 	}
 	
-
-	//조규버전
+	//조규버전 상품등록
 	@PostMapping("insert")
 	public String insert(ProductDTO dto, 
 	                     @RequestParam("ctg_small") String small, 
@@ -176,8 +181,50 @@ public class AdminController {
 		map.put("keyword", keyword);
 		map.put("page", page);
 		return new ModelAndView("admin/user_list", "map", map);
-
 	}
 	
+	//사용자 기본 목록
+	@GetMapping("order_list")
+	public String order_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage, Model model) {
+	    int count = adminDao.order_count(); // 모든 회원 수
 
+	    PageUtil page_info = new PageUtil(count, curPage);
+	    int start = page_info.getPageBegin() - 1;
+	    int pageCnt = page_info.PAGE_SCALE;
+
+	    // 현재 페이지에 해당하는 사용자 목록 가져오기
+	    List<Map<String, Object>> list = adminDao.order_list(start, pageCnt);
+	    List<Map<String, Object>> user_list = adminDao.list();
+	    System.out.println(user_list);
+	    
+	    // orderid에 따라 아이템 갯수를 저장할 Map
+	    Map<Long, Integer> map = new HashMap<>();
+	    Map<Long, String> status = new HashMap<>();
+	    
+	    // 각 주문에 대해 아이템 갯수를 계산
+	    for (Map<String, Object> row : user_list) {
+	        Long orderid = (Long) row.get("orderid"); // 주문 번호 가져오기
+	        String ststus = adminDao.status(orderid);
+	        int order_count = adminDao.user_order_count(orderid);
+	        map.put(orderid, order_count); // orderCountMap에 주문 번호와 갯수를 추가
+	        status.put(orderid, ststus);
+	        System.out.println(order_count);
+	    }
+
+	    // 모델에 데이터 추가
+	    model.addAttribute("list", list);
+	    model.addAttribute("page_info", page_info);
+	    model.addAttribute("count", count);
+	    model.addAttribute("ordercount", map); // orderCountMap을 모델에 추가
+	    model.addAttribute("orderstatus", status); // orderCountMap을 모델에 추가
+
+	    return "admin/order_list";
+	}
+
+	
+	// 상품목록
+	@GetMapping("list_product")
+	public String product_list() {
+		return "admin/admin_product_list";
+	}
 }

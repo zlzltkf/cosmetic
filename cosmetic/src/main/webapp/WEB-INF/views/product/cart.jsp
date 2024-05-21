@@ -150,7 +150,7 @@ thead {
 
 td {
 	font-weight:bold;
-	text-align: left;
+	text-align: center;
 	padding: 15px 5px;
 	border-bottom: 1px solid lightgrey;
 }
@@ -205,7 +205,7 @@ td {
 
 .cart__list__detail :nth-child(4), 
 .cart__list__detail :nth-child(6) {
-	border-left: 2px solid whitesmoke;
+	border-left: -2px solid whitesmoke;
 	text-align: center;
 }
 .cart__mainbtns {

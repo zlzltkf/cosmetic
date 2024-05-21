@@ -69,7 +69,7 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/admin/user_list">고객목록</a>
-                        <a class="collapse-item active" href="cards.html">고객</a>
+                        <a class="collapse-item active" href="#">고객</a>
                     </div>
                 </div>
             </li>
@@ -84,7 +84,7 @@
                 <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="/admin/write_product">상품등록</a>
-                        <a class="collapse-item" href="register.html">상품목록</a>
+                        <a class="collapse-item" href="/admin/list_product">상품목록</a>
                         <div class="collapse-divider"></div>
                        
                     </div>
@@ -93,9 +93,9 @@
 
             <!-- Nav Item - Charts -->
             <li class="nav-item">
-                <a class="nav-link" href="charts.html">
+                <a class="nav-link" href="/admin/order_list">
                     <i class="fas fa-fw fa-chart-area"></i>
-                    <span>Charts</span></a>
+                    <span>주문목록</span></a>
             </li>
 
             <!-- Nav Item - Tables -->
@@ -150,22 +150,11 @@
 
                 <!-- ----------------------------------------- 내용 시작 --------------------------------->
                  <div class="container-fluid">
-
                     <h1 class="h3 mb-4 text-gray-800">내용추가</h1>
-
-                    
-
                     <div class="row">
-
-                       
-
-                        
-
                     </div>
-
                 </div> 
                 <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
 

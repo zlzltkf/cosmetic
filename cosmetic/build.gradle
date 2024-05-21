@@ -43,6 +43,8 @@ dependencies {
 	// 이건 뭔지 모르지만 파일관련
 	implementation 'commons-io:commons-io:2.11.0'
 	
+	//json
+   implementation 'com.google.code.gson:gson:2.8.8'
 
 
 	

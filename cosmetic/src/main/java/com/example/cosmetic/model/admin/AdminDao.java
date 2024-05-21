@@ -1,5 +1,6 @@
 package com.example.cosmetic.model.admin;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +9,6 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.example.cosmetic.model.member.MemberDTO;
 import com.example.cosmetic.model.product.ProductDTO;
 
 @Repository
@@ -76,6 +76,29 @@ public class AdminDao {
 	public int count(String keyword) {
 	      return sqlSession.selectOne("admin.search_count",keyword);
 	   }
+	
+	public List<Map<String, Object>> order_list(int start, int pageCnt) {
+		 Map<String, Object> map = new HashMap<>();
+	      map.put("start", start);
+	      map.put("pageCnt", pageCnt);
+	      return sqlSession.selectList("admin.order_list", map);
+	}
+	
+	public int order_count() {
+		return sqlSession.selectOne("admin.order_count");
+	}
+	
+	public int user_order_count(Long orderid) {
+		return sqlSession.selectOne("admin.user_order_count",orderid);
+	}
+	
+	public List<Map<String, Object>> list() {
+	      return sqlSession.selectList("admin.list");
+	}
+	
+	public String status(Long orderid) {
+		return sqlSession.selectOne("admin.status",orderid);
+	}
 	
 	
 	/*
