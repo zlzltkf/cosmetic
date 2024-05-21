@@ -47,23 +47,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/order/")
 public class OrderController {
 	
-//	public static final String IMPORT_CANCEL_URL = "https://api.iamport.kr/payments/cancel";
-//    public static final String KEY = "6746882717766507";
-//    public static final String SECRET = "wwGfcjpUcw74nxulMRj9ZKMeT3h8tZtiytjDoc9XDjlhrXUyrB9vvY7vDalSFvrT5ciMw5REpV0IZlGK";
-
+	private static final String KEY = "6746882717766507";
+	private static final String SECRET = "wwGfcjpUcw74nxulMRj9ZKMeT3h8tZtiytjDoc9XDjlhrXUyrB9vvY7vDalSFvrT5ciMw5REpV0IZlGK";
+	
 	@Autowired
 	OrderDAO orderDAO;
 
 	// 테스트
-	@CrossOrigin(origins = "http://localhost")
-    @RequestMapping("/payments/cancel")
+    @GetMapping("/")
 	public String test() throws IOException {
 		
 		String key = "6746882717766507";
 		String secret = "wwGfcjpUcw74nxulMRj9ZKMeT3h8tZtiytjDoc9XDjlhrXUyrB9vvY7vDalSFvrT5ciMw5REpV0IZlGK";
 		
 		String token = Refund.getToken(key, secret); 
-		Refund.refundRequest(token, "imp42661322", "dd");
+		long orderid =  202405205847L;
+		int price = 100;
+		Refund.refundRequest(token, orderid, "dd", price);
+		
 		return "/product/order/ordertest";
 	}
 	
@@ -306,7 +307,10 @@ public class OrderController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		
+		//orderItemId 사용안할경우
+		itemIds_JSON = null;
+		
 		// dto로 전달
 		OrderDTO dto = new OrderDTO();
 
@@ -357,6 +361,7 @@ public class OrderController {
 			@RequestParam(name = "curPage", defaultValue = "1") int curPage,
 			@RequestParam(name = "f_date", defaultValue = "") String  f_date,
 			@RequestParam(name = "l_date", defaultValue = "") String l_date,
+			@RequestParam(name = "status", defaultValue = "") String status,
 			HttpSession session, Model model
 			) {
 		
@@ -381,6 +386,7 @@ public class OrderController {
 		listInfo.put("userid", userid);
 		listInfo.put("startDate", fDate);
 		listInfo.put("endDate", lDate);
+		listInfo.put("status", status);
 		
 		//주문 수 세기
 		int count = orderDAO.orderCount(listInfo);
@@ -395,6 +401,7 @@ public class OrderController {
 		
 		//목록 출력
 		list = orderDAO.orderList(listInfo);
+		
 		
 		//주문 상태 세기
 		Map<String, Object> s = new HashMap<>();
@@ -416,11 +423,12 @@ public class OrderController {
 		for (OrderDTO item : list) {
 
 			long orderid = item.getOrderid();
+			
 			Date orderDate = item.getOrderDate();
 			int totalPrice = item.getTotalPrice();
 			
 			List<Map<String, Object>> iteminfo = orderDAO.orderItemsIdx(orderid);
-
+			
 				// 상품정보 가져오기
 				for (Map id : iteminfo) {
 
@@ -440,7 +448,7 @@ public class OrderController {
 
 					// 정보를 map으로 합친 후 orderitems 리스트에 넣기
 					Map<String, Object> map = new HashMap<>();
-
+					
 					map.put("idx", idx);
 					map.put("orderDate", orderDate);
 					map.put("p_id", p_id);
@@ -453,7 +461,7 @@ public class OrderController {
 					order.put("orderid", orderid);
 					order.put("totalPrice", totalPrice);
 					order.put("map", map);
-
+					
 					orderitemlist.add(order);
 
 			} 
@@ -482,24 +490,26 @@ public class OrderController {
 		return map;
 	}
 	
-	//환불
+	//주문 취소
 	@ResponseBody
 	@PostMapping("delete_order.do")
 	public String delete_order(
 			@RequestBody Map<String, Object> payinfo
-	) {
+	) throws IOException {
+		
 		long orderid = Long.parseLong(payinfo.get("orderid").toString());
         int itemid = Integer.parseInt(payinfo.get("itemid").toString());
 		int delprice = Integer.parseInt(payinfo.get("delPrice").toString());
-        
-        Map<String, Object> costs = orderDAO.chooseCosts(orderid);
+        String reason = payinfo.get("reason").toString();
+		
+		Map<String, Object> costs = orderDAO.chooseCosts(orderid);
         
         int totalPrice = (int) costs.get("totalPrice");
         int deliverCost = (int) costs.get("deliverCost");
         
         //총 금액에서 환불할 금액 제외
         int updatePrice = totalPrice - deliverCost - delprice;
-		if (updatePrice < 0) {
+        if (updatePrice < 0) {
 			updatePrice = 0;
 		}
 		
@@ -513,11 +523,29 @@ public class OrderController {
 		map.put("price", updatePrice);
 		map.put("totalPrice", updateTotalPrice);
 		
-		//주문아이템 지우기
-		orderDAO.orderItemDelete(itemid);
-		
 		//주문내역서에서 금액 업데이트
-		orderDAO.deletePrice(map);
+		if (updateTotalPrice - deliverCost > 0) {
+			
+			//주문아이템 지우기
+			orderDAO.orderItemDelete(itemid);
+			//주문목록 업데이트
+			orderDAO.updatePrice(map);
+			
+		} else if (updateTotalPrice - deliverCost <= 0) {
+			
+			//주문아이템 지우기
+			orderDAO.orderItemDelete(itemid);
+			
+			if (orderDAO.countItem(orderid) == 0) { //특정 주문id의 주문아이템이 없으면
+				//주문목록 지우기
+				orderDAO.deletePrice(orderid);
+			}
+			
+		}
+		
+		//포트원 환불
+		String token = Refund.getToken(KEY, SECRET); 
+		Refund.refundRequest(token, orderid, reason, delprice);
 		
 		String result = "success";
 		return result;

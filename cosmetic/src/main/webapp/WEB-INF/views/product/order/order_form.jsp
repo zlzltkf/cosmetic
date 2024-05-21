@@ -732,13 +732,18 @@ function Payment() {
 		var pointAll = parseInt(document.getElementById('currentPoint').value);
 		var usedPoint = parseInt(document.getElementById('usedPoint').value);
 		
-		if (pointAll < usedPoint) {
+		var p = parseInt("${totalPrice}") - usedPoint;
+		if ( p <= 0) {
+			p = 1;
+		}
+		
+ 		if (pointAll < usedPoint) {
 			alert('보유한 포인트보다 더 높은 값을 작성할 수 없습니다.');
 			$("#usedPoint").focus();
 			return;
 		} else {
 			var userid = "${sessionScope.userid}";
-			var totalPrice = "${totalPrice}";
+			var totalPrice = p;
 			console.log(totalPrice);
 			var tel = document.getElementById('tel').value;
 			var name = document.getElementById('name').value;
@@ -803,7 +808,7 @@ function Payment() {
 		    } else { // 구매 확인 알림창 취소 클릭시 돌아가기
 		        return false;
 		    }
-		}
+		} 
 	}
 }
 

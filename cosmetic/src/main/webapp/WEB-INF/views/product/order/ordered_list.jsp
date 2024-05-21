@@ -49,6 +49,9 @@
 	display: flex;
 	flex-direction: row;
 }
+#process .count {
+	cursor: pointer;
+}
 
 #dateBox {
 	border: 1px solid black;
@@ -104,6 +107,45 @@ justify-content:flex-start;
    font-weight: bold;
    cursor: default;
 }
+
+/* 모달창 */
+.modal {
+  display: none; 
+  position: fixed; 
+  z-index: 1; 
+  padding-top: 300px; 
+  left: 0;
+  top: 0;
+  width: 100%; 
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
 	
 </style>
 
@@ -111,22 +153,37 @@ justify-content:flex-start;
 <!-- 이부분을 뒤로 보내면 페이징 버튼이 작동하지 않음 -->
 <script type="text/javascript">
 var urlParams = new URLSearchParams(window.location.search);
-var f_date = urlParams.get('f_date');
-var f_date = urlParams.get('l_date');
 
 if (urlParams != null) {
-   var f_date = urlParams.get('f_date'); //상품 카테고리
-   var l_date = urlParams.get('l_date'); //정렬방식
+	
+	if (urlParams.get('f_date') != null) {
+		var f_date = urlParams.get('f_date');
+	} else {
+		var f_date = "";
+	}
+	if (urlParams.get('l_date') != null) {
+		var l_date = urlParams.get('l_date');
+	} else {
+		var l_date = "";
+	}
+	if (urlParams.get('status') != null) {
+		var status = urlParams.get('status');
+	} else {
+		var status = "";
+	}
     
-    if (f_date != null && l_date != null) {
-       function list(page) {
-          location.href = "/order/orderlist.do?curPage=" + page + "&f_date=" + f_date + "&l_date=" + l_date;
-       }
-    } else {
-       function list(page) {
-          location.href = "/order/orderlist.do?curPage=" + page;
-       }
-    }
+   function list(page) {
+	   
+	   var urlS = "curPage=" + page;
+	   
+	   if (f_date != "" && l_date != "") {
+		   urlS += "&f_date=" + f_date + "&l_date=" + l_date;
+	   }
+	   if (status != "") {
+		   urlS += "&status=" + status;
+	   }
+	   location.href = "/order/orderlist.do?" + urlS;
+   }
 }
 
 </script>
@@ -275,6 +332,20 @@ ${order} --%>
    </div>
 </div>
 
+<!-- 모달창 -->
+
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <p>취소 사유를 입력하세요</p>
+    <input name="refundReason" id="reason">
+    <button type="button" id="sendRefund">주문취소</button>
+  </div>
+
+</div>
+
 </div>
 
 <script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
@@ -308,6 +379,30 @@ $(document).ready(function() {
         document.getElementById("date2").value = l_dateString;
     } 
      
+     
+    //모달창
+    var modal = document.getElementById("myModal");
+	var btn = document.getElementById("myBtn");
+	var span = document.getElementsByClassName("close")[0];
+	
+	//모달창 닫기
+	
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+	
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+	    modal.style.display = "none";
+	  }
+	}
+	
+	//.count 클래스 클릭 시
+	$('#process .count').on('click', function() {
+		var status = $(this).siblings('.info').text().trim();
+		console.log(status);
+		window.location.href = "/order/orderlist.do?status=" + status;
+	});
 });
 
 function setDate(month) {
@@ -349,22 +444,43 @@ function confirmDate() {
 
 function delete_order(orderid, itemid, price, amount) {
 	
-	var delPrice = parseInt(price) * parseInt(amount);
-	$.ajax({
-		"url": "/order/delete_order.do",
-        "type": "POST",
-        "contentType": "application/json",
-        "data": JSON.stringify({
-        	"orderid": orderid,
-        	"itemid": itemid,
-        	"delPrice": delPrice
-        }),
-        success: function(response) {
-        	console.log("주문취소", response);
-        }
+	//모달창 열기
+	//환불사유 입력
+	var modal = document.getElementById("myModal");
+	var btn = document.getElementById("myBtn");
+	var span = document.getElementsByClassName("close")[0];
+	
+	modal.style.display = "block";
+	
+	var sendRefund = document.getElementById("sendRefund");
+	
+	//환불
+ 	sendRefund.onclick = function() {
+		var reason = document.getElementById("reason").value;
 		
-	});
+ 		var delPrice = parseInt(price) * parseInt(amount);
+ 		
+ 		$.ajax({
+			"url": "/order/delete_order.do",
+	        "type": "POST",
+	        "contentType": "application/json",
+	        "data": JSON.stringify({
+	        	"orderid": orderid,
+	        	"itemid": itemid,
+	        	"delPrice": delPrice,
+	        	"reason" : reason
+	        }),
+	        success: function(response) {
+	        	if (response == "success") {
+	        		window.location.href = "/order/orderlist.do";
+	        	}
+	        }
+			
+		});  
+	} 
 } 
+
+
 
 </script>
 

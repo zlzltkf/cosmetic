@@ -94,13 +94,21 @@
     	AND orderDate &lt;= (SELECT MAX(orderDate) FROM orderList WHERE userid = #{userid})
    	</when>
 </choose>
+<choose>
+	<when test="status != null and status != ''">
+		AND orderStatus = #{status}
+   	</when>
+   	<when test="status == '' and status == null">
+   	</when>
+</choose>
 </select>
 
 <!-- 주문 목록 출력 -->
 <select id="orderList" resultType="com.example.cosmetic.model.order.OrderDTO">
-    SELECT * 
-    FROM orderList
-    WHERE userid = #{userid}
+    SELECT DISTINCT i.orderid, orderDate, totalPrice 
+	from orderlist l, orderitem i
+	WHERE l.orderid = i.orderid
+	and userid = #{userid}
     <choose>
     	<when test="startDate != '' and endDate != ''">
     		AND orderDate &gt;= #{startDate}
@@ -110,6 +118,13 @@
     		AND orderDate &gt;= (SELECT MIN(orderDate) FROM orderList WHERE userid = #{userid})
      		AND orderDate &lt;= (SELECT MAX(orderDate) FROM orderList WHERE userid = #{userid})
     	</when>
+    </choose>
+    <choose>
+    	<when test="status != null and status != ''">
+    		AND orderStatus = #{status}
+       	</when>
+       	<when test="status == '' and status == null">
+       	</when>
     </choose>
     ORDER BY orderDate DESC
     limit #{pageCnt} offset #{start}
@@ -174,11 +189,21 @@
 </update>
 
 <!-- 환불시 금액 차감 -->
-<update id="deletePrice">
+<delete id="deletePrice">
+	delete from orderlist
+	WHERE orderid = #{orderid}
+</delete>
+<update id="updatePrice">
 	UPDATE orderlist
 	SET price = #{price}, totalPrice = #{totalPrice}
 	WHERE orderid = #{orderid}
 </update>
+
+<!-- 환불 전 주문 아이템 존재여부 -->
+<select id="countItem" resultType="int">
+	SELECT COUNT(*) FROM orderitem
+	WHERE orderid = #{orderid}
+</select>
 
 <!-- 주문목록에서 환불에 필요한 정보 불러오기 -->
 <select id="chooseCosts" resultType="java.util.Map">

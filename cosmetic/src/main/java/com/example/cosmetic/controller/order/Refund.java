@@ -16,10 +16,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 public class Refund {
-    public static void refundRequest(String access_token, String merchant_uid, String reason) throws IOException {
+	
+    public static void refundRequest(String access_token, long merchant_uid, String reason, int price) throws IOException {
         URL url = new URL("https://api.iamport.kr/payments/cancel");
         HttpsURLConnection conn = (HttpsURLConnection) url.openConnection();
- 
+        
         // 요청 방식을 POST로 설정
         conn.setRequestMethod("GET");
  
@@ -35,7 +36,8 @@ public class Refund {
         JsonObject json = new JsonObject();
         json.addProperty("merchant_uid", merchant_uid);
         json.addProperty("reason", reason);
- 
+        json.addProperty("amount", price);
+        
         // 출력 스트림으로 해당 conn에 요청
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
         bw.write(json.toString());
@@ -45,27 +47,13 @@ public class Refund {
         // 입력 스트림으로 conn 요청에 대한 응답 반환
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         br.close();
-        conn.disconnect();
- 
-        System.out.println("결제 취소 완료 : 주문 번호 {}"+ merchant_uid);
         
      // HTTP 응답 코드 확인
-        int responseCode = conn.getResponseCode();
-        System.out.println("Response Code: " + responseCode);
+//        int responseCode = conn.getResponseCode();
+//        System.out.println("Response Code: " + responseCode);
         
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()))) {
-            String responseJson = reader.lines().collect(Collectors.joining("\n"));
-            System.out.println("응답 본문: " + responseJson);
-
-            JsonObject jsonResponse = JsonParser.parseString(responseJson).getAsJsonObject();
-            String resultCode = jsonResponse.get("code").getAsString();
-            String resultMessage = jsonResponse.get("message").getAsString();
-
-            System.out.println("결과 코드 = " + resultCode);
-            System.out.println("결과 메시지 = " + resultMessage);
-        } catch (IOException e) {
-            // 예외 처리
-        }
+        //연결 끊기
+        conn.disconnect();
     }
 	
 	
@@ -103,8 +91,6 @@ public class Refund {
         br.close(); // BufferedReader 종료
  
         conn.disconnect(); // 연결 종료
- 
-        System.out.println("Iamport 엑세스 토큰 발급 성공 : {}"+ accessToken);
         
         return accessToken;
     }

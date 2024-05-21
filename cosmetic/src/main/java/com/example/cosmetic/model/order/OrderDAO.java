@@ -117,12 +117,21 @@ public class OrderDAO {
 	}
 	
 	//환불시 금액 차감
-	public void deletePrice(Map<String, Object> map) {
-		sqlSession.update("order.deletePrice", map);
+	public void deletePrice(long orderid) {
+		sqlSession.delete("order.deletePrice", orderid);
+	}
+	public void updatePrice(Map<String, Object> map) {
+		sqlSession.update("order.updatePrice", map);
+	}
+	
+	//환불 전 주문 아이템 존재여부
+	public int countItem(long orderid) {
+		return sqlSession.selectOne("order.countItem", orderid);
 	}
 	
 	//주문목록에서 환불에 필요한 정보 불러오기
 	public Map<String, Object> chooseCosts(long orderid) {
 		return sqlSession.selectOne("order.chooseCosts", orderid);
 	}
+	
 }
