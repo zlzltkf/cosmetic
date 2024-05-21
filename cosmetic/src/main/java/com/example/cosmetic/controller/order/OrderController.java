@@ -1,17 +1,31 @@
 package com.example.cosmetic.controller.order;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.Console;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.net.ssl.HttpsURLConnection;
+
+import org.apache.ibatis.javassist.tools.framedump;
 import org.eclipse.tags.shaded.org.apache.xalan.xsltc.compiler.sym;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +33,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.cosmetic.model.order.OrderDAO;
 import com.example.cosmetic.model.order.OrderDTO;
+import com.example.cosmetic.model.product.PageUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -29,16 +46,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 @RequestMapping("/order/")
 public class OrderController {
+	
+//	public static final String IMPORT_CANCEL_URL = "https://api.iamport.kr/payments/cancel";
+//    public static final String KEY = "6746882717766507";
+//    public static final String SECRET = "wwGfcjpUcw74nxulMRj9ZKMeT3h8tZtiytjDoc9XDjlhrXUyrB9vvY7vDalSFvrT5ciMw5REpV0IZlGK";
 
 	@Autowired
 	OrderDAO orderDAO;
 
 	// 테스트
-	@GetMapping("/")
-	public String ordertest() {
+	@CrossOrigin(origins = "http://localhost")
+    @RequestMapping("/payments/cancel")
+	public String test() throws IOException {
+		
+		String key = "6746882717766507";
+		String secret = "wwGfcjpUcw74nxulMRj9ZKMeT3h8tZtiytjDoc9XDjlhrXUyrB9vvY7vDalSFvrT5ciMw5REpV0IZlGK";
+		
+		String token = Refund.getToken(key, secret); 
+		Refund.refundRequest(token, "imp42661322", "dd");
 		return "/product/order/ordertest";
 	}
-
+	
 	// 장바구니의 주문하기 버튼 > 주문서 작성페이지
 	@PostMapping("orderform.do")
 	public String orderform(@RequestParam(name = "cart_id", required = false) String[] c_ids,
@@ -139,8 +167,8 @@ public class OrderController {
 			  map.put("p_id", p_id); 
 			  map.put("amount", amount); 
 			  map.put("p_name", p_name);
-			map.put("p_img", p_img); 
-			map.put("p_price", p_price);
+				map.put("p_img", p_img); 
+				map.put("p_price", p_price);
 			  
 			if (c_id1 != null) {
 					int c_id = Integer.parseInt(c_id1[i]);
@@ -157,7 +185,7 @@ public class OrderController {
 		  
 		  //포인트 
 		  int currentPoint = orderDAO.showPoint(userid); //보유한 포인트 
-		  int addPoint = (int) Math.round(price * 0.01); //포인트 비율 설정
+		  int addPoint = (int) Math.round(price * 0.5); //포인트 비율 설정
 		  
 		  //다음페이지로 전달 
 		  model.addAttribute("list", list);
@@ -174,7 +202,10 @@ public class OrderController {
 
 	// 주문서 작성완료시 > 주문완료 페이지
 	@PostMapping("order.do")
-	public String order(@RequestParam(name = "p_id") String[] productIds,
+	public String order(
+			@RequestParam(name = "IMPCode", required = false) long IMPCode,
+			
+			@RequestParam(name = "p_id") String[] productIds,
 			@RequestParam(name = "c_id", required = false) String[] cartIds,
 			@RequestParam(name = "amount") String[] amounts,
 
@@ -186,7 +217,8 @@ public class OrderController {
 			@RequestParam(name = "usedPoint") int usedPoint,
 
 			HttpSession session, Model model) {
-
+		
+		
 		// session에서 userid 가져오기
 		String userid = (String) session.getAttribute("userid");
 
@@ -205,7 +237,8 @@ public class OrderController {
 			Map<String, Object> map = new HashMap<>();
 			map.put("p_id", productIds[i]);
 			map.put("amount", amounts[i]);
-			map.put("orderstatus", "주문완료");
+			map.put("orderstatus", "결제완료");
+			map.put("orderid", IMPCode);
 			orderDAO.orderItemInsert(map);
 
 			// 주문 아이템 테이블의 primary key값을 배열로 담아 가져오기
@@ -215,12 +248,20 @@ public class OrderController {
 
 		// 포인트 계산
 		Map<String, Object> pointinfo = new HashMap<>();
-		pointinfo.put("point", addPoint - usedPoint);
+		int newPoint = addPoint - usedPoint;
+		if (newPoint < 0) {
+			newPoint = 0;
+		}
+		pointinfo.put("point", newPoint);
 		pointinfo.put("userid", userid);
 		orderDAO.pointUpdate(pointinfo);
 
 		// 총합계 계산
 		totalPrice = totalPrice - usedPoint;
+		
+		if (totalPrice < 0) {
+			totalPrice = 0;
+		}
 
 		// 적립된 포인트 불러오기
 		int userPoint = orderDAO.showPoint(userid);
@@ -269,6 +310,7 @@ public class OrderController {
 		// dto로 전달
 		OrderDTO dto = new OrderDTO();
 
+		dto.setOrderid(IMPCode);
 		dto.setUserid(userid);
 		dto.setOrderItemId(itemIds_JSON); // json 배열 값 넣기
 
@@ -289,6 +331,7 @@ public class OrderController {
 
 		// 데이터 불러오기
 		long idx = orderDAO.getOrderId(); // 추가된 데이터의 기본키 값 가져오기
+		
 		OrderDTO order = orderDAO.orderSelect(idx);
 
 		// 데이터 전달
@@ -296,8 +339,9 @@ public class OrderController {
 		model.addAttribute("orderitems", orderitems); // 주문 아이템 테이블
 		model.addAttribute("userPoint", userPoint); // 보유한 포인트
 		model.addAttribute("usedPoint", usedPoint); // 사용한 포인트
+		
 		// 주문확인된 제품 cart에서 지우기
-		if (cartIds != null || !cartIds[0].equals("")) {
+		if (cartIds != null && cartIds.length > 0 && cartIds[0] != null && !cartIds[0].equals("")) {
 			for (String c_id : cartIds) {
 				int id = Integer.parseInt(c_id.trim());
 				orderDAO.cartDelete(id);
@@ -310,15 +354,61 @@ public class OrderController {
 	// 주문 목록
 	@GetMapping("orderlist.do")
 	public String orderlist(
+			@RequestParam(name = "curPage", defaultValue = "1") int curPage,
+			@RequestParam(name = "f_date", defaultValue = "") String  f_date,
+			@RequestParam(name = "l_date", defaultValue = "") String l_date,
 			HttpSession session, Model model
 			) {
-
+		
 		// session에서 userid 가져오기
 		String userid = (String) session.getAttribute("userid");
-
+		
+		
 		// 주문목록 가져오기
 		List<OrderDTO> list = null;
-		list = orderDAO.orderList(userid);
+		
+		String fDate = "";
+		String lDate = "";
+		
+		//날짜 설정
+		if (!f_date.equals("") && !l_date.equals("")) {
+			fDate = f_date.toString() + " 00:00:00";
+			lDate = l_date.toString() + " 23:59:59";
+		}
+		
+		//주문 목록에 조건 추가
+		Map<String, Object> listInfo = new HashMap<>();
+		listInfo.put("userid", userid);
+		listInfo.put("startDate", fDate);
+		listInfo.put("endDate", lDate);
+		
+		//주문 수 세기
+		int count = orderDAO.orderCount(listInfo);
+		
+		//페이지 계산
+		PageUtil page_info = new PageUtil(count, curPage);
+		int start = page_info.getPageBegin() - 1;
+		int pageCnt = page_info.PAGE_SCALE;
+		
+		listInfo.put("start", start);
+		listInfo.put("pageCnt", pageCnt);
+		
+		//목록 출력
+		list = orderDAO.orderList(listInfo);
+		
+		//주문 상태 세기
+		Map<String, Object> s = new HashMap<>();
+		s.put("userid", userid);
+		s.put("startDate", fDate);
+		s.put("endDate", lDate);
+		
+		int [] statusArray = new int[6];
+		
+		for (int i=0; i<6; i++) {
+			s.put("status", i+1);
+			int num = orderDAO.countStatus(s);
+			statusArray[i] = num;
+		}
 
 		// orderlist의 orderitemId 로 상품정보 가져오기
 		List<Map<String, Object>> orderitemlist = new ArrayList<>();
@@ -326,26 +416,19 @@ public class OrderController {
 		for (OrderDTO item : list) {
 
 			long orderid = item.getOrderid();
-			String orderItemIds = item.getOrderItemId();
-
-			// orderItemIds을 배열로 바꾸기
-			// 괄호 제거
-			orderItemIds = orderItemIds.replaceAll("\\[|\\]", "");
-
-			//주문아이템 배열이 비어있지 않으면
-			if (orderItemIds != null && !orderItemIds.equals("")) {
-				// 쉼표 구분
-				String[] orderItemIdsArray = orderItemIds.split(",");
+			Date orderDate = item.getOrderDate();
+			int totalPrice = item.getTotalPrice();
+			
+			List<Map<String, Object>> iteminfo = orderDAO.orderItemsIdx(orderid);
 
 				// 상품정보 가져오기
-				for (String id : orderItemIdsArray) {
+				for (Map id : iteminfo) {
 
 					Map<String, Object> order = new HashMap<>();
-					int idx = Integer.parseInt(id.trim());
+					int idx = Integer.parseInt(id.get("orderItemId").toString());
 					
 					// 주문 아이템 테이블에서 p_id, amount, 주문상태 꺼내오기
 					int p_id = (int) orderDAO.orderItems(idx).get("p_id");
-					
 					int amount = (int) orderDAO.orderItems(idx).get("amount");
 					String orderStatus = (String) orderDAO.orderItems(idx).get("orderStatus");
 
@@ -357,8 +440,9 @@ public class OrderController {
 
 					// 정보를 map으로 합친 후 orderitems 리스트에 넣기
 					Map<String, Object> map = new HashMap<>();
-//						map.put("orderid", orderid);
+
 					map.put("idx", idx);
+					map.put("orderDate", orderDate);
 					map.put("p_id", p_id);
 					map.put("p_img", p_img);
 					map.put("p_price", p_price);
@@ -367,22 +451,25 @@ public class OrderController {
 					map.put("p_name", p_name);
 
 					order.put("orderid", orderid);
+					order.put("totalPrice", totalPrice);
 					order.put("map", map);
 
 					orderitemlist.add(order);
-				}
-				
+
 			} 
 		}
 
-		// +추가되야 할 기능들
-		
-		// 배송/환불
-		// 날짜별 검색
-
 		// 데이터 보내기
+		model.addAttribute("page_info", page_info);
 		model.addAttribute("order", orderitemlist);
 		model.addAttribute("list", list); // 모델에 배열 추가
+		
+		//날짜 보내기
+		model.addAttribute("f_date", fDate.toString());
+		model.addAttribute("l_date", lDate.toString());
+		
+		//주문상태
+		model.addAttribute("statusArray", statusArray);
 
 		return "/product/order/ordered_list";
 	}
@@ -395,60 +482,47 @@ public class OrderController {
 		return map;
 	}
 	
-	//@RequestParam(name = "price") int price
-	// 주문취소
-	@GetMapping("delete_order.do")
+	//환불
+	@ResponseBody
+	@PostMapping("delete_order.do")
 	public String delete_order(
-			@RequestParam(name = "orderid") String orderid,
-			@RequestParam(name = "itemid") String itemid,
-			Model model
+			@RequestBody Map<String, Object> payinfo
 	) {
-		long o_id = Long.parseLong(orderid);
-		int i_id = Integer.parseInt(itemid);
-		
-		//주문 테이블에서 배열값 업데이트한 후 아이템 데이터 지우기
-		//주문 테이블에서 배열값 가져오기
-		String orderItemIds = orderDAO.orderItemIdSelect(o_id);
-		
-		String noBrackets = orderItemIds.replace("[", "").replace("]", "");
-        String[] s_ids = noBrackets.split(",");
+		long orderid = Long.parseLong(payinfo.get("orderid").toString());
+        int itemid = Integer.parseInt(payinfo.get("itemid").toString());
+		int delprice = Integer.parseInt(payinfo.get("delPrice").toString());
         
-        StringBuilder result = new StringBuilder();
-        result.append("[");
-
-        boolean first = true;
-        for (String s : s_ids) {
-            int s_id = Integer.parseInt(s.trim());
-            if (s_id != i_id) {
-                if (!first) {
-                    result.append(", ");
-                }
-                result.append(s_id);
-                first = false;
-            }
-        }
-
-        result.append("]");
+        Map<String, Object> costs = orderDAO.chooseCosts(orderid);
         
-        Map<String, Object> map = new HashMap<>();
-        map.put("orderItemId", result.toString());
-        map.put("orderid", o_id);
+        int totalPrice = (int) costs.get("totalPrice");
+        int deliverCost = (int) costs.get("deliverCost");
         
-        //주문 아이템 배열이 비어있지 않으면
-        if (result != null && !result.equals("[]")) {
-        	
-        	//배열 업데이트
-        	orderDAO.orderlistUpdate(map);
-        	//주문 아이템 테이블에서 id값 지우기
-    		orderDAO.orderItemDelete(i_id);
-    		
-    		String resultids = orderDAO.orderItemIdSelect(o_id);
-    		if (resultids != null && resultids.equals("[]")) {
-        		orderDAO.orderDelete(o_id);
-        	}
-        }
+        //총 금액에서 환불할 금액 제외
+        int updatePrice = totalPrice - deliverCost - delprice;
+		if (updatePrice < 0) {
+			updatePrice = 0;
+		}
 		
-		return "redirect:/order/orderlist.do";
+		int updateTotalPrice = totalPrice - delprice;
+		if (updateTotalPrice < 0) {
+			updateTotalPrice = 0;
+		}
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("orderid", orderid);
+		map.put("price", updatePrice);
+		map.put("totalPrice", updateTotalPrice);
+		
+		//주문아이템 지우기
+		orderDAO.orderItemDelete(itemid);
+		
+		//주문내역서에서 금액 업데이트
+		orderDAO.deletePrice(map);
+		
+		String result = "success";
+		return result;
 	}
+	
+	
 	
 }

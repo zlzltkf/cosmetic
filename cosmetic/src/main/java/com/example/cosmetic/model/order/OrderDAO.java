@@ -33,7 +33,15 @@ public class OrderDAO {
 		sqlSession.insert("order.orderInsert", dto);
 	}
 	
+	//주문 수 세기
+	public int orderCount(Map<String, Object> map) {
+		return sqlSession.selectOne("order.orderCount", map);
+	}
+	
 	//주문한 상품 목록 확인
+	public List<Map<String, Object>> orderItemsIdx(long orderid) {
+		return sqlSession.selectList("order.orderItemsIdx", orderid);
+	}
 	public Map<String, Object> orderItems(int itemId) {
 		return sqlSession.selectOne("order.orderItems", itemId);
 	}
@@ -59,7 +67,7 @@ public class OrderDAO {
 	}
 	
 	//포인트 불러오기
-	public Integer  showPoint(String userid) {
+	public Integer showPoint(String userid) {
 		int point;
 		Integer p = sqlSession.selectOne("order.showPoint", userid);
 		if (p != null) {
@@ -71,8 +79,16 @@ public class OrderDAO {
 	}
 	
 	//주문 목록 출력
-	public List<OrderDTO> orderList(String userid) {
-		return sqlSession.selectList("order.orderList", userid);
+//	public List<OrderDTO> orderList(String userid) {
+//		return sqlSession.selectList("order.orderList", userid);
+//	}
+	public List<OrderDTO> orderList(Map<String, Object> map) {
+		return sqlSession.selectList("order.orderList", map);
+	}
+	
+	//주문 상태 세기
+	public int countStatus(Map<String, Object> map) {
+		return sqlSession.selectOne("order.countStatus", map);
 	}
 	
 	//주문된 상품 카트에서 지우기
@@ -98,5 +114,15 @@ public class OrderDAO {
 	//주문 리스트에서 특정 주문 삭제
 	public void orderDelete(long orderid) {
 		sqlSession.delete("order.orderDelete", orderid);
+	}
+	
+	//환불시 금액 차감
+	public void deletePrice(Map<String, Object> map) {
+		sqlSession.update("order.deletePrice", map);
+	}
+	
+	//주문목록에서 환불에 필요한 정보 불러오기
+	public Map<String, Object> chooseCosts(long orderid) {
+		return sqlSession.selectOne("order.chooseCosts", orderid);
 	}
 }

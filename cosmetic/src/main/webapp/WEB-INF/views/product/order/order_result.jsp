@@ -297,7 +297,7 @@
 <div id = "msg">
 	주문이 정상적으로 완료되었습니다.
 </div>
-
+ 
 <table id="orderedTable">
 	<tr>
 		<td>주문번호</td>

@@ -525,7 +525,7 @@ h3 {
 					<div id="usePoint">
 						<div class="c"><p>사용할 포인트</p></div>
 						<div class="d">
-							<input id="usedPoint" name="usedPoint">
+							<input id="usedPoint" name="usedPoint" value="0">
 							<button type="button" id="allPoint" onclick="useAllPoint()">전액사용</button>
 						</div>
 					</div>
@@ -591,7 +591,7 @@ h3 {
 					<button type="button" id="payment" onclick="Payment()">구매하기</button>
 					
 					<!-- 테스트 -->
-					<button type="submit">테스트버튼</button>
+					<button type="button" onclick="testpay()">테스트버튼</button>
 				</div>
 			</div>
 		</div>
@@ -692,9 +692,33 @@ function showPostcode() {
                 document.getElementById("address2").focus();
              }
           }).open();
- }
+}
+
+//주문번호 생성
+function formatID(date) {
+	const year = date.getFullYear();
+	const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const randomNumber = Math.floor(1000 + Math.random() * 9000);
+    const id = year + month + day + randomNumber;
+	return id; 
+    
+}
  
- 
+//테스트결제
+function testpay() {
+	var date = new Date();
+	const id = formatID(date);
+	
+	var input = document.createElement("input");
+    input.setAttribute("type", "hidden");
+    input.setAttribute("name", "IMPCode");
+    input.setAttribute("value", id);
+	
+    document.getElementById('form_order').method = "post";
+	document.getElementById('form_order').appendChild(input);
+    document.getElementById('form_order').submit();
+}
 
 //결제
 var IMP = window.IMP;
@@ -723,6 +747,9 @@ function Payment() {
 			
 			const methodList = document.getElementsByName("method");
 			var method;
+			
+			var date = new Date();
+			const id = formatID(date);
 
 			if (confirm("구매 하시겠습니까?")) { // 구매 클릭시 한번 더 확인하기
 				
@@ -740,7 +767,7 @@ function Payment() {
 		            IMP.request_pay({
 		                pg: method, // PG사 코드표에서 선택
 		                pay_method: 'card', // 결제 방식
-		                merchant_uid: "IMP" + new Date().getTime(), // 결제 고유 번호
+		                merchant_uid: id, // 결제 고유 번호
 		                name: 'EDEN', // 제품명
 		                amount: totalPrice, // 가격
 		                
@@ -754,7 +781,15 @@ function Payment() {
 		                if (rsp.success) { //결제 성공시
 		                
 							alert('결제가 완료되었습니다.');
-		                    document.getElementById('form_order').submit();
+		                	
+							var input = document.createElement("input");
+						    input.setAttribute("type", "hidden");
+						    input.setAttribute("name", "IMPCode");
+						    input.setAttribute("value", id);
+							
+						    document.getElementById('form_order').method = "post";
+							document.getElementById('form_order').appendChild(input);
+						    document.getElementById('form_order').submit();
 		                    
 		                } else if (rsp.success == false) { // 결제 실패시
 		                    alert(rsp.error_msg)

@@ -389,30 +389,34 @@ $(document).ready(function() {
 		    amountArray.push(quantityValue);
 		    p_id_array.push('${dto.p_id}');
 		});
-		
-	    var formData = new FormData();
 	    
-	    formData.append('p_o_price', price); 
-        formData.append('delfee', delfee);
-        formData.append('totalPrice', totalPrice); 
-	    
-	    for (i=0; i<amountArray.length; i++) {
-	    	formData.append('p_order_id', p_id_array[i]);
-	    	formData.append('amount', amountArray[i]);
+	    if (amountArray.length === 0) {
+	    	alert('상품을 선택해주세요');
+	    } else if (amountArray.length != 0) {
+	    	var formData = new FormData();
+		    
+		    formData.append('p_o_price', price); 
+	        formData.append('delfee', delfee);
+	        formData.append('totalPrice', totalPrice); 
+		    
+		    for (i=0; i<amountArray.length; i++) {
+		    	formData.append('p_order_id', p_id_array[i]);
+		    	formData.append('amount', amountArray[i]);
+		    }
+		       
+		    formElement.innerHTML = '';
+			for (var pair of formData.entries()) {
+			    var input = document.createElement("input");
+			    input.setAttribute("type", "hidden");
+			    input.setAttribute("name", pair[0]);
+			    input.setAttribute("value", pair[1]);
+			    formElement.appendChild(input);
+			} 
+			
+			formElement.method = "post";
+			formElement.action = "/order/orderform_item.do";
+			formElement.submit(); 	
 	    }
-	       
-	    formElement.innerHTML = '';
-		for (var pair of formData.entries()) {
-		    var input = document.createElement("input");
-		    input.setAttribute("type", "hidden");
-		    input.setAttribute("name", pair[0]);
-		    input.setAttribute("value", pair[1]);
-		    formElement.appendChild(input);
-		} 
-		
-		formElement.method = "post";
-		formElement.action = "/order/orderform_item.do";
-		formElement.submit(); 
 	});
 });
 

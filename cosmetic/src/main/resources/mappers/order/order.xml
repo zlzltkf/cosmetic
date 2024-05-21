@@ -7,7 +7,10 @@
 	select LAST_INSERT_ID()
 </select>
 <select id="getOrderId" resultType="long">
-	SELECT orderid FROM orderList ORDER BY orderid DESC LIMIT 1
+	SELECT * 
+	FROM orderlist
+	ORDER BY DATE_FORMAT(orderDate, '%Y-%m-%d %H:%i:%s') DESC
+	LIMIT 1
 </select>
 
 <select id="memberInfo" resultType="java.util.Map">
@@ -18,13 +21,17 @@
 <!-- 장바구니의 상품 > 주문 아이템 테이블에 저장 -->
 <insert id="orderItemInsert">
 	INSERT INTO orderitem(
-	p_id, amount, orderstatus
+	p_id, amount, orderstatus, orderid
 	) VALUES (
-		#{p_id}, #{amount}, #{orderstatus}
+		#{p_id}, #{amount}, #{orderstatus}, #{orderid}
 	)
 </insert>
 
 <!-- 주문한 상품 목록 확인 -->
+<select id="orderItemsIdx" resultType="java.util.Map">
+	select * from orderitem
+	where orderid = #{orderid}
+</select>
 <select id="orderItems" resultType="java.util.Map">
 	select * from orderitem
 	where orderItemId = #{itemId}
@@ -39,13 +46,13 @@
 <!-- 주문테이블 데이터 입력 -->
 <insert id="orderInsert">
 	INSERT INTO orderlist (
-		userid, orderItemId,
+		orderid, userid, orderItemId,
         price, deliverCost, totalPrice,
         method,
         username, zipcode, address1, address2, tel,
         userPoint
 	) VALUES (
-		#{userid}, #{orderItemId},
+		#{orderid}, #{userid}, #{orderItemId},
 	    #{price}, #{deliverCost}, #{totalPrice},
 	    #{method},
 	    #{username}, #{zipcode}, #{address1}, #{address2}, #{tel},
@@ -72,11 +79,67 @@
 	where userid = #{userid}
 </select>
 
+<!-- 주문 수 세기 -->
+<select id="orderCount" resultType="int">
+	select COUNT(*) from orderlist l, orderitem i
+	WHERE l.orderid = i.orderid
+	and userid = #{userid}
+<choose>
+   	<when test="startDate != '' and endDate != ''">
+   		and orderDate &gt;= #{startDate}
+     	AND orderDate &lt;= #{endDate}
+   	</when>
+   	<when test="startDate == '' and endDate == ''">
+   		and orderDate &gt;= (SELECT MIN(orderDate) FROM orderList WHERE userid = #{userid})
+    	AND orderDate &lt;= (SELECT MAX(orderDate) FROM orderList WHERE userid = #{userid})
+   	</when>
+</choose>
+</select>
+
 <!-- 주문 목록 출력 -->
 <select id="orderList" resultType="com.example.cosmetic.model.order.OrderDTO">
-	select * from orderlist
-	where userid = #{userid}
-	ORDER BY orderDate
+    SELECT * 
+    FROM orderList
+    WHERE userid = #{userid}
+    <choose>
+    	<when test="startDate != '' and endDate != ''">
+    		AND orderDate &gt;= #{startDate}
+      		AND orderDate &lt;= #{endDate}
+    	</when>
+    	<when test="startDate == '' and endDate == ''">
+    		AND orderDate &gt;= (SELECT MIN(orderDate) FROM orderList WHERE userid = #{userid})
+     		AND orderDate &lt;= (SELECT MAX(orderDate) FROM orderList WHERE userid = #{userid})
+    	</when>
+    </choose>
+    ORDER BY orderDate DESC
+    limit #{pageCnt} offset #{start}
+</select>
+
+<!-- 주문 상태 세기 -->
+<select id="countStatus" resultType="int">
+	select COUNT(*) from orderlist l, orderitem i
+	WHERE l.orderid = i.orderid
+	and userid = #{userid}
+	<choose>
+		<when test="status == 1">
+    	and orderStatus = '주문접수'
+    	</when>
+    	<when test="status == 2">
+    	and orderStatus = '결제완료'
+    	</when>
+    	<when test="status == 3">
+    	and orderStatus = '배송중'
+    	</when>
+    	<when test="status == 4">
+    	and orderStatus = '배송완료'
+    	</when>
+    	<when test="status == 5">
+    	and orderStatus = '반품요청'
+    	</when>
+    	<when test="status == 6">
+    	and orderStatus = '취소/반품'
+    	</when>
+    </choose>
 </select>
 
 <!-- 주문된 상품 카트에서 지우기 -->
@@ -109,5 +172,19 @@
 	SET orderItemId = CAST(#{orderItemId} AS JSON)
 	WHERE orderid = #{orderid}
 </update>
+
+<!-- 환불시 금액 차감 -->
+<update id="deletePrice">
+	UPDATE orderlist
+	SET price = #{price}, totalPrice = #{totalPrice}
+	WHERE orderid = #{orderid}
+</update>
+
+<!-- 주문목록에서 환불에 필요한 정보 불러오기 -->
+<select id="chooseCosts" resultType="java.util.Map">
+	SELECT price, deliverCost, totalPrice
+	FROM orderlist
+	WHERE orderid = #{orderid}
+</select>
 
 </mapper>
