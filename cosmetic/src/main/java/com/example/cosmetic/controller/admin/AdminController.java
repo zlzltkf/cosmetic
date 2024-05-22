@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,6 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -195,7 +197,7 @@ public class AdminController {
 	    // 현재 페이지에 해당하는 사용자 목록 가져오기
 	    List<Map<String, Object>> list = adminDao.order_list(start, pageCnt);
 	    List<Map<String, Object>> user_list = adminDao.list();
-	    System.out.println(user_list);
+	    //System.out.println(user_list);
 	    
 	    // orderid에 따라 아이템 갯수를 저장할 Map
 	    Map<Long, Integer> map = new HashMap<>();
@@ -208,7 +210,7 @@ public class AdminController {
 	        int order_count = adminDao.user_order_count(orderid);
 	        map.put(orderid, order_count); // orderCountMap에 주문 번호와 갯수를 추가
 	        status.put(orderid, ststus);
-	        System.out.println(order_count);
+	        //System.out.println(order_count);
 	    }
 
 	    // 모델에 데이터 추가
@@ -224,7 +226,19 @@ public class AdminController {
 	
 	// 상품목록
 	@GetMapping("list_product")
-	public String product_list() {
+	public String product_list(Model model) {
+		List<String> Biglist = adminDao.getBig();
+		model.addAttribute("list",Biglist);
 		return "admin/admin_product_list";
 	}
+	
+	@GetMapping("/small_list/{ctg_small}")
+	@ResponseBody
+	public List<ProductDTO> small_list(@PathVariable(name="ctg_small") String ctg_small, Model model, HttpServletResponse response){
+	    int ctg_s_no = adminDao.s_no(ctg_small);
+	    List<ProductDTO>list = adminDao.s_list(ctg_s_no);
+	    model.addAttribute("list",list);
+	    return list;
+}
+	
 }

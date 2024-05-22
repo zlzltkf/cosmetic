@@ -30,25 +30,22 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: white;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
-                    <i class="fas fa-laugh-wink"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">SB Admin <sup>2</sup></div>
+                <div class="sidebar-brand-text mx-3">EDEN 뷰티 </div>
             </a>
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
 
             <!-- Nav Item - Dashboard -->
-            <li class="nav-item">
-                <a class="nav-link" href="index.html">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="index.html">
+					<i></i> <span>📈 대쉬보드</span>
+			</a></li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -59,51 +56,43 @@
             </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item active">
-                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true"
-                    aria-controls="collapseTwo">
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>고객관리</span>
-                </a>
-                <div id="collapseTwo" class="collapse show" aria-labelledby="headingTwo"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/admin/user_list">고객목록</a>
-                        <a class="collapse-item active" href="#">고객</a>
-                    </div>
-                </div>
-            </li>
+           <li class="nav-item active"><a class="nav-link" href="#"
+				data-toggle="collapse" data-target="#collapseTwo"
+				aria-expanded="true" aria-controls="collapseTwo"> <i 
+					></i> <span>👤 고객관리</span>
+			</a>
+				<div id="collapseTwo" class="collapse"
+					aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<a class="collapse-item" href="/admin/user_list">고객목록</a> <a
+							class="collapse-item active" href="#">고객</a>
+					</div>
+				</div></li>
 
-          
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
-                    <i class="fas fa-fw fa-folder"></i>
-                    <span>상품관리</span>
-                </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <a class="collapse-item" href="/admin/write_product">상품등록</a>
-                        <a class="collapse-item" href="/admin/list_product">상품목록</a>
-                        <div class="collapse-divider"></div>
-                       
-                    </div>
-                </div>
-            </li>
 
-            <!-- Nav Item - Charts -->
-            <li class="nav-item">
-                <a class="nav-link" href="/admin/order_list">
-                    <i class="fas fa-fw fa-chart-area"></i>
-                    <span>주문목록</span></a>
-            </li>
+			<li class="nav-item"><a class="nav-link collapsed" href="#"
+				data-toggle="collapse" data-target="#collapsePages"
+				aria-expanded="true" aria-controls="collapsePages"> <i
+				></i> <span>🛍︎ 상품관리</span>
+			</a>
+				<div id="collapsePages" class="collapse"
+					aria-labelledby="headingPages" data-parent="#accordionSidebar">
+					<div class="bg-white py-2 collapse-inner rounded">
+						<a class="collapse-item" href="/admin/write_product">상품등록</a> <a
+							class="collapse-item" href="/admin/list_product">상품목록</a>
+						<div class="collapse-divider"></div>
 
-            <!-- Nav Item - Tables -->
-            <li class="nav-item">
-                <a class="nav-link" href="tables.html">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Tables</span></a>
-            </li>
+					</div>
+				</div></li>
+
+			<!-- Nav Item - Charts -->
+			<li class="nav-item"><a class="nav-link" href="/admin/order_list">
+					<i ></i> <span>📋 주문목록</span>
+			</a></li>
+			
+			<li class="nav-item"><a class="nav-link" href="/">
+					<i ></i> <span>🖱️ 사이트로 바로가기</span>
+			</a></li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -129,9 +118,6 @@
                     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
                         <i class="fa fa-bars"></i>
                     </button>
-
-                    
-                    
 
                     <!-- ------------------------------------Tob Bar 시작!------------------------------------ -->
                     <ul class="navbar-nav ml-auto">
@@ -159,13 +145,13 @@
             <!-- End of Main Content -->
 
             <!-- Footer 시작 -->
-            <footer class="sticky-footer bg-white">
+            <!-- <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
                         <span>Copyright &copy; Your Website 2020</span>
                     </div>
                 </div>
-            </footer>
+            </footer> -->
             <!-- Footer 끝 -->
 
         </div>

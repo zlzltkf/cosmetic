@@ -100,10 +100,13 @@ public class AdminDao {
 		return sqlSession.selectOne("admin.status",orderid);
 	}
 	
-	
-	/*
-	 * public MemberDTO detail(String userid) { Map<String, Object> map = new
-	 * HashMap<>(); map.put("userid", userid); return
-	 * sqlSession.selectOne("admin.user_detail", map); }
-	 */
+	public int s_no(String ctg_small){
+		return sqlSession.selectOne("admin.s_no",ctg_small);
+		
+	}
+
+	public List<ProductDTO> s_list(int ctg_s_no) {
+		return sqlSession.selectList("admin.s_list",ctg_s_no);
+	}
+
 }
