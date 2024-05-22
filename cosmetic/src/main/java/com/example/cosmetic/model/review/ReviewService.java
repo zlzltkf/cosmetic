@@ -1,50 +1,70 @@
 package com.example.cosmetic.model.review;
 
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+
 
 @Service
 public class ReviewService {
 	
-	@Autowired
+	
+	@Autowired 
 	ReviewDAO reviewDao;
 	
-	public List<ReviewDTO> list() {
-		return reviewDao.review_list();
-	}
 	
-	public void delete(int r_f_idx) {
-		reviewDao.review_delete(r_f_idx);
+	public List<ReviewDTO> list(int p_id) {
+		//System.out.println(reviewDao.review_list(p_id));
+		return reviewDao.review_list(p_id);
 	}
+
 	
+
+	// 리뷰 등록
 	@Transactional
-	public void insert(ReviewDTO dto) {
-		reviewDao.review_insert(dto);
-		String[] file = dto.getFile();
-		if(file == null) return;
-		for(String name : file) {
-			reviewDao.insert_file(name);
-		}
-	}
+	public void insertReview(ReviewDTO dto,String[] files ) {
+	    // 리뷰 정보 저장
+	    reviewDao.review_insert(dto);
 	
-	@Transactional
-	public void update(ReviewDTO dto) {
-		reviewDao.review_update(dto);
-		String[] file = dto.getFile();
-		if(file == null) return;
-		for(String name : file) {
-			reviewDao.update_file(name, dto.getR_idx());
-		}
+	    //MultipartFile[] files = dto.getFiles();
+	    if (files == null) return;
+
+	    for (String file : files) {
+	            // 리뷰의 ID를 가져옵니다.
+	            int r_id = reviewDao.r_id();
+	            
+	            // 파일을 저장하는 메서드 호출
+	            reviewDao.insert_attach(new String[] { file }, dto.getUserid(), r_id);
+	    }	    
+	    
+	    
+//	    MultipartFile[] files = dto.getFiles();
+//	    if (files == null) return;
+//
+//	    for (MultipartFile file : files) {
+//	        String file_name = file.getOriginalFilename();
+//	        if (file_name != null && !file_name.isEmpty()) {
+//	            // 리뷰의 ID를 가져옵니다.
+//	            int r_id = reviewDao.r_id();
+//	            
+//	            // 파일을 저장하는 메서드 호출
+//	            reviewDao.insert_attach(new String[] { file_name }, dto.getUserid(), r_id);
+//	        }
+//	    }
 	}
+    
+    public List<String> list_attach(int r_id){
+    	return reviewDao.list_attach(r_id);
+    }
+
+    
+    
+    
+    
 	
-	public List<String> list_file(int f_idx) {
-		return reviewDao.list_file(f_idx);
-	}
 	
-	public void delete_file(String file) {
-		reviewDao.delete_file(file);
-	}
 }

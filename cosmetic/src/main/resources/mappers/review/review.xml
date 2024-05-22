@@ -5,41 +5,44 @@
 	<!-- 리뷰 테이블 -->
 	
 	<select id="review_list" resultType="com.example.cosmetic.model.review.ReviewDTO">
-	select idx, r_subject, r_contents, r_date, m.userid, m.nickname
+	select r_id, p_id, r_contents, r_date, m.userid, m.nickname
 	from member m, review r
-	where m.userid=r.userid
-	order by idx desc, r_date desc
+	where m.userid=r.userid and p_id=#{p_id}
+	order by r_id desc, r_date desc
 	</select>
+
 	
 	<insert id="review_insert">
-	insert into review(userid, r_subject, r_contents, r_date) values(#{userid}, #{r_subject}, #{r_contents}, now());
+	insert into review(p_id, userid, r_contents, r_date) values(#{p_id},#{userid}, #{r_contents}, now())
 	</insert>
 	
-	<delete id="review_delete">
-	delete from review where r_idx=#{r_idx}
-	</delete>
 
 
-	<!-- 파일 테이블 -->
-	<select id="list_file" resultType="String">
-		select file from r_file
-		where r_f_idx=#{r_f_idx}
-		order by f_date
+	<!-- 리뷰 첨부파일 -->
+	<select id="list_attach" resultType="String">
+		select file_name from attach
+		where r_id=#{r_id}
+		order by file_id
 	</select>
 	
-	<insert id="insert_file">
-		insert into r_file(file)
-		values (#{file})
+	<insert id="insert_attach">
+    insert into attach(file_name, userid, r_id)
+    values
+    <foreach collection="filenames" item="file_name" separator=",">
+        (#{file_name}, #{userid}, #{r_id})
+    </foreach>
+</insert>
+	
+	<insert id="update_attach">
+		insert into attach(file_name,r_id)
+		values(#{file_name},#{r_id})
 	</insert>
 	
-	<insert id="update_file">
-		insert into r_file(file,r_f_idx)
-		values (#{file},#{r_f_idx})
-	</insert>
-	
-	<delete id="delete_file">
-		delete from r_file where file=#{file}
+	<delete id="delete_attach">
+		delete from attach where file_name = #{file_name}
 	</delete>
 	
-	
+	<select id="r_id" resultType="int">
+		SELECT r_id from review order by r_id desc limit 1
+	</select>
 </mapper>

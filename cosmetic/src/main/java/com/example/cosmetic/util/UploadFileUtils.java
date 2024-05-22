@@ -35,6 +35,7 @@ public class UploadFileUtils {
 		File target = new File(uploadPath + path, filename);
 		FileCopyUtils.copy(fileData, target);
 		String str = uploadPath + path + "/" + filename;
+		System.out.println("str: "+str);
 		return str;
 	}
 }

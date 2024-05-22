@@ -1,52 +1,86 @@
 package com.example.cosmetic.model.review;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.cosmetic.util.UploadFileUtils;
 
 @Repository
 public class ReviewDAO {
 
+	String upload_path="src/main/webapp/resources/admin/img";
+	
 	@Autowired
 	SqlSession sqlSession;
 	
-	public List<ReviewDTO> review_list() {
-		return sqlSession.selectList("review.review_list");
+	// 리뷰 리스트
+	public List<ReviewDTO> review_list(int p_id) {
+		return sqlSession.selectList("review.review_list",p_id);
 	}
+
 	
+	// 리뷰 등록
 	public void review_insert(ReviewDTO dto) {
 		sqlSession.insert("review.review_insert", dto);
 	}
 	
-	public void review_delete(int r_idx) {
-		sqlSession.delete("review.review_delete", r_idx);
+	// 리뷰 삭제
+	public void review_delete(int r_id) {
+		sqlSession.delete("review.review_delete", r_id);
 	}
 	
+	// 리뷰 수정
 	public void review_update(ReviewDTO dto){
 		sqlSession.update("review.review_update",dto);
 	}
 	
-	// 파일 관련
-	public List<String> list_file(int r_f_idx) {
-		return sqlSession.selectList("review.list_file",r_f_idx);
+	
+	
+	// 첨부파일
+	public List<String> list_attach(int r_id) {
+		return sqlSession.selectList("review.list_attach", r_id);
 	}
 	
-	public void insert_file(String file) {
-		sqlSession.insert("review.insert_file", file);
+	public void insert_attach(@Param("filenames") String[] filenames, @Param("userid") String userid, @Param("r_id") int r_id) {
+	    Map<String, Object> map = new HashMap<>();
+
+//	    String[] arr = new String[filenames.length];
+//	    for (int i = 0; i < filenames.length; i++) {
+//	        int underscoreIndex = filenames[i].lastIndexOf("_");
+//	        if (underscoreIndex != -1) {
+//	            arr[i] = filenames[i].substring(underscoreIndex + 1);
+//	        } else {
+//	            arr[i] = filenames[i];  
+//	        }
+//	    }
+
+	    map.put("filenames", filenames);
+	    map.put("userid", userid);
+	    map.put("r_id", r_id);
+	    sqlSession.insert("review.insert_attach", map);
+	}
+
+	
+	public void update_attach(String file_name,int r_id){
+		Map<String,Object> map=new HashMap<>();
+		map.put("file_name",file_name);
+		map.put("r_id",r_id);
+		sqlSession.insert("review.update_attach",map);
 	}
 	
-	public void update_file(String file, int r_f_idx) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("file", file);
-		map.put("r_f_idx", r_f_idx);
-		sqlSession.insert("review.update_file", map);
+	public void delete_attach(String file_name){
+		sqlSession.delete("review.delete_attach",file_name);
 	}
 	
-	public void delete_file(String file) {
-		sqlSession.delete("review.delete_file", file);
+	public int r_id() {
+		return sqlSession.selectOne("review.r_id");
 	}
 }
