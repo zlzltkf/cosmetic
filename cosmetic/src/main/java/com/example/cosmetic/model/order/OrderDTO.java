@@ -14,11 +14,6 @@ public class OrderDTO {
     private long orderid;
     private String userid;
     
-    private String orderItemId;
-//    private String p_ids;
-//    private String amounts;
-    
-//    private String orderStatus;
     private Date orderDate;
     
     private int price;
@@ -26,15 +21,18 @@ public class OrderDTO {
     private int totalPrice;
     
     private String method;
-//    private String cardNumber;
     
     private String username;
     private String zipcode;
     private String address1;
     private String address2;
     private String tel;
-    
-//    private String cancelReason;
     private int userPoint;
+    
+    //item
+    private int orderItemId;
+    private int p_id;
+	private int amount;
+	private String orderStatus;
 	
 }

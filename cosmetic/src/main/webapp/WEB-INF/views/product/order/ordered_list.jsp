@@ -42,26 +42,197 @@
 	margin: 230px auto 200px auto;
 	width: 60%;
 	height: 100%;
+	font-size: 0.9em;
+	min-width: 610px;
 }
 
+/* 주문상태 */
 #process {
-	border: 1px solid black;
+	border: 1px solid #c9c9c7;
 	display: flex;
 	flex-direction: row;
+	background-color: #fafafa;
+	justify-content: space-around;
+	padding: 20px;
+}
+#process .p {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	font-size: 0.9em;
 }
 #process .count {
 	cursor: pointer;
+	font-size: 2em;
+	font-weight: bold;
 }
 
+/* 날짜 선택 */
 #dateBox {
-	border: 1px solid black;
+	border: none;
+	
+}
+#dateInfo {
+	padding: 40px 0 10px 0 ;
+	font-weight: bold;
+}
+#dateChooseBox {
 	display: flex;
-	flex-direction: column;
+	flex-direction: row;
+	width: 100%;
+	padding: 5px;
+	border-top: 2px solid #999; 
+	border-bottom: 1px solid #c9c9c7; 
+	font-size: 0.9em;
+}
+
+#dateChooseBox button {
+	padding: 0 10px;
+	height: 30px;
+	background-color: white;
+	border: 1px solid #999;
+}
+#dateChooseBox input {
+	height: 30px;
+}
+
+#chooseDateBtn {
+	display: flex;
+	flex-direction: row;
+	min-width: 240px;
+}
+#dateChooseBox button {
+	margin: 5px 2px;
+}
+#dateChooseBox button:active,
+#dateChooseBox button:hover,
+#dateChooseBox button:focus {
+	background-color: #555;
+	color: white;
 }
 
 #chooseDate {
+	margin: 0 0 0 10px;
 	display: flex;
 	flex-direction: row;
+	min-width: 325px;
+}
+#chooseDate #inputD {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#inputD input[type="date"]::-webkit-datetime-edit {
+	padding: 0 0 2px 5px;
+}
+
+#chooseDate #inputD div, #chooseDate button {
+	margin: 5px 2px;
+}
+
+/* 주문목록 */
+#orderWrap {
+	margin: 30px 0 0 0;
+}
+
+#orderWrap #info {
+	margin: 5px 0;
+}
+
+/* 주문목록 테이블 */
+#orderTable {
+	width: 100%;
+}
+#orderTable .p_info {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	align-items: center;
+	justify-content: flex-start;
+}
+#orderTable .imgBox {
+ 	width: 100px;
+	height: 100px;
+}
+#orderTable .Pname {
+	width: 100%;
+	padding: 5px;
+}
+#orderTable .imgBox img {
+	width: 100%;
+	height: 100%;
+}
+
+#orderTable th {
+	border-top: 2px solid gray;
+	padding: 10px;
+	border-bottom: 1px solid gray; 
+}
+
+#orderTable td {
+	border-bottom: 1px solid gray;
+	padding: 10px;
+}
+
+#orderTable th {
+	background-color: #fafafa;
+	text-align: center;
+}
+
+#orderTable td:nth-child(1) p {
+	margin: 0;
+	padding: 0;
+}
+#orderTable td:nth-child(1) .i {
+	font-weight: bold;
+}
+#orderTable td:not(:nth-child(2)) {
+	text-align: center;
+}
+#orderTable td:nth-child(2) {
+	min-width: 250px;
+}
+#orderTable td:nth-child(2) a {
+	color: #656565;
+}
+#orderTable td:nth-child(2) a:hover {
+	color: #337ab7;
+}
+#orderTable td:nth-child(3) {
+	min-width: 140px;
+}
+#orderTable td:nth-child(3) .p {
+	color: red;
+	padding: 0;
+	margin: 0;
+	font-size: 1.1em;
+	display: inline-block;
+}
+#orderTable td:nth-child(3) .a {
+	color: gray;
+	padding: 0;
+	margin: 0;
+	font-size: 0.9em;
+	display: inline-block;
+}
+#orderTable td:nth-child(4) {
+	min-width: 110px;
+}
+#orderTable td:nth-child(4) p {
+	margin: 5px;
+}
+#orderTable td:nth-child(4) button {
+	border: 1px solid #999;
+	background-color: white;
+	padding: 5px 10px;
+	width: 95px;
+}
+#orderTable td:nth-child(4) button:active,
+#orderTable td:nth-child(4) button:hover,
+#orderTable td:nth-child(4) button:focus {
+	background-color: #555;
+	color: white;
 }
 
 /* 페이지 번호 */
@@ -125,11 +296,13 @@ justify-content:flex-start;
 
 /* Modal Content */
 .modal-content {
+	position: absolute;
+	left: 20%;
   background-color: #fefefe;
   margin: auto;
-  padding: 20px;
+  padding: 10px;
   border: 1px solid #888;
-  width: 80%;
+  width: 60%;
 }
 
 /* The Close Button */
@@ -146,6 +319,63 @@ justify-content:flex-start;
   text-decoration: none;
   cursor: pointer;
 }
+
+#modal-wrap {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	 width: 100%;
+	 justify-content: center;
+}
+
+
+
+#modal-wrap .m:nth-child(1) {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-bottom: 2px solid black;
+}
+
+#modal-wrap .m:nth-child(1) h3 {
+	font-size: 1.2em;
+	font-weight: bold;
+}
+
+#modal-wrap .m {
+	width: 100%;
+}
+
+.modal-content .modal_info {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 20px;
+}
+
+#modal-wrap .m h2 {
+	font-weight: bold;
+	font-size: 1.4em;
+	display: inline-block;
+} 
+
+ #sendRefund {
+	width: 120px;
+	height: 50px;
+	margin: 10px 0;
+	border: 1px solid #ff7878;
+	background: hsl(0 0 0/0);
+	font-weight: bold;
+	font-size: 1.3em;
+	padding: 3px 10px; 
+	color: #ff7878;
+	border-radius: 0.5em;
+}
+#sendRefund:hover {
+	border: 1px solid #ff7878;
+	background: #ff7878;
+	color: #fff;
+} 
 	
 </style>
 
@@ -198,78 +428,97 @@ if (urlParams != null) {
 ${list}
 <br><br>
 주문 아이템 목록<br>
-${order} --%>
+${order}  --%>
 
 <div id="process">
 	<div class="p">
 		<div class="count">${statusArray[0]}</div>
-		<div class="info">주문접수</div>
-	</div>
-	<div class="p">
-		<div class="count">${statusArray[1]}</div>
 		<div class="info">결제완료</div>
 	</div>
 	<div class="p">
-		<div class="count">${statusArray[2]}</div>
+		<div class="count">${statusArray[1]}</div>
 		<div class="info">배송중</div>
 	</div>
 	<div class="p">
-		<div class="count">${statusArray[3]}</div>
+		<div class="count">${statusArray[2]}</div>
 		<div class="info">배송완료</div>
 	</div>
 	<div class="p">
-		<div class="count">${statusArray[4]}</div>
+		<div class="count">${statusArray[3]}</div>
 		<div class="info">반품요청</div>
 	</div>
 	<div class="p">
-		<div class="count">${statusArray[5]}</div>
+		<div class="count">${statusArray[4]}</div>
 		<div class="info">취소/반품</div>
 	</div>
 </div>
 
-<div id="dateBox">
-	<form name="dateform">
-	<div id="chooseDateBtn">
-		<button type="button" id="1month" onclick="setDate(1)">1개월</button>
-		<button type="button" id="3month" onclick="setDate(3)">3개월</button>
-		<button type="button" id="6month" onclick="setDate(6)">6개월</button>
-		<button type="button" id="12month" onclick="setDate(12)">12개월</button>
-	</div>
-	<div id="chooseDate">
-		<div id="f">
-			<input type="date" name="f_date" id="date1">
+<form name="dateform">
+	<div id="dateBox">
+	<div id="dateInfo"><p>주문목록/배송조회</p></div>
+		<div id="dateChooseBox">
+		<div id="chooseDateBtn">
+			<button type="button" id="1month" onclick="setDate(1)">1개월</button>
+			<button type="button" id="3month" onclick="setDate(3)">3개월</button>
+			<button type="button" id="6month" onclick="setDate(6)">6개월</button>
+			<button type="button" id="12month" onclick="setDate(12)">12개월</button>
 		</div>
-		<div id="l">
-			<input type="date" name="l_date" id="date2">
+		<div id="chooseDate">
+			<div id="inputD">
+				<div id="f">
+					<input type="date" name="f_date" id="date1">
+				</div>
+				<div>~</div>
+				<div id="l">
+					<input type="date" name="l_date" id="date2">
+				</div>
+			</div>
+			<button type="button" onclick="confirmDate()">조회</button>
 		</div>
-		<button type="button" onclick="confirmDate()">조회</button>
 	</div>
-	</form>
-</div>
+	</div>
+</form>
 
-
-<table border="1">
-<tr>
-	<th>주문번호</th>
-	<th colspan="4">상품정보</th>
-	<th>주문수량</th>
-	<th>주문금액</th>
-	<th>주문상태</th>
-	<th>취소/반품</th>
-</tr>
-<c:forEach var="row" items="${order}">
+<div id="orderWrap">
+	<div id="info">
+	<p>조회내역 총 ${count} 건</p>
+	</div>
+	
+	<table id="orderTable">
 	<tr>
-		<td>${row.map.orderDate}<br>${row.orderid}</td>
-		<td>${row.map.idx}</td>
-		<td><img src="${row.map.p_img}" width="50px" height="50px"></td>
-		<td>${row.map.p_name}</td>
-		<td>${row.map.p_price}</td>
-		<td>${row.map.amount}</td>
-		<td>${row.map.p_price * row.map.amount}</td>
+		<th>주문번호</th>
+		<th>상품정보</th>
+		<th>주문금액</th>
+		<th>진행현황</th>
+	</tr>
+	
+	<c:forEach var="row" items="${order}">
+	<tr>
 		<td>
-			<c:if test="${row.map.orderStatus == '주문접수'}">
-				<p>주문접수</p>
-			</c:if>
+			<p class="i">
+				${row.orderid}
+			</p>
+			<p class="d">
+				<fmt:formatDate value="${row.map.orderDate}" dateStyle="medium"/>
+			</p>
+		</td>
+		<td>
+			<div class="p_info">
+				<div class="imgBox">
+					<img src="${row.map.p_img}">
+				</div>
+				<div class="Pname">
+				<a href="/product/detail_before?p_id=${row.map.p_id}">${row.map.p_name}</a>
+				</div>
+			</div>
+		</td>
+		<td>
+			<div class="p"><fmt:formatNumber value="${row.map.p_price * row.map.amount}" pattern="#,###"/>원</div>
+			/
+			<div class="a">${row.map.amount}개</div>
+		</td>
+		
+		<td>
 			<c:if test="${row.map.orderStatus == '결제완료'}">
 				<p>결제완료</p>
 			</c:if>
@@ -285,52 +534,168 @@ ${order} --%>
 			<c:if test="${row.map.orderStatus == '반품완료'}">
 				<p>반품완료</p>
 			</c:if>
+			
+			<button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button>
 		</td>
-		<td>
-		<button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button>
-		</td>
-		
 	</tr>
 	</c:forEach>
-</table>
-
-<!-- 페이지 번호 -->
-<div id="paging" align="center">
-
-   <!-- 화살표 -->
-   <div id="arrowsL">
-      <c:if test="${page_info.curPage > 1 }">
-         <div class="page" onclick="list('1')">❮❮</div>
-      </c:if>
-      <c:if test="${page_info.curBlock > 1}">
-         <div class="page" onclick="list('${page_info.prevPage}')">❮</div>
-      </c:if>
-   </div>
-   
-   <!-- 페이지 숫자 -->
-   <c:forEach  var="num"  begin="${page_info.blockStart}" end="${page_info.blockEnd}">
-      <c:choose>
-         <c:when  test="${num  ==  page_info.curPage }">
-            <div class="page selected">
-               <span>${num}</span>
-            </div>
-         </c:when>
-         <c:otherwise>
-            <div class="page" onclick="list('${num}')">${num}</div>
-         </c:otherwise>
-      </c:choose>
-   </c:forEach>
-   
-   <!-- 화살표 -->
-   <div id="arrowsR">
-      <c:if  test="${page_info.curBlock  <  page_info.totBlock }" >
-         <div class="page" onclick="list('${page_info.nextPage}')">❯</div>
-      </c:if>
-      <c:if  test="${page_info.curPage  <=  page_info.totPage}">
-         <div class="page" onclick="list('${page_info.totPage}')">❯❯</div>
-      </c:if>
-   </div>
+	
+	<%-- <c:forEach var="id" items="${getIds}">
+	
+		<!-- 변수초기화 -->
+		<c:set var="count" value="0" />
+		
+		<c:forEach var="row" items="${order}">
+			<c:set var="findId" value="${row.orderid}" />
+			<c:if test="${id == findId}">
+				<c:set var="count" value="${count + 1}" />
+				
+			</c:if>
+			
+		</c:forEach>
+		
+		<!-- 단일상품 주문 -->		
+		<c:if test="${count == 1}">
+		<tr>
+			<td style="display: none">${id}</td>
+			<c:forEach var="row" items="${order}">
+			<c:set var="findId" value="${row.orderid}" />
+			<c:if test="${id == findId}">
+				
+			<td>${row.map.orderDate}<br>${row.orderid}</td>
+			<td>${row.map.idx}</td>
+			<td><img src="${row.map.p_img}" width="50px" height="50px"></td>
+			<td>${row.map.p_name}</td>
+			<td>${row.map.p_price}</td>
+			<td>${row.map.amount}</td>
+			<td>${row.totalPrice}</td>
+			<td>
+				<c:if test="${row.map.orderStatus == '결제완료'}">
+					<p>결제완료</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '배송중'}">
+					<p>배송중</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '배송완료'}">
+					<p>배송완료</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '반품요청'}">
+					<p>반품요청</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '반품완료'}">
+					<p>반품완료</p>
+				</c:if>
+				
+				<button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button>
+			</td>
+				
+			</c:if>
+			</c:forEach>
+		</tr>
+		</c:if>
+		
+		${count}
+		
+		<!-- 같은 주문번호로 여러상품 주문 -->	
+		<c:if test="${count > 1}">
+		<tr>
+			<td style="display: none">${id}</td>
+			<c:forEach var="row" items="${order}">
+			<c:set var="findId" value="${row.orderid}" />
+			<c:if test="${id == findId}">
+				
+			<tr>
+			
+			<!-- 주문번호 합치기 -->
+			<c:if test="${row eq order[0]}">
+				<td rowspan="${count}">${row.map.orderDate}<br>${row.orderid}</td>
+			</c:if>
+			
+			<td>${row.map.idx}</td>
+			<td><img src="${row.map.p_img}" width="50px" height="50px"></td>
+			<td>${row.map.p_name}</td>
+			<td>${row.map.p_price}</td>
+			<td>${row.map.amount}</td>
+			
+			<!-- 총결제금액 합치기 -->
+			<c:if test="${row eq order[0]}">
+				<td rowspan="${count}">${row.totalPrice}</td>
+			</c:if>
+			
+			<td>
+				<c:if test="${row.map.orderStatus == '결제완료'}">
+					<p>결제완료</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '배송중'}">
+					<p>배송중</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '배송완료'}">
+					<p>배송완료</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '반품요청'}">
+					<p>반품요청</p>
+				</c:if>
+				<c:if test="${row.map.orderStatus == '반품완료'}">
+					<p>반품완료</p>
+				</c:if>
+				
+				<button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button>
+			</td>
+			</tr>
+				
+			</c:if>
+			</c:forEach>
+		</tr>
+		</c:if>
+		
+		<!-- 변수초기화 -->
+		<c:set var="count" value="0" />
+		
+	</c:forEach> --%>
+	</table>
+	
+	<!-- 페이지 번호 -->
+	<div id="paging" align="center">
+	
+	   <!-- 화살표 -->
+	   <div id="arrowsL">
+	      <c:if test="${page_info.curPage > 1 }">
+	         <div class="page" onclick="list('1')">❮❮</div>
+	      </c:if>
+	      <c:if test="${page_info.curBlock > 1}">
+	         <div class="page" onclick="list('${page_info.prevPage}')">❮</div>
+	      </c:if>
+	   </div>
+	   
+	   <!-- 페이지 숫자 -->
+	   <c:forEach  var="num"  begin="${page_info.blockStart}" end="${page_info.blockEnd}">
+	      <c:choose>
+	         <c:when  test="${num  ==  page_info.curPage }">
+	            <div class="page selected">
+	               <span>${num}</span>
+	            </div>
+	         </c:when>
+	         <c:otherwise>
+	            <div class="page" onclick="list('${num}')">${num}</div>
+	         </c:otherwise>
+	      </c:choose>
+	   </c:forEach>
+	   
+	   <!-- 화살표 -->
+	   <div id="arrowsR">
+	      <c:if  test="${page_info.curBlock  <  page_info.totBlock }" >
+	         <div class="page" onclick="list('${page_info.nextPage}')">❯</div>
+	      </c:if>
+	      <c:if  test="${page_info.curPage  <=  page_info.totPage}">
+	         <div class="page" onclick="list('${page_info.totPage}')">❯❯</div>
+	      </c:if>
+	   </div>
+	</div>
+	
 </div>
+
+
+
 
 <!-- 모달창 -->
 
@@ -338,10 +703,42 @@ ${order} --%>
 
   <!-- Modal content -->
   <div class="modal-content">
-    <span class="close">&times;</span>
-    <p>취소 사유를 입력하세요</p>
-    <input name="refundReason" id="reason">
-    <button type="button" id="sendRefund">주문취소</button>
+	<div id="modal-wrap">
+		<div class="m">
+			<h3>취소/반품</h3>
+			<span class="close"><i class="fa fa-remove"></i></span>
+		</div>
+		<div class="m">
+	    <div class="modal_info">
+	    	<div class="header">
+	    		<h2>취소 및 반품 사유를 입력하세요</h2>
+	    	</div>
+	    	<div class="confirm">
+	    		<div class="reason_1">
+	    			<input type="radio" id="r1" class="rinput" name = "r_reason">
+	    			<label for="r1" class="rlabel">구매의사 취소</label>
+	    		</div>
+	    		<div class="reason_2">
+	    			<input type="radio" id="r2" class="rinput" name = "r_reason">
+	    			<label for="r2" class="rlabel">다른상품 잘못주문</label>
+	    		</div>
+	    		<div class="reason_3">
+	    			<input type="radio" id="r3" class="rinput" name = "r_reason">
+	    			<label for="r3" class="rlabel">배송지연</label>
+	    		</div>
+	    		<div class="reason_4">
+	    			<input type="radio" id="r4" class="rinput" name = "r_reason">
+	    			<label for="r4" class="rlabel">기타</label>
+	    			<input id="etc">
+	    		</div>
+	    		<input name="refundReason" id="reason">
+	    	</div>
+	    	<div class="confirm_btn">
+	    		<button type="button" id="sendRefund">주문취소</button>
+	    	</div>
+	    </div>
+	    </div>
+	</div>
   </div>
 
 </div>
@@ -382,10 +779,24 @@ $(document).ready(function() {
      
     //모달창
     var modal = document.getElementById("myModal");
-	var btn = document.getElementById("myBtn");
+	var btn = document.getElementById("sendRefund");
 	var span = document.getElementsByClassName("close")[0];
 	
+	/* modal.style.display = "block";  */
+	
 	//모달창 닫기
+	btn.onclick = function() {
+		$('.rinput:checked').each(function() {
+			var labelText;
+			if (this.id === 'r4') {
+                labelText = $('#etc').val();
+            } else {
+                labelText = $('label[for="' + this.id + '"]').text();
+            }
+            $('#reason').val(labelText);
+		});
+	  modal.style.display = "none";
+	}
 	
 	span.onclick = function() {
 	  modal.style.display = "none";
@@ -397,11 +808,26 @@ $(document).ready(function() {
 	  }
 	}
 	
+	//.count 에 색 적용
+	var urlParams = new URLSearchParams(window.location.search);
+
+	if (urlParams != null) {
+	
+		if (urlParams.get('status') != null) {
+			var status = urlParams.get('status');
+			$('#process .count').each(function() {
+	            if ($(this).siblings('.info').text().trim() === status) {
+	                $(this).css('color', 'limegreen');
+	                $(this).siblings('.info').css('color', 'limegreen');
+	            }
+	        });
+		}
+	}
+	
 	//.count 클래스 클릭 시
 	$('#process .count').on('click', function() {
 		var status = $(this).siblings('.info').text().trim();
-		console.log(status);
-		window.location.href = "/order/orderlist.do?status=" + status;
+		window.location.href = "/order/orderlist.do?status=" + status; 
 	});
 });
 
@@ -447,7 +873,7 @@ function delete_order(orderid, itemid, price, amount) {
 	//모달창 열기
 	//환불사유 입력
 	var modal = document.getElementById("myModal");
-	var btn = document.getElementById("myBtn");
+	var btn = document.getElementById("sendRefund");
 	var span = document.getElementsByClassName("close")[0];
 	
 	modal.style.display = "block";
@@ -457,10 +883,9 @@ function delete_order(orderid, itemid, price, amount) {
 	//환불
  	sendRefund.onclick = function() {
 		var reason = document.getElementById("reason").value;
-		
  		var delPrice = parseInt(price) * parseInt(amount);
  		
- 		$.ajax({
+  		$.ajax({
 			"url": "/order/delete_order.do",
 	        "type": "POST",
 	        "contentType": "application/json",
@@ -477,6 +902,9 @@ function delete_order(orderid, itemid, price, amount) {
 	        }
 			
 		});  
+ 		
+ 		alert('주문이 취소되었습니다.');
+ 		modal.style.display = "none"; 
 	} 
 } 
 

@@ -52,7 +52,7 @@
         username, zipcode, address1, address2, tel,
         userPoint
 	) VALUES (
-		#{orderid}, #{userid}, #{orderItemId},
+		#{orderid}, #{userid}, null,
 	    #{price}, #{deliverCost}, #{totalPrice},
 	    #{method},
 	    #{username}, #{zipcode}, #{address1}, #{address2}, #{tel},
@@ -105,7 +105,7 @@
 
 <!-- 주문 목록 출력 -->
 <select id="orderList" resultType="com.example.cosmetic.model.order.OrderDTO">
-    SELECT DISTINCT i.orderid, orderDate, totalPrice 
+    SELECT i.orderid, orderDate, i.orderItemId, p_id, amount, orderStatus, totalPrice
 	from orderlist l, orderitem i
 	WHERE l.orderid = i.orderid
 	and userid = #{userid}
@@ -136,22 +136,19 @@
 	WHERE l.orderid = i.orderid
 	and userid = #{userid}
 	<choose>
-		<when test="status == 1">
-    	and orderStatus = '주문접수'
-    	</when>
-    	<when test="status == 2">
+    	<when test="status == 1">
     	and orderStatus = '결제완료'
     	</when>
-    	<when test="status == 3">
+    	<when test="status == 2">
     	and orderStatus = '배송중'
     	</when>
-    	<when test="status == 4">
+    	<when test="status == 3">
     	and orderStatus = '배송완료'
     	</when>
-    	<when test="status == 5">
+    	<when test="status == 4">
     	and orderStatus = '반품요청'
     	</when>
-    	<when test="status == 6">
+    	<when test="status == 5">
     	and orderStatus = '취소/반품'
     	</when>
     </choose>

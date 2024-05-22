@@ -1,5 +1,6 @@
 package com.example.cosmetic.controller.order;
 
+import java.awt.event.ItemEvent;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.Console;
@@ -13,9 +14,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -316,7 +319,7 @@ public class OrderController {
 
 		dto.setOrderid(IMPCode);
 		dto.setUserid(userid);
-		dto.setOrderItemId(itemIds_JSON); // json 배열 값 넣기
+		dto.setOrderItemId(0); // json 배열 값 넣기
 
 		dto.setPrice(price);
 		dto.setDeliverCost(deliverCost);
@@ -401,7 +404,8 @@ public class OrderController {
 		
 		//목록 출력
 		list = orderDAO.orderList(listInfo);
-		
+		//중복 없는 주문 id 가져오기
+		Set<Long> getIds = new HashSet<>();
 		
 		//주문 상태 세기
 		Map<String, Object> s = new HashMap<>();
@@ -409,68 +413,57 @@ public class OrderController {
 		s.put("startDate", fDate);
 		s.put("endDate", lDate);
 		
-		int [] statusArray = new int[6];
+		int [] statusArray = new int[5];
 		
-		for (int i=0; i<6; i++) {
+		for (int i=0; i<5; i++) {
 			s.put("status", i+1);
 			int num = orderDAO.countStatus(s);
 			statusArray[i] = num;
 		}
 
-		// orderlist의 orderitemId 로 상품정보 가져오기
+		//상품정보 가져오기
 		List<Map<String, Object>> orderitemlist = new ArrayList<>();
 
 		for (OrderDTO item : list) {
-
-			long orderid = item.getOrderid();
 			
-			Date orderDate = item.getOrderDate();
-			int totalPrice = item.getTotalPrice();
+			int p_id = item.getP_id();
+
+			Map<String, Object> order = new HashMap<>();
+
+			// p_id값으로 상품정보 가져오기
+			// 이미지, 상품명, 상품가격
+			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
+			String p_img = (String) orderDAO.orderedProducts(p_id).get("p_img1");
+			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
+
+			// 정보를 map으로 합친 후 orderitems 리스트에 넣기
+			Map<String, Object> map = new HashMap<>();
 			
-			List<Map<String, Object>> iteminfo = orderDAO.orderItemsIdx(orderid);
+			map.put("idx", item.getOrderItemId());
+			map.put("orderDate", item.getOrderDate());
+			map.put("p_id", p_id);
+			map.put("p_img", p_img);
+			map.put("p_price", p_price);
+			map.put("amount", item.getAmount());
+			map.put("orderStatus", item.getOrderStatus());
+			map.put("p_name", p_name);
+
+			order.put("orderid", item.getOrderid());
+			order.put("totalPrice", item.getTotalPrice());
+			order.put("map", map);
 			
-				// 상품정보 가져오기
-				for (Map id : iteminfo) {
-
-					Map<String, Object> order = new HashMap<>();
-					int idx = Integer.parseInt(id.get("orderItemId").toString());
-					
-					// 주문 아이템 테이블에서 p_id, amount, 주문상태 꺼내오기
-					int p_id = (int) orderDAO.orderItems(idx).get("p_id");
-					int amount = (int) orderDAO.orderItems(idx).get("amount");
-					String orderStatus = (String) orderDAO.orderItems(idx).get("orderStatus");
-
-					// p_id값으로 상품정보 가져오기
-					// 이미지, 상품명, 상품가격
-					String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
-					String p_img = (String) orderDAO.orderedProducts(p_id).get("p_img1");
-					int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
-
-					// 정보를 map으로 합친 후 orderitems 리스트에 넣기
-					Map<String, Object> map = new HashMap<>();
-					
-					map.put("idx", idx);
-					map.put("orderDate", orderDate);
-					map.put("p_id", p_id);
-					map.put("p_img", p_img);
-					map.put("p_price", p_price);
-					map.put("amount", amount);
-					map.put("orderStatus", orderStatus);
-					map.put("p_name", p_name);
-
-					order.put("orderid", orderid);
-					order.put("totalPrice", totalPrice);
-					order.put("map", map);
-					
-					orderitemlist.add(order);
-
-			} 
+			//중복제거된 id전달
+			getIds.add(item.getOrderid());
+			
+			orderitemlist.add(order);
 		}
 
 		// 데이터 보내기
 		model.addAttribute("page_info", page_info);
 		model.addAttribute("order", orderitemlist);
 		model.addAttribute("list", list); // 모델에 배열 추가
+		model.addAttribute("getIds", getIds);
+		model.addAttribute("count", count);
 		
 		//날짜 보내기
 		model.addAttribute("f_date", fDate.toString());

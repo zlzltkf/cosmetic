@@ -79,9 +79,6 @@ public class OrderDAO {
 	}
 	
 	//주문 목록 출력
-//	public List<OrderDTO> orderList(String userid) {
-//		return sqlSession.selectList("order.orderList", userid);
-//	}
 	public List<OrderDTO> orderList(Map<String, Object> map) {
 		return sqlSession.selectList("order.orderList", map);
 	}
