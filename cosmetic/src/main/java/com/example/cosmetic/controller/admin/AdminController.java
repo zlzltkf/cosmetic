@@ -1,7 +1,5 @@
 package com.example.cosmetic.controller.admin;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -23,6 +21,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.cosmetic.model.admin.AdminDao;
 import com.example.cosmetic.model.member.MemberDTO;
 import com.example.cosmetic.model.product.ProductDTO;
+import com.example.cosmetic.model.product.ProductService;
+import com.example.cosmetic.model.review.ReviewService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.regex.Matcher;
@@ -35,6 +35,9 @@ import jakarta.servlet.http.HttpSession;
 @Controller
 @RequestMapping("/admin/")
 public class AdminController {
+	
+	@Autowired
+	ProductService productService;
 	
 	@Autowired
 	AdminDao adminDao;
@@ -66,35 +69,14 @@ public class AdminController {
 	public String insert(ProductDTO dto, 
 	                     @RequestParam("ctg_small") String small, 
 	                     @RequestParam(value = "o_name", required = false) String[] oNames, 
-	                     @RequestParam(value = "o_amount", required = false) String[] oAmounts,
+	                     @RequestParam(value = "o_amount", required = false) String[] oAmounts,@RequestParam(name="file", required = false)String[] file,
 	                     HttpServletRequest request, 
 	                     HttpSession session) {
-	    String filename = "-";
-	    MultipartFile file = dto.getFile(); // 파일 객체 가져오기
-
-	    // 파일 업로드 처리
-	    if (file != null && !file.isEmpty() && file.getOriginalFilename() != null) {
-	        filename = file.getOriginalFilename(); // 파일명 설정
-
-	        try {
-	            ServletContext application = request.getSession().getServletContext();
-	            String path = application.getRealPath("../resources/admin/img");
-	            File directory = new File(path);
-
-	            if (!directory.exists()) {
-	                directory.mkdirs(); // 디렉토리가 없으면 생성
-	            }
-	            file.transferTo(new File(directory, filename)); // 파일 저장
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }
-	    }
-
+	
 	    // 대분류와 소분류 설정
 	    String ctg_big = small;
 	    int small_no = adminDao.small_no(ctg_big);
 	    dto.setP_cate(small_no);
-	    dto.setP_img1(filename); // 파일명 설정
 
 	    int price = dto.getP_price();
 	    adminDao.product_insert(dto);
@@ -112,7 +94,7 @@ public class AdminController {
 	            String o_name = oNames[i];
 	            String o_amountStr = oAmounts[i];
 
-	            if (o_name.equals("0") || o_amountStr.trim().isEmpty()) {
+	            if (o_name.equals("0") || o_name.trim().isEmpty() || o_amountStr == null || o_amountStr.trim().isEmpty()) {
 	                continue;
 	            }
 
@@ -137,6 +119,7 @@ public class AdminController {
 	    } else {
 	        System.out.println("조건이 만족되지 않았습니다.");
 	    }
+	    productService.insertProduct(dto, file);
 	    return "admin/write_view";
 	}
 	
@@ -155,7 +138,7 @@ public class AdminController {
 		return "admin/user_list";
 	}
 	
-	//pageCnt에 따른 사용자 목록
+	//pageCnt(보여지는 갯수)에 따른 사용자 목록
 	@GetMapping("select_user_list")
 	public String select_user_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage,@RequestParam(name = "pageCnt", defaultValue = "5") int pageCnt, Model model) {
 		List<Map<String, Object>> list = null;
@@ -224,21 +207,38 @@ public class AdminController {
 	}
 
 	
-	// 상품목록
-	@GetMapping("list_product")
-	public String product_list(Model model) {
-		List<String> Biglist = adminDao.getBig();
-		model.addAttribute("list",Biglist);
-		return "admin/admin_product_list";
-	}
+	/*
+	 * // 상품목록
+	 * 
+	 * @GetMapping("list_product") public String product_list(Model model) {
+	 * List<String> Biglist = adminDao.getBig(); model.addAttribute("list",Biglist);
+	 * return "admin/admin_product_list"; }
+	 */
 	
 	@GetMapping("/small_list/{ctg_small}")
 	@ResponseBody
-	public List<ProductDTO> small_list(@PathVariable(name="ctg_small") String ctg_small, Model model, HttpServletResponse response){
-	    int ctg_s_no = adminDao.s_no(ctg_small);
+	public List<ProductDTO> small_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage,@PathVariable(name="ctg_small") String ctg_small, Model model){
+		int ctg_s_no = adminDao.s_no(ctg_small);
 	    List<ProductDTO>list = adminDao.s_list(ctg_s_no);
 	    model.addAttribute("list",list);
 	    return list;
 }
 	
+	//상품 기본 목록
+		@GetMapping("list_product")
+		public String product_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage, Model model) {
+			List<String> Biglist = adminDao.getBig();
+			List<Map<String, Object>> list = null;
+			int count = adminDao.product_count(); // 모든 회원 수
+			PageUtil page_info = new PageUtil(count, curPage);
+			int start = page_info.getPageBegin() - 1;
+			int pageCnt = 10;
+			
+			list = adminDao.product_list(start, pageCnt);
+			model.addAttribute("Biglist",Biglist);
+			model.addAttribute("list", list);
+			model.addAttribute("page_info", page_info);
+			model.addAttribute("count", count);
+			return "admin/admin_product_list";
+		}
 }

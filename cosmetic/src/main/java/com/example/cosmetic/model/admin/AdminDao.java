@@ -1,10 +1,10 @@
 package com.example.cosmetic.model.admin;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -107,6 +107,24 @@ public class AdminDao {
 
 	public List<ProductDTO> s_list(int ctg_s_no) {
 		return sqlSession.selectList("admin.s_list",ctg_s_no);
+	}
+
+	public int product_count() {
+		return sqlSession.selectOne("admin.product_count");
+	}
+
+	public List<Map<String, Object>> product_list(int start, int pageCnt) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("start", start);
+	    map.put("pageCnt", pageCnt);
+	    return sqlSession.selectList("admin.product_list", map);
+	}
+	
+	public void insert_p_attach(@Param("filenames") String[] filenames, @Param("p_id") int p_id) {
+	    Map<String, Object> map = new HashMap<>();
+	    map.put("filenames", filenames);
+	    map.put("p_id", p_id);
+	    sqlSession.insert("admin.insert_p_attach", map);
 	}
 
 }

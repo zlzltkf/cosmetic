@@ -23,49 +23,117 @@
 
     <!-- Custom styles for this template-->
     <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
-<style type="text/css">
-#td1{
+<style>
+        body {
+            font-family: 'Nunito', sans-serif;
+            background-color: #f8f9fc;
+            margin: 0;
+            padding: 0;
+        }
 
-font-weight: bold;
-border-top: 1px solid #dddddd; /* 위쪽 테두리를 1픽셀 두께의 실선으로 설정합니다. */
-border-bottom: 1px solid #dddddd;
-}
-.col-md-6 {
- width: 50%; /* 또는 원하는 너비로 조정 */
-}
-.color-span {
-    color: black;
-    font-weight: bold;
-   /*  border-top: 1px solid gray; */
-    /* border-bottom: 1px solid gray; */
-    display: inline-block;
-    padding: 0.7em 0.5em;
-    width: 204px;
-}
+        .container-fluid {
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
 
-.amount-span {
-    color: black;
-    font-weight: bold;
-    border-left: 1px solid gray;
-   /*  border-top: 1px solid gray; */
-    /* border-bottom: 1px solid gray; */
-    display: inline-block;
-    padding: -1.5em 0.5em;
-    width: 204px;
-}
-</style>
+        h1 {
+            text-align: left;
+            color: #4e73df;
+            margin-bottom: 20px;
+        }
+
+        .form_section {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        #imagePreview {
+            width: 220px;
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 10px auto;
+        }
+
+        .form-section-title {
+            margin-bottom: 10px;
+        }
+
+        table {
+            width: 100;
+            border-collapse: separate;
+            border-spacing: 15px;
+        }
+
+        td {
+            padding: 5px;
+            vertical-align: middle;
+        }
+
+        #td1 {
+            font-weight: bold;
+            color: #5a5c69;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        select {
+            width: 150;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4e73df;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background-color: #2e59d9;
+        }
+
+        .input-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .input-group input {
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        .preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-top: 1px solid gray;
+            margin-top: -12px;
+   			padding-top: 17px;
+        }
+    </style>
 
 <script>
-
-/*대표 이미지 미리보기*/
-function previewImage(event) {
-    var reader = new FileReader();
-    reader.onload = function () {
-        var output = document.getElementById('imagePreview');
-        output.innerHTML = '<img src="' + reader.result + '" style="width: 300px; height: 300px;">';
-    };
-    reader.readAsDataURL(event.target.files[0]);
-}
 
 /* 한 개의 체크박스만 선택할 수 있도록 하는 함수 */
 function checkOnlyOne(element) {
@@ -76,11 +144,10 @@ function checkOnlyOne(element) {
     element.checked = true;
 }
 function save_form(){
-	//document.form1.o_amount[0]='0';
-	//document.form1.o_name[0]='0';
 	document.form1.submit();
 	
 }
+
 /* "있음" 체크박스가 선택되었을 때 입력 필드를 활성화하거나 비활성화하는 함수 */
 function look() {
     // "yes_no"라는 이름을 갖는 모든 체크박스를 가져옵니다.
@@ -234,27 +301,14 @@ function save(){
   					  <h1 class="h3 mb-4 text-gray-800">상품 등록</h1>
     					<div class="row">
         <!-- 이미지 -->
-        <form method="post" name="form1" action="/admin/insert" >
-        <div style="text-align: center;">
-            <div  style="width: 100%; height: 50%;">
-                <div style="width: 300px;" class="form_section">
-                    <label style="margin-bottom:0.5rem; font-weight: bold;">대표 이미지 &nbsp;</label>
-                    <input type="file" id="p_img1" name="p_img1" onchange="previewImage(event)" > <!-- 파일 선택 시 미리보기 호출 -->
-                    <div style="width: 300px; height:300px; background-image:url('/resources/admin/img/no_img.jpg');" class="form-section-title" id="imagePreview">
-                        <!-- 파일 업로드 미리보기가 여기에 표시됩니다. -->
-                    </div>
-                    <div class="form-section-content">
-                        <div id="uploadResult" style="width: 100%; height: auto; text-align: center;">
-                            <!-- 이미지 업로드 후 이 영역에 이미지가 표시됩니다. -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        
+        <form method="post" name="form1" action="/admin/insert" enctype="multipart/form-data" style="width: 1250px; height: 400px;">
+       
         
         <!-- 테이블 -->
-        <div  class="col-md-8" style="padding-left: 7.75rem;"> 
-            <table class="row" cellspacing="10" cellpadding="12" style="border-collapse: collapse;">
+        
+        <div style="padding-left: 0.75rem;padding-top: 5.2rem;"> 
+            <table >
                 <tr>
                     <td id="td1">상품 코드</td>
                     <td style="color: gray;" id="td1">자동생성</td>
@@ -263,6 +317,16 @@ function save(){
                     <td id="td1"><label for="product-name">상품명</label></td>
                     <td id="td1"><input type="text" id="p_name" name="p_name" style="width: 100%;"></td>
                 </tr>
+                <tr>
+                    <td id="td1"><label for="product-name">대표이미지</label></td>
+                    <td id="td1"> <input type="file" name="files" multiple="multiple" id="fileInput"></td>
+                    <div id="file_box"></div>
+                </tr>
+                <tr>
+                    <td id="td1"><label>상세사진</label></td>
+                    <td id="td1"><input type="file" name="files" multiple="multiple" id="fileInput"></td>
+                </tr>
+                
                 <tr>
                     <td id="td1"><label for="price">판매가</label></td>
                     <td style="font-weight: bold;" id="td1"> <input type="number" id="p_price" name="p_price">&nbsp;&nbsp;&nbsp;
@@ -296,9 +360,9 @@ function save(){
                 </tr>
                 
                 <tr>
-                <td>옵션</td>
+                <td id="td1"><label>옵션</label></td>
                 <td>
-                <input type="text" placeholder="색상" name="O_name" id="O_name">
+                <input type="text" placeholder="색상" name="O_name" id="O_name" >
                 <input type="number" placeholder="수량" name="O_amount" id="O_amount">
               <!--   <input type="hidden" id="o_id" name="o_id"> -->
               <button type="button" onclick="Preview()"  id="insert" disabled="disabled">추가</button>
@@ -319,11 +383,10 @@ function save(){
             </table>
         </div>
     </div>
-    <br>
-    <div style="text-align: center;">
+    <br><br><br><br><br><br><br><br>
+    <div>
         <button type="button" id="save" name="save" onclick="save_form()">확인</button>
-        <button type="button">취소</button>
-    </div>
+        <button type="button">취소</button></div>
     </form>
 </div>
                 </div> 
@@ -359,15 +422,15 @@ function save(){
 <script>
 
 document.getElementById('category').addEventListener('change', function() {
-	 var Big = this.value;
-	    // 선택된 대분류 값이 콘솔에 로그로 출력됩니다.
-	     // 대분류 선택 값 로그 확인
-	    // 만약 선택된 대분류 값이 비어 있지 않다면 아래 코드를 실행합니다.
-	    if (Big !== '') {
+    var Big = this.value;
+    // 선택된 대분류 값이 콘솔에 로그로 출력됩니다.
+    // 대분류 선택 값 로그 확인
+    // 만약 선택된 대분류 값이 비어 있지 않다면 아래 코드를 실행합니다.
+    if (Big !== '') {
         fetch('/admin/Small?ctg_big=' + Big) // 대분류 값 전달
             .then(response => response.json())
-            .then(data => {//서버에서 받은 소분류 데이터 처리
-            	 console.log('서버에서 받은 소분류 데이터:', data); // 소분류 데이터 확인
+            .then(data => { // 서버에서 받은 소분류 데이터 처리
+                console.log('서버에서 받은 소분류 데이터:', data); // 소분류 데이터 확인
                 const Dropdown = document.getElementById('subcategory');
                 Dropdown.innerHTML = ''; // 기존 옵션을 모두 지움
                 const Option = document.createElement('option');
@@ -388,58 +451,57 @@ document.getElementById('category').addEventListener('change', function() {
     }
 });
 
-//let optionCounter = 1;
 function Preview() {
     // 입력된 색상과 수량을 가져옵니다.
-    const colorInput = document.getElementById("O_name");
-    const amountInput = document.getElementById("O_amount");
+    let colorInput = document.getElementById("O_name");
+    let amountInput = document.getElementById("O_amount");
     // 색상과 수량을 가져옵니다.
-    const color = colorInput.value.trim();
-    const amount = amountInput.value.trim(); // 공백만 제거하고 쉼표는 그대로 유지
-	console.log('amount:'+amount);
-    if(color==="" || amount ===""){
-        alert("색상과 수량을 모두 입력해주세요.")
-        return;
-    }
+    let color = colorInput.value.trim();
+    let amount = amountInput.value.trim(); // 공백만 제거하고 쉼표는 그대로 유지
+    console.log('amount:' + amount);
+    
+    // 입력 필드가 비워져 있으면 0으로 설정
+    
     
     // 미리보기에 색상과 수량을 추가합니다.
-    const previewDiv = document.getElementById("preview");
-    const newItem = document.createElement("div");
+    let previewDiv = document.getElementById("preview");
+    let newItem = document.createElement("div");
     newItem.classList.add("preview-item");
     
-    const colorSpan = document.createElement("span");
+    let colorSpan = document.createElement("span");
     colorSpan.textContent = color;
     console.log(color);
     colorSpan.classList.add("color-span");
     
-    const amountSpan = document.createElement("span");
+    let amountSpan = document.createElement("span");
     amountSpan.textContent = amount + '개';
     console.log(amount);
     amountSpan.classList.add("amount-span");
+    
     // 색상과 수량을 하나의 div 안에 추가합니다.
     newItem.appendChild(colorSpan);
     newItem.appendChild(amountSpan);
 
-    const hiddenColor = document.createElement("input");
-    hiddenColor.type="hidden";
-    hiddenColor.name="o_name";
-    hiddenColor.value=color;
+    let hiddenColor = document.createElement("input");
+    hiddenColor.type = "hidden";
+    hiddenColor.name = "o_name";
+    hiddenColor.value = color;
     
-    const hiddenAmount = document.createElement("input");
-    hiddenAmount.type="hidden";
-    hiddenAmount.name="o_amount";
-    hiddenAmount.value=amount;
-    
+    let hiddenAmount = document.createElement("input");
+    hiddenAmount.type = "hidden";
+    hiddenAmount.name = "o_amount";
+    hiddenAmount.value = amount;
     newItem.appendChild(hiddenColor);
     newItem.appendChild(hiddenAmount);
-    console.log('hiddenAmount:'+JSON.stringify(hiddenAmount));
+    console.log('hiddenAmount:' + JSON.stringify(hiddenAmount));
     
     // 미리보기에 새로운 항목을 추가합니다.
     previewDiv.appendChild(newItem);
 
     // 입력 필드를 비웁니다.
-    colorInput.value = "0";
-    amountInput.value = "0";
+    colorInput.value = "0"; // 빈 문자열("")로 설정
+    amountInput.value = "0"; // 빈 문자열("")로 설정
+    
 }
 
 
@@ -481,6 +543,56 @@ document.getElementById('save').addEventListener('click', function() {
         console.error('Error:', error);
     });
 });
+
+$("#fileInput").on("change", function(e) {
+    e.preventDefault();
+    const files = e.target.files;
+    console.log(files);
+    const form_data = new FormData();
+    
+    for (let i = 0; i < files.length; i++) {
+        form_data.append("file", files[i]);
+        // 이미지 파일인 경우 미리보기 생성
+        if (files[i].type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = $("<img>").attr("src", event.target.result).css("max-width", "70px"); // 이미지 미리보기 크기 조정
+                $("#file_box").append(img);
+            };
+            reader.readAsDataURL(files[i]);
+        }
+    }
+    console.log(form_data);
+
+    $.ajax({
+        url: "/upload/ajax_upload",
+        data: form_data,
+        processData: false,
+        contentType: false,
+        type: "post",
+        success: function(data) {
+            if (Array.isArray(data)) {
+                data.forEach(file_name => {
+                    const fileInfo = getFileInfo(file_name);
+                    // let html = "<a href='" + fileInfo.get_link + "'>" + fileInfo.original_name + "</a>";
+                    const html = "<input type='hidden' name='file' style='margin: 5px;' value='" + fileInfo.file_name + "'>";
+                    $("#file_box").append(html);
+                });
+            } else {
+                console.error('Expected an array but got:', data);
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            console.error('Error:', textStatus, errorThrown);
+        }
+    });
+});
+
+function getFileInfo(file_name) {
+    const get_link = "/upload/display_file?file_name=" + file_name;
+    const original_name = file_name.substr(file_name.indexOf("_") + 1);
+    return { original_name: original_name, get_link: get_link, file_name: file_name };
+}
 
 
 </script>

@@ -8,27 +8,32 @@
 	</select>
 
 	<select id="small" resultType="String">
-		SELECT ctg_small FROM ctg WHERE ctg_big=#{ctg_big}
+		SELECT ctg_small FROM ctg WHERE
+		ctg_big=#{ctg_big}
 	</select>
 
 	<insert id="product_insert">
-		insert into product (p_name, p_price, p_stock, p_img1, p_detail, p_cate)
-		values(#{p_name},#{p_price}, #{p_stock}, #{p_img1},#{p_detail},
+		insert into product (p_name, p_price, p_stock,
+		p_img1, p_detail, p_cate)
+		values(#{p_name},#{p_price}, #{p_stock},
+		#{p_img1},#{p_detail},
 		#{p_cate})
 	</insert>
 
 
 	<select id="small_no" resultType="int">
-		select DISTINCT ctg_s_no from ctg where ctg_small=#{ctg_small}
+		select DISTINCT ctg_s_no from
+		ctg where ctg_small=#{ctg_small}
 	</select>
 
 	<insert id="option_insert">
-		insert into product_option (o_name, o_p_id, o_price, o_amount) values(
+		insert into product_option (o_name, o_p_id, o_price,
+		o_amount) values(
 		#{o_name}, #{o_p_id}, #{o_price}, #{o_amount})
 	</insert>
 
 	<select id="get_id" resultType="int">
-		SELECT LAST_INSERT_ID()
+		SELECT p_id from product order by p_id desc limit 1
 	</select>
 
 	<update id="update_product_stock" parameterType="java.util.Map">
@@ -39,15 +44,16 @@
 
 	<select id="user_list"
 		resultType="com.example.cosmetic.model.member.MemberDTO">
-		select userid, name, nickname,birth, address1,address2, zipcode,
-		phone, date, skin, level, point 
+		select userid, name, nickname,birth, address1,address2,
+		zipcode,
+		phone, date, skin, level, point
 		from member
 		LIMIT #{pageCnt} OFFSET #{start}
 	</select>
-	
+
 	<select id="order_list"
 		resultType="com.example.cosmetic.model.order.OrderDTO">
-		select orderid, userid, orderdate, totalprice, method, orderitemid
+		select orderid, userid, orderdate, totalprice, method
 		from orderlist order by orderdate
 		LIMIT #{pageCnt} OFFSET #{start}
 	</select>
@@ -56,58 +62,100 @@
 	<select id="user_count" resultType="int">
 		select count(*) from member
 	</select>
-	
+
 	<select id="order_count" resultType="int">
-		select count(*) from orderlist
-	</select> 
-	
-	<!--주문번호에 따른 결제 상품 갯수-->
-	<select id="user_order_count" resultType="int">
-		SELECT COUNT(*) FROM orderlist l, orderitem i
-		WHERE l.orderid = i.orderid AND i.orderid=#{orderid}
+		select count(*) from
+		orderlist
 	</select>
-	
-	 <select id="search" resultType="com.example.cosmetic.model.product.ProductDTO">
-      select * from (
-      select rownum as
-      rn, A.*
-      from (
-      SELECT userid 
-	  FROM member 
-	  WHERE userid LIKE CONCAT('%', #{keyword}, '%') 
-	  ORDER BY userid DESC
-      ) A
-      )
-      where rn
-      between #{start} and #{end}
-   </select>
-   
-    <select id="search_count" resultType="int">
-      select count(*) from
-      member where userid LIKE CONCAT('%', #{keyword}, '%') 
-   </select>
-   
-   <!--orderid 뽑기 위함-->
-   <select id="list" resultType="java.util.Map">
-   select orderid from orderlist
-   </select>
+
+	<!--주문번호에 따른 결제 상품 갯수 -->
+	<select id="user_order_count" resultType="int">
+		SELECT COUNT(*) FROM
+		orderlist l, orderitem i
+		WHERE l.orderid = i.orderid AND
+		i.orderid=#{orderid}
+	</select>
+
+	<select id="search"
+		resultType="com.example.cosmetic.model.product.ProductDTO">
+		select * from (
+		select rownum as
+		rn, A.*
+		from (
+		SELECT userid
+		FROM member
+		WHERE userid LIKE CONCAT('%', #{keyword}, '%')
+		ORDER BY userid DESC
+		) A
+		)
+		where rn
+		between #{start} and #{end}
+	</select>
+
+	<select id="search_count" resultType="int">
+		select count(*) from
+		member where userid LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<!--orderid 뽑기 위함 -->
+	<select id="list" resultType="java.util.Map">
+		select orderid from orderlist
+	</select>
 
 	<select id="status" resultType="String">
-	select distinct orderstatus from orderitem where orderid = #{orderid}
+		select distinct orderstatus from orderitem where orderid = #{orderid}
 	</select>
-	
+
 	<select id="s_no" resultType="java.lang.Integer">
-	select ctg_s_no from ctg where ctg_small = #{ctg_small}
+		select ctg_s_no from ctg where ctg_small = #{ctg_small}
 	</select>
-	
-	<!--o_name이 없을경우 '옵션없음'으로 대체한다-->
-	<select id="s_list" resultType="com.example.cosmetic.model.product.ProductDTO">
-	SELECT DISTINCT p.p_id, p.p_name, p.p_stock,p_price, COALESCE(o.o_name, '옵션 없음') AS o_name
-	FROM product p
-	LEFT JOIN product_option o ON p.p_id = o.o_p_id
-	WHERE p.p_cate =  #{ctg_s_no}
+
+	<!--o_name이 없을경우 '옵션없음'으로 대체한다 -->
+	<select id="s_list"
+		resultType="com.example.cosmetic.model.product.ProductDTO">
+		SELECT DISTINCT p.p_id, p.p_name, p.p_stock,p_price,o_amount,
+		COALESCE(o.o_name, '옵션 없음') AS o_name
+		FROM product p
+		LEFT JOIN product_option o ON p.p_id = o.o_p_id
+		WHERE p.p_cate = #{ctg_s_no}
 	</select>
-	
-	<!-- 상품목록 -->
+
+	<!--소분류 번호에 따른 상품 갯수 -->
+	<select id="product_count" resultType="int">
+		SELECT COUNT(*) AS total_rows
+		FROM (
+		SELECT p_id,p_name,
+		SUM(o_amount) AS p_stock,
+		p_price AS p_price,
+		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ') AS o_name
+		FROM
+		product p
+		INNER JOIN product_option o ON p.p_id = o.o_p_id
+		GROUP BY
+		p_id, p_name, p_price
+		) AS subquery
+	</select>
+
+	<select id="product_list"
+		resultType="com.example.cosmetic.model.product.ProductDTO">
+		SELECT
+		p_id ,p_name,SUM(o_amount) AS p_stock,
+		p_price AS p_price,
+		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ') AS o_name
+		FROM
+		product p
+		INNER JOIN product_option o ON p.p_id = o.o_p_id
+		GROUP BY
+		p_id, p_name, p_price
+		LIMIT #{pageCnt} OFFSET #{start}
+	</select>
+
+	<insert id="insert_p_attach">
+		insert into p_attach(file_name, p_id)
+		values
+		<foreach collection="filenames" item="file_name" separator=",">
+			(#{file_name}, #{p_id})
+		</foreach>
+	</insert>
 
 </mapper>

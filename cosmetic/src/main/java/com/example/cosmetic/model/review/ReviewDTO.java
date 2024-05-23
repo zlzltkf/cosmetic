@@ -26,7 +26,6 @@ public class ReviewDTO {
 	
 	//첨부파일
 	private MultipartFile[] files;
-	
 	//
 	private int file_id;
 	private String file_name;
