@@ -32,8 +32,6 @@ public class Refund {
         // 해당 연결을 출력 스트림(요청)으로 사용
         conn.setDoOutput(true);
         
-        System.out.println(reason);
-        
         // JSON 객체에 해당 API가 필요로하는 데이터 추가.
         JsonObject json = new JsonObject();
         json.addProperty("merchant_uid", merchant_uid);

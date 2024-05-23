@@ -214,7 +214,7 @@ function R_list() {
 								|&nbsp;</a>
 							<a onclick="location.href='/cart/list?userid=${sessionScope.userid}'" style="float: right; font-size: small; color: gray; cursor: pointer;">&nbsp;장바구니
 								|&nbsp;</a>
-							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;마이페이지
+							<a href="/mypage/" style="float: right; font-size: small; color: gray;">&nbsp;마이페이지
 								|&nbsp;</a>
 							<a href="/member/logout"
 								style="float: right; font-size: small; color: gray;">&nbsp;로그아웃

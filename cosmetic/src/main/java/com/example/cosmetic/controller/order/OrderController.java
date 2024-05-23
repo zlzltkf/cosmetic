@@ -55,21 +55,6 @@ public class OrderController {
 	
 	@Autowired
 	OrderDAO orderDAO;
-
-	// 테스트
-    @GetMapping("/")
-	public String test() throws IOException {
-		
-		String key = "6746882717766507";
-		String secret = "wwGfcjpUcw74nxulMRj9ZKMeT3h8tZtiytjDoc9XDjlhrXUyrB9vvY7vDalSFvrT5ciMw5REpV0IZlGK";
-		
-		String token = Refund.getToken(key, secret); 
-		long orderid =  202405205847L;
-		int price = 100;
-		Refund.refundRequest(token, orderid, "dd", price);
-		
-		return "/product/order/ordertest";
-	}
 	
 	// 장바구니의 주문하기 버튼 > 주문서 작성페이지
 	@PostMapping("orderform.do")

@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -143,6 +144,7 @@
 /* 주문목록 테이블 */
 #orderTable {
 	width: 100%;
+	border-bottom: 1px soild gray;
 }
 #orderTable .p_info {
 	display: flex;
@@ -235,6 +237,17 @@
 	color: white;
 }
 
+/* 아무것도 없을 경우 */
+#emptyB {
+	background-image: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_nodata104x104.png);
+	background-repeat: no-repeat;
+	background-position: 50% 30%;
+	height: 230px;
+}
+#emptyB #Emessage {
+	margin: 150px 0 50px 0;
+}
+
 /* 페이지 번호 */
 
 #paging {
@@ -297,13 +310,15 @@ justify-content:flex-start;
 /* Modal Content */
 .modal-content {
 	position: absolute;
-	left: 20%;
-	top: 30%;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	top: 25%;
 	background-color: #fefefe;
 	margin: auto;
 	padding: 10px;
 	border: 1px solid #888;
-	width: 60%;
+	width: 40%;
 	min-width: 415px;
 }
 
@@ -482,12 +497,6 @@ if (urlParams != null) {
 
 <div id="pageWrap">
 
-<%-- 주문목록<br>
-${list}
-<br><br>
-주문 아이템 목록<br>
-${order}  --%>
-
 <div id="process">
 	<div class="p">
 		<div class="count">${statusArray[0]}</div>
@@ -550,6 +559,18 @@ ${order}  --%>
 		<th>진행현황</th>
 	</tr>
 	
+	<c:if test="${empty order}">
+	<tbody>
+	<tr>
+		<td colspan="4" id="emptyB">
+			<p id="Emessage">기간내 주문내역이 없습니다.</p>
+		</td>
+	</tr>
+	</tbody>
+	</c:if>
+	
+	<c:if test="${!empty order}">
+	<tbody>
 	<c:forEach var="row" items="${order}">
 	<tr>
 		<td>
@@ -597,6 +618,10 @@ ${order}  --%>
 		</td>
 	</tr>
 	</c:forEach>
+	</tbody>
+	</c:if>
+	
+
 	</table>
 	
 	<!-- 페이지 번호 -->
@@ -803,8 +828,10 @@ $(document).ready(function() {
 			var status = urlParams.get('status');
 			$('#process .count').each(function() {
 	            if ($(this).siblings('.info').text().trim() === status) {
-	                $(this).css('color', 'limegreen');
-	                $(this).siblings('.info').css('color', 'limegreen');
+	                if ($(this).text().trim() != 0) {
+	                	$(this).css('color', 'limegreen');
+		                $(this).siblings('.info').css('color', 'limegreen');
+	                }
 	            }
 	        });
 		}
