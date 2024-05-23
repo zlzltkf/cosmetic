@@ -47,8 +47,13 @@ public class ProductDTO {
 	
 	//찜때문에 만듬
 	private int p_like;
-	//파일 첨부
-	private MultipartFile file;
+	
+	//첨부파일
+	private MultipartFile[] files;
+		
+	//
+	private int file_id;
+	private String file_name;
 	
 	
 }

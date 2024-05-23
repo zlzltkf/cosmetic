@@ -26,11 +26,8 @@
 
 <!-- Custom styles for this template-->
 <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
-<style type="text/css">
-.sorting sorting_asc{
 
-}
-</style>
+
 </head>
 
 <script>
@@ -149,7 +146,7 @@
 							role="button" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false"> <span
 								class="mr-2 d-none d-lg-inline text-gray-600 small">EDEN
-									관리자</span> <img class="img-profile rounded-circle"
+									관리자 🧑🏻‍💼</span> <img class="img-profile rounded-circle"
 								src="/resources/admin/img/undraw_profile.svg">
 						</a></li>
 					</ul>
@@ -252,7 +249,7 @@
 															<td  style="text-align: center;">${row.userid}</td>
 															<td  style="text-align: center;">${row.method}</td>
 															<td  style="text-align: center;">${ordercount[row.orderid]}</td>
-															<td  style="text-align: center;"><fmt:formatNumber value="${row.totalPrice}" pattern="##,###" /></td>
+															<td class="long-text" style="text-align: center;"><fmt:formatNumber value="${row.totalPrice}" pattern="##,###" /></td>
 														</tr>
 													</c:forEach>
 												</tbody>

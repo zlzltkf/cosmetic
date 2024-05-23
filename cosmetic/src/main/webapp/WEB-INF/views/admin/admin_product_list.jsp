@@ -40,14 +40,30 @@
 }
 .tableBody td{
 text-align: center;
+
+}
+.table td,.table th {
+    padding: .75rem;
+    vertical-align: top;
+    border-top: 1px solid #e3e6f0;
+    width: 30px;
+}
+.btn-outline-secondary{
+height: 29px;
+font-size: 14px;
 }
 </style>
 </head>
 
 <script>
-	function list(page) {
-		location.href = "/admin/order_list?curPage=" + page;
-	}
+function list(page) {
+	location.href = "/admin/list_product?curPage=" + page;
+}
+function click(){
+	console.log(a);
+	location.reload(true);
+}
+
 </script>
 
 <body id="page-top">
@@ -86,16 +102,16 @@ text-align: center;
             </div> -->
 
 			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item"><a class="nav-link collapsed" href="#"
-				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i 
-					></i> <span>👤 고객관리</span></a>
-					
+			<li class="nav-item active"><a class="nav-link" href="#"
+				data-toggle="collapse" data-target="#collapseTwo"
+				aria-expanded="true" aria-controls="collapseTwo"> <i 
+					></i> <span>👤 고객관리</span>
+			</a>
 				<div id="collapseTwo" class="collapse"
 					aria-labelledby="headingTwo" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<a class="collapse-item" href="/admin/user_list">고객목록</a> <a
-							class="collapse-item" href="#">고객</a>
+							class="collapse-item active" href="#">고객</a>
 					</div>
 				</div></li>
 
@@ -190,7 +206,7 @@ text-align: center;
 													aria-controls="dataTable"
 													class="custom-select custom-select-sm form-control form-control-sm">
 														<option value="" selected disabled hidden>대분류</option>
-														<c:forEach var="row" items="${list}">
+														<c:forEach var="row" items="${Biglist}">
        														 <option value="${row}">${row}</option>
     													</c:forEach></select> 
 												</label>
@@ -201,12 +217,14 @@ text-align: center;
 														<option value="small"></option></select> 
 												</label>
 												<!-- </form> -->
+												
+												<button type="button" class="btn btn-outline-secondary" onClick="window.location.reload()" >전체상품</button>
 											</div>
 											
 										</div>
 										<div class="col-sm-12 col-md-6">
    											 <div class="input-group mb-3" style="width: 300px;">
-     									   <input type="search" class="form-control form-control-sm" placeholder="아이디를 입력하세요." aria-controls="dataTable">
+     									   <input type="search" class="form-control form-control-sm" placeholder="상품명을 입력하세요." aria-controls="dataTable">
        											 &nbsp;&nbsp;&nbsp;
        										 <div class="input-group-append">
            									 <button style="height: 32px;" class="btn btn-facebook" type="button">검색</button>
@@ -225,15 +243,15 @@ text-align: center;
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Office: activate to sort column ascending"
-															style="width: 50px; text-align: center;">상품번호</th>
+															style="width: 50px; text-align: center;">번호</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Age: activate to sort column ascending"
-															style="width: 31px; text-align: center;">상품이름</th>
+															style="width: 31px; text-align: center;">상품명</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Start date: activate to sort column ascending"
-															style="width: 50px; text-align: center;">상품수량</th>
+															style="width: 50px; text-align: center;">수량</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Start date: activate to sort column ascending"
@@ -247,20 +265,20 @@ text-align: center;
 												
 												 
 												 <tbody id="tableBody" class="tableBody">
-													<%-- <c:forEach var="row" items="${list}">
+													 <c:forEach var="row" items="${list}">
 														<tr class="odd">
-															<td  style="text-align: center;" class="sorting_1">${row.orderid}<br></td>
-															<td style="text-align: center;"> ${row.p_name}</td>
-															<td  style="text-align: center;"><fmt:formatDate value="${row.p_price}" pattern="yy.M.d" /></td>
+															<td  style="text-align: center;" class="sorting_1">${row.p_id}<br></td> 
+															<td  style="text-align: center;"> ${row.p_name}</td>
 															<td  style="text-align: center;">${row.p_stock}</td>
-															<td  style="text-align: center;">${row.method}</td>
+															<td  style="text-align: center;"><fmt:formatNumber value="${row.p_price}" pattern="##,###" /></td>
+															<td  style="text-align: center;">${row.o_name}</td>
 														</tr>
-													</c:forEach> --%>
+													</c:forEach>
 												</tbody>
 											</table>
 										</div>
 									</div>
-									<div class="row">
+									<div class="row" id="other">
 										<div class="col-sm-12 col-md-5">
 											<div class="dataTables_info" id="dataTable_info"
 												role="status" aria-live="polite"></div>
@@ -375,6 +393,8 @@ text-align: center;
 		
 
 	        function changelist(selectElement) {
+	        	var otherDiv = document.getElementById('other');
+	            otherDiv.style.display = 'none'; // 숨기기
 	            var ctg_small = selectElement.value;
 				console.log("소분류명="+ctg_small);
 	            fetch('/admin/small_list/' + ctg_small)
@@ -394,9 +414,10 @@ text-align: center;
 
     // 데이터를 가공하여 Map에 그룹화
     data.forEach(item => {
+        // 제품이 Map에 존재하지 않으면 새로운 제품 정보를 추가
         if (!productMap.has(item.p_id)) {
             productMap.set(item.p_id, {
-            	p_id: item.p_id,
+                p_id: item.p_id,
                 p_cate: item.p_cate,
                 p_price: item.p_price,
                 ctg_small: item.ctg_small,
@@ -405,11 +426,15 @@ text-align: center;
                 options: [] // 각 제품에 대한 옵션들을 저장할 배열
             });
         }
-        // 해당 제품의 옵션 추가
-        productMap.get(item.p_id).options.push(item.o_name);
+        
+        // 해당 제품의 옵션 정보를 추가
+        productMap.get(item.p_id).options.push({
+            name: item.o_name,
+            amount: item.o_amount
+        });
     });
 
- // Map에 저장된 데이터를 이용하여 테이블에 행 추가
+    // Map에 저장된 데이터를 이용하여 테이블에 행 추가
     productMap.forEach(product => {
         var row = document.createElement('tr');
         
@@ -429,17 +454,19 @@ text-align: center;
         row.appendChild(cell3);
         
         // 제품 가격 셀 추가 (데이터에 없으므로 표시할 수 없음)
-        var cell4 = document.createElement('td');
-        cell4.textContent = product.p_price;
-        row.appendChild(cell4);
+       var cell4 = document.createElement('td');
+	   cell4.textContent = product.p_price.toLocaleString(); // 숫자를 패턴에 맞게 변환
+		row.appendChild(cell4);
         
         // 옵션 선택 셀 추가
         var cell5 = document.createElement('td');
+        cell5.classList.add("cell5");
         var selectElement = document.createElement('select');
         selectElement.classList.add("select");
         product.options.forEach(option => {
             var optionElement = document.createElement('option');
-            optionElement.textContent = option;
+            var optionText = option.name + ' [' + option.amount + ']'; // 옵션 이름과 수량 결합
+            optionElement.textContent = optionText;
             selectElement.appendChild(optionElement);
         });
         cell5.appendChild(selectElement);
@@ -448,6 +475,7 @@ text-align: center;
         tableBody.appendChild(row);
     });
 
+
 })
 
 	                .catch(error => {
@@ -455,5 +483,6 @@ text-align: center;
 	                });
 	        }
 	    </script>
+
 </body>
 </html>
