@@ -298,11 +298,13 @@ justify-content:flex-start;
 .modal-content {
 	position: absolute;
 	left: 20%;
-  background-color: #fefefe;
-  margin: auto;
-  padding: 10px;
-  border: 1px solid #888;
-  width: 60%;
+	top: 30%;
+	background-color: #fefefe;
+	margin: auto;
+	padding: 10px;
+	border: 1px solid #888;
+	width: 60%;
+	min-width: 415px;
 }
 
 /* The Close Button */
@@ -328,8 +330,6 @@ justify-content:flex-start;
 	 justify-content: center;
 }
 
-
-
 #modal-wrap .m:nth-child(1) {
 	display: flex;
 	flex-direction: row;
@@ -350,7 +350,7 @@ justify-content:flex-start;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	padding: 20px;
+	padding: 15px;
 }
 
 #modal-wrap .m h2 {
@@ -359,23 +359,81 @@ justify-content:flex-start;
 	display: inline-block;
 } 
 
- #sendRefund {
-	width: 120px;
-	height: 50px;
+.confirm {
+	margin: 5px 0 0 0;
+	width: 70%;
+}
+
+.reasonB {
+	width: 100%;
+	border: 1px solid #999; 
+	padding: 15px;
 	margin: 10px 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	border-radius: 10px;
+} 
+
+.reasonB input[type="radio"], label {
+	margin: 0;
+}
+.reasonB input[type="radio"] {
+    display: none;
+}
+.reasonB .fakeRadio {
+	border: 5px solid #c4c4c4;
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+}
+
+.reasonB label {
+	padding: 0 0 0 5px;
+}
+.reasonB:hover {
 	border: 1px solid #ff7878;
-	background: hsl(0 0 0/0);
+	color: #ff7878;
+}
+#etcB {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+#etcB #etc1 {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#etcB #etc2 {
+	width: 100%;
+}
+#etc {
+	width: 100%;
+	padding: 10px 10px 0 10px;
+	border: none;
+	border-bottom: 1px solid #999;
+}
+#etc:focus {
+	border: none;
+	outline: none;
+}
+
+#sendRefund {
+	width: 100%;
+	height: 50px;
+	margin: 0 0 10px 0;
 	font-weight: bold;
 	font-size: 1.3em;
-	padding: 3px 10px; 
-	color: #ff7878;
 	border-radius: 0.5em;
-}
-#sendRefund:hover {
 	border: 1px solid #ff7878;
 	background: #ff7878;
 	color: #fff;
-} 
+}
+#sendRefund:hover {
+	background: #fc9292;
+}
 	
 </style>
 
@@ -539,119 +597,6 @@ ${order}  --%>
 		</td>
 	</tr>
 	</c:forEach>
-	
-	<%-- <c:forEach var="id" items="${getIds}">
-	
-		<!-- 변수초기화 -->
-		<c:set var="count" value="0" />
-		
-		<c:forEach var="row" items="${order}">
-			<c:set var="findId" value="${row.orderid}" />
-			<c:if test="${id == findId}">
-				<c:set var="count" value="${count + 1}" />
-				
-			</c:if>
-			
-		</c:forEach>
-		
-		<!-- 단일상품 주문 -->		
-		<c:if test="${count == 1}">
-		<tr>
-			<td style="display: none">${id}</td>
-			<c:forEach var="row" items="${order}">
-			<c:set var="findId" value="${row.orderid}" />
-			<c:if test="${id == findId}">
-				
-			<td>${row.map.orderDate}<br>${row.orderid}</td>
-			<td>${row.map.idx}</td>
-			<td><img src="${row.map.p_img}" width="50px" height="50px"></td>
-			<td>${row.map.p_name}</td>
-			<td>${row.map.p_price}</td>
-			<td>${row.map.amount}</td>
-			<td>${row.totalPrice}</td>
-			<td>
-				<c:if test="${row.map.orderStatus == '결제완료'}">
-					<p>결제완료</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '배송중'}">
-					<p>배송중</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '배송완료'}">
-					<p>배송완료</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '반품요청'}">
-					<p>반품요청</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '반품완료'}">
-					<p>반품완료</p>
-				</c:if>
-				
-				<button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button>
-			</td>
-				
-			</c:if>
-			</c:forEach>
-		</tr>
-		</c:if>
-		
-		${count}
-		
-		<!-- 같은 주문번호로 여러상품 주문 -->	
-		<c:if test="${count > 1}">
-		<tr>
-			<td style="display: none">${id}</td>
-			<c:forEach var="row" items="${order}">
-			<c:set var="findId" value="${row.orderid}" />
-			<c:if test="${id == findId}">
-				
-			<tr>
-			
-			<!-- 주문번호 합치기 -->
-			<c:if test="${row eq order[0]}">
-				<td rowspan="${count}">${row.map.orderDate}<br>${row.orderid}</td>
-			</c:if>
-			
-			<td>${row.map.idx}</td>
-			<td><img src="${row.map.p_img}" width="50px" height="50px"></td>
-			<td>${row.map.p_name}</td>
-			<td>${row.map.p_price}</td>
-			<td>${row.map.amount}</td>
-			
-			<!-- 총결제금액 합치기 -->
-			<c:if test="${row eq order[0]}">
-				<td rowspan="${count}">${row.totalPrice}</td>
-			</c:if>
-			
-			<td>
-				<c:if test="${row.map.orderStatus == '결제완료'}">
-					<p>결제완료</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '배송중'}">
-					<p>배송중</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '배송완료'}">
-					<p>배송완료</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '반품요청'}">
-					<p>반품요청</p>
-				</c:if>
-				<c:if test="${row.map.orderStatus == '반품완료'}">
-					<p>반품완료</p>
-				</c:if>
-				
-				<button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button>
-			</td>
-			</tr>
-				
-			</c:if>
-			</c:forEach>
-		</tr>
-		</c:if>
-		
-		<!-- 변수초기화 -->
-		<c:set var="count" value="0" />
-		
-	</c:forEach> --%>
 	</table>
 	
 	<!-- 페이지 번호 -->
@@ -714,27 +659,35 @@ ${order}  --%>
 	    		<h2>취소 및 반품 사유를 입력하세요</h2>
 	    	</div>
 	    	<div class="confirm">
-	    		<div class="reason_1">
-	    			<input type="radio" id="r1" class="rinput" name = "r_reason">
+	    		<div class="reasonB">
+	    			<input type="radio" id="r1" class="rinput" name = "r_reason">	
+	    			<div class="fakeRadio"></div>
 	    			<label for="r1" class="rlabel">구매의사 취소</label>
 	    		</div>
-	    		<div class="reason_2">
+	    		<div class="reasonB">
 	    			<input type="radio" id="r2" class="rinput" name = "r_reason">
+	    			<div class="fakeRadio"></div>
 	    			<label for="r2" class="rlabel">다른상품 잘못주문</label>
 	    		</div>
-	    		<div class="reason_3">
+	    		<div class="reasonB">
 	    			<input type="radio" id="r3" class="rinput" name = "r_reason">
+	    			<div class="fakeRadio"></div>
 	    			<label for="r3" class="rlabel">배송지연</label>
 	    		</div>
-	    		<div class="reason_4">
-	    			<input type="radio" id="r4" class="rinput" name = "r_reason">
-	    			<label for="r4" class="rlabel">기타</label>
-	    			<input id="etc">
+	    		<div class="reasonB" id="etcB">
+	    			<div id="etc1">
+	    				<input type="radio" id="r4" class="rinput" name = "r_reason">
+	    				<div class="fakeRadio"></div>
+	    				<label for="r4" class="rlabel">기타</label>
+	    			</div>
+	    			<div id="etc2">
+	    				<input id="etc">
+	    			</div>
 	    		</div>
-	    		<input name="refundReason" id="reason">
-	    	</div>
-	    	<div class="confirm_btn">
-	    		<button type="button" id="sendRefund">주문취소</button>
+	    		<input type="hidden" name="refundReason" id="reason">
+		    	<div class="confirm_btn">
+		    		<button type="button" id="sendRefund">주문취소</button>
+		    	</div>
 	    	</div>
 	    </div>
 	    </div>
@@ -782,21 +735,54 @@ $(document).ready(function() {
 	var btn = document.getElementById("sendRefund");
 	var span = document.getElementsByClassName("close")[0];
 	
-	/* modal.style.display = "block";  */
-	
-	//모달창 닫기
-	btn.onclick = function() {
-		$('.rinput:checked').each(function() {
-			var labelText;
-			if (this.id === 'r4') {
-                labelText = $('#etc').val();
-            } else {
-                labelText = $('label[for="' + this.id + '"]').text();
+	//디자인
+	$('.reasonB').hover(
+        function() {
+            if (!$(this).hasClass('selected')) {
+                $(this).css('border', '1px solid #ff7878');
+                $(this).find(".fakeRadio").css('border', '5px solid #ff7878');
+                $(this).find("#etc").css('border-bottom', '1px solid #ff7878');
             }
-            $('#reason').val(labelText);
-		});
-	  modal.style.display = "none";
-	}
+        }, 
+        function() {
+            if (!$(this).hasClass('selected')) {
+                $(this).css('border', '1px solid #999');
+                $(this).find(".fakeRadio").css('border', '5px solid #c4c4c4');$(this).find("#etc").css('border-bottom', '1px solid #999');
+            }
+        }
+    );
+    $('.reasonB').click(function() {
+    	
+    	$(this).find(".rinput").prop('checked', true);
+    	
+        $('.reasonB').removeClass('selected').css({
+            'border': '1px solid #999',
+            'color': '#656565'
+        });
+        $(this).addClass('selected').css({
+            'border': '1px solid #ff7878',
+            'color': '#ff7878'
+        });
+        
+        $('.fakeRadio').removeClass('selectFRadio').css({
+        	'border': '5px solid #c4c4c4'
+        });
+        $(this).find('.fakeRadio').addClass('selectFRadio').css({
+        	'border': '5px solid #ff7878'
+        });
+        
+        $('#etc').removeClass('selectInput').css({
+        	'border-bottom': '1px solid #999'
+        });
+        $(this).find('#etc').addClass('selectInput').css({
+        	'border-bottom': '1px solid #ff7878'
+        });
+    });
+	
+	//라디오버튼 초기화
+	$(".rinput").prop('checked', false);
+	
+	/* modal.style.display = "block"; */
 	
 	span.onclick = function() {
 	  modal.style.display = "none";
@@ -875,36 +861,62 @@ function delete_order(orderid, itemid, price, amount) {
 	var modal = document.getElementById("myModal");
 	var btn = document.getElementById("sendRefund");
 	var span = document.getElementsByClassName("close")[0];
+	var sendRefund = document.getElementById("sendRefund");
 	
 	modal.style.display = "block";
 	
-	var sendRefund = document.getElementById("sendRefund");
-	
+	//라디오버튼 초기화
+	$(".rinput").prop('checked', false);
+
 	//환불
  	sendRefund.onclick = function() {
-		var reason = document.getElementById("reason").value;
- 		var delPrice = parseInt(price) * parseInt(amount);
+ 		var valid = true;
  		
-  		$.ajax({
-			"url": "/order/delete_order.do",
-	        "type": "POST",
-	        "contentType": "application/json",
-	        "data": JSON.stringify({
-	        	"orderid": orderid,
-	        	"itemid": itemid,
-	        	"delPrice": delPrice,
-	        	"reason" : reason
-	        }),
-	        success: function(response) {
-	        	if (response == "success") {
-	        		window.location.href = "/order/orderlist.do";
-	        	}
-	        }
+		//사유 입력값 가져오기
+ 		$('.rinput:checked').each(function() {
+ 			var labelText;
+ 	 		
+			if (this.id === 'r4') {
+				
+				labelText = $('#etc').val();
+                
+                if (labelText == '') {
+                	alert('취소 및 반품 사유를 입력하세요');
+                	$("#etc").focus();
+                	valid = false;
+                    return false; // 루프를 종료합니다.
+                }
+                
+            } else {
+                labelText = $('label[for="' + this.id + '"]').text();
+            }
+            $('#reason').val(labelText);
+		});
+	  
+ 		if (valid) {
+ 			var reason = $('#reason').val();
+			var delPrice = parseInt(price) * parseInt(amount);
 			
-		});  
- 		
- 		alert('주문이 취소되었습니다.');
- 		modal.style.display = "none"; 
+			$.ajax({
+				"url": "/order/delete_order.do",
+		        "type": "POST",
+		        "contentType": "application/json",
+		        "data": JSON.stringify({
+		        	"orderid": orderid,
+		        	"itemid": itemid,
+		        	"delPrice": delPrice,
+		        	"reason" : reason
+		        }),
+		        success: function(response) {
+		        	if (response == "success") {
+		        		window.location.href = "/order/orderlist.do";
+		        		alert('주문이 취소되었습니다.');
+		         		modal.style.display = "none"; 
+		        	}
+		        }
+				
+			}); 
+		}
 	} 
 } 
 

@@ -31,7 +31,9 @@ public class Refund {
  
         // 해당 연결을 출력 스트림(요청)으로 사용
         conn.setDoOutput(true);
- 
+        
+        System.out.println(reason);
+        
         // JSON 객체에 해당 API가 필요로하는 데이터 추가.
         JsonObject json = new JsonObject();
         json.addProperty("merchant_uid", merchant_uid);
@@ -47,10 +49,6 @@ public class Refund {
         // 입력 스트림으로 conn 요청에 대한 응답 반환
         BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         br.close();
-        
-     // HTTP 응답 코드 확인
-//        int responseCode = conn.getResponseCode();
-//        System.out.println("Response Code: " + responseCode);
         
         //연결 끊기
         conn.disconnect();
