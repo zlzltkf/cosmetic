@@ -502,7 +502,7 @@ input::-ms-input-placeholder {
     height: 130px;
 }
 .menu-scroll .main_menu_bg .nave_menu {
-    /* margin-top:0px; */
+     margin-top: 20px; 
 }
 .main_menu_bg{
     margin-top: 0px;

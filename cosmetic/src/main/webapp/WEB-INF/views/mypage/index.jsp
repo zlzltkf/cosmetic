@@ -37,6 +37,23 @@
 	font-size: 0.9em;
 	min-width: 610px;
 }
+
+#p_wrap {
+	display: flex;
+	flex-direction: row;
+	border: 1px solid black;
+	width: 100%;
+}
+
+#sub_menu {
+	border: 1px solid black;
+	width: 250px;
+}
+
+#content_wrap {
+	border: 1px solid black;
+	width: 100%;
+}
 </style>
 
 <body>
@@ -44,6 +61,7 @@
 <%@ include file="../include/menu/menu.jsp"%>
 
 <div id="pageWrap">
+
 
 마이페이지
 <br></br>
@@ -56,7 +74,10 @@
 <a>회원정보수정</a><br>
 <a>회원탈퇴</a><br>
 
+
+
 </div>
+
 
 
 <script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>

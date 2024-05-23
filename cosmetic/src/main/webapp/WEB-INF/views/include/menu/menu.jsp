@@ -81,10 +81,7 @@
 }
 
 @media ( min-width : 768px) {
- 	/* .navbar-right .dropdown-menu_recent {
-		right: 0;
-		left: auto;
-	}  */
+
 }
 </style>
 <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -247,7 +244,7 @@ function R_list() {
 								<button type="button" class="navbar-toggle collapsed"
 									data-toggle="collapse"
 									data-target="#bs-example-navbar-collapse-1"
-									aria-expanded="false">
+									aria-expanded="false" id="small_btn">
 									<span class="sr-only">Toggle navigation</span> <span
 										class="icon-bar"></span> <span class="icon-bar"></span> <span
 										class="icon-bar"></span>
@@ -265,15 +262,15 @@ function R_list() {
 							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
     <ul class="nav navbar-nav navbar-right">
         <li><a href="#" id="ctg_btn">카테고리</a></li>
-        <li><a href="aboutus.html">about us</a></li>
-        <li class="dropdown">
+        <li><a href="aboutus.html" id="aboutus">about us</a></li>
+        <li class="dropdown" id="services">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">services</a>
             <ul class="dropdown-menu">
                 <li><a href="/product/detail">service page</a></li>
                 <li><a href="service1.html">service page two</a></li>
             </ul>
         </li>
-        <li class="dropdown">
+        <li class="dropdown" id="works">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">works</a>
             <ul class="dropdown-menu">
                 <li><a href="work.html">work page</a></li>
@@ -282,7 +279,7 @@ function R_list() {
         </li>
         <c:choose>
             <c:when test="${sessionScope.userid != null}">
-                <li class="dropdown1">
+                <li class="dropdown1" id="recent_list">
                 
                     <a href="#" class="dropdown-toggle1" data-toggle="dropdown1" role="button" aria-haspopup="true">최근 본 상품</a>
                     
@@ -300,7 +297,7 @@ function R_list() {
                 
             </c:when>
             <c:otherwise>
-                <li class="dropdown">
+                <li class="dropdown" id="recent_btn">
                     <a href="#" class="dropdown-toggle" style="display: none;" data-toggle="dropdown" role="button" aria-haspopup="true">최근 본 상품</a>
                 </li>
             </c:otherwise>

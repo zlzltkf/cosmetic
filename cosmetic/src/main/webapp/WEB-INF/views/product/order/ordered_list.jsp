@@ -614,7 +614,8 @@ if (urlParams != null) {
 				<p>반품완료</p>
 			</c:if>
 			
-			<button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button>
+			<button type="button" onclick="updateStatus(${row.orderid}, ${row.map.idx})">주문 취소</button>
+			<%-- <button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button> --%>
 		</td>
 	</tr>
 	</c:forEach>
@@ -881,8 +882,8 @@ function confirmDate() {
 	formElement.submit();
 }
 
-function delete_order(orderid, itemid, price, amount) {
-	
+//반품요청 업뎃
+function updateStatus(orderid, itemid) {
 	//모달창 열기
 	//환불사유 입력
 	var modal = document.getElementById("myModal");
@@ -919,19 +920,17 @@ function delete_order(orderid, itemid, price, amount) {
             }
             $('#reason').val(labelText);
 		});
-	  
+		
  		if (valid) {
  			var reason = $('#reason').val();
-			var delPrice = parseInt(price) * parseInt(amount);
-			
-			$.ajax({
-				"url": "/order/delete_order.do",
+ 			
+ 			$.ajax({
+				"url": "/order/refund_request.do",
 		        "type": "POST",
 		        "contentType": "application/json",
 		        "data": JSON.stringify({
 		        	"orderid": orderid,
 		        	"itemid": itemid,
-		        	"delPrice": delPrice,
 		        	"reason" : reason
 		        }),
 		        success: function(response) {
@@ -941,11 +940,36 @@ function delete_order(orderid, itemid, price, amount) {
 		         		modal.style.display = "none"; 
 		        	}
 		        }
-				
 			}); 
-		}
-	} 
-} 
+ 		}
+	}
+}
+
+//주문취소
+//주문번호, 주문아이템id, 금액, 수량, 환불사유 필요
+function delete_order(orderid, itemid, price, amount, reason) {
+	
+	var delPrice = parseInt(price) * parseInt(amount);
+	
+	$.ajax({
+		"url": "/order/delete_order.do",
+        "type": "POST",
+        "contentType": "application/json",
+        "data": JSON.stringify({
+        	"orderid": orderid,
+        	"itemid": itemid,
+        	"delPrice": delPrice,
+        	"reason" : reason
+        }),
+        success: function(response) {
+        	if (response == "success") {
+        		window.location.href = "/order/orderlist.do";
+        		alert('주문이 취소되었습니다.');
+         		modal.style.display = "none"; 
+        	}
+        }
+	}); 
+}
 
 
 

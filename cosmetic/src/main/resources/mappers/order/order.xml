@@ -46,13 +46,13 @@
 <!-- 주문테이블 데이터 입력 -->
 <insert id="orderInsert">
 	INSERT INTO orderlist (
-		orderid, userid, orderItemId,
+		orderid, userid,
         price, deliverCost, totalPrice,
         method,
         username, zipcode, address1, address2, tel,
         userPoint
 	) VALUES (
-		#{orderid}, #{userid}, null,
+		#{orderid}, #{userid},
 	    #{price}, #{deliverCost}, #{totalPrice},
 	    #{method},
 	    #{username}, #{zipcode}, #{address1}, #{address2}, #{tel},
@@ -208,5 +208,17 @@
 	FROM orderlist
 	WHERE orderid = #{orderid}
 </select>
+
+<update id="updateStatus">
+	UPDATE orderitem 
+	SET orderStatus = '반품요청'
+	WHERE orderItemId = #{itemid}
+</update>
+
+<update id="cancelReason">
+	UPDATE orderlist 
+	SET cancelreason = #{reason}
+	WHERE orderid = #{orderid}
+</update>
 
 </mapper>

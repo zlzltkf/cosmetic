@@ -5,44 +5,81 @@
 <script>
 $(document).ready(function() {
 	
- 	/* 카테고리에 마우스 가져다댈시 메인카테고리 나오게 */
-    $("#ctg_btn").mouseenter(function() {
-        $("#ctg").addClass("show-grid");
-        
-        //스크롤 여부에 따라 메뉴 높이 조정
-        if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
-            $(".main_menu_bg").css("height", "130px");
-            $("#ctg").addClass("menu-scroll");
-            $("#ctg-content").addClass("menu-scroll");
+	function handleMouseEvents() {
+
+        if ($(window).width() > 768) {
+
+        	/* 카테고리에 마우스 가져다댈시 메인카테고리 나오게 */
+            $("#ctg_btn").mouseenter(function() {
+            	
+            	$("#ctg").removeClass("show-grid-s");
+            	
+                $("#ctg").addClass("show-grid");
+                
+                //스크롤 여부에 따라 메뉴 높이 조정
+                if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
+                    $(".main_menu_bg").css("height", "130px");
+                    $("#ctg").addClass("menu-scroll");
+                    $("#ctg-content").addClass("menu-scroll");
+                } else {
+                    $(".main_menu_bg").css("height", "170px");
+                    $("#ctg").removeClass("menu-scroll");
+                    $("#ctg-content").removeClass("menu-scroll");
+                }
+            });
+        	
+            /* 메인카테고리에 마우스 가져다댈시 세부카테고리 나오게 */
+            $("#ctg").mouseenter(function() {
+            	$("#ctg-content").addClass("show-content");
+            });
+            
+            /* 세부카테고리에서 마우스 떼면 카테고리 사라지게 */
+            $("#ctg-content").mouseleave(function() {
+                $("#ctg").removeClass("show-grid");
+                
+                $("#ctg-content").removeClass("show-content");
+                $(".main_menu_bg").css("height", "155px");
+                
+              	//스크롤 여부에 따라 메뉴 높이 조정
+                if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
+                    $(".main_menu_bg").css("height", "130px");
+                    $("#ctg").addClass("menu-scroll");
+                    $("#ctg-content").addClass("menu-scroll");
+                } else {
+                    $(".main_menu_bg").css("height", "155px");
+                    $("#ctg").removeClass("menu-scroll");
+                    $("#ctg-content").removeClass("menu-scroll");
+                }
+            });
         } else {
-            $(".main_menu_bg").css("height", "170px");
-            $("#ctg").removeClass("menu-scroll");
-            $("#ctg-content").removeClass("menu-scroll");
+        	$("#ctg").removeClass("show-grid");
+        	$("#ctg-content").removeClass("show-content");
+        	
+        	$("#ctg_btn").mouseenter(function() {
+        		$("#ctg").removeClass("show-grid");
+        		$("#ctg-content").removeClass("show-content");
+        		
+        		$("#ctg").addClass("show-grid-s");
+        	});
+        	$("#ctg_btn").click(function() {
+        		$("#ctg").removeClass("show-grid-s");
+        	})
+        	
+        	$("#ctg").mouseenter(function() {
+            	$("#ctg-content").removeClass("show-content");
+            });
+         	$("#small_btn").click(function() {
+        		$("#ctg").removeClass("show-grid-s");
+        	});
         }
-    });
-	
-    /* 메인카테고리에 마우스 가져다댈시 세부카테고리 나오게 */
-    $("#ctg").mouseenter(function() {
-    	$("#ctg-content").addClass("show-content");
-    });
-    
-    /* 세부카테고리에서 마우스 떼면 카테고리 사라지게 */
-    $("#ctg-content").mouseleave(function() {
-        $("#ctg").removeClass("show-grid");
-        
-        $("#ctg-content").removeClass("show-content");
-        $(".main_menu_bg").css("height", "155px");
-        
-      	//스크롤 여부에 따라 메뉴 높이 조정
-        if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
-            $(".main_menu_bg").css("height", "130px");
-            $("#ctg").addClass("menu-scroll");
-            $("#ctg-content").addClass("menu-scroll");
-        } else {
-            $(".main_menu_bg").css("height", "155px");
-            $("#ctg").removeClass("menu-scroll");
-            $("#ctg-content").removeClass("menu-scroll");
-        }
+    }
+
+	// 초기 로드 시 이벤트 핸들러 설정
+    handleMouseEvents();
+
+    // 화면 크기 변경 시 이벤트 핸들러 재설정
+    $(window).resize(function() {
+        handleMouseEvents();
     });
 });
 </script>
@@ -59,6 +96,21 @@ $(document).ready(function() {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
 	text-align: center;
+}
+#ctg.show-grid-s {
+	border: 1px solid black;
+	
+	margin: 0;
+	position: absolute;
+	top: 140%;
+	left: 0;
+	display: grid;
+	grid-template-rows: repeat(10, 1fr);
+	text-align: center;
+	
+	background: white;
+	width: 100%;
+	height: 400px;
 }
 #ctg a:hover { /* 메인 카테고리 영역에 마우스 가져다댈시 링크 색깔 바꾸기 */
 	color:red;
@@ -102,17 +154,19 @@ $(document).ready(function() {
 
 /* 스크롤 */
 #ctg.menu-scroll {
-margin: 0 5% 12px 5%;
+	margin: 0 5% 12px 5%;
  	top: 95px;
 	box-shadow: none; 
 	position: fixed;
 }
 #ctg-content.menu-scroll{
-margin: 0 5% 12px 5%;
+	margin: 0 5% 12px 5%;
 	top: 130px;
 	box-shadow: none; 
 	position: fixed;
 }
+
+/* 너비 바꾸면 */
 
 </style>
 

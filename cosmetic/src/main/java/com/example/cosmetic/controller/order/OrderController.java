@@ -468,6 +468,29 @@ public class OrderController {
 		return map;
 	}
 	
+	//반품요청
+	@ResponseBody
+	@PostMapping("refund_request.do")
+	public String refund_request(
+			@RequestBody Map<String, Object> refundinfo
+	) {
+		long orderid = Long.parseLong(refundinfo.get("orderid").toString());
+		int itemid = Integer.parseInt(refundinfo.get("itemid").toString());
+		String reason = refundinfo.get("reason").toString();
+		
+		//주문상태 업데이트
+		orderDAO.updateStatus(itemid);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("orderid", orderid);
+		map.put("reason", reason);
+		
+		orderDAO.cancelReason(map);
+		
+		String result = "success";
+		return result;
+	}
+	
 	//주문 취소
 	@ResponseBody
 	@PostMapping("delete_order.do")

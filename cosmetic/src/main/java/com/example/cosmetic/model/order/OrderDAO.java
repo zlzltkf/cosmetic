@@ -125,6 +125,13 @@ public class OrderDAO {
 	public int countItem(long orderid) {
 		return sqlSession.selectOne("order.countItem", orderid);
 	}
+	//환불 디비 수정
+	public void updateStatus(int itemid) {
+		sqlSession.update("order.updateStatus", itemid);
+	}
+	public void cancelReason(Map<String, Object> map) {
+		sqlSession.update("order.cancelReason", map);
+	}
 	
 	//주문목록에서 환불에 필요한 정보 불러오기
 	public Map<String, Object> chooseCosts(long orderid) {

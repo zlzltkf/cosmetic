@@ -51,12 +51,29 @@ Author URI: http://www.bootstrapthemes.co
     }
     .navbar-default .navbar-collapse, .navbar-default .navbar-form {
         border-color: #e7e7e7;
-        margin-top: 53px;
-        background: #ff0000;
+        margin-top: 40px;
+        background: #fff;
     }
     .menu-scroll .navbar-default .navbar-collapse, .navbar-default .navbar-form {
         margin-top: 12px;
     }
+    
+    /* #ctg_btn {
+    	margin: 0 0 1000px 0;
+    } */
+    #aboutus {
+    	display: none;
+    }
+    #services {
+    	display: none;
+    }
+    #works {
+    	display: none;
+    }
+    #recent_list {
+    	display: none;
+    }
+    
     .btn{
         padding: 0.5em;
     }
