@@ -61,10 +61,10 @@ $(document).ready(function() {
                     '</div>' +
                     '</div>' +
                     '<div class="review_thum">' +
-                    '<ul id="review_thum_' + review.r_id + '">' +  // ID를 추가하여 각 리뷰의 썸네일 리스트에 고유 ID 부여
+                    '<ul class="inner" id="review_thum_' + review.r_id + '">' +  // ID를 추가하여 각 리뷰의 썸네일 리스트에 고유 ID 부여
                     '</ul>' +
                     '</div>' +
-                    '<p class="txt_beauty">※ 해당 리뷰는 원칙적으로 기본 상품이 동일한 단품 사용 후 작성된 것이며, 개별 상품에 따라 용량 내지 일부 구성(1+1, 기획상품 등)이 상이할 수 있음을 안내드립니다.</p>' +
+                    /* '<p class="txt_beauty">※ 해당 리뷰는 원칙적으로 기본 상품이 동일한 단품 사용 후 작성된 것이며, 개별 상품에 따라 용량 내지 일부 구성(1+1, 기획상품 등)이 상이할 수 있음을 안내드립니다.</p>' + */
                     '<div class="like_area">이 리뷰가 도움이 돼요!' +
                     '<button type="button" class="btn_like">' +
                     '<span></span>' +
@@ -84,7 +84,7 @@ $(document).ready(function() {
                         images.forEach(function(image) {
                         	image=image.replace("src/main/webapp","");
                         	console.log('image:'+image);
-                            thumList += '<li><img src="' + image + '" alt="Review Image"></li>'; // 이미지 경로 수정 필요
+                            thumList += '<li><a href="#"><span><img src="' + image + '" alt="Review Image"></a></span></li>';
                         });
                         $('#review_thum_' + review.r_id).append(thumList);
                     },
@@ -270,10 +270,15 @@ a, address, blockquote, body, dd, div, dl, dt, em, fieldset, form, h1, h2, h3, h
 	font-family: 'Montserrat', sans-serif;
 }
 
+.review_container {
+}
+
 .review_list {
+ 	width: 100%;
 	margin: 0;
     padding: 0;
     border: 0;
+    border-bottom: 1px solid #e5e5e5;
 }
 
 ol, ul{
@@ -281,7 +286,9 @@ ol, ul{
 }
 
 .review_list .inner_list>li {
-    border-bottom: 1px solid #e5e5e5;
+	display: flex;
+	flex-direction: row;
+    padding: 30px 0;
 }
 
 /* 리뷰 유저쪽 */
@@ -292,7 +299,13 @@ ol, ul{
 }
 
 .info{
+	flex: 0 0 255px;
 	padding: 30px 0;
+}
+
+.review_contents {
+    flex: 1;
+    padding-left: 30px;
 }
 
 .inner_list .info .user .thum{
@@ -346,31 +359,31 @@ ol, ul{
 /* 리뷰 컨텐츠쪽 */
 .review_list .inner_list>li>.review_contents{
 	position: relative;
-    margin-left: 255px;
+    margin-left: 10px;
     padding: 30px 0;
-    bottom: 23px;
+    bottom: 10px;
 }
 
 .review_list .inner_list>li>.review_contents .txt_inner {
     color: #555;
     line-height: px;
-    margin: 30px;
+    float: left;
+    margin-bottom: 20px;
 }
 .review_list .inner_list>li>.review_contents .txt_inner .subject {
     color: #555;
     line-height: px;
-    margin: 30px;
     font-weight: 600;
 }
 .review_list .inner_list>li>.review_contents .txt_inner .contents {
     color: #555;
     line-height: px;
-    margin: 30px;
 }
 
 .score_area {
     min-height: 20px;
-    margin-bottom: 50px;
+    margin-bottom: 35px;
+    margin-top: 20px;
 }
 
 .inner_list .review_point {
@@ -395,6 +408,14 @@ ol, ul{
 
 .like_area {
     margin-top: 20px;
+    float: left;
+    padding-left: 0;
+    background: 0 0;
+    color: #333;
+    font-size: 15px;
+    line-height: 28px;
+    letter-spacing: 0;
+    font-weight: 700;
 }
 
 .like_area .btn_like {
@@ -441,6 +462,26 @@ ol, ul{
     height: 20px;
     background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point_new_on.png) 0 0 / 112px auto no-repeat;
 }
+
+.inner_list .review_thum ul.inner {
+    margin-left: -5px;
+    width: calc(100% + 5px);
+    display: -webkit-flex;
+    display: -ms-flex;
+    display: flex;
+    height: 165px;
+}
+
+.inner_list .review_thum ul.inner li a>span {
+    display: block;
+    position: relative;
+    width: 165px;
+    height: 165px;
+}
+
+.txt_beauty {
+	
+}
 </style>
 
 </head>
@@ -452,7 +493,10 @@ ol, ul{
 		<button type="button" id="btnOpenModal">리뷰 등록</button>
 		
 		<!-- 리뷰 리스트 -->
-		<div id="review_list"></div>
+		<div class="review_container">
+			<div id="review_list"></div>
+		</div>
+		
 		
 		<!-- 모달 -->
   <div id="myModal" class="modal">

@@ -43,12 +43,6 @@ body {
 	font-family: 'Montserrat', sans-serif;
 }
 
-/* .prd_contents {
-	width: 1020px;
-	height: 100%;
-	margin: 0 auto;
-}
- */
 .prd_detail_box {
 	padding: 35px 0 0;
 }
@@ -67,6 +61,8 @@ body {
 .p_img {
 	max-width: 510px;
 	max-height: 510px;
+	width: 510px;
+	height: 510px
 }
 
 .p_info {
@@ -79,14 +75,6 @@ body {
 
 .p_deli {
   padding: 0px 0px 15px;
-}
-
-.p_deli_ {
-	display: flex;
-}
-
-.p_deli_row {
-	
 }
 
 .p_deli_tit {
@@ -168,7 +156,7 @@ body {
 
 
 .prd_detail_box .right_area .p_dropdown {
-	height: 51px;
+	height: 70px;
     line-height: 50px;
     border-color: #ffffff;
     padding: 14px 0 14px 0; /* 좌우 패딩 값 조정 */
@@ -184,34 +172,12 @@ body {
 }
 
 .prd_detail_box .right_area .p_dropdown-content a {
-	color: #000; /* 드롭다운 메뉴 텍스트 색상 */
-	padding: 12px 16px;
-	text-decoration: none;
-	display: block;
-}
-
-.prd_detail_box .right_area .p_dropdown-content a:hover {
-	background-color: #f9f9f9; /* 마우스 오버 시 배경색 */
-}
-
-.prd_detail_box .right_area .p_dropdown:hover .p_dropdown-content {
-	display: block; /* 수정된 부분 */
-}
-
-.p_select_option {
-    margin-bottom: -23px;
-}
-
-.prd_select_box {	
-	align-content: center;
-	margin-top: 30px;
-    min-height: 60px;
-    border: 1px solid #e9e9e9;
-    background: #f9f9f9;
-    padding: 10px; /* 내부 여백 추가 */
-    display: block; /* 블록 레벨 요소로 변경 */
-    clear: both; /* 요소들이 옆으로 붙는 것을 방지하기 위해 clear 추가 */
-    box-sizing: content-box;
+	color: #000;
+    position: relative;
+    width: 100%;
+    padding: 14px 15.5px;
+    text-decoration: none;
+    display: -webkit-inline-box;
 }
 
 .zzim_btn {
@@ -234,6 +200,28 @@ body {
 	border: 1px solid #e5e5e5;
 	background:url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-solid.png) 50% 50% no-repeat #fff;
 }
+
+.prd_detail_box .right_area .p_dropdown-content a:hover {
+	background-color: #f9f9f9; /* 마우스 오버 시 배경색 */
+}
+
+.prd_detail_box .right_area .p_dropdown:hover .p_dropdown-content {
+	display: block; /* 수정된 부분 */
+}
+
+
+
+
+.p_dropbtn {
+ 	position: relative;
+    width: 100%;
+    height: 57px;
+    margin: 20px 0 0;
+    background: #fff;
+}
+
+
+
 
 </style>
 </head>
@@ -260,6 +248,19 @@ body {
 						<img id="main_img" src="${dto.p_img1}">
 					</div>
 				</div>
+				 
+				<!--이미지 슬라이더
+				<div class="left_area">
+				
+					<div class="p_img">
+					
+					</div>
+					<div class="slider__btn">
+                		<a href="#" class="prev" role="button" aria-label="왼쪽 이미지">prev</a>
+                		<a href="#" class="next" role="button" aria-label="오른쪽 이미지">next</a>
+            		</div>
+            		<div class="slider__dot"></div>
+					</div> -->
 					
 		<!-- 오른쪽에 들어갈 정보 -->
 		<div class="right_area"> 
@@ -286,7 +287,7 @@ body {
 							
 				<!-- 상품 종류 선택 -->
 				<div class="p_dropdown">
-					<button class="p_dropbtn">상품을 선택해주세요</button>
+					<button class="p_dropbtn" >상품을 선택해주세요</button>
 					<div class="p_dropdown-content"></div>
 				</div>
 							
@@ -479,6 +480,7 @@ $(document).ready(function() {
 	</section>			
     
 <script>
+
 function cart_insert() {
 	window.location.href = '/cart/insert';
 }
@@ -528,7 +530,9 @@ function loadProductOptions(p_id) {
                 row += '<button class="quantity-button plus" type="button">+</button>';
                 row += '</div>';
                 row += '<div style="display:none;">'
-                row += selectedOptionText + ' - 가격: ' + optionPrice;  // 초기 합계금액으로 설정
+                //row += selectedOptionText + ' - 가격: ' + optionPrice;  // 초기 합계금액으로 설정
+                row += '<div class="option_text">' + selectedOptionText; + '</div>';
+                row += '<div class="option_price">' + optionPrice +' 원';
                 row += '</div>';
                 row += '</div>';
                 row += '</div>';
@@ -548,13 +552,18 @@ function loadProductOptions(p_id) {
                 } else {
                     var row = '<div class="p_select_option">';
                     row += '<div class="prd_select_box">';
+                    row += '<button class="delete-button"></button>';
+                    row += '<div class="option_text">' + selectedOptionText;
+                    row += '</div>';
+                    row += '<div class="option_flex">'
                     row += '<div class="amount_select">'; 
                     row += '<button class="quantity-button minus" type="button">-</button>';
                     row += '<input class="quantity-input" type="text" value="1">';
                     row += '<button class="quantity-button plus" type="button">+</button>';
                     row += '</div>';
-                    row += '<button style="float: right;" class="delete-button">x</button>';
-                    row += selectedOptionText + ' - 가격: ' + optionPrice;
+                    row += '<div class="option_price">' + optionPrice +' 원';
+                    row += '</div>';
+                    row += '</div>';                    
                     row += '</div>';
                     row += '</div>';
                     $("#select_option").append(row);
@@ -616,8 +625,8 @@ function bindEventHandlers() {
 function updateTotalPrice() {
     var totalPrice = 0;
     $("#select_option .p_select_option").each(function() {
-        var priceText = $(this).text();
-        var priceMatch = /- 가격: (\d+)/.exec(priceText); // 정규식을 사용하여 가격 정보 찾기
+        var priceText = $(this).find('.option_price').text();
+        var priceMatch = /(\d+) 원/.exec(priceText); // 정규식을 사용하여 가격 정보 찾기
         if (priceMatch) {
             var price = parseFloat(priceMatch[1]); // 찾은 가격 정보 사용
             var quantity = parseInt($(this).find(".quantity-input").val());
@@ -635,11 +644,59 @@ function updateTotalPrice() {
 
 
 <style>
+.option_flex {
+	display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+.prd_select_box {	
+	align-content: center;
+	margin-top: 30px;
+    min-height: 60px;
+    border: 1px solid #e9e9e9;
+    background: #f9f9f9;
+    padding: 10px; /* 내부 여백 추가 */
+    display: block; /* 블록 레벨 요소로 변경 */
+    clear: both; /* 요소들이 옆으로 붙는 것을 방지하기 위해 clear 추가 */
+    box-sizing: content-box;
+    padding-left: 30px;
+}
+
+.delete-button{
+    overflow: hidden;
+    display: inline-block;
+    width: 13px;
+    height: 13px;
+    margin-left: 7px;
+    margin-bottom: 2px;
+    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_close23x23.png) 50% 50% no-repeat;
+    vertical-align: middle;
+    text-indent: -9999px;
+    border: none;
+  float:right;
+}
+
+.p_select_option {
+    margin-bottom: -23px;
+}
+
+.option_text{
+	font-size: 15px;
+	font-weight: bold;
+	margin-top: 3px;
+  	margin-bottom: 10px; 
+}
+
+.select_price{
+ 	margin-left: 170px; 
+ 	font-weight: bold;
+ }
+
 /* 수량버튼 스타일 */
 .amount_select {
-    display: flex;
+	display: flex;
+    margin-right: 10px;
     align-items: center;
-    float: right;
 }
 
 .quantity-button {
@@ -672,32 +729,7 @@ function updateTotalPrice() {
 .quantity-button.minus {
     border-right: none; /* 왼쪽 버튼의 오른쪽 테두리 제거 */
 }
-</style>
 
-	<!-- <style>
-	.ec-base-tab { position:relative; margin-top: 40px; text-align: center;}
-	.ec-base-tab .menu {
-    	margin:0 0 20px; border:1px solid #cbcdce; border-bottom-color:#202020; border-left:0; background:#f2f2f2;
-    	box-sizing:border-box; -webkit-box-sizing:border-box; -moz-box-sizing:border-box;}
-	.ec-base-tab .menu:after { content:""; display:block; clear:both; }
-	.ec-base-tab .menu li { float:left; border-left:1px solid #cbcdce; background:#f2f2f2; }
-	.ec-base-tab .menu li a { display:block; min-width:187px; margin:0 0 0 -1px; padding:12px 5px 11px; border-right:1px solid #cbcdce; color:#707070; text-decoration:none; outline:0; text-align:center; background:#f2f2f2; }
-	.ec-base-tab .menu li:first-child a { margin-left:0; }
-	.ec-base-tab .menu li.selected a { position:relative; top:-1px; left:-2px; margin:0 0 -1px; border:1px solid #202020; border-bottom:0; color:#1d1e1f; font-weight:bold; background:#fff; }
-	.ec-base-tab .menu li.selected:first-child a { left:-1px; }
-	.ec-base-tab > .right { position:absolute; top:8px; right:10px; line-height:24px; color:#909090; }
-	/* typeLight */
-	.ec-base-tab.typeLight .menu li.selected a { margin:0 0 -2px; border-bottom:1px solid #fff; color:#404040; background:#fff; }
-	.ec-base-tab[class*="grid"] .menu { display:table; table-layout:fixed; width:100%; }
-	.ec-base-tab[class*="grid"] .menu li { float:none; display:table-cell; vertical-align:middle; }
-	.ec-base-tab[class*="grid"] .menu li a { display:inline-block; width:100%; min-width:0; margin:0; padding:11px 0; border:0; }
-	.ec-base-tab[class*="grid"] .menu li.selected { position:relative; top:0; right:-1px; border:1px solid #fff; border-bottom:0; background:#fff; }
-	.ec-base-tab[class*="grid"] .menu li:first-child.selected { right:0; }
-	.ec-base-tab[class*="grid"] .menu li.selected a { position:static; background:none; }
-	.ec-base-tab.grid3 .menu li { width:34%; }
-  </style> -->
-  
-  <style>
     .tab_menu_top {
         margin-top: 20px;
     }
@@ -838,86 +870,6 @@ function updateTotalPrice() {
         width: 34%;
     }
 </style>
-  
-  
-	
-	<%-- <!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
-	<div class="ec-base-tab grid3">
-    <ul class="menu">
-    					<!-- 밑 컨텐츠 칸의 id와 일치해야함 -->
-        <li class="selected"><a href="#description" data-bs-toggle="tab" aria-selected="true">상품 설명</a></li>
-        <li><a href="#review" data-bs-toggle="tab">상품 리뷰</a></li>
-        <li><a href="#qna" data-bs-toggle="tab">Q&A</a></li>
-    </ul>
-</div>
-
-<!-- 표시될 컨텐츠 -->
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane active" id="description" role="tabpanel"> <!-- 위의 id와 일치해야함 -->
-    
-        <!-- 상품설명 섹션 -->
-        <section id="bloginner" class="bloginner">
-            <div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="head_title text-center">
-                            <h2>상품설명</h2>
-                        </div>
-                        <!-- End of head title -->
-                        <div class="main_bloginner_area" style="">
-                            <div class="row">
-                            	<div class="col-sm-10 col-sm-offset-1">
-                            		<div class="main_bloginner_content">	
-                            			<div class="single_bloginner s_blogIner_1 text-center">
-				                            <img src="${dto.p_detail}">
-			                            </div>
-			                            </div>
-            		                </div>
-                    	        </div>
-                        	</div>
-                    	</div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
-    <!-- 상품리뷰 섹션 -->
-    <div class="tab-pane" id="review" role="tabpanel">
-    <section id="product_infomation" class="service sections margin-top-120">
-    	<div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="head_title text-center">
-                            <h2>상품리뷰</h2>
-                        </div>
-        				<div class="main_service_area">
-        					<p>이곳에 상품 리뷰 내용을 입력하세요.</p>
-        				</div>
-        		</div>
-        	</div>
-       	</div>
-   	</section>
-    </div>
-    
-    <!-- Q&A 섹션 -->
-    <div class="tab-pane" id="qna" role="tabpanel">
-    <section id="product_infomation" class="service sections margin-top-120">
-    	<div class="container">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="head_title text-center">
-                            <h2>Q&A</h2>
-                        </div>
-        				<div class="main_service_area">
-        					<p>이곳에 Q&A 내용을 입력하세요.</p>
-        				</div>
-        		</div>
-        	</div>
-       	</div>
-   	</section>
-    </div>
-    
-</div> --%>
 
 
 <!-- 탭메뉴에 대한 JS -->
@@ -954,14 +906,13 @@ function cart_insert() {
     var selectedOptions = []; // 선택한 옵션 배열 초기화
     // 선택한 옵션의 정보를 가져와서 배열에 추가
     $(".p_select_option").each(function() {
-    	var optionText = $(this).text(); // 옵션 텍스트 가져오기
-    	var startIdx = optionText.indexOf("-+x"); // "-+x"의 위치를 찾아 시작 인덱스로 설정
-    	var endIdx = optionText.indexOf(" - 가격:"); // " - 가격: 17400" 이전의 문자열 끝 인덱스
-    	var optionName = optionText.substring(startIdx + 3, endIdx); // 옵션명 추출
-        var priceMatch = /- 가격: (\d+)/.exec(optionText); // 가격 정보 추출
+    	var optionText = $(this).find(".option_text").text(); // 옵션 텍스트 가져오기
+        var optionName = optionText.trim(); // 옵션명 공백 제거
+        var priceText = $(this).find(".option_price").text(); // 가격 텍스트 가져오기
+        var priceMatch = /(\d+)/.exec(priceText); // 가격 정보 추출
         var price = parseFloat(priceMatch[1]); // 가격 변환
         var quantity = parseInt($(this).find(".quantity-input").val()); // 수량 가져오기
-       	selectedOptions.push({ o_name: optionName, p_price: price, amount: quantity });
+        selectedOptions.push({ o_name: optionName, p_price: price, amount: quantity });
     });
 
     // 선택한 상품 정보를 서버로 전송
