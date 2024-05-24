@@ -23,6 +23,10 @@
 
     <!-- Custom styles for this template-->
     <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
+    
+    <!-- 에디터 -->
+    <!-- <script src="//cdn.ckeditor.com/4.19.0/full/ckeditor.js"></script> -->
+	<script src="/resources/ckeditor/ckeditor.js"></script>
 <style>
         body {
             font-family: 'Nunito', sans-serif;
@@ -300,8 +304,8 @@ function save(){
                 <div class="container-fluid" style="height: 750px;">
   					  <h1 class="h3 mb-4 text-gray-800">상품 등록</h1>
     					<div class="row">
-        <!-- 이미지 -->
         
+        <!-- 이미지 -->
         <form method="post" name="form1" action="/admin/insert" enctype="multipart/form-data" style="width: 1250px; height: 400px;">
        
         
@@ -323,8 +327,20 @@ function save(){
                     <div id="file_box"></div>
                 </tr>
                 <tr>
-                    <td id="td1"><label>상세사진</label></td>
-                    <td id="td1"><input type="file" name="files" multiple="multiple" id="fileInput"></td>
+                    <td id="td1"><label>상품설명</label></td>
+                    <td id="td1">
+                    <textarea rows="5" cols="60" placeholder="상품설명을 입력하세요." name="description" id="description"></textarea>
+                    <script>
+						$(function () {
+							CKEDITOR.replace('description', {
+								extraPlugins: 'uploadimage',
+							filebrowserUploadUrl : '/upload/ajax_upload'
+							});
+						});
+					</script>
+                    
+                    </td>
+                    
                 </tr>
                 
                 <tr>
@@ -596,5 +612,7 @@ function getFileInfo(file_name) {
 
 
 </script>
+
+
 
 </html>

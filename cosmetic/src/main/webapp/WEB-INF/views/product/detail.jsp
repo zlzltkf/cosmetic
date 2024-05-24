@@ -174,10 +174,13 @@ body {
 .prd_detail_box .right_area .p_dropdown-content a {
 	color: #000;
     position: relative;
-    width: 100%;
-    padding: 14px 15.5px;
     text-decoration: none;
-    display: -webkit-inline-box;
+    display: block; 
+    width: 425px;
+    padding: 17px;
+    text-align: left; 
+    box-sizing: border-box; 
+    border: 1px solid #e5e5e5;
 }
 
 .zzim_btn {
@@ -651,7 +654,7 @@ function updateTotalPrice() {
 }
 .prd_select_box {	
 	align-content: center;
-	margin-top: 30px;
+	margin-top: 40px;
     min-height: 60px;
     border: 1px solid #e9e9e9;
     background: #f9f9f9;
