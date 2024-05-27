@@ -58,13 +58,6 @@ body {
 	width: 425px;
 }
 
-.p_img {
-	max-width: 510px;
-	max-height: 510px;
-	width: 510px;
-	height: 510px
-}
-
 .p_info {
 	background: #fff;
 }
@@ -223,10 +216,120 @@ body {
     background: #fff;
 }
 
+/* 이미지 슬라이더 스타일 */
+#p_img {
+    max-width: 510px;
+    max-height: 510px;
+    min-width: 500px;
+    min-height: 500px;
+    width: 510px;
+    height: 510px;
+}
 
+.slider-container {
+    position: relative; /* 추가 */
+    overflow: hidden;
+}
+
+.slider-container img {
+    width: 100%;
+    height: auto;
+    display: none; /* 이미지를 숨깁니다. */
+}
+
+.slider-container .slides {
+    display: flex;
+    transition: transform 0.5s ease;
+}
+
+/* .slider-container .slides img {
+    width: 100%;
+    height: auto;
+    
+} */
+
+.slider-container .prev,
+.slider-container .next {
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+    background-color: rgba(255, 255, 255, 0.5);
+    padding: 10px;
+}
+
+.slider-container .prev {
+    left: 0;
+}
+
+.slider-container .next {
+    right: 40px;
+}
 
 
 </style>
+<script type="text/javascript">
+$(document).ready(function() {
+    var p_id = '${dto.p_id}';
+    // 각 리뷰에 대한 사진 데이터를 가져오기 위한 AJAX 요청
+    $.ajax({
+        url: '/product/list_p_attach/' + p_id,
+        method: 'GET',
+        success: function(images) {
+            var thumList = '';
+            images.forEach(function(image) {
+                // 이미지 경로 수정: src/main/webapp 제거
+                image = image.replace("src/main/webapp", "");
+                console.log('image:' + image);
+                thumList += '<img src="' + image + '" alt="Product Image">';
+            });
+            // 수정된 ID를 사용하여 이미지 추가
+            $('#p_img').append(thumList);
+            // 이미지를 가져온 후에 이미지 슬라이더를 시작합니다.
+            startSlider();
+        },
+        error: function(xhr, status, error) {
+            console.error('이미지를 불러오는 중 오류 발생:', error);
+        }
+    });
+
+    var slideIndex = 0;
+
+    // 이전 버튼 클릭 시 이벤트 처리
+    $('.prev').click(function() {
+        plusSlides(-1);
+    });
+
+    // 다음 버튼 클릭 시 이벤트 처리
+    $('.next').click(function() {
+        plusSlides(1);
+    });
+
+    // 이미지 슬라이더 시작 함수
+    function startSlider() {
+        var slides = $(".p_img img");
+        slides.hide(); // 모든 이미지를 숨깁니다.
+        slides.eq(slideIndex).show(); // 초기 이미지를 표시합니다.
+    }
+
+    // 이전 및 다음 이미지로 이동하는 함수
+    function plusSlides(n) {
+        var slides = $(".p_img img");
+        slideIndex += n;
+        if (slideIndex < 0) {
+            slideIndex = slides.length - 1; // 마지막 이미지로 이동합니다.
+        } else if (slideIndex >= slides.length) {
+            slideIndex = 0; // 첫 번째 이미지로 이동합니다.
+        }
+        slides.hide(); // 모든 이미지를 숨깁니다.
+        slides.eq(slideIndex).show(); // 다음 이미지를 표시합니다.
+    }
+
+    // 이미지 슬라이더 초기화
+    startSlider();
+});
+</script>
 </head>
 
 <body data-spy="scroll" data-target=".navbar-collapse">
@@ -245,12 +348,21 @@ body {
 		<div class="prd_detail_box">
 			<input type="hidden" value="${dto.p_id}">
 					
-				<!-- 왼쪽에 들어갈 사진 -->
+				<!-- 왼쪽에 들어갈 사진
 				<div class="left_area">
-					<div class="p_img">
-						<img id="main_img" src="${dto.p_img1}">
-					</div>
-				</div>
+					<div class="p_img" id="p_img"></div>
+				</div> -->
+				
+				<!-- 이미지 슬라이더를 표시할 곳 -->
+				<div class="left_area">
+<div class="slider-container">
+    <div class="slides p_img" id="p_img"></div>
+    <!-- 이전 버튼 -->
+    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+    <!-- 다음 버튼 -->
+    <a class="next" onclick="plusSlides(1)">&#10095;</a>
+</div>
+</div>
 				 
 				<!--이미지 슬라이더
 				<div class="left_area">
@@ -451,7 +563,7 @@ $(document).ready(function() {
                             <h2>상품설명</h2>
                         </div>
         				<div class="main_service_area">
-        					<p><img src="${dto.p_detail}"></p>
+        					 <p><c:out value="${dto.p_detail}" /></p>
         				</div>
    	</section>
     </div>

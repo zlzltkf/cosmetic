@@ -126,5 +126,10 @@ public class AdminDao {
 	    map.put("p_id", p_id);
 	    sqlSession.insert("admin.insert_p_attach", map);
 	}
+	
+	// 첨부파일
+	public List<String> list_p_attach(int p_id) {
+		return sqlSession.selectList("admin.list_p_attach", p_id);
+	}
 
 }

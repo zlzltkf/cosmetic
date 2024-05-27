@@ -1,39 +1,41 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>   
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="">
-    <meta name="author" content="">
+<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
 
-    <title>SB Admin 2 - Cards</title>
+<title>상품등록</title>
 
-    <!-- Custom fonts for this template-->
-    <link href="/resources/admin/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+<!-- Custom fonts for this template-->
+<link href="/resources/admin/vendor/fontawesome-free/css/all.min.css"
+	rel="stylesheet" type="text/css">
+<link
+	href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+	rel="stylesheet">
 
-    <!-- Custom styles for this template-->
-    <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
-    
-    <!-- 에디터 -->
+<!-- Custom styles for this template-->
+<link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
+
+<!-- 에디터 -->
     <!-- <script src="//cdn.ckeditor.com/4.19.0/full/ckeditor.js"></script> -->
 	<script src="/resources/ckeditor/ckeditor.js"></script>
+
+
 <style>
-        body {
-            font-family: 'Nunito', sans-serif;
-            background-color: #f8f9fc;
-            margin: 0;
-            padding: 0;
-        }
+body {
+    height: 100%;
+}
 
         .container-fluid {
             margin: 20px auto;
@@ -68,44 +70,16 @@
             margin-bottom: 10px;
         }
 
-        table {
-            width: 100;
-            border-collapse: separate;
-            border-spacing: 15px;
-        }
-
-        td {
-            padding: 5px;
-            vertical-align: middle;
-        }
-
-        #td1 {
-            font-weight: bold;
-            color: #5a5c69;
-        }
 
         input[type="text"],
         input[type="number"],
         select {
-            width: 150;
+            width: 200px;
             padding: 10px;
             border: 1px solid #ddd;
             border-radius: 5px;
             box-sizing: border-box;
-        }
-
-        button {
-            background-color: #4e73df;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-        }
-
-        button:hover {
-            background-color: #2e59d9;
+            height: 40px
         }
 
         .input-group {
@@ -135,11 +109,42 @@
             margin-top: -12px;
    			padding-top: 17px;
         }
-    </style>
+.span_bold{
+	font-weight: bold;
+    color: #5a5c69;
 
+}        
+        
+.ul_inner{
+	list-style: none;
+}
+
+.li_inner {
+	margin: 20px;
+}  
+
+.write_area {
+	padding: 5px 0 0;
+}
+
+.write_area .left_area {
+	float: left;
+	width: 710px;
+	margin-top: 5px;
+}
+
+.write_area .right_area {
+	float: right;
+	width: 425px;
+}
+
+.label_inner{
+	margin-right: 20px;
+}
+
+</style>
 <script>
-
-/* 한 개의 체크박스만 선택할 수 있도록 하는 함수 */
+ //한 개의 체크박스만 선택할 수 있도록 하는 함수 
 function checkOnlyOne(element) {
     const checkboxes = document.getElementsByName("yes_no");
     checkboxes.forEach((cb) => {
@@ -147,39 +152,46 @@ function checkOnlyOne(element) {
     });
     element.checked = true;
 }
-function save_form(){
+
+ 
+function save_form() {
 	document.form1.submit();
-	
 }
 
-/* "있음" 체크박스가 선택되었을 때 입력 필드를 활성화하거나 비활성화하는 함수 */
+
 function look() {
-    // "yes_no"라는 이름을 갖는 모든 체크박스를 가져옵니다.
-    const checkboxes = document.getElementsByName("yes_no");
+    const noOptionCheckbox = document.getElementById("no_option");
+    const yesOptionCheckbox = document.getElementById("yes_option");
     const stockInput = document.getElementById("p_stock");
     const amountInput = document.getElementById("o_amount");
-    
-    const nameInput = document.getElementById("o_name");
-	const insertBtn = document.getElementById("insert");
-	const deleteBtn = document.getElementById("delete");
+    const insertBtn = document.getElementById("optionAdd_btn");
+    const optionContainer = document.getElementById("optionIndex");
 	
     let isChecked = false; // "있음" 체크박스가 선택되었는지 여부를 확인하는 변수
 
-    // 모든 체크박스를 반복하여 "있음" 체크박스가 선택되었는지 확인합니다.
-    checkboxes.forEach(checkbox => {
-        if (checkbox.checked && checkbox.value === "1") {
-            isChecked = true; // "있음" 체크박스가 선택되었다면 isChecked 값을 true로 설정
-            stockInput.value = null;
-            
-        }
-    });
+    if (yesOptionCheckbox.checked) {
+        isChecked = true; // "있음" 체크박스가 선택되었다면 isChecked 값을 true로 설정
+        stockInput.value = null;
+    }
+    
     // "있음" 체크박스가 선택되었다면 재고 입력 필드를 비활성화하고, 그렇지 않다면 활성화합니다.
     insertBtn.disabled = !isChecked;
-    deleteBtn.disabled = !isChecked;
     stockInput.disabled = isChecked;
-    amountInput.disabled = !isChecked;
-    nameInput.disabled = !isChecked;
+    if (amountInput) {
+        amountInput.disabled = !isChecked;
+    }
+    
+    if (!isChecked) {
+        clearOptionFields(optionContainer);
+    }
 }
+
+function clearOptionFields(optionContainer) {
+    while (optionContainer.firstChild) {
+        optionContainer.removeChild(optionContainer.firstChild);
+    }
+}
+
 
 function save(){
 	const savebtn = document.getxElementById("save");
@@ -189,20 +201,23 @@ function save(){
 
 
 </script>
+
 </head>
 
-<body style="height: 750px;" id="page-top">
-    
-    <div id="wrapper">
 
-        <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+<body id="page-top">
+
+	<!-- Page Wrapper -->
+	<div id="wrapper">
+
+		 <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar" style="background-color: white;">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
                 <div class="sidebar-brand-icon rotate-n-15">
                 </div>
-                <div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
+                <div class="sidebar-brand-text mx-3">EDEN 뷰티 </div>
             </a>
 
             <!-- Divider -->
@@ -216,7 +231,10 @@ function save(){
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-       
+            <!-- Heading -->
+           <!--  <div class="sidebar-heading">
+                Interface
+            </div> -->
 
             <!-- Nav Item - Pages Collapse Menu -->
            <li class="nav-item active"><a class="nav-link" href="#"
@@ -268,173 +286,206 @@ function save(){
         </ul>
         <!-- End of Sidebar -->
 
-        <!-- Content Wrapper -->
-        <!-- <div id="content-wrapper" class="d-flex flex-column"> -->
+		<!-- Content Wrapper -->
+		<div id="content-wrapper" class="d-flex flex-column">
 
-            <!-- Main Content -->
-            <div id="content">
+			<!-- Main Content -->
+			<div id="content">
 
-                <!-- Topbar -->
-                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+				<!-- Topbar -->
+				<nav
+					class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
 
-                    <!-- Sidebar Toggle (Topbar) -->
-                   <!--  <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
-                        <i class="fa fa-bars"></i>
-                    </button> -->
+					<!-- Sidebar Toggle (Topbar) -->
+					<button id="sidebarToggleTop"
+						class="btn btn-link d-md-none rounded-circle mr-3">
+						<i class="fa fa-bars"></i>
+					</button>
 
-                    
-                    
+					<!-- ------------------------------------Tob Bar 시작!------------------------------------ -->
+					<ul class="navbar-nav ml-auto">
+						<!-- Nav Item - User Information -->
+						<li class="nav-item dropdown no-arrow"><a
+							class="nav-link dropdown-toggle" href="#" id="userDropdown"
+							role="button" data-toggle="dropdown" aria-haspopup="true"
+							aria-expanded="false"> <span
+								class="mr-2 d-none d-lg-inline text-gray-600 small">EDEN
+									관리자</span> <img class="img-profile rounded-circle"
+								src="/resources/admin/img/undraw_profile.svg">
+						</a></li>
+					</ul>
+				</nav>
+				<!---------------------------------------------Tob Bar 끝! ----------------------------------->
 
-                    <!-- ------------------------------------Tob Bar 시작!------------------------------------ -->
-                    <ul class="navbar-nav ml-auto">
-                        <!-- Nav Item - User Information -->
-                        <li class="nav-item dropdown no-arrow">
-                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">EDEN 관리자</span>
-                                <img class="img-profile rounded-circle"
-                                    src="/resources/admin/img/undraw_profile.svg">
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
-                <!---------------------------------------------Tob Bar 끝! ----------------------------------->
+<!-- ----------------------------------------- 내용 시작 --------------------------------->
+<div class="container-fluid">
 
-                <!-- ----------------------------------------- 내용 시작 --------------------------------->
-                <div class="container-fluid" style="height: 750px;">
-  					  <h1 class="h3 mb-4 text-gray-800">상품 등록</h1>
-    					<div class="row">
-        
-        <!-- 이미지 -->
-        <form method="post" name="form1" action="/admin/insert" enctype="multipart/form-data" style="width: 1250px; height: 400px;">
-       
-        
-        <!-- 테이블 -->
-        
-        <div style="padding-left: 0.75rem;padding-top: 5.2rem;"> 
-            <table >
-                <tr>
-                    <td id="td1">상품 코드</td>
-                    <td style="color: gray;" id="td1">자동생성</td>
-                </tr>
-                <tr>
-                    <td id="td1"><label for="product-name">상품명</label></td>
-                    <td id="td1"><input type="text" id="p_name" name="p_name" style="width: 100%;"></td>
-                </tr>
-                <tr>
-                    <td id="td1"><label for="product-name">대표이미지</label></td>
-                    <td id="td1"> <input type="file" name="files" multiple="multiple" id="fileInput"></td>
+<!-- Page Heading -->
+<h1 class="h3 mb-2 text-gray-800">상품 등록</h1>
+
+<!-- DataTales Example -->
+<div class="card shadow mb-4">
+	<div class="card-header py-3"></div>
+						
+<form method="post" name="form1" action="/admin/insert" enctype="multipart/form-data" >
+	<div class="write_area">
+		<div class="left_area">
+			<ul class="ul_inner">
+				<li class="li_inner">
+					<span class="span_bold"><label for="product-name">상품코드</label></span>
+					<span style="color: gray;">자동생성</span>
+				</li>
+				<li class="li_inner">
+					<span class="span_bold"><label for="product-name">상품명</label></span>
+					<span v="span_bold"><input type="text" id="p_name" name="p_name" ></span>
+				</li>
+				<li class="li_inner">
+					<span class="span_bold"><label for="product-name">대표이미지</label></span>
+                    <span class="span_bold"> <input type="file" name="files" multiple="multiple" id="fileInput"></span>
                     <div id="file_box"></div>
-                </tr>
-                <tr>
-                    <td id="td1"><label>상품설명</label></td>
-                    <td id="td1">
-                    <textarea rows="5" cols="60" placeholder="상품설명을 입력하세요." name="description" id="description"></textarea>
+				</li>
+				<li class="li_inner">
+					<select id="category" name="ctg_big" >
+                  		<option value="" selected disabled hidden>대분류</option>
+   							<c:forEach var="row" items="${list}">
+       				 			<option value="${row}">${row}</option>
+    						</c:forEach>
+					</select>
+
+                    <select id="subcategory" name="ctg_small">
+                        <option value="" selected disabled hidden>소분류</option>
+                        <option value="small"></option>
+                    </select>
+				</li>
+				<li class="li_inner">
+					<span class="span_bold"><label>상품설명</label></span>
+					<span class="td1">
+                   	<textarea rows="20" cols="80" placeholder="상품설명을 입력하세요." name="p_detail" id="p_detail"></textarea>
                     <script>
-						$(function () {
-							CKEDITOR.replace('description', {
-								extraPlugins: 'uploadimage',
-							filebrowserUploadUrl : '/upload/ajax_upload'
-							});
-						});
+        				CKEDITOR.replace("p_detail", {
+        					filebrowserUploadUrl : "/imageUpload.do"
+        				});
 					</script>
-                    
-                    </td>
-                    
-                </tr>
-                
-                <tr>
-                    <td id="td1"><label for="price">판매가</label></td>
-                    <td style="font-weight: bold;" id="td1"> <input type="number" id="p_price" name="p_price">&nbsp;&nbsp;&nbsp;
-                        <label for="amount">수량</label>&nbsp;&nbsp;&nbsp;
-                        <input type="number" id="p_stock" name="p_stock"></td>
-                </tr>
-                <!-- <tr>
-                    <td id="td1" style="font-weight: bold;">상세 이미지</td>
-                    <td id="td1"><input type="file" id="p_detail" name="p_detail" ></td>
-                </tr> -->
-                
-                
-                <tr>
-                    <td id="td1"><label>상품 분류</label></td>
-                    <td colspan="3" id="td1"> 
-                    
-                  	<select id="category" name="ctg_big" >
-                  	<option value="" selected disabled hidden>대분류</option>
-   					<c:forEach var="row" items="${list}">
-       				 <option value="${row}">${row}</option>
-    				</c:forEach>
-						</select>
-
-                        <select id="subcategory" name="ctg_small">
-                           <option value="" selected disabled hidden>소분류</option>
-                           <option value="small"></option>
-                        </select>
-                        <input type="checkbox" value="0" name="yes_no" id="yes_no" onclick='checkOnlyOne(this); look();' checked >없음
-                <input type="checkbox" value="1" name="yes_no" id="yes_no" onclick='checkOnlyOne(this); look();'>있음
-                    </td>
-                </tr>
-                
-                <tr>
-                <td id="td1"><label>옵션</label></td>
-                <td>
-                <input type="text" placeholder="색상" name="O_name" id="O_name" >
-                <input type="number" placeholder="수량" name="O_amount" id="O_amount">
-              <!--   <input type="hidden" id="o_id" name="o_id"> -->
-              <button type="button" onclick="Preview()"  id="insert" disabled="disabled">추가</button>
-              <button type="button" onclick="Delete()" id="delete" disabled="disabled">삭제</button>
-              
-                </td>
-                
-                </tr>
-                <tr style="border-top: solid 1px gray;">
-                    <br>
-                    <td colspan="4" align="center">
-                        <div id="preview" class="preview">
-                            
-                        </div>
-                    </td>
-                        
-                </tr>
-            </table>
-        </div>
-    </div>
-    <br><br><br><br><br><br><br><br>
-    <div>
-        <button type="button" id="save" name="save" onclick="save_form()">확인</button>
-        <button type="button">취소</button></div>
-    </form>
+                    </span>
+				</li>
+				<li class="li_inner">
+					<span class="span_bold"><label for="price">판매가</label></span>
+					<span><input type="number" id="p_price" name="p_price"></span>
+					&nbsp;
+					<span class="span_bold"><label for="amount">수량</label></span>
+					<span><input type="number" id="p_stock" name="p_stock"></span>
+				</li>
+				<li class="li_inner">
+					<span class="span_bold"><label for="option">옵션</label></span>&nbsp;
+					<!-- <input type="text" placeholder="색상" name="O_name" id="O_name" >
+                	<input type="number" placeholder="수량" name="O_amount" id="O_amount"> -->
+             <!--   <input type="hidden" id="o_id" name="o_id"> -->
+             		<input type="checkbox" value="0" name="yes_no" id="no_option" onclick="checkOnlyOne(this); look();" checked >없음
+                	<input type="checkbox" value="1" name="yes_no" id="yes_option" onclick="checkOnlyOne(this); look();" >있음
+              		<button type="button" id="optionAdd_btn" name="optionAdd_btn" disabled="disabled">추가</button>
+              		<!-- <button type="button" onclick="Delete()" id="delete" disabled="disabled">삭제</button> -->
+              		<div id="optionIndex"></div>
+				</li>
+							
+				<li class="li_inner">
+					<div id="preview" class="preview"></div>
+				</li>
+								
+				<div>
+        			<button type="button" id="save" name="save" onclick="save_form()">확인</button>
+        			<button type="button">취소</button>
+        		</div>
+			</ul>
+		</div>
+						
+		<div class="right_area">
+						
+		</div>
+	</div>
+							
+										 
+</form>
 </div>
-                </div> 
-                <!----------------------------------------------내용 끝------------------------ -->
+</div>
+<!-- End of Main Content -->
 
+				<!-- Footer 시작 -->
+				<!-- <footer class="sticky-footer bg-white">
+					<div class="container my-auto">
+						<div class="copyright text-center my-auto">
+							<span>Copyright &copy; Your Website 2020</span>
+						</div>
+					</div>
+				</footer> -->
+				<!-- Footer 끝 -->
 
-            <!-- Footer 시작 -->
-            <!-- <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer> -->
-            <!-- Footer 끝 -->
+			</div>
+			<!-- End of Content Wrapper -->
 
-           <!--  </div> -->
-        </div>
+		</div>
+		<!-- End of Page Wrapper -->
 
+		<!-- Scroll to Top Button-->
+		<a class="scroll-to-top rounded" href="#page-top"> <i
+			class="fas fa-angle-up"></i>
+		</a>
+		<!-- Bootstrap core JavaScript-->
+		<script src="/resources/admin/vendor/jquery/jquery.min.js"></script>
+		<script
+			src="/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+		<!-- Core plugin JavaScript-->
+		<script
+			src="/resources/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
+		<!-- Custom scripts for all pages-->
+		<script src="/resources/admin/js/sb-admin-2.min.js"></script>
+		
+	
+<style>
+#file_box {
+        margin: 10px; /* 파일 이름 표시 영역과 상단 간격 조정 */
+    }
 
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+    #file_box a {
+        display: inline-block;
+        margin-right: 10px; /* 파일 이름과 다음 파일 이름 사이의 간격 조정 */
+        color: #333; /* 파일 이름 색상 설정 */
+        text-decoration: none; /* 밑줄 제거 */
+         width: 100px;
+    background-color: #f5f5f5;
+    color: #aaa;
+    font-size: 24px;
+    }
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="/resources/admin/vendor/jquery/jquery.min.js"></script>
-    <script src="/resources/admin/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <!-- Core plugin JavaScript-->
-    <script src="/resources/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <!-- Custom scripts for all pages-->
-    <script src="/resources/admin/js/sb-admin-2.min.js"></script>
+    #file_box a:hover {
+        color: #555; /* 마우스를 올렸을 때 파일 이름 색상 변경 */
+    }
+
+    /* 파일 이름이 표시되는 영역 안의 input 태그 스타일링 */
+    #file_box input[type="hidden"] {
+        display: none; /* 숨김 처리 */
+        background-color: #f5f5f5;
+    color: #aaa;
+    font-size: 24px;
+    }
+    
+    #file_box img{
+    width: 100px;
+    height: 100px;
+    border: 2px dashed #ccc;
+    display: inline-block;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    margin: 5px; /* 업로드 상자 사이의 간격 조정 */
+    }
+    
+    .form-group {
+    	display: flex;
+    }
+</style>
 </body>
+
 <script>
 
 document.getElementById('category').addEventListener('change', function() {
@@ -467,7 +518,42 @@ document.getElementById('category').addEventListener('change', function() {
     }
 });
 
-function Preview() {
+$(document).ready(function() {
+	console.log('ready');
+
+	optionAdd();
+});
+
+function optionAdd() {
+	console.log('optionadd');
+	var optionIndex = 1;
+	//$("#fileIndex").append("<div><input type='file' style='float:left;' name='file_"+(fileIndex++)+"'>"+"<button type='button' style='float:right;' id='fileAddBtn'>"+"추가"+"</button></div>");
+	$("#optionAdd_btn")
+			.on(
+					"click",
+					function() {
+						console.log('옵션추가');
+						$("#optionIndex")
+								.append(
+										"  <div class='form-group'><input placeholder='옵션' class='form-control input-lg' type='text' style='float:left;' name='o_name"
+												
+												+ "' id='o_name'>&nbsp;&nbsp;"
+												+ "<input type='number' name='o_amount' id='o_amount' placeholder='수량'>"
+												+ "<button type='button' style='float:right;' id='optionDelBtn' class='btn-btn dark'>"
+												+ "삭제" + "</button></div>"
+
+								);
+
+					});
+
+	$(document).on("click", "#optionDelBtn", function() {
+		$(this).parent().remove();
+
+	});
+
+};
+
+/* function Preview() {
     // 입력된 색상과 수량을 가져옵니다.
     let colorInput = document.getElementById("O_name");
     let amountInput = document.getElementById("O_amount");
@@ -518,7 +604,7 @@ function Preview() {
     colorInput.value = "0"; // 빈 문자열("")로 설정
     amountInput.value = "0"; // 빈 문자열("")로 설정
     
-}
+} 
 
 
 function Delete() {
@@ -528,7 +614,7 @@ function Delete() {
     if (previewItem) {
         previewItem.remove();
     }
-}
+} */
 
 document.getElementById('save').addEventListener('click', function() {
     var small = document.getElementById('subcategory').value;
@@ -612,7 +698,5 @@ function getFileInfo(file_name) {
 
 
 </script>
-
-
 
 </html>

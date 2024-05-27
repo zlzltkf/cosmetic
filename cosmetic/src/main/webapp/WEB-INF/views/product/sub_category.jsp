@@ -369,8 +369,8 @@ justify-content:flex-start;
             <c:forEach var="row" items="${list}">
                <article class="block" data-product-id="${row.p_id}">
                   <div class="picture">
-                     <div class="img">
-                        <img src="/resources/admin/img/${row.p_img1}" alt="상품 이미지">
+                     <div class="img" id="img">
+                        <img src="${row.file_name}" alt="상품 이미지">
                      </div>
                
                <!-- 찜 버튼 -->
@@ -491,6 +491,16 @@ $(document).ready(function(){
       
    }
    
+   //이미지 미리보기  => 이거 아직 안되서 수정해야함
+   var img = document.querySelector(".img img"); // 첫 번째 이미지 태그 선택
+
+	if (img) {
+    	var src = img.getAttribute("src"); // 이미지 태그의 src 속성 가져오기
+    	var newSrc = src.replace("src/main/webapp", ""); // "src/main/webapp" 제거
+    	console.log('image:' + newSrc);
+	} else {
+    	console.log('이미지가 없습니다.');
+	}
    
    
 });

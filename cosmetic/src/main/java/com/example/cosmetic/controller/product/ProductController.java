@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.cosmetic.model.admin.AdminDao;
 import com.example.cosmetic.model.category.CategoryDTO;
 import com.example.cosmetic.model.product.PageUtil;
 import com.example.cosmetic.model.product.ProductDAO;
@@ -31,6 +32,9 @@ public class ProductController {
 
 	@Autowired
 	ProductDAO productDao;
+	
+	@Autowired
+	AdminDao adminDao;
 
 	// 카테고리별 리스트
 	@GetMapping("list.do")
@@ -106,7 +110,13 @@ public class ProductController {
 //			
 //			return "product/detail";
 //		}
-
+	 @GetMapping("list_p_attach/{p_id}")
+	 @ResponseBody
+	 public List<String> list_p_attach(@PathVariable(name="p_id") int p_id) {
+		 return adminDao.list_p_attach(p_id);
+	 }
+	
+	
 	@GetMapping("/detail/{p_id}")
 	public String detail(@PathVariable(name = "p_id") int p_id, Model model, HttpServletRequest request,
 			HttpSession session) {

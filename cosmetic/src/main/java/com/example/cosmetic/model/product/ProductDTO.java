@@ -21,9 +21,6 @@ public class ProductDTO {
 	private String p_name;
 	private int p_price;
 	private int p_stock;
-	private String p_img1;
-	private String p_img2;
-	private String p_img3;
 	private String p_detail;
 	private Date p_date;
 	private int p_delivery;

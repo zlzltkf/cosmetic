@@ -14,9 +14,9 @@
 
 	<insert id="product_insert">
 		insert into product (p_name, p_price, p_stock,
-		p_img1, p_detail, p_cate)
+		 p_detail, p_cate)
 		values(#{p_name},#{p_price}, #{p_stock},
-		#{p_img1},#{p_detail},
+		#{p_detail},
 		#{p_cate})
 	</insert>
 
@@ -157,5 +157,11 @@
 			(#{file_name}, #{p_id})
 		</foreach>
 	</insert>
+	
+	<select id="list_p_attach" resultType="String">
+		select file_name from p_attach
+		where p_id=#{p_id}
+		order by file_id
+	</select>
 
 </mapper>

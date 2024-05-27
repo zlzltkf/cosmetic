@@ -69,7 +69,8 @@ public class AdminController {
 	public String insert(ProductDTO dto, 
 	                     @RequestParam("ctg_small") String small, 
 	                     @RequestParam(value = "o_name", required = false) String[] oNames, 
-	                     @RequestParam(value = "o_amount", required = false) String[] oAmounts,@RequestParam(name="file", required = false)String[] file,
+	                     @RequestParam(value = "o_amount", required = false) String[] oAmounts,
+	                     @RequestParam(name="file", required = false)String[] file,
 	                     HttpServletRequest request, 
 	                     HttpSession session) {
 	
@@ -106,6 +107,7 @@ public class AdminController {
 	                    dto.setO_name(o_name);
 	                    dto.setO_amount(o_amount);
 	                    dto.setP_stock(o_amount);
+	                    dto.setP_detail(dto.getP_detail());
 	                   
 	                    adminDao.option_insert(dto);
 	                    
@@ -122,6 +124,8 @@ public class AdminController {
 	    productService.insertProduct(dto, file);
 	    return "admin/write_view";
 	}
+	
+	
 	
 	//사용자 기본 목록
 	@GetMapping("user_list")
