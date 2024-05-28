@@ -34,5 +34,6 @@ public class OrderDTO {
     private int p_id;
 	private int amount;
 	private String orderStatus;
+	private String o_name;
 	
 }

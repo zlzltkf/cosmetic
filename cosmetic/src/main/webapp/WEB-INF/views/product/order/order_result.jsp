@@ -340,6 +340,9 @@
 	<div class="rowInfo">
 		<div>
 			${row.p_name}
+			<c:if test="${not empty row.o_name}">
+				| ${row.o_name}
+			</c:if>
 		</div>
 		<div>
 			상품 금액: <fmt:formatNumber pattern="#,###" value="${row.p_price}"/>원

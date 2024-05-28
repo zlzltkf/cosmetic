@@ -125,17 +125,36 @@ public class OrderDAO {
 	public int countItem(long orderid) {
 		return sqlSession.selectOne("order.countItem", orderid);
 	}
-	//환불 디비 수정
-	public void updateStatus(int itemid) {
-		sqlSession.update("order.updateStatus", itemid);
+	//환불 상태 수정
+	public void updateStatus(Map<String, Object> map) {
+		sqlSession.update("order.updateStatus", map);
 	}
 	public void cancelReason(Map<String, Object> map) {
 		sqlSession.update("order.cancelReason", map);
 	}
+//	public void updateRefundStatus(int itemid) {
+//		sqlSession.update("order.updateRefundStatus", itemid);
+//	}
 	
 	//주문목록에서 환불에 필요한 정보 불러오기
 	public Map<String, Object> chooseCosts(long orderid) {
 		return sqlSession.selectOne("order.chooseCosts", orderid);
+	}
+	
+	//상품수량 확인
+	public int pItemAmount(Map<String, Object> map) {
+		return sqlSession.selectOne("order.pItemAmount", map);
+	}
+	public int pAmount(Map<String, Object> map) {
+		return sqlSession.selectOne("order.pAmount", map);
+	}
+	
+	//상품수량 업데이트
+	public void pItemUpdateAmount(Map<String, Object> map) {
+		sqlSession.update("order.pItemUpdateAmount", map);
+	}
+	public void pUpdateAmount(Map<String, Object> map) {
+		sqlSession.update("order.pUpdateAmount", map);
 	}
 	
 }

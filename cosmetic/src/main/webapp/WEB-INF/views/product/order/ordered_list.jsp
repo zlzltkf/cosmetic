@@ -201,11 +201,14 @@
 #orderTable td:nth-child(2) a:hover {
 	color: #337ab7;
 }
+#orderTable td:nth-child(2) .Pname {
+	text-align: justify;
+	font-size: 0.9em;
+}
 #orderTable td:nth-child(3) {
 	min-width: 140px;
 }
 #orderTable td:nth-child(3) .p {
-	color: red;
 	padding: 0;
 	margin: 0;
 	font-size: 1.1em;
@@ -516,7 +519,7 @@ if (urlParams != null) {
 	</div>
 	<div class="p">
 		<div class="count">${statusArray[4]}</div>
-		<div class="info">취소/반품</div>
+		<div class="info">반품완료</div>
 	</div>
 </div>
 
@@ -587,14 +590,31 @@ if (urlParams != null) {
 					<img src="${row.map.p_img}">
 				</div>
 				<div class="Pname">
-				<a href="/product/detail_before?p_id=${row.map.p_id}">${row.map.p_name}</a>
+				<a href="/product/detail_before?p_id=${row.map.p_id}">
+					${row.map.p_name}
+					<c:if test="${not empty row.map.o_name}">
+						| ${row.map.o_name}
+					</c:if>
+				</a>
 				</div>
 			</div>
 		</td>
 		<td>
-			<div class="p"><fmt:formatNumber value="${row.map.p_price * row.map.amount}" pattern="#,###"/>원</div>
-			/
-			<div class="a">${row.map.amount}개</div>
+		
+		<c:choose>
+			<c:when test="${row.map.orderStatus == '반품완료'}">
+				<div class="p" style="color: gray;">
+				<del><fmt:formatNumber value="${row.map.p_price * row.map.amount}" pattern="#,###"/>원</del>
+				</div>
+			</c:when>
+			<c:otherwise>
+				<div class="p" style="color: red;">
+				<fmt:formatNumber value="${row.map.p_price * row.map.amount}" pattern="#,###"/>원
+				</div>
+			</c:otherwise>
+		</c:choose>
+		
+			/<div class="a">${row.map.amount}개</div>
 		</td>
 		
 		<td>
@@ -614,8 +634,22 @@ if (urlParams != null) {
 				<p>반품완료</p>
 			</c:if>
 			
-			<button type="button" onclick="updateStatus(${row.orderid}, ${row.map.idx})">주문 취소</button>
-			<%-- <button type="button" onclick="delete_order(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">주문 취소</button> --%>
+			<c:choose>
+				<c:when test="${row.map.orderStatus == '반품요청'}">
+					<button type="button" onclick="redoStatus(${row.map.idx})">반품 취소</button>
+				</c:when>
+				
+				<c:when test="${row.map.orderStatus == '반품완료'}">
+				</c:when>
+				
+				<c:otherwise>
+					<button type="button" onclick="updateStatus(${row.orderid}, ${row.map.idx})">반품 요청</button>
+				</c:otherwise>
+				
+			</c:choose>
+			
+			<%-- <button type="button" onclick="delete_order(${row.orderid}, ${row.orderItemId}, ${row.p_price}, ${row.amount}, ${row.reason})">반품 완료</button> --%>
+			
 		</td>
 	</tr>
 	</c:forEach>
@@ -712,7 +746,7 @@ if (urlParams != null) {
 	    		</div>
 	    		<input type="hidden" name="refundReason" id="reason">
 		    	<div class="confirm_btn">
-		    		<button type="button" id="sendRefund">주문취소</button>
+		    		<button type="button" id="sendRefund">반품 요청</button>
 		    	</div>
 	    	</div>
 	    </div>
@@ -808,8 +842,6 @@ $(document).ready(function() {
 	//라디오버튼 초기화
 	$(".rinput").prop('checked', false);
 	
-	/* modal.style.display = "block"; */
-	
 	span.onclick = function() {
 	  modal.style.display = "none";
 	}
@@ -882,6 +914,26 @@ function confirmDate() {
 	formElement.submit();
 }
 
+//반품요청취소
+function redoStatus(itemid) {
+	if (confirm('반품요청을 취소하시겠습니까?')) {
+		$.ajax({
+			"url": "/order/status_redo.do",
+	        "type": "POST",
+	        "contentType": "application/json",
+	        "data": JSON.stringify({
+	        	"itemid": itemid
+	        }),
+	        success: function(response) {
+	        	if (response == "success") {
+	        		window.location.href = "/order/orderlist.do";
+	        		alert('반품 요청이 취소되었습니다.');
+	        	}
+	        }
+		});
+	} 
+}
+
 //반품요청 업뎃
 function updateStatus(orderid, itemid) {
 	//모달창 열기
@@ -936,7 +988,7 @@ function updateStatus(orderid, itemid) {
 		        success: function(response) {
 		        	if (response == "success") {
 		        		window.location.href = "/order/orderlist.do";
-		        		alert('주문이 취소되었습니다.');
+		        		alert('반품 요청되었습니다.');
 		         		modal.style.display = "none"; 
 		        	}
 		        }
@@ -947,8 +999,7 @@ function updateStatus(orderid, itemid) {
 
 //주문취소
 //주문번호, 주문아이템id, 금액, 수량, 환불사유 필요
-function delete_order(orderid, itemid, price, amount, reason) {
-	
+/* function delete_order(orderid, itemid, price, amount, reason) {
 	var delPrice = parseInt(price) * parseInt(amount);
 	
 	$.ajax({
@@ -962,14 +1013,14 @@ function delete_order(orderid, itemid, price, amount, reason) {
         	"reason" : reason
         }),
         success: function(response) {
+        	
         	if (response == "success") {
         		window.location.href = "/order/orderlist.do";
-        		alert('주문이 취소되었습니다.');
-         		modal.style.display = "none"; 
+        		alert('반품 처리되었습니다.');
         	}
         }
 	}); 
-}
+} */
 
 
 

@@ -21,9 +21,9 @@
 <!-- 장바구니의 상품 > 주문 아이템 테이블에 저장 -->
 <insert id="orderItemInsert">
 	INSERT INTO orderitem(
-	p_id, amount, orderstatus, orderid
+	p_id, amount, orderstatus, orderid, o_name
 	) VALUES (
-		#{p_id}, #{amount}, #{orderstatus}, #{orderid}
+		#{p_id}, #{amount}, #{orderstatus}, #{orderid}, #{o_name}
 	)
 </insert>
 
@@ -105,7 +105,7 @@
 
 <!-- 주문 목록 출력 -->
 <select id="orderList" resultType="com.example.cosmetic.model.order.OrderDTO">
-    SELECT i.orderid, orderDate, i.orderItemId, p_id, amount, orderStatus, totalPrice
+    SELECT i.orderid, orderDate, i.orderItemId, p_id, amount, orderStatus, totalPrice, o_name
 	from orderlist l, orderitem i
 	WHERE l.orderid = i.orderid
 	and userid = #{userid}
@@ -149,7 +149,7 @@
     	and orderStatus = '반품요청'
     	</when>
     	<when test="status == 5">
-    	and orderStatus = '취소/반품'
+    	and orderStatus = '반품완료'
     	</when>
     </choose>
 </select>
@@ -211,7 +211,23 @@
 
 <update id="updateStatus">
 	UPDATE orderitem 
-	SET orderStatus = '반품요청'
+	<choose>
+    	<when test="status == 1">
+    	SET orderStatus = '결제완료'
+    	</when>
+    	<when test="status == 2">
+    	SET orderStatus = '배송중'
+    	</when>
+    	<when test="status == 3">
+    	SET orderStatus = '배송완료'
+    	</when>
+    	<when test="status == 4">
+    	SET orderStatus = '반품요청'
+    	</when>
+    	<when test="status == 5">
+    	SET orderStatus = '반품완료'
+    	</when>
+    </choose>
 	WHERE orderItemId = #{itemid}
 </update>
 
@@ -219,6 +235,31 @@
 	UPDATE orderlist 
 	SET cancelreason = #{reason}
 	WHERE orderid = #{orderid}
+</update>
+
+<!-- 상품수량 확인 -->
+<select id="pItemAmount" resultType="int">
+	SELECT o_amount FROM product_option 
+	WHERE o_p_id = #{p_id} AND o_name = #{o_name}
+</select>
+
+<select id="pAmount" resultType="int">
+	SELECT p_stock FROM product WHERE p_id = #{p_id}
+</select>
+
+<!-- 상품수량 업데이트 -->
+
+<update id="pItemUpdateAmount">
+	UPDATE product_option 
+	SET o_amount = #{PItemAmount}
+	WHERE o_p_id = #{p_id}  
+	AND o_name = #{o_name} 
+</update>
+
+<update id="pUpdateAmount">
+	UPDATE product 
+	SET p_stock = #{PAmount}
+	WHERE p_id = #{p_id}  
 </update>
 
 </mapper>

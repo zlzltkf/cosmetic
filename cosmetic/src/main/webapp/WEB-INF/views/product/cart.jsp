@@ -459,6 +459,9 @@ select:focus {
 						
 						<c:if test="${row.o_name != '없음'}">
     					<span>옵션| ${row.o_name}</span>
+    					
+    					<input type="hidden" name="option_txt" value="${row.o_name}"> <!-- 주문 테이블로 보낼 옵션 -->
+    					
     					<form id="updateForm${row.c_id}" method="post" action="/cart/o_name_update">
         				<select name="o_name" class="o_name_btn">
           					  <option value="">옵션 변경</option>
@@ -674,12 +677,11 @@ $(document).ready(function() {
 	   
 	   //수량을 input에 담기
 	   $(".AmountSelect").each(function () {
-           var selectedValue = $(this).val();
-           console.log(selectedValue);
+		   var selectedValue = $(this).val();
            $(this).siblings(".amount-hidden").val(selectedValue);
        });
 	   
-	  var form = document.forms["form1"];
+	   var form = document.forms["form1"];
 	   form.method = "post";
 	   form.action = "/order/orderform.do";
 	   form.submit();
@@ -701,7 +703,11 @@ $(document).ready(function() {
        var p_order_id = $row.find("input[name='p_order_id']").val();
        var amount = $row.find("input[name='amount']").val();
        var p_o_price = parseInt($row.find("input[name='p_o_price']").val());
-
+       var option = $row.find("input[name = 'option_txt']").val().trim();
+       if (/\d/.test(option)) { // 숫자가 있는지 확인하는 정규표현식
+    	    option = "";
+    	} 
+		console.log(option);
        var delfee = p_o_price >= 30000 ? 0 : 2500;
        var totalPrice = p_o_price + delfee;
        
@@ -709,6 +715,7 @@ $(document).ready(function() {
        
         // 새로운 데이터 추가
        formData.append('cart_id', cart_id);
+       formData.append('option', option); 
        formData.append('p_order_id', p_order_id);
        formData.append('amount', amount);
        formData.append('p_o_price', p_o_price); 
@@ -722,6 +729,7 @@ $(document).ready(function() {
            input.setAttribute("name", pair[0]);
            input.setAttribute("value", pair[1]);
            formElement.appendChild(input);
+           console.log(pair[0], pair[1]);
        } 
 
        formElement.method = "post";

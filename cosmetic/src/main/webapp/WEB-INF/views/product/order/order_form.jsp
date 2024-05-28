@@ -430,8 +430,8 @@ h3 {
 
 	<!-- 숨기기 -->
 	<div id="p_info" style="display: none;">
-		<c:forEach var="id" items="${orderItemIds}">
-			${id}<input type="hidden" name="id" value="${id}">
+		<c:forEach var="o" items="${options}">
+			${o}<input type="hidden" name="option_name" value="${o}">
 		</c:forEach>
 	</div>
 	
@@ -501,7 +501,12 @@ h3 {
 	<c:forEach var="row" items="${list}">
 		<tr>
 			<td><div class="img"><div><img src="${row.p_img}"/></div></div></td>
-			<td>${row.p_name}</td>
+			<td>
+			${row.p_name}
+			<c:if test="${not empty row.option}">
+				| ${row.option}
+			</c:if>
+			</td>
 			<td><fmt:formatNumber pattern="#,###" value="${row.p_price}"></fmt:formatNumber>원</td>
 			<td>${row.amount}개</td>
 		</tr>
@@ -744,7 +749,6 @@ function Payment() {
 		} else {
 			var userid = "${sessionScope.userid}";
 			var totalPrice = p;
-			console.log(totalPrice);
 			var tel = document.getElementById('tel').value;
 			var name = document.getElementById('name').value;
 			var zipcode = document.getElementById('zipcode').value;

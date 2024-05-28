@@ -3,6 +3,23 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
+.row #top {
+	color: red;
+	height: 20px; 
+	/* min-width: 620px; */
+}
+.main_menu_bg .nave_menu {
+	margin: 0;
+}
+.main_menu_bg .navbar-default{
+	margin: 10px;
+}
+.menu-scroll .main_menu_bg .nave_menu{
+	margin: 0;
+}
+.menu-scroll #recent, .menu-scroll #ctg_btn {
+	padding: 5px 15px 20px 15px;
+}
 .navbar-brand-logo {
 	/* position: absolute;
 	bottom: 1px;
@@ -198,7 +215,7 @@ function R_list() {
 		<div class="container">
 			<br>
 			<div class="row">
-				<div>
+				<div id="top">
 					<c:choose>
 						<c:when test="${sessionScope.userid != null}">
 						<c:if test="${sessionScope.userid =='admin'}">
@@ -260,9 +277,9 @@ function R_list() {
 
 
 							<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-    <ul class="nav navbar-nav navbar-right">
+    <ul class="nav navbar-nav navbar-right" id="menu1">
         <li><a href="#" id="ctg_btn">카테고리</a></li>
-        <li><a href="aboutus.html" id="aboutus">about us</a></li>
+<!--         <li><a href="aboutus.html" id="aboutus">about us</a></li>
         <li class="dropdown" id="services">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true">services</a>
             <ul class="dropdown-menu">
@@ -276,12 +293,12 @@ function R_list() {
                 <li><a href="work.html">work page</a></li>
                 <li><a href="work1.html">work page Two</a></li>
             </ul>
-        </li>
+        </li> -->
         <c:choose>
             <c:when test="${sessionScope.userid != null}">
                 <li class="dropdown1" id="recent_list">
                 
-                    <a href="#" class="dropdown-toggle1" data-toggle="dropdown1" role="button" aria-haspopup="true">최근 본 상품</a>
+                    <a href="#" class="dropdown-toggle1" data-toggle="dropdown1" role="button" aria-haspopup="true" id="recent">최근 본 상품</a>
                     
                     <div id="recent_box"> 
                     <div id="recent_content">

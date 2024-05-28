@@ -508,7 +508,7 @@ input::-ms-input-placeholder {
     margin-top: 0px;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
-    height: 155px;
+    height: 140px;
     transition: all 0.3s;
 }
 .main_menu_bg .navbar-default {
@@ -555,7 +555,7 @@ input::-ms-input-placeholder {
 
 /*home section*/
 .main_home{
-    margin-top:85px;
+    margin-top:70px;
     padding: 140px 0px;
     position: relative;
 

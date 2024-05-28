@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,29 +32,170 @@
 
 /* 전체 */
 #pageWrap {
-	margin: 230px auto 200px auto;
-	width: 60%;
+	margin: 190px auto 200px auto;
+	width: 50%;
 	height: 100%;
 	font-size: 0.9em;
 	min-width: 610px;
 }
 
-#p_wrap {
+h2 {
+	margin: 20px 0 0 0;
+	padding: 10px 0 0 0;
+	border-bottom: 2px solid black;
+	font-size: 2em;
+}
+
+#profileInfo { 
+	border: 1px solid #999;
+	width: 100%;
+	height: 150px;
 	display: flex;
 	flex-direction: row;
-	border: 1px solid black;
+	margin: 20px 0;
+	justify-content: center;
+	align-items: center;
+} 
+#picArea {
+	width: 100px;
+	height: 100px;
+}
+#pic {
+	border-radius: 50%;
 	width: 100%;
+	height: 100%;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	background-color: #d2d5da;
+	overflow: hidden;
+	cursor: pointer;
+}
+#pic:hover {
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 }
 
-#sub_menu {
-	border: 1px solid black;
-	width: 250px;
+#pic i {
+	margin: 23px 0 0 0;
+	font-size: 6em;
+	color: #6c737b;
+}
+#info {
+	margin: 20px 30px;
+	display: flex;
+	width: 350px;
+}
+#infoL {
+	width: 60%;
+	min-width: 200px;
+}
+#infoL .i, #infoR .i {
+	padding: 5px;
+}
+#infoL .i p, #infoR .i p {
+	display: inline-block;
+	margin: 0;
+	padding: 0;
+	font-weight: bold;
+}
+#infoL .i span, #infoR .i span {
+	margin: 0 5px;
+}
+#infoR {
+	border-left: 1px solid gray;
+	width: 40%;
+	min-width: 120px;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0 0 0 10%;
+}
+#infoR .i span {
+	font-size: 1.6em;
 }
 
-#content_wrap {
-	border: 1px solid black;
+#shoppingInfo {
 	width: 100%;
+	height: 150px;
 }
+#shoppingInfo ul {
+	display: flex;
+	width: 100%;
+	height: 100%;
+}
+#shoppingInfo ul li {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 10px;
+	outline: 1px solid #999;
+}
+#shoppingInfo ul li:hover {
+	cursor: pointer;
+}
+
+#shoppingInfo ul li .icon {
+	font-size: 2.7em;
+	color: #4f4f4f;
+}
+#shoppingInfo ul li .label {
+	font-size: 1em;
+}
+#shoppingInfo ul li .label a {
+	 color: #4f4f4f; 
+	 padding: 10px 0;
+}
+#shoppingInfo ul li .count {
+	font-size: 1.2em;
+	padding: 5px 0;
+}
+
+#memberInfo {
+	width: 100%;
+	height: 160px;
+}
+#memberInfo ul {
+	display: flex;
+	width: 100%;
+	height: 100%;
+	flex-direction: column;
+	margin: 30px 0 0 0;
+	align-items: center;
+}
+#memberInfo ul li {
+	border: 1px solid #999;
+	width: 95%;
+	height: 100%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	margin: 5px 0;
+	border-radius: 10px;
+	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+#memberInfo ul li:hover {
+	cursor: pointer;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+
+#memberInfo ul li .label {
+	font-size: 1.1em;
+	margin: 0 10px;
+}
+#memberInfo ul li .label a {
+	color: #656565;
+}
+#memberInfo ul li .arrow {
+	font-size: 1.3em;
+	margin: 0 20px;
+}
+
 </style>
 
 <body>
@@ -62,29 +204,152 @@
 
 <div id="pageWrap">
 
+<h2>마이페이지</h2>
 
-마이페이지
-<br></br>
-<a href="/order/orderlist.do">주문/배송조회</a><br>
-취소/반품/교환 내역<br>
-<a href="/cart/list?${sessionScope.userid}">장바구니</a><br>
-<a>좋아요</a><br>
-쿠폰<br>
-<a>리뷰</a><br>
-<a>회원정보수정</a><br>
-<a>회원탈퇴</a><br>
-
-
-
+<div id="profileInfo">
+	
+	<div id="picArea">
+		<div id="pic" onclick="location.href = ''">
+			<i class="fa fa-user"></i>
+		</div>
+	</div>
+	
+	
+	
+	<div id="info">
+		<div id="infoL">
+			<div class="i">
+				<p>이름</p>
+				<span>${map.name}</span>
+			</div>
+			<div class="i">
+				<p>아이디</p>
+				<span>${map.userid}</span>
+			</div>
+			<div class="i">
+				<p>전화번호</p>
+				
+				<span>
+				<c:set value="${map.phone}" var="phone"/>
+				<c:out value="${fn:substring(phone, 0, 3)}-${fn:substring(phone, 3, 7)}-${fn:substring(phone, 7, fn:length(phone))}"/>
+				</span>
+			</div>
+		</div>
+		<div id="infoR">
+			<div class="i">
+				<p>포인트</p>
+				<span>${map.point}p</span>
+			 </div>
+		</div>
+	</div>
 </div>
 
+<div id="shoppingInfo">
+	<ul>
+		<li onclick="location.href = '/order/orderlist.do'">
+			<div class="icon">
+				<i class="fa fa-truck"></i>
+			</div>
+			<div class="label">
+				<a href="/order/orderlist.do">주문/배송조회</a>
+			</div>
+			<div class="count">
+				<p>${order_int}</p>
+			</div>
+		</li>
+		<li onclick="location.href = '/cart/list?${sessionScope.userid}'">
+			<div class="icon">
+				<i class="fa fa-shopping-cart"></i>
+			</div>
+			<div class="label">
+				<a href="/cart/list?${sessionScope.userid}">장바구니</a>
+			</div>
+			<div class="count">
+				<p>${cart_int}</p>
+			</div>
+		</li>
+		<li onclick="location.href = ''">
+			<div class="icon">
+				<i class="fa fa-heart"></i>
+			</div>
+			<div class="label">
+				<a>좋아요</a>
+			</div>
+			<div class="count">
+				<p>${zzim_int}</p>
+			</div>
+		</li>
+		<li onclick="location.href = ''">
+			<div class="icon">
+				<i class="fa fa-comments-o"></i>
+			</div>
+			<div class="label">
+				<a>리뷰</a>
+			</div>
+			<div class="count">
+				<p>${review_int}</p>
+			</div>
+		</li>
+	</ul>
+</div>
 
+<div id="memberInfo">
+	<ul>
+		<li onclick="location.href = ''">
+			<div class="label">
+				<a>회원정보수정</a>
+			</div>
+			<div class="arrow">
+				<i class="fa fa-chevron-right"></i>
+			</div>
+		</li>
+		<li onclick="location.href = ''">
+			<div class="label">
+				<a>회원탈퇴</a>
+			</div>
+			<div class="arrow">
+				<i class="fa fa-chevron-right"></i>
+			</div>
+		</li>
+	</ul>
+</div>
+
+</div>
 
 <script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
 <script src="/resources/assets/js/vendor/bootstrap.min.js"></script>
 <script src="/resources/assets/js/jquery.easing.1.3.js"></script>
 <script src="/resources/assets/js/plugins.js"></script>
 <script src="/resources/assets/js/main.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+	$("#shoppingInfo li").hover(
+		function() {
+			$(this).css("outline", "1px solid #9bce26");
+			$(this).find("i, a, p").css("color", "#9bce26");
+		},
+		function() {
+			$(this).css("outline", "");
+			$(this).find("i, a, p").css("color", "");
+		}
+	);
+	
+	$("#memberInfo li").hover(
+		function() {
+			$(this).css("border", "1px solid #9bce26");
+			$(this).css("border", "1px solid #9bce26");
+			$(this).find("i, a").css("color", "#9bce26");
+		},
+		function() {
+			$(this).css("border", "");
+			$(this).find("i, a").css("color", "");
+		}
+	);
+});
+</script>
+
+
 
 </body>
 </html>
