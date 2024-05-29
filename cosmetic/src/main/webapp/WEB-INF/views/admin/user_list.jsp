@@ -33,20 +33,7 @@
 </style>
 </head>
 
-<script>
-	function list(page) {
-		var urlS = "curPage=" + page;
-		var searchKeyword = document.getElementById("search").value;
-		if (searchKeyword) {
-			urlS += "&searchKeyword=" + searchKeyword;
-		}
-		location.href = "/admin/user_list?" + urlS;
-	}
 
-	document.getElementById("keyword").addEventListener("click", function() {
-		list(1); // 페이지를 1로 설정하여 검색 실행
-	});
-</script>
 
 <body id="page-top">
 
@@ -168,7 +155,7 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">EDEN 고객 목록</h1>
+					<h1 class="h3 mb-2 text-gray-800">고객 목록</h1>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -183,19 +170,7 @@
 									<div class="row">
 										<div class="col-sm-12 col-md-6">
 											<div class="dataTables_length" id="dataTable_length">
-												<form action="/admin/select_user_list" method="Get"
-													name="form1">
-													<!-- <label>Show <select name="pageCnt"
-													aria-controls="dataTable"
-													class="custom-select custom-select-sm form-control form-control-sm" onchange="changelist(this)">
-														<option value="" hidden="">Show</option>
-														<option value="5">5</option>
-														<option value="10">10</option>
-														<option value="25">25</option>
-														<option value="50">50</option>
-														<option value="100">100</option></select> 
-												</label> -->
-												</form>
+												
 											</div>
 											<div>고객수 : ${count}명</div>
 										</div>
@@ -203,7 +178,7 @@
 											<div class="col-sm-12 col-md-6">
 												<div class="input-group mb-3" style="width: 300px;">
 													<input type="search" class="form-control form-control-sm"
-														placeholder="Search. . ." id="search" name="searchKeyword">
+														placeholder="이름, 아이디를 검색하세요..." id="search" name="searchKeyword">
 													&nbsp;&nbsp;&nbsp;
 													<div class="input-group-append">
 														<button style="height: 32px;" class="btn btn-facebook"
@@ -365,13 +340,23 @@
 		<script src="/resources/admin/js/sb-admin-2.min.js"></script>
 
 		<!--선택 옵션에 따른 리스트-->
-		<script>
-			function changelist(selectElement) {
-				var selected = selectElement.value;
-				var form = document.forms['form1'];
-				form.pageCnt.value = selected;
-				form.submit();
-			}
-		</script>
+		
 </body>
+<script>
+function list(page) {
+    var urlS = "curPage=" + page;
+    var searchKeyword = document.getElementById("search").value;
+    console.log(searchKeyword);
+    if (searchKeyword) {
+        urlS += "&searchKeyword=" + encodeURIComponent(searchKeyword); // 검색어를 URL 인코딩
+    }
+    location.href = "/admin/user_list?" + urlS;
+}
+
+document.getElementById("keyword").addEventListener("click", function() {
+    list(1); // 페이지를 1로 설정하여 검색 실행
+});
+
+	
+</script>
 </html>
