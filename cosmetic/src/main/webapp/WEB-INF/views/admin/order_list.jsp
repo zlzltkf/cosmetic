@@ -26,22 +26,35 @@
 
 <!-- Custom styles for this template-->
 <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
+
 <style type="text/css">
+#emptyB {
+	background-image:
+		url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_nodata104x104.png);
+	background-repeat: no-repeat;
+	background-position: 50% 30%;
+	height: 230px;
+}
+
+#emptyB #Emessage {
+	text-align: center;
+	margin: 150px 0 50px 0;
+}
 /* 날짜 선택 */
 #dateBox {
 	border: none;
-	
 }
+
 #dateInfo {
-	padding: 40px 0 10px 0 ;
+	padding: 40px 0 10px 0;
 	font-weight: bold;
 }
+
 #dateChooseBox {
 	display: flex;
 	flex-direction: row;
 	width: 100%;
 	padding: 5px;
-	border-bottom: 1px solid #c9c9c7; 
 	font-size: 0.9em;
 }
 
@@ -51,6 +64,7 @@
 	background-color: white;
 	border: 1px solid #999;
 }
+
 #dateChooseBox input {
 	height: 30px;
 }
@@ -60,12 +74,13 @@
 	flex-direction: row;
 	min-width: 240px;
 }
+
 #dateChooseBox button {
 	margin: 5px 2px;
 }
-#dateChooseBox button:active,
-#dateChooseBox button:hover,
-#dateChooseBox button:focus {
+
+#dateChooseBox button:active, #dateChooseBox button:hover,
+	#dateChooseBox button:focus {
 	background-color: #555;
 	color: white;
 }
@@ -76,11 +91,13 @@
 	flex-direction: row;
 	min-width: 325px;
 }
+
 #chooseDate #inputD {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
 }
+
 #inputD input[type="date"]::-webkit-datetime-edit {
 	padding: 0 0 2px 5px;
 }
@@ -90,13 +107,26 @@
 }
 </style>
 
-</head>
+<script type="text/javascript">
+	var urlParams = new URLSearchParams(window.location.search);
 
-<script>
-	function list(page) {
-		location.href = "/admin/order_list?curPage=" + page;
+	if (urlParams != null) {
+		var f_date = urlParams.get('f_date') || "";
+		var l_date = urlParams.get('l_date') || "";
+
+		function list(page) {
+			var urlS = "curPage=" + page;
+
+			if (f_date !== "" && l_date !== "") {
+				urlS += "&f_date=" + f_date + "&l_date=" + l_date;
+			}
+
+			location.href = "/admin/order_list?" + urlS;
+		}
 	}
 </script>
+
+</head>
 
 <body id="page-top">
 
@@ -112,8 +142,7 @@
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
 				href="/admin/admin">
-				<div class="sidebar-brand-icon rotate-n-15">
-				</div>
+				<div class="sidebar-brand-icon rotate-n-15"></div>
 				<div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
 			</a>
 
@@ -136,11 +165,11 @@
 			<!-- Nav Item - Pages Collapse Menu -->
 			<li class="nav-item active"><a class="nav-link" href="#"
 				data-toggle="collapse" data-target="#collapseTwo"
-				aria-expanded="true" aria-controls="collapseTwo"> <i 
-					></i> <span>👤 고객관리</span>
+				aria-expanded="true" aria-controls="collapseTwo"> <i></i> <span>👤
+						고객관리</span>
 			</a>
-				<div id="collapseTwo" class="collapse"
-					aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+					data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<a class="collapse-item" href="/admin/user_list">고객목록</a> <a
 							class="collapse-item active" href="#">고객</a>
@@ -150,8 +179,8 @@
 
 			<li class="nav-item"><a class="nav-link collapsed" href="#"
 				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-				></i> <span>🛍︎ 상품관리</span>
+				aria-expanded="true" aria-controls="collapsePages"> <i></i> <span>🛍︎
+						상품관리</span>
 			</a>
 				<div id="collapsePages" class="collapse"
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -164,12 +193,12 @@
 				</div></li>
 
 			<!-- Nav Item - Charts -->
-			<li class="nav-item"><a class="nav-link" href="/admin/order_list">
-					<i ></i> <span>📋 주문목록</span>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/order_list"> <i></i> <span>📋 주문목록</span>
 			</a></li>
-			
-			<li class="nav-item"><a class="nav-link" href="/">
-					<i ></i> <span>🖱️ 사이트로 바로가기</span>
+
+			<li class="nav-item"><a class="nav-link" href="/"> <i></i> <span>🖱️
+						사이트로 바로가기</span>
 			</a></li>
 
 
@@ -219,7 +248,7 @@
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">EDEN 주문 목록</h1>
+					<h1 class="h3 mb-2 text-gray-800">주문 목록</h1>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
@@ -232,45 +261,52 @@
 								<div id="dataTable_wrapper"
 									class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
-										<!-- <div class="col-sm-12 col-md-6">
-											 <div class="dataTables_length" id="dataTable_length">
-											<form action="/admin/select_user_list" method="Get" name="form1">
-												<label>Show <select name="pageCnt"
-													aria-controls="dataTable"
-													class="custom-select custom-select-sm form-control form-control-sm" onchange="changelist(this)">
-														<option value="" hidden="">Show</option>
-														<option value="5">5</option>
-														<option value="10">10</option>
-														<option value="25">25</option>
-														<option value="50">50</option>
-														<option value="100">100</option></select> 
-												</label>
-												</form>
-											</div> 
-										</div> -->
-										<div id="dateChooseBox" style="padding-left: 2%;">
-					<div id="chooseDateBtn">
-						<button type="button" id="1month" onclick="setDate(1)">1개월</button>
-						<button type="button" id="3month" onclick="setDate(3)">3개월</button>
-						<button type="button" id="6month" onclick="setDate(6)">6개월</button>
-						<button type="button" id="12month" onclick="setDate(12)">12개월</button>
-						</div>
-					<div id="chooseDate">
-						<div id="inputD">
-				<div id="f">
-					<input type="date" name="f_date" id="date1">
-				</div>
-				<div>~</div>
-				<div id="l">
-					<input type="date" name="l_date" id="date2">
-				</div>
-			</div>
-			<button type="button" onclick="confirmDate()">조회</button>
-		</div>
-   											 
-	</div>
+
+										<form name="dateform" method="get" action="/admin/order_list">
+											<div id="dateChooseBox" style="padding-left: 2%;">
+												<div id="chooseDateBtn">
+													<button type="button" id="1month"
+														onclick="setToday();confirmDate();" style="width: 66px;">오늘</button>
+													<button type="button" id="1month"
+														onclick="setDate(1);confirmDate();" style="width: 66px;">1개월</button>
+													<button type="button" id="3month"
+														onclick="setDate(3);confirmDate();" style="width: 66px;">3개월</button>
+													<button type="button" id="6month"
+														onclick="setDate(6);confirmDate();" style="width: 66px;">6개월</button>
+													<button type="button" id="12month"
+														onclick="setDate(12);confirmDate();" style="width: 70px;">12개월</button>
+												</div>
+												<div id="chooseDate">
+													<div id="inputD">
+														<div id="f">
+															<input type="date" name="f_date" id="date1">
+														</div>
+														<div>~</div>
+														<div id="l">
+															<input type="date" name="l_date" id="date2">
+														</div>
+													</div>
+													<button type="button" onclick="confirmDate()"
+														style="width: 66px;" id="confirmButton">조회</button>
+												</div>
+											</div>
+											<div class="col-md-8">
+												<div class="input-group" style="width: 50%;">
+													<input type="text" class="form-control search-input"
+														placeholder="Search..." id="search" name="searchKeyword">
+													<div class="input-group-append">
+														<button class="btn btn-outline-secondary search-icon"
+															type="button" id="keyword">
+															<i class="fa fa-search"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+
+										</form>
 
 									</div>
+									<br>
 									<div class="row">
 										<div class="col-sm-12">
 											<table class="table table-bordered dataTable" id="dataTable"
@@ -291,14 +327,14 @@
 															rowspan="1" colspan="1"
 															aria-label="Age: activate to sort column ascending"
 															style="width: 31px; text-align: center;">구매자</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
+														<!-- <th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Start date: activate to sort column ascending"
 															style="width: 50px; text-align: center;">결제수단</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Start date: activate to sort column ascending"
-															style="width: 50px; text-align: center;">주문 갯수</th>
+															style="width: 50px; text-align: center;">주문 갯수</th> -->
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Age: activate to sort column ascending"
@@ -306,23 +342,46 @@
 
 													</tr>
 												</thead>
-												
-												<tbody>
-													<c:forEach var="row" items="${list}">
-														<tr class="odd">
-															<td  style="text-align: center;" class="sorting_1">
-															<a href="/admin/admin_order_detail/${row.orderid}">${row.orderid}</a><br>
-
+												<c:choose>
+													<c:when test="${count eq 0}">
+														<tbody>
+															<tr>
+																<td colspan="6" id="emptyB">
+																	<p id="Emessage">기간내 주문내역이 없습니다.</p>
 																</td>
-															<%-- <td style="text-align: center;"> ${orderstatus[row.orderid]}</td> --%>
-															<td  style="text-align: center;"><fmt:formatDate value="${row.orderDate}" type="date" /></td>
-															<td  style="text-align: center;">${row.userid}</td>
-															<td  style="text-align: center;">${row.method}</td>
-															<td  style="text-align: center;">${ordercount[row.orderid]}</td>
-															<td class="long-text" style="text-align: center;"><fmt:formatNumber value="${row.totalPrice}" pattern="##,###" /></td>
-														</tr>
-													</c:forEach>
-												</tbody>
+															</tr>
+														</tbody>
+													</c:when>
+													<c:otherwise>
+														<tbody>
+															<c:forEach var="row" items="${list}">
+																<tr class="odd">
+																	<td style="text-align: center;" class="sorting_1">
+																		<c:choose>
+																			<c:when test="${not empty row.cancelreason}">
+																				<a href="/admin/admin_order_detail/${row.orderid}"
+																					style="color: red;">${row.orderid}</a>
+																				<br>
+																			</c:when>
+																			<c:otherwise>
+																				<a href="/admin/admin_order_detail/${row.orderid}">${row.orderid}</a>
+																				<br>
+																			</c:otherwise>
+																		</c:choose>
+																	</td>
+																	<%-- <td style="text-align: center;"> ${orderstatus[row.orderid]}</td> --%>
+																	<td style="text-align: center;"><fmt:formatDate
+																			value="${row.orderDate}" type="date" /></td>
+																	<td style="text-align: center;">${row.userid}</td>
+																	<%-- <td style="text-align: center;">${row.method}</td> --%>
+																	<%-- <td style="text-align: center;">${ordercount[row.orderid]}</td> --%>
+																	<td class="long-text" style="text-align: center;"><fmt:formatNumber
+																			value="${row.totalPrice}" pattern="##,###" /></td>
+																</tr>
+															</c:forEach>
+														</tbody>
+													</c:otherwise>
+												</c:choose>
 											</table>
 										</div>
 									</div>
@@ -337,8 +396,10 @@
 												<ul class="pagination">
 													<c:if test="${page_info.curPage > 1 }">
 														<li class="paginate_button page-item previous"
-															id="dataTable_previous"><a href='#' onclick="list('${page_info.curPage-1}')"  aria-controls="dataTable"
-															data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+															id="dataTable_previous"><a href='#'
+															onclick="list('${page_info.curPage-1}')"
+															aria-controls="dataTable" data-dt-idx="0" tabindex="0"
+															class="page-link">Previous</a></li>
 													</c:if>
 													<!-- 페이지 숫자 -->
 													<c:forEach var="num" begin="${page_info.blockStart}"
@@ -404,15 +465,108 @@
 			src="/resources/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="/resources/admin/js/sb-admin-2.min.js"></script>
-		
+
 		<!--선택 옵션에 따른 리스트-->
-		<script>
-		function changelist(selectElement){
-			var selected = selectElement.value;
-			var form = document.forms['form1'];
-			form.pageCnt.value=selected;
-			form.submit();
-		}
+		<script type="text/javascript">
+			// 여기에 JavaScript 코드 추가
+			var urlParams = new URLSearchParams(window.location.search);
+
+			if (urlParams != null) {
+				var defaultStartDate = new Date();
+				defaultStartDate.setMonth(defaultStartDate.getMonth() - 3);
+				var defaultEndDate = new Date();
+
+				var f_date = urlParams.get('f_date')
+						|| defaultStartDate.toISOString().split('T')[0];
+				var l_date = urlParams.get('l_date')
+						|| defaultEndDate.toISOString().split('T')[0];
+
+				function list(page) {
+					var urlS = "curPage=" + page;
+
+					if (f_date !== "" && l_date !== "") {
+						urlS += "&f_date=" + f_date + "&l_date=" + l_date;
+					}
+
+					location.href = "/admin/order_list?" + urlS;
+				}
+
+				// Set default start and end dates in the date inputs
+				document.getElementById('date1').value = f_date;
+				document.getElementById('date2').value = l_date;
+			}
+
+			// Function to set date range based on months
+			function setDate(months) {
+				var date = new Date();
+				var startDate = new Date(date.setMonth(date.getMonth() - months));
+				document.getElementById('date1').value = startDate.toISOString().split('T')[0];
+				document.getElementById('date2').value = new Date().toISOString().split('T')[0];
+			}
+			
+			// 오늘 날짜
+			function setToday() {
+			    var today = new Date().toISOString().split('T')[0];
+			    document.getElementById('date1').value = today;
+			    document.getElementById('date2').value = today;
+			}
+
+			function confirmDate() {
+				var f_date = document.getElementById('date1').value;
+				var l_date = document.getElementById('date2').value;
+				var searchKeyword = document.getElementById('search').value;
+
+				var url = "/admin/order_list?curPage=1";
+
+				if (f_date) {
+					url += "&f_date=" + f_date;
+				}
+				if (l_date) {
+					url += "&l_date=" + l_date;
+				}
+				if (searchKeyword) {
+					url += "&searchKeyword=" + searchKeyword;
+				}
+
+				location.href = url;
+			}
+
+			// Event listeners for buttons
+			$(document).ready(
+					function() {
+						document.getElementById("1month").addEventListener(
+								"click", function() {
+									setDate(1);
+								});
+						document.getElementById("3month").addEventListener(
+								"click", function() {
+									setDate(3);
+								});
+						document.getElementById("6month").addEventListener(
+								"click", function() {
+									setDate(6);
+								});
+						document.getElementById("12month").addEventListener(
+								"click", function() {
+									setDate(12);
+								});
+						document.getElementById("confirmButton")
+								.addEventListener("click", function() {
+									confirmDate();
+								});
+						document.getElementById("keyword").addEventListener(
+								"click", function() {
+									confirmDate();
+								});
+
+						// Add background color to rows with cancel reason
+						/*   $("tbody tr").each(function() {
+						      var cancelReason = $(this).find("td:eq(2)").text(); // Assuming cancel reason is in the third column (index 2)
+						      if (cancelReason.trim() !== "") {
+						          $(this).css("background-color", "red");
+						      }
+						  }); */
+					});
 		</script>
 </body>
 </html>

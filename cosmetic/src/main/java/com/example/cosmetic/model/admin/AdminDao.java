@@ -9,6 +9,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.cosmetic.model.member.MemberDTO;
 import com.example.cosmetic.model.order.OrderDTO;
 import com.example.cosmetic.model.product.ProductDTO;
 
@@ -63,9 +64,10 @@ public class AdminDao {
 		return sqlSession.selectList("admin.user_list", map);
 	}
 
-	public int user_count() {
-		return sqlSession.selectOne("admin.user_count");
-	}
+	/*
+	 * public int user_count(Map<String, Object> map) { return
+	 * sqlSession.selectOne("admin.user_count", map); }
+	 */
 
 	public List<ProductDTO> search(String keyword, int start, int end) {
 		Map<String, Object> map = new HashMap<>();
@@ -74,20 +76,13 @@ public class AdminDao {
 		map.put("end", end);
 		return sqlSession.selectList("admin.search", map);
 	}
-
-	public int count(String keyword) {
-		return sqlSession.selectOne("admin.search_count", keyword);
+	
+	public  List<MemberDTO> user_list(Map<String, Object> map) {
+		return sqlSession.selectList("admin.user_list", map);
 	}
 
-	public List<Map<String, Object>> order_list(int start, int pageCnt) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("start", start);
-		map.put("pageCnt", pageCnt);
-		return sqlSession.selectList("admin.order_list", map);
-	}
-
-	public int order_count() {
-		return sqlSession.selectOne("admin.order_count");
+	public int admin_user_count(Map<String, Object> map) {
+		return sqlSession.selectOne("admin.user_count",map);
 	}
 
 	public int user_order_count(Long orderid) {
@@ -98,9 +93,12 @@ public class AdminDao {
 		return sqlSession.selectList("admin.list");
 	}
 
-	public String status(Long orderid) {
-		return sqlSession.selectOne("admin.status", orderid);
-	}
+	
+	/*
+	 * public String status(Long orderid) { return
+	 * sqlSession.selectOne("admin.status", orderid); }
+	 */
+	 
 
 	public int s_no(String ctg_small) {
 		return sqlSession.selectOne("admin.s_no", ctg_small);
@@ -139,4 +137,13 @@ public class AdminDao {
 		return sqlSession.selectList("admin.order_detail", orderid);
 
 	}
+	
+	public  List<OrderDTO> admin_orderlist(Map<String, Object> map) {
+		return sqlSession.selectList("admin.admin_orderlist", map);
+	}
+	
+	public int admin_orderCount(Map<String, Object> map) {
+		return sqlSession.selectOne("admin.admin_orderCount", map);
+	}
+	
 }

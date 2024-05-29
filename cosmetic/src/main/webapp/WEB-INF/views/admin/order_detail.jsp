@@ -26,177 +26,169 @@
 
 <!-- Custom styles for this template-->
 <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
+<script type="text/javascript">
+//전화번호 형식 변환 함수
+function formatPhoneNumber(phoneNumber) {
+    const cleaned = ('' + phoneNumber).replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{3,4})(\d{4})$/);
+    if (match) {
+        return match[1] + '-' + match[2] + '-' + match[3];
+    } else {
+        return phoneNumber;
+    }
+}
+
+// 페이지가 로드된 후 실행되는 함수
+window.onload = function() {
+    // 전화번호를 포함하는 요소들을 선택하고 형식을 변경
+    const phoneElements = document.querySelectorAll('.phone-number');
+    phoneElements.forEach(element => {
+        const phoneNumber = element.innerText;
+        element.innerText = formatPhoneNumber(phoneNumber);
+    });
+};
+
+</script>
 <style type="text/css">
 /* 주문목록 테이블 */
 #orderTable {
-	width: 100%;
-	border-bottom-width: 1px soild gray;
+    width: 100%;
+    border-bottom: 1px solid gray;
+    color: #353839; /* 추가된 부분: 텍스트 색상 설정 */
 }
 
 #orderTable .p_info {
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	align-items: center;
-	justify-content: flex-start;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 #orderTable .imgBox {
-	width: 100px;
-	height: 100px;
+    width: 100px;
+    height: 100px;
 }
 
 #orderTable .Pname {
-	width: 100%;
-	padding: 5px;
+    width: 100%;
+    padding: 5px;
 }
 
 #orderTable .imgBox img {
-	width: 100%;
-	height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 #orderTable th {
-	border-top: 2px solid gray;
-	padding: 10px;
-	border-bottom: 1px solid gray;
+    border-top: 2px solid gray;
+    padding: 10px;
+    border-bottom: 1px solid gray;
+    background-color: #fafafa;
+    text-align: center;
 }
 
 #orderTable td {
-	border-bottom: 1px solid gray;
-	padding: 10px;
-}
-
-#orderTable th {
-	background-color: #fafafa;
-	text-align: center;
+    border-bottom: 1px solid gray;
+    padding: 10px;
 }
 
 #orderTable td:nth-child(1) p {
-	margin: 0;
-	padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
 #orderTable td:nth-child(1) .i {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 #orderTable td:not(:nth-child(2)) {
-	text-align: center;
+    text-align: center;
 }
 
 #orderTable td:nth-child(2) {
-	min-width: 250px;
+    min-width: 250px;
 }
 
 #orderTable td:nth-child(2) a {
-	color: #656565;
+    color: #353839; /* 수정된 부분 */
 }
 
 #orderTable td:nth-child(2) a:hover {
-	color: #337ab7;
+    color: #337ab7;
 }
 
 #orderTable td:nth-child(3) {
-	min-width: 140px;
+    min-width: 140px;
 }
 
 #orderTable td:nth-child(3) .p {
-	color: red;
-	padding: 0;
-	margin: 0;
-	font-size: 1.1em;
-	display: inline-block;
+    color: red;
+    padding: 0;
+    margin: 0;
+    font-size: 1.1em;
+    display: inline-block;
 }
 
 #orderTable td:nth-child(3) .a {
-	color: gray;
-	padding: 0;
-	margin: 0;
-	font-size: 0.9em;
-	display: inline-block;
+    color: gray;
+    padding: 0;
+    margin: 0;
+    font-size: 0.9em;
+    display: inline-block;
 }
 
 #orderTable td:nth-child(4) {
-	min-width: 110px;
+    min-width: 110px;
 }
 
 #orderTable td:nth-child(4) p {
-	margin: 5px;
+    margin: 5px;
 }
 
 #orderTable td:nth-child(4) button {
-	border: 1px solid #999;
-	background-color: white;
-	padding: 5px 10px;
-	width: 95px;
+    border: 1px solid #999;
+    background-color: white;
+    padding: 5px 10px;
+    width: 95px;
+    color: #353839; /* 추가된 부분 */
 }
 
-#orderTable td:nth-child(4) button:active, #orderTable td:nth-child(4) button:hover,
-	#orderTable td:nth-child(4) button:focus {
-	background-color: #555;
-	color: white;
+#orderTable td:nth-child(4) button:active,
+#orderTable td:nth-child(4) button:hover,
+#orderTable td:nth-child(4) button:focus {
+    background-color: #555;
+    color: white;
 }
-       /* 결제 정보 테이블 */
-.container {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
-    margin-top: 20px;
-    gap: 20px;
-}
-
-.order {
-    width: 48%;
-    border-collapse: collapse;
-    border: 1px solid #ccc;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-}
-
-.order th, .order td {
-    padding: 12px 15px;
-    text-align: left;
-}
-
-.order th {
-    background-color: #4CAF50;
-    color: #fff;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.order .detail-label {
-    font-weight: bold;
-    background-color: #f9f9f9;
-    color: #333;
-    border-bottom: 1px solid #eaeaea;
-}
-
-.order .detail-value {
-    background-color: #fff;
-    color: #555;
-    border-bottom: 1px solid #eaeaea;
-}
-
-.order tr:last-child .detail-value {
-    border-bottom: none;
-}
-
-.order th {
-    border-bottom: 2px solid #ddd;
-}
-
-.order .detail-value span {
-    font-size: 0.9em;
-    color: #888;
-}
-
-.order .detail-value {
-    font-size: 1em;
-    color: #555;
-}
+        .detail-container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .detail {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .detail td, .detail th {
+        	color: #353839;
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+            padding: 8px;
+        }
+        .detail td:last-child, .detail th:last-child {
+            border-right: none;
+        }
+        .detail .detail-label {
+            font-weight: bold;
+            text-align: left;
+            width: 150px;
+        }
+        .detail .detail-value {
+            text-align: left;
+        }
+        h3 {
+            text-align: center;
+        }
 </style>
 </head>
 <body id="page-top">
@@ -332,7 +324,8 @@
             <th>상품정보</th>
             <th>옵션</th>
             <th>금액/수량</th>
-        </tr>
+            <th>주문상태</th>
+       	</tr>
         
     </thead>
     <tbody>
@@ -341,85 +334,93 @@
                 <td>
                     <p class="i">${row.p_id}</p>
                 </td>
-                <td style="text-align: center; border-left:1px solid #e6e6e6; ">
+                <td style="text-align: center; ">
                     <img style="width: 80px; height: 80px;" alt="" src="/resources/admin/img/에덴뷰티로고.png"> ${row.p_name} <br>
-                   옵션 :  ${row.o_name}
                 </td>
-                <%-- <td style="border-left:1px solid #e6e6e6; ">
+                 <td >
                     <p class="i">${row.o_name}</p>
-                </td> --%>
+                </td> 
                 <c:choose>
-                    <c:when test="${row.o_name == null || row.o_name == ''}">
-                        <td style="border-left:1px solid #e6e6e6;">
-                            <div class="p">
-                                <c:if test="${row.orderStatus eq '결제취소'}">
-                                    <span style="color: red;"><fmt:formatNumber value="${row.price}" pattern="#,###" />원</span>
-                                </c:if>
-                                <c:if test="${row.orderStatus != '결제취소'}">
-                                    <fmt:formatNumber value="${row.price}" pattern="#,###" />원
-                                </c:if>
-                            </div>/
-                            <div class="a">${row.option_amount}개</div>
+                   <c:when test="${row.o_name == null || row.o_name == ''}">
+    <td>
+        <div class="p">
+            <c:choose>
+                <c:when test="${row.orderStatus eq '결제취소' || row.orderStatus eq '반품요청'}">
+                    <span style="color: red;"><fmt:formatNumber value="${row.price}" pattern="#,###" />원</span>
+                </c:when>
+                <c:otherwise>
+                    <fmt:formatNumber value="${row.price}" pattern="#,###" />원
+                </c:otherwise>
+            </c:choose>
+        </div>/
+                            <div class="a" style="color: ${row.orderStatus eq '결제취소' || row.orderStatus eq '반품요청' ? 'red' : 'inherit'}">${row.option_amount}개</div>
                         </td>
                     </c:when>
                     <c:otherwise>
-                        <td style="border-left:1px solid #e6e6e6;">
+                        <td >
                             <div class="p">
-                                <c:if test="${row.orderStatus eq '결제취소'}">
-                                    <span style="color: red;"><fmt:formatNumber value="${row.o_price}" pattern="#,###" />원</span>
-                                </c:if>
-                                <c:if test="${row.orderStatus != '결제취소'}">
-                                    <fmt:formatNumber value="${row.o_price}" pattern="#,###" />원
-                                </c:if>
-                            </div>/
-                            <div class="a">${row.option_amount}개</div>
-                        </td>
-                    </c:otherwise>
+            <c:choose>
+                <c:when test="${row.orderStatus eq '결제취소'}">
+                    <span style="color: red;"><fmt:formatNumber value="${row.o_price}" pattern="#,###" />원</span>
+                </c:when>
+                <c:otherwise>
+                    <fmt:formatNumber value="${row.o_price}" pattern="#,###" />원
+                </c:otherwise>
+            </c:choose>
+        </div>/
+        <div class="a" style="color: ${row.orderStatus eq '결제취소' ? 'red' : 'inherit'}">${row.option_amount}개</div>
+    </td>
+</c:otherwise>
                 </c:choose>
-                <td style="border-left:1px solid #e6e6e6;">
+                <td>
                     <c:choose>
                         <c:when test="${row.orderStatus eq '결제취소'}">
                             <p class="i" style="color: red;">${row.orderStatus}</p>
                         </c:when>
+                        <c:when test="${row.orderStatus eq '반품완료'}">
+                            <p class="i" style="color: blue;">${row.orderStatus}</p>
+                        </c:when>
                         <c:otherwise>
                             <p class="i">${row.orderStatus}</p>
                         </c:otherwise>
+                        
                     </c:choose>
                 </td>
+                
             </tr>
         </c:forEach>
     </tbody>
 </table>
 <br>
-<h3 style="font-weight: bold;">배송지 정보</h3>
+<h4 style="color: #212121;">배송지 정보</h4>
                             
-                        <table class="order">
+                        <table class="detail">
                             <tbody>
                             <tr>
-                                    <td class="detail-label">아이디</td>
-                                    <td class="detail-value">${list[0].userid}</td>
+                                    <td style="border-top-color: black;" class="detail-label">아이디</td>
+                                    <td style="border-top-color: black;" class="detail-value">${list[0].userid}</td>
                                 </tr>
                                 <tr>
                                     <td class="detail-label">연락처</td>
-                                    <td class="detail-value"><fmt:formatNumber value="${list[0].price}" pattern="#,###" />원</td>
+                                     <td class="phone-number">${list[0].phone}</td>
                                 </tr>
                                 <tr>
                                     <td class="detail-label">배송지 주소</td>
                                     <td class="detail-value">${list[0].address1}</td>
                                 </tr>
                             </tbody>
-                        </table>
-                    <h3 style="font-weight: bold;">최종 결제 정보</h3>
-                        <table class="order">
+                        </table><br><br>
+                   <h4 style="color: #212121;">최종 결제 정보</h4>
+                        <table class="detail">
                             <tbody>
                             
                                 <tr>
-                                    <td class="detail-label">총 상품금액</td>
-                                    <td class="detail-value"><fmt:formatNumber value="${list[0].price}" pattern="#,###" />원</td>
+                                    <td style="border-top-color: black;" class="detail-label">총 상품금액</td>
+                                    <td style="border-top-color: black;" class="detail-value"><fmt:formatNumber value="${list[0].price}" pattern="#,###" />원</td>
                                 </tr>
                                 <tr>
                                     <td class="detail-label">배송비 합계</td>
-                                    <td class="detail-value">${list[0].deliverCost}원</td>
+                                    <td class="detail-value"><fmt:formatNumber value="${list[0].deliverCost}" pattern="#,###" />원</td>
                                 </tr>
                                 <tr>
                                     <td class="detail-label">결제 방식</td>
@@ -427,9 +428,9 @@
                                 </tr>
                                 <tr>
                                     <td class="detail-label" style="font-weight: bold;">최종 결제금액</td>
-                                    <td class="detail-value">
-                                        <fmt:formatNumber value="${list[0].price}" pattern="#,###" />원
-                                        <span style="color: #888;"><br>┖point&nbsp;<fmt:formatNumber value="${list[0].userPoint}" pattern="#,###" /></span>
+                                    <td class="detail-value" style="font-weight: bold; font-size: 18px; ">
+                                        <fmt:formatNumber value="${list[0].totalPrice}" pattern="#,###" />원
+                                        <span style="color: #888; font-weight: normal; font-size: medium;"><br>┖point&nbsp;<fmt:formatNumber value="${list[0].userPoint}" pattern="#,###" /></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -461,7 +462,7 @@
 
 	<!-- Custom scripts for all pages-->
 	<script src="/resources/admin/js/sb-admin-2.min.js"></script>
-
+	
 </body>
 
 </html>

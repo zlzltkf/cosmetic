@@ -15,7 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin 2 - Cards</title>
+<title>사용자 목록</title>
 
 <!-- Custom fonts for this template-->
 <link href="/resources/admin/vendor/fontawesome-free/css/all.min.css"
@@ -27,16 +27,25 @@
 <!-- Custom styles for this template-->
 <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
 <style type="text/css">
-.sorting sorting_asc{
-
+.sorting sorting_asc {
+	
 }
 </style>
 </head>
 
 <script>
 	function list(page) {
-		location.href = "/admin/user_list?curPage=" + page;
+		var urlS = "curPage=" + page;
+		var searchKeyword = document.getElementById("search").value;
+		if (searchKeyword) {
+			urlS += "&searchKeyword=" + searchKeyword;
+		}
+		location.href = "/admin/user_list?" + urlS;
 	}
+
+	document.getElementById("keyword").addEventListener("click", function() {
+		list(1); // 페이지를 1로 설정하여 검색 실행
+	});
 </script>
 
 <body id="page-top">
@@ -53,8 +62,7 @@
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
 				href="/admin/admin">
-				<div class="sidebar-brand-icon rotate-n-15">
-				</div>
+				<div class="sidebar-brand-icon rotate-n-15"></div>
 				<div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
 			</a>
 
@@ -77,11 +85,11 @@
 			<!-- Nav Item - Pages Collapse Menu -->
 			<li class="nav-item active"><a class="nav-link" href="#"
 				data-toggle="collapse" data-target="#collapseTwo"
-				aria-expanded="true" aria-controls="collapseTwo"> <i 
-					></i> <span>👤 고객관리</span>
+				aria-expanded="true" aria-controls="collapseTwo"> <i></i>
+					<span>👤 고객관리</span>
 			</a>
-				<div id="collapseTwo" class="collapse"
-					aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+					data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
 						<a class="collapse-item" href="/admin/user_list">고객목록</a> <a
 							class="collapse-item active" href="#">고객</a>
@@ -91,8 +99,8 @@
 
 			<li class="nav-item"><a class="nav-link collapsed" href="#"
 				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages"> <i
-				></i> <span>🛍︎ 상품관리</span>
+				aria-expanded="true" aria-controls="collapsePages"> <i></i>
+					<span>🛍︎ 상품관리</span>
 			</a>
 				<div id="collapsePages" class="collapse"
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
@@ -105,12 +113,12 @@
 				</div></li>
 
 			<!-- Nav Item - Charts -->
-			<li class="nav-item"><a class="nav-link" href="/admin/order_list">
-					<i ></i> <span>📋 주문목록</span>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/order_list"> <i></i> <span>📋 주문목록</span>
 			</a></li>
-			
-			<li class="nav-item"><a class="nav-link" href="/">
-					<i ></i> <span>🖱️ 사이트로 바로가기</span>
+
+			<li class="nav-item"><a class="nav-link" href="/"> <i></i>
+					<span>🖱️ 사이트로 바로가기</span>
 			</a></li>
 
 
@@ -175,8 +183,9 @@
 									<div class="row">
 										<div class="col-sm-12 col-md-6">
 											<div class="dataTables_length" id="dataTable_length">
-											<form action="/admin/select_user_list" method="Get" name="form1">
-												<!-- <label>Show <select name="pageCnt"
+												<form action="/admin/select_user_list" method="Get"
+													name="form1">
+													<!-- <label>Show <select name="pageCnt"
 													aria-controls="dataTable"
 													class="custom-select custom-select-sm form-control form-control-sm" onchange="changelist(this)">
 														<option value="" hidden="">Show</option>
@@ -188,19 +197,21 @@
 												</label> -->
 												</form>
 											</div>
-											<div>
-											고객수 : ${count}명
+											<div>고객수 : ${count}명</div>
+										</div>
+										<form name="dateform" method="get" action="/admin/user_list">
+											<div class="col-sm-12 col-md-6">
+												<div class="input-group mb-3" style="width: 300px;">
+													<input type="search" class="form-control form-control-sm"
+														placeholder="Search. . ." id="search" name="searchKeyword">
+													&nbsp;&nbsp;&nbsp;
+													<div class="input-group-append">
+														<button style="height: 32px;" class="btn btn-facebook"
+															type="button" id="keyword">검색</button>
+													</div>
+												</div>
 											</div>
-										</div>
-										<div class="col-sm-12 col-md-6">
-   											 <div class="input-group mb-3" style="width: 300px;">
-     									   <input type="search" class="form-control form-control-sm" placeholder="아이디를 입력하세요." aria-controls="dataTable">
-       											 &nbsp;&nbsp;&nbsp;
-       										 <div class="input-group-append">
-           									 <button style="height: 32px;" class="btn btn-facebook" type="button">검색</button>
-      											  </div>
-   													 </div>
-										</div>
+										</form>
 
 									</div>
 									<div class="row">
@@ -250,22 +261,22 @@
 
 													</tr>
 												</thead>
-												
+
 												<tbody>
 													<c:forEach var="row" items="${list}">
 														<tr class="odd">
-															<td  style="text-align: center;" class="sorting_1"><a
+															<td style="text-align: center;" class="sorting_1"><a
 																href="/admin/user_detail?userid=${row.userid}">${row.name}</a><br>
 																[${row.level}]</td>
 															<td style="text-align: center;">${row.userid}</td>
-															<td  style="text-align: center;">${row.nickname}</td>
-															<td  style="text-align: center;">${row.zipcode}</td>
-															<td  style="text-align: center;">${row.birth}</td>
-															<td  style="text-align: center;">${row.phone}</td>
-															<td  style="text-align: center;">${row.address1}&nbsp;${row.address2}</td>
-															<td  style="text-align: center;">${row.point}</td>
-															<td  style="text-align: center;"><fmt:formatDate value="${row.date}"
-																	pattern="yy.M.d" /></td>
+															<td style="text-align: center;">${row.nickname}</td>
+															<td style="text-align: center;">${row.zipcode}</td>
+															<td style="text-align: center;">${row.birth}</td>
+															<td style="text-align: center;">${row.phone}</td>
+															<td style="text-align: center;">${row.address1}&nbsp;${row.address2}</td>
+															<td style="text-align: center;">${row.point}</td>
+															<td style="text-align: center;"><fmt:formatDate
+																	value="${row.date}" pattern="yy.M.d" /></td>
 														</tr>
 													</c:forEach>
 												</tbody>
@@ -283,8 +294,10 @@
 												<ul class="pagination">
 													<c:if test="${page_info.curPage > 1 }">
 														<li class="paginate_button page-item previous"
-															id="dataTable_previous"><a href='#' onclick="list('${page_info.curPage-1}')"  aria-controls="dataTable"
-															data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+															id="dataTable_previous"><a href='#'
+															onclick="list('${page_info.curPage-1}')"
+															aria-controls="dataTable" data-dt-idx="0" tabindex="0"
+															class="page-link">Previous</a></li>
 													</c:if>
 													<!-- 페이지 숫자 -->
 													<c:forEach var="num" begin="${page_info.blockStart}"
@@ -350,15 +363,15 @@
 			src="/resources/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="/resources/admin/js/sb-admin-2.min.js"></script>
-		
+
 		<!--선택 옵션에 따른 리스트-->
 		<script>
-		function changelist(selectElement){
-			var selected = selectElement.value;
-			var form = document.forms['form1'];
-			form.pageCnt.value=selected;
-			form.submit();
-		}
+			function changelist(selectElement) {
+				var selected = selectElement.value;
+				var form = document.forms['form1'];
+				form.pageCnt.value = selected;
+				form.submit();
+			}
 		</script>
 </body>
 </html>

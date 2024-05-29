@@ -14,9 +14,9 @@
 
 	<insert id="product_insert">
 		insert into product (p_name, p_price, p_stock,
-		 p_detail, p_cate)
+		p_img1, p_detail, p_cate)
 		values(#{p_name},#{p_price}, #{p_stock},
-		#{p_detail},
+		#{p_img1},#{p_detail},
 		#{p_cate})
 	</insert>
 
@@ -33,7 +33,8 @@
 	</insert>
 
 	<select id="get_id" resultType="int">
-		SELECT p_id from product order by p_id desc limit 1
+		SELECT p_id from product order by
+		p_id desc limit 1
 	</select>
 
 	<update id="update_product_stock" parameterType="java.util.Map">
@@ -42,26 +43,36 @@
 		WHERE p_id = #{p_id}
 	</update>
 
-	<select id="user_list"
-		resultType="com.example.cosmetic.model.member.MemberDTO">
-		select userid, name, nickname,birth, address1,address2,
-		zipcode,
-		phone, date, skin, level, point
-		from member
-		LIMIT #{pageCnt} OFFSET #{start}
-	</select>
+	<select id="user_list" resultType="com.example.cosmetic.model.member.MemberDTO">
+    SELECT userid, name, nickname, birth, address1, address2,
+    zipcode, phone, date, skin, level, point
+    FROM member
+    <where>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (userid LIKE CONCAT('%', #{searchKeyword}, '%') OR
+            name LIKE CONCAT('%', #{searchKeyword}, '%'))
+        </if>
+    </where>
+    LIMIT #{pageCnt} OFFSET #{start}
+</select>
 
-	<select id="order_list"
-		resultType="com.example.cosmetic.model.order.OrderDTO">
-		select orderid, userid, orderdate, totalprice, method
-		from orderlist order by orderdate
-		LIMIT #{pageCnt} OFFSET #{start}
-	</select>
+
+	<!-- <select id="order_list" resultType="com.example.cosmetic.model.order.OrderDTO"> 
+		select orderid, userid, orderdate, totalprice, method from orderlist order 
+		by orderdate LIMIT #{pageCnt} OFFSET #{start} </select> -->
 
 	<!--사용자 수 -->
 	<select id="user_count" resultType="int">
-		select count(*) from member
-	</select>
+    SELECT COUNT(*)
+    FROM member
+    <where>
+        <if test="searchKeyword != null and searchKeyword != ''">
+            AND (userid LIKE CONCAT('%', #{searchKeyword}, '%') OR name LIKE CONCAT('%', #{searchKeyword}, '%'))
+        </if>
+    </where>
+</select>
+
+
 
 	<select id="order_count" resultType="int">
 		select count(*) from
@@ -85,7 +96,8 @@
 		SELECT userid
 		FROM member
 		WHERE userid LIKE CONCAT('%', #{keyword}, '%')
-		ORDER BY userid DESC
+		ORDER BY
+		userid DESC
 		) A
 		)
 		where rn
@@ -94,7 +106,8 @@
 
 	<select id="search_count" resultType="int">
 		select count(*) from
-		member where userid LIKE CONCAT('%', #{keyword}, '%')
+		member
+		where userid LIKE CONCAT('%', #{keyword}, '%')
 	</select>
 
 	<!--orderid 뽑기 위함 -->
@@ -102,32 +115,37 @@
 		select orderid from orderlist
 	</select>
 
-	<select id="status" resultType="String">
-		select distinct orderstatus from orderitem where orderid = #{orderid}
-	</select>
-
+	<!-- <select id="status" resultType="String"> select distinct orderstatus 
+		from orderitem where orderid = #{orderid} </select> -->
 	<select id="s_no" resultType="java.lang.Integer">
-		select ctg_s_no from ctg where ctg_small = #{ctg_small}
+		select ctg_s_no from ctg where
+		ctg_small = #{ctg_small}
 	</select>
 
 	<!--o_name이 없을경우 '옵션없음'으로 대체한다 -->
 	<select id="s_list"
 		resultType="com.example.cosmetic.model.product.ProductDTO">
-		SELECT DISTINCT p.p_id, p.p_name, p.p_stock,p_price,o_amount,
+		SELECT DISTINCT p.p_id, p.p_name,
+		p.p_stock,p_price,o_amount,
 		COALESCE(o.o_name, '옵션 없음') AS o_name
-		FROM product p
+		FROM
+		product p
 		LEFT JOIN product_option o ON p.p_id = o.o_p_id
-		WHERE p.p_cate = #{ctg_s_no}
+		WHERE p.p_cate
+		= #{ctg_s_no}
 	</select>
 
 	<!--소분류 번호에 따른 상품 갯수 -->
 	<select id="product_count" resultType="int">
-		SELECT COUNT(*) AS total_rows
+		SELECT COUNT(*) AS
+		total_rows
 		FROM (
 		SELECT p_id,p_name,
 		SUM(o_amount) AS p_stock,
-		p_price AS p_price,
-		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ') AS o_name
+		p_price AS
+		p_price,
+		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ')
+		AS o_name
 		FROM
 		product p
 		INNER JOIN product_option o ON p.p_id = o.o_p_id
@@ -140,8 +158,10 @@
 		resultType="com.example.cosmetic.model.product.ProductDTO">
 		SELECT
 		p_id ,p_name,SUM(o_amount) AS p_stock,
-		p_price AS p_price,
-		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ') AS o_name
+		p_price AS
+		p_price,
+		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ')
+		AS o_name
 		FROM
 		product p
 		INNER JOIN product_option o ON p.p_id = o.o_p_id
@@ -157,59 +177,117 @@
 			(#{file_name}, #{p_id})
 		</foreach>
 	</insert>
-	
-	<select id="list_p_attach" resultType="String">
-		select file_name from p_attach
-		where p_id=#{p_id}
-		order by file_id
+
+	<select id="order_detail"
+		resultType="com.example.cosmetic.model.order.OrderDTO">
+		SELECT
+		l.orderid,
+		p.p_name,
+		o.o_name,
+		o.p_id,
+		l.orderdate,
+		l.userid,
+		l.price,
+		l.delivercost,
+		l.method,
+		l.address1,
+		l.userpoint,
+		o.orderstatus,
+		po.o_price,
+		l.totalprice,
+		m.phone,
+		o.amount AS
+		option_amount,
+		(
+		SELECT SUM(amount)
+		FROM orderitem
+		WHERE orderid =
+		l.orderid
+		) AS total_amount
+		FROM
+		orderitem o
+		JOIN
+		orderlist l ON o.orderid
+		= l.orderid
+		JOIN
+		product p ON p.p_id = o.p_id
+		JOIN
+		member m ON m.userid =
+		l.userid
+
+		LEFT JOIN
+		product_option po ON p.p_id = po.o_p_id
+		WHERE
+		l.orderid = #{orderid}
+		GROUP BY
+		l.orderid,
+		p.p_name,
+		o.o_name,
+		o.p_id,
+		o.amount,
+		l.orderdate,
+		l.userid,
+		l.price,
+		l.delivercost,
+		l.method,
+		l.address1,
+		l.userpoint,
+		o.orderstatus,
+		po.o_price
 	</select>
-	
-	<select id="order_detail" resultType="com.example.cosmetic.model.order.OrderDTO">
-	SELECT 
-    l.orderid,
-    p.p_name, 
-    o.o_name, 
-    o.p_id, 
-    l.orderdate, 
-    l.userid,  
-    l.price, 
-    l.delivercost, 
-    l.method, 
-    l.address1, 
-    l.userpoint,
-    o.orderstatus,
-    po.o_price,
-    o.amount AS option_amount,
-    (
-        SELECT SUM(amount)
-        FROM orderitem
-        WHERE orderid = l.orderid
-    ) AS total_amount
-FROM 
-    orderitem o
-JOIN 
-    orderlist l ON o.orderid = l.orderid
-JOIN 
-    product p ON p.p_id = o.p_id
-LEFT JOIN 
-    product_option po ON p.p_id = po.o_p_id
-WHERE 
-    l.orderid = #{orderid}
-GROUP BY
-    l.orderid,
-    p.p_name, 
-    o.o_name,
-    o.p_id,
-    o.amount,
-    l.orderdate, 
-    l.userid,  
-    l.price, 
-    l.delivercost, 
-    l.method, 
-    l.address1, 
-    l.userpoint,
-    o.orderstatus,
-    po.o_price
+
+	<!-- 주문 갯수 계산 -->
+	<select id="admin_orderCount" resultType="int">
+		SELECT COUNT(*)
+		FROM orderlist l
+		WHERE 1=1
+		<choose>
+			<when test="startDate != '' and endDate != ''">
+				AND l.orderDate &gt;= #{startDate}
+				AND l.orderDate
+				&lt;= #{endDate}
+			</when>
+			<otherwise>
+				AND l.orderDate &gt;= (SELECT MIN(orderDate) FROM
+				orderlist)
+				AND l.orderDate &lt;= (SELECT MAX(orderDate) FROM
+				orderlist)
+			</otherwise>
+		</choose>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND (l.userid LIKE CONCAT('%', #{searchKeyword}, '%')
+			OR
+			l.orderid IN (SELECT i.orderid FROM orderitem i WHERE i.orderid LIKE
+			CONCAT('%', #{searchKeyword}, '%')))
+		</if>
+
 	</select>
+
+	<!-- 주문 목록 출력 -->
+	<select id="admin_orderlist"
+		resultType="com.example.cosmetic.model.order.OrderDTO">
+		SELECT orderid, userid, orderdate, totalprice, cancelreason FROM
+		orderlist
+		<where>
+			<if test="startDate != '' and endDate != ''">
+				orderDate &gt;= #{startDate} AND orderDate &lt;=
+				#{endDate}
+			</if>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				AND (userid LIKE CONCAT('%', #{searchKeyword}, '%')
+				OR
+				orderid LIKE CONCAT('%', #{searchKeyword}, '%'))
+			</if>
+			<if test="startDate == '' and endDate == ''">
+				orderDate &gt;= (SELECT MIN(orderDate) FROM orderlist)
+				AND orderDate &lt;= (SELECT MAX(orderDate) FROM orderlist)
+			</if>
+		</where>
+		ORDER BY orderDate DESC
+		LIMIT #{pageCnt} OFFSET #{start}
+	</select>
+
+
+
 
 </mapper>

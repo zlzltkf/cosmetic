@@ -1,7 +1,7 @@
 package com.example.cosmetic.controller.admin;
 
 public class PageUtil {
-   public  int PAGE_SCALE = 5; //수정
+   public  int PAGE_SCALE = 10; //수정
    //페이지당 게시물 수
    
    public static final int BLOCK_SCALE = 5; //수정
