@@ -176,7 +176,7 @@
 										<div class="col-sm-12 col-md-6">
 											<div class="dataTables_length" id="dataTable_length">
 											<form action="/admin/select_user_list" method="Get" name="form1">
-												<label>Show <select name="pageCnt"
+												<!-- <label>Show <select name="pageCnt"
 													aria-controls="dataTable"
 													class="custom-select custom-select-sm form-control form-control-sm" onchange="changelist(this)">
 														<option value="" hidden="">Show</option>
@@ -185,7 +185,7 @@
 														<option value="25">25</option>
 														<option value="50">50</option>
 														<option value="100">100</option></select> 
-												</label>
+												</label> -->
 												</form>
 											</div>
 											<div>

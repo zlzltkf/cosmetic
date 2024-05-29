@@ -485,7 +485,7 @@ $(document).on('click', '.zzim_btn', function() {
                 console.error('AJAX 요청 실패: ', status, error);
             }
         });
-    }
+    } 
 });  
 
 //바로구매
@@ -494,11 +494,19 @@ $(document).ready(function() {
 		
 		var formElement = document.getElementById("form1");
 		var amountArray = [];
+		var optionArray = [];
 		var priceText = $("#product_price").text().trim();
 		var price = parseInt(priceText.replace(/,/g, ''));
 		var p_id_array = [];
 		var delfee = price >= 30000 ? 0 : 2500;
 	    var totalPrice = price + delfee;
+	    
+	    // 선택한 옵션의 정보를 가져와서 배열에 추가
+	    $(".option_text").each(function() {
+	    	var option = $(this).text().trim();
+	    	console.log(option);
+	    	optionArray.push(option);
+	    });
 	    
 	    $('.quantity-input').each(function() {
 		    var quantityValue = $(this).val();
@@ -518,6 +526,7 @@ $(document).ready(function() {
 		    for (i=0; i<amountArray.length; i++) {
 		    	formData.append('p_order_id', p_id_array[i]);
 		    	formData.append('amount', amountArray[i]);
+		    	formData.append('option', optionArray[i]);
 		    }
 		       
 		    formElement.innerHTML = '';

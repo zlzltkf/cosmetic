@@ -36,4 +36,10 @@ public class OrderDTO {
 	private String orderStatus;
 	private String o_name;
 	
+	//조인
+		private String p_name;
+		private int total_amount;
+		private String option_amount;
+		private int o_price;
+	
 }

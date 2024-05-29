@@ -9,104 +9,106 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.example.cosmetic.model.order.OrderDTO;
 import com.example.cosmetic.model.product.ProductDTO;
 
 @Repository
 public class AdminDao {
-	
+
 	@Autowired
 	SqlSession sqlSession;
-	
-	//상품등록
-	 public void product_insert(ProductDTO dto) {
-	 sqlSession.insert("admin.product_insert", dto); }
-	 
-	//대분류
+
+	// 상품등록
+	public void product_insert(ProductDTO dto) {
+		sqlSession.insert("admin.product_insert", dto);
+	}
+
+	// 대분류
 	public List<String> getBig() {
-        return sqlSession.selectList("admin.big");
-    }
-	
-	//소분류
+		return sqlSession.selectList("admin.big");
+	}
+
+	// 소분류
 	public List<String> getSmall(String ctg_big) {
 		return sqlSession.selectList("admin.small", ctg_big);
 	}
-	
-	//대분류명에 소분류 번호
+
+	// 대분류명에 소분류 번호
 	public int small_no(String ctg_small) {
-		return sqlSession.selectOne("admin.small_no",ctg_small);
+		return sqlSession.selectOne("admin.small_no", ctg_small);
 	}
-	
-	//옵션 테이블에 추가
+
+	// 옵션 테이블에 추가
 	public void option_insert(ProductDTO dto) {
-		sqlSession.insert("admin.option_insert",dto);
+		sqlSession.insert("admin.option_insert", dto);
 	}
-	
+
 	public int p_id() {
 		return sqlSession.selectOne("admin.get_id");
 	}
-	
-	//옵션 수량이 합쳐져서 p_stock
+
+	// 옵션 수량이 합쳐져서 p_stock
 	public void updateProductStock(int p_id, int o_amount) {
-	    Map<String, Object> params = new HashMap<>();
-	    params.put("p_id", p_id);
-	    params.put("o_amount", o_amount);
-	    sqlSession.update("admin.update_product_stock", params);
+		Map<String, Object> params = new HashMap<>();
+		params.put("p_id", p_id);
+		params.put("o_amount", o_amount);
+		sqlSession.update("admin.update_product_stock", params);
 	}
-	
-	//사용자 목록
+
+	// 사용자 목록
 	public List<Map<String, Object>> user_list(int start, int pageCnt) {
-		 Map<String, Object> map = new HashMap<>();
-	      map.put("start", start);
-	      map.put("pageCnt", pageCnt);
-	      return sqlSession.selectList("admin.user_list", map);
+		Map<String, Object> map = new HashMap<>();
+		map.put("start", start);
+		map.put("pageCnt", pageCnt);
+		return sqlSession.selectList("admin.user_list", map);
 	}
-	
+
 	public int user_count() {
 		return sqlSession.selectOne("admin.user_count");
 	}
-	
+
 	public List<ProductDTO> search(String keyword, int start, int end) {
-	      Map<String, Object> map = new HashMap<>();
-	      map.put("keyword", keyword);
-	      map.put("start", start);
-	      map.put("end", end);
-	      return sqlSession.selectList("admin.search",map);
-	   }
-	
-	public int count(String keyword) {
-	      return sqlSession.selectOne("admin.search_count",keyword);
-	   }
-	
-	public List<Map<String, Object>> order_list(int start, int pageCnt) {
-		 Map<String, Object> map = new HashMap<>();
-	      map.put("start", start);
-	      map.put("pageCnt", pageCnt);
-	      return sqlSession.selectList("admin.order_list", map);
+		Map<String, Object> map = new HashMap<>();
+		map.put("keyword", keyword);
+		map.put("start", start);
+		map.put("end", end);
+		return sqlSession.selectList("admin.search", map);
 	}
-	
+
+	public int count(String keyword) {
+		return sqlSession.selectOne("admin.search_count", keyword);
+	}
+
+	public List<Map<String, Object>> order_list(int start, int pageCnt) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("start", start);
+		map.put("pageCnt", pageCnt);
+		return sqlSession.selectList("admin.order_list", map);
+	}
+
 	public int order_count() {
 		return sqlSession.selectOne("admin.order_count");
 	}
-	
+
 	public int user_order_count(Long orderid) {
-		return sqlSession.selectOne("admin.user_order_count",orderid);
+		return sqlSession.selectOne("admin.user_order_count", orderid);
 	}
-	
+
 	public List<Map<String, Object>> list() {
-	      return sqlSession.selectList("admin.list");
+		return sqlSession.selectList("admin.list");
 	}
-	
+
 	public String status(Long orderid) {
-		return sqlSession.selectOne("admin.status",orderid);
+		return sqlSession.selectOne("admin.status", orderid);
 	}
-	
-	public int s_no(String ctg_small){
-		return sqlSession.selectOne("admin.s_no",ctg_small);
-		
+
+	public int s_no(String ctg_small) {
+		return sqlSession.selectOne("admin.s_no", ctg_small);
+
 	}
 
 	public List<ProductDTO> s_list(int ctg_s_no) {
-		return sqlSession.selectList("admin.s_list",ctg_s_no);
+		return sqlSession.selectList("admin.s_list", ctg_s_no);
 	}
 
 	public int product_count() {
@@ -116,20 +118,25 @@ public class AdminDao {
 	public List<Map<String, Object>> product_list(int start, int pageCnt) {
 		Map<String, Object> map = new HashMap<>();
 		map.put("start", start);
-	    map.put("pageCnt", pageCnt);
-	    return sqlSession.selectList("admin.product_list", map);
+		map.put("pageCnt", pageCnt);
+		return sqlSession.selectList("admin.product_list", map);
 	}
-	
+
 	public void insert_p_attach(@Param("filenames") String[] filenames, @Param("p_id") int p_id) {
-	    Map<String, Object> map = new HashMap<>();
-	    map.put("filenames", filenames);
-	    map.put("p_id", p_id);
-	    sqlSession.insert("admin.insert_p_attach", map);
+		Map<String, Object> map = new HashMap<>();
+		map.put("filenames", filenames);
+		map.put("p_id", p_id);
+		sqlSession.insert("admin.insert_p_attach", map);
 	}
-	
+
 	// 첨부파일
 	public List<String> list_p_attach(int p_id) {
 		return sqlSession.selectList("admin.list_p_attach", p_id);
 	}
 
+	//
+	public List<OrderDTO> admin_order_detail(long orderid) {
+		return sqlSession.selectList("admin.order_detail", orderid);
+
+	}
 }

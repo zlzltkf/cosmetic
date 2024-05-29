@@ -15,7 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin 2 - Cards</title>
+<title>주문목록</title>
 
 <!-- Custom fonts for this template-->
 <link href="/resources/admin/vendor/fontawesome-free/css/all.min.css"
@@ -26,7 +26,69 @@
 
 <!-- Custom styles for this template-->
 <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
+<style type="text/css">
+/* 날짜 선택 */
+#dateBox {
+	border: none;
+	
+}
+#dateInfo {
+	padding: 40px 0 10px 0 ;
+	font-weight: bold;
+}
+#dateChooseBox {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	padding: 5px;
+	border-bottom: 1px solid #c9c9c7; 
+	font-size: 0.9em;
+}
 
+#dateChooseBox button {
+	padding: 0 10px;
+	height: 30px;
+	background-color: white;
+	border: 1px solid #999;
+}
+#dateChooseBox input {
+	height: 30px;
+}
+
+#chooseDateBtn {
+	display: flex;
+	flex-direction: row;
+	min-width: 240px;
+}
+#dateChooseBox button {
+	margin: 5px 2px;
+}
+#dateChooseBox button:active,
+#dateChooseBox button:hover,
+#dateChooseBox button:focus {
+	background-color: #555;
+	color: white;
+}
+
+#chooseDate {
+	margin: 0 0 0 10px;
+	display: flex;
+	flex-direction: row;
+	min-width: 325px;
+}
+#chooseDate #inputD {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+#inputD input[type="date"]::-webkit-datetime-edit {
+	padding: 0 0 2px 5px;
+}
+
+#chooseDate #inputD div, #chooseDate button {
+	margin: 5px 2px;
+}
+</style>
 
 </head>
 
@@ -170,9 +232,9 @@
 								<div id="dataTable_wrapper"
 									class="dataTables_wrapper dt-bootstrap4">
 									<div class="row">
-										<div class="col-sm-12 col-md-6">
-											<div class="dataTables_length" id="dataTable_length">
-										<!-- 	<form action="/admin/select_user_list" method="Get" name="form1"> -->
+										<!-- <div class="col-sm-12 col-md-6">
+											 <div class="dataTables_length" id="dataTable_length">
+											<form action="/admin/select_user_list" method="Get" name="form1">
 												<label>Show <select name="pageCnt"
 													aria-controls="dataTable"
 													class="custom-select custom-select-sm form-control form-control-sm" onchange="changelist(this)">
@@ -183,19 +245,30 @@
 														<option value="50">50</option>
 														<option value="100">100</option></select> 
 												</label>
-												<!-- </form> -->
-											</div>
-											
-										</div>
-										<div class="col-sm-12 col-md-6">
-   											 <div class="input-group mb-3" style="width: 300px;">
-     									   <input type="search" class="form-control form-control-sm" placeholder="아이디를 입력하세요." aria-controls="dataTable">
-       											 &nbsp;&nbsp;&nbsp;
-       										 <div class="input-group-append">
-           									 <button style="height: 32px;" class="btn btn-facebook" type="button">검색</button>
-      											  </div>
-   													 </div>
-										</div>
+												</form>
+											</div> 
+										</div> -->
+										<div id="dateChooseBox" style="padding-left: 2%;">
+					<div id="chooseDateBtn">
+						<button type="button" id="1month" onclick="setDate(1)">1개월</button>
+						<button type="button" id="3month" onclick="setDate(3)">3개월</button>
+						<button type="button" id="6month" onclick="setDate(6)">6개월</button>
+						<button type="button" id="12month" onclick="setDate(12)">12개월</button>
+						</div>
+					<div id="chooseDate">
+						<div id="inputD">
+				<div id="f">
+					<input type="date" name="f_date" id="date1">
+				</div>
+				<div>~</div>
+				<div id="l">
+					<input type="date" name="l_date" id="date2">
+				</div>
+			</div>
+			<button type="button" onclick="confirmDate()">조회</button>
+		</div>
+   											 
+	</div>
 
 									</div>
 									<div class="row">
@@ -210,10 +283,6 @@
 															aria-sort="ascending"
 															aria-label="Name: activate to sort column descending"
 															style="width: 50px; text-align: center;">주문번호</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Position: activate to sort column ascending"
-															style="width: 50px; text-align: center;">처리상태</th>
 														<th class="sorting" tabindex="0" aria-controls="dataTable"
 															rowspan="1" colspan="1"
 															aria-label="Office: activate to sort column ascending"
@@ -241,11 +310,12 @@
 												<tbody>
 													<c:forEach var="row" items="${list}">
 														<tr class="odd">
-															<td  style="text-align: center;" class="sorting_1"><a
-																href="/admin/user_detail?userid=${row.userid}">${row.orderid}</a><br>
+															<td  style="text-align: center;" class="sorting_1">
+															<a href="/admin/admin_order_detail/${row.orderid}">${row.orderid}</a><br>
+
 																</td>
-															<td style="text-align: center;"> ${orderstatus[row.orderid]}</td>
-															<td  style="text-align: center;"><fmt:formatDate value="${row.orderDate}" pattern="yy.M.d" /></td>
+															<%-- <td style="text-align: center;"> ${orderstatus[row.orderid]}</td> --%>
+															<td  style="text-align: center;"><fmt:formatDate value="${row.orderDate}" type="date" /></td>
 															<td  style="text-align: center;">${row.userid}</td>
 															<td  style="text-align: center;">${row.method}</td>
 															<td  style="text-align: center;">${ordercount[row.orderid]}</td>

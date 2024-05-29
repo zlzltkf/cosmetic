@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.example.cosmetic.model.admin.AdminDao;
 import com.example.cosmetic.model.member.MemberDTO;
+import com.example.cosmetic.model.order.OrderDTO;
 import com.example.cosmetic.model.product.ProductDTO;
 import com.example.cosmetic.model.product.ProductService;
 import com.example.cosmetic.model.review.ReviewService;
@@ -244,5 +245,20 @@ public class AdminController {
 			model.addAttribute("page_info", page_info);
 			model.addAttribute("count", count);
 			return "admin/admin_product_list";
+		}
+		
+		@GetMapping("order_detail")
+		public String order_list() {
+			return "admin/order_detail";
+		}
+		
+		// 주문번호에 따른 상세주문내역
+		@GetMapping("/admin_order_detail/{orderid}")
+		public String orderlist(@PathVariable(name="orderid")long orderid,Model model) {
+			// 주문목록 가져오기
+			List<OrderDTO> list=null;
+			list = adminDao.admin_order_detail(orderid);
+			model.addAttribute("list",list);
+			return "admin/order_detail";
 		}
 }
