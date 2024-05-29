@@ -75,5 +75,24 @@ public class ZzimDAO {
        paramMap.put("start", start);
        return sqlSession.selectList("zzim.sub_list_zzim", paramMap);
    }
+   
+   public List<Map<String, Object>> zzim_list(int start, int pageCnt, String userid) {
+
+	   Map<String, Object> map = new HashMap<>();
+	   map.put("start", start);
+	   map.put("pageCnt", pageCnt);
+	   map.put("userid", userid);
+	   
+	   return sqlSession.selectList("zzim.zzim_list", map);
+   }
+   
+   public int zzim_list_count(String userid) {
+	   
+	   return sqlSession.selectOne("zzim.zzim_list_count", userid);
+   }
+   
+   public void zzim_list_delete(int idx) {
+	   sqlSession.delete("zzim.zzim_list_delete", idx);
+   }
 
 }

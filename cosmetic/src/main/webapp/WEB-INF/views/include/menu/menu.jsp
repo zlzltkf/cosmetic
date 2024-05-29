@@ -219,13 +219,13 @@ function R_list() {
 					<c:choose>
 						<c:when test="${sessionScope.userid != null}">
 						<c:if test="${sessionScope.userid =='admin'}">
-						<a href="/admin/admin" style="float: right; font-size: small; color: gray;">&nbsp;관리자 화면
+						<a href="/admin/admin" style="float: right; font-size: small; color: gray;">&nbsp;&nbsp;관리자 화면
 								&nbsp;</a>
 						</c:if>
-							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;고객센터
-								&nbsp;</a>
+							<!-- <a href="#" style="float: right; font-size: small; color: gray;">&nbsp;고객센터
+								&nbsp;</a> -->
 							<a href="/order/orderlist.do" style="float: right; font-size: small; color: gray;">&nbsp;주문배송
-								|&nbsp;</a>
+								</a>
 							<a onclick="location.href='/cart/list?userid=${sessionScope.userid}'" style="float: right; font-size: small; color: gray; cursor: pointer;">&nbsp;장바구니
 								|&nbsp;</a>
 							<a href="/mypage/" style="float: right; font-size: small; color: gray;">&nbsp;마이페이지
@@ -238,9 +238,9 @@ function R_list() {
 								환영합니다&nbsp;</span>
 						</c:when>
 						<c:otherwise>
-							<a href="#" style="float: right; font-size: small; color: gray;">&nbsp;고객센터&nbsp;</a>
+							<!-- <a href="#" style="float: right; font-size: small; color: gray;">&nbsp;고객센터&nbsp;</a> -->
 							<a href="/member/page_login" style="float: right; font-size: small; color: gray;">&nbsp;주문배송
-								|&nbsp;</a>
+								</a>
 							<a href="/member/page_login" style="float: right; font-size: small; color: gray;">&nbsp;장바구니
 								|&nbsp;</a>
 							<a href="/member/page_join"

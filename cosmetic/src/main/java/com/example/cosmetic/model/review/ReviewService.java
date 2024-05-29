@@ -2,6 +2,7 @@ package com.example.cosmetic.model.review;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,14 @@ public class ReviewService {
 	public List<ReviewDTO> list(int p_id) {
 		//System.out.println(reviewDao.review_list(p_id));
 		return reviewDao.review_list(p_id);
+	}
+	
+	public List<Map<String, Object>> r_list(String userid, int pageCnt, int start) {
+		return reviewDao.list(userid, pageCnt, start);
+	}
+	
+	public int list_count(String userid) {
+		return reviewDao.list_count(userid);
 	}
 
 	
@@ -61,9 +70,13 @@ public class ReviewService {
     	return reviewDao.list_attach(r_id);
     }
 
+    public void r_delete(int r_id) {
+    	reviewDao.r_delete(r_id);
+    }
     
-    
-    
+    public List<String> r_list_img(int r_id) {
+    	return reviewDao.r_list_img(r_id);
+	}
     
 	
 	

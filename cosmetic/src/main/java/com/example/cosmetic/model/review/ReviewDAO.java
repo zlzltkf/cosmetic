@@ -83,4 +83,25 @@ public class ReviewDAO {
 	public int r_id() {
 		return sqlSession.selectOne("review.r_id");
 	}
+	
+	public List<Map<String, Object>> list(String userid, int pageCnt, int start) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("userid", userid);
+		map.put("pageCnt", pageCnt);
+		map.put("start", start);
+		
+		return sqlSession.selectList("review.r_list", map);
+	}
+	
+	public int list_count(String userid) {
+		return sqlSession.selectOne("review.r_list_count", userid);
+	}
+	
+	public void r_delete(int r_id) {
+		sqlSession.delete("review.r_delete", r_id);
+	}
+	
+	public List<String> r_list_img(int r_id) {
+		return sqlSession.selectList("review.r_list_img", r_id);
+	}
 }

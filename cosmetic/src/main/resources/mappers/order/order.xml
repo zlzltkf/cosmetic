@@ -96,7 +96,14 @@
 </choose>
 <choose>
 	<when test="status != null and status != ''">
-		AND orderStatus = #{status}
+		<choose>
+           <when test="status == '취소/반품'">
+               AND (orderStatus = '반품완료' OR orderStatus = '결제취소')
+           </when>
+           <otherwise>
+               AND orderStatus = #{status}
+           </otherwise>
+        </choose>
    	</when>
    	<when test="status == '' and status == null">
    	</when>
@@ -121,7 +128,14 @@
     </choose>
     <choose>
     	<when test="status != null and status != ''">
-    		AND orderStatus = #{status}
+    		<choose>
+                <when test="status == '취소/반품'">
+                    AND (orderStatus = '반품완료' OR orderStatus = '결제취소')
+                </when>
+                <otherwise>
+                    AND orderStatus = #{status}
+                </otherwise>
+             </choose>
        	</when>
        	<when test="status == '' and status == null">
        	</when>
@@ -149,7 +163,7 @@
     	and orderStatus = '반품요청'
     	</when>
     	<when test="status == 5">
-    	and orderStatus = '반품완료'
+    	and (orderStatus = '반품완료' or orderStatus = '결제취소')
     	</when>
     </choose>
 </select>
@@ -226,6 +240,9 @@
     	</when>
     	<when test="status == 5">
     	SET orderStatus = '반품완료'
+    	</when>
+    	<when test="status == 6">
+    	SET orderStatus = '결제취소'
     	</when>
     </choose>
 	WHERE orderItemId = #{itemid}

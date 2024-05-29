@@ -1,16 +1,20 @@
 package com.example.cosmetic.controller.zzim;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.cosmetic.model.product.PageUtil;
 import com.example.cosmetic.model.zzim.ZzimDAO;
 import com.example.cosmetic.model.zzim.ZzimDTO;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +25,32 @@ import jakarta.servlet.http.HttpSession;
 public class ZzimController {
    @Autowired
    ZzimDAO zzimDao;
+   
+   @GetMapping("list.do")
+   public String list(
+		   @RequestParam(name = "curPage", defaultValue = "1") int curPage,
+		   HttpSession session,
+		   Model model
+		   ) {
+	   String userid = (String) session.getAttribute("userid");
+	   
+	// 페이지
+	   int count = zzimDao.zzim_list_count(userid);
+	   
+	// 모든 체품 수
+	
+	PageUtil page_info = new PageUtil(count, curPage);
+	int start = page_info.getPageBegin() - 1;
+	int pageCnt = page_info.PAGE_SCALE;
+	
+	List<Map<String, Object>> list = zzimDao.zzim_list(start, pageCnt, userid);
+
+	   
+		model.addAttribute("page_info", page_info);
+	   model.addAttribute("count", count);
+	   model.addAttribute("list", list);
+	   return "/zzim/list";
+   }
 
 //   @PostMapping("zzim_apply")
 //   @ResponseBody
@@ -118,4 +148,11 @@ public class ZzimController {
       return "redirect:/love/love_list";
    }
 
+   @GetMapping("zzim_list_delete/{idx}")
+   @ResponseBody
+   public String zzim_list_delete(@PathVariable(name = "idx") int idx) {
+	   zzimDao.zzim_list_delete(idx);
+       return "success";
+   }
+   
 }

@@ -2,10 +2,13 @@ package com.example.cosmetic.controller.review;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.example.cosmetic.model.review.PageUtil;
+import com.example.cosmetic.model.review.ReviewDAO;
 import com.example.cosmetic.model.review.ReviewDTO;
 import com.example.cosmetic.model.review.ReviewService;
 
@@ -27,6 +32,42 @@ public class ReviewController {
 	
 	@Autowired
 	ReviewService reviewService;
+	
+	@GetMapping("index.do")
+	public String index(
+				@RequestParam(name = "curPage", defaultValue = "1") int curPage,
+				HttpSession session,
+				Model model
+			) {
+		
+		String userid = (String) session.getAttribute("userid");
+		
+		List<Map<String, Object>> list = null;
+		
+		// 페이지
+		int count = reviewService.list_count(userid);
+
+		PageUtil page_info = new PageUtil(count, curPage);
+		int start = page_info.getPageBegin() - 1;
+		int pageCnt = page_info.PAGE_SCALE;
+
+		list = reviewService.r_list(userid, pageCnt, start);
+		
+		model.addAttribute("list", list);
+		model.addAttribute("page_info", page_info);
+		model.addAttribute("count", count);
+		
+		return "/review/index";
+	}
+	
+	@ResponseBody
+	@GetMapping("get_img/{r_id}")
+	public List<String> get_img(@PathVariable(name = "r_id") int r_id) {
+		List<String> path = reviewService.r_list_img(r_id);
+		return path;
+	}
+	
+	
 	
 	//리뷰 리스트
 		 @GetMapping("list")
@@ -91,4 +132,13 @@ public class ReviewController {
 		 public List<String> list_attach(@PathVariable(name="r_id") int r_id) {
 			 return reviewService.list_attach(r_id);
 		 }
+		 
+		 @GetMapping("review_delete.do")
+		 @ResponseBody
+		 public String review_delete(@RequestParam(name = "r_id") int r_id) {
+			 reviewService.r_delete(r_id);
+			 
+		 	return "success";
+		 }
+		 
 }

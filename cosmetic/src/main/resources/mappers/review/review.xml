@@ -10,7 +10,22 @@
 	where m.userid=r.userid and p_id=#{p_id}
 	order by r_id desc, r_date desc
 	</select>
+	
+	<!-- 리스트 -->
+	<select id="r_list" resultType="java.util.Map">
+		SELECT r_id, r.p_id, p_name, p_price, CONVERT(r_contents USING utf8) contents, r_date
+		FROM review r, product p
+		WHERE r.p_id = p.p_id
+		AND userid = #{userid}
+		limit #{pageCnt} offset #{start}
+	</select>
 
+	<select id="r_list_count" resultType="int">
+	   	SELECT COUNT(*)
+		FROM review r, product p
+		WHERE r.p_id = p.p_id
+		and userid = #{userid}
+   </select>
 	
 	<insert id="review_insert">
 	insert into review(p_id, userid, r_contents, r_date) values(#{p_id},#{userid}, #{r_contents}, now())
@@ -44,5 +59,15 @@
 	
 	<select id="r_id" resultType="int">
 		SELECT r_id from review order by r_id desc limit 1
+	</select>
+	
+	<delete id="r_delete">
+		delete from review
+		where r_id = #{r_id}
+	</delete>
+	
+	<select id="r_list_img" resultType="String">
+		SELECT file_name FROM attach
+		WHERE r_id = #{r_id}
 	</select>
 </mapper>

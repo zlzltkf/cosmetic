@@ -478,6 +478,7 @@ public class OrderController {
 
 			// p_id값으로 상품정보 가져오기
 			// 이미지, 상품명, 상품가격
+			
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
 			String p_img = (String) orderDAO.orderedProducts(p_id).get("p_img1");
 			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
@@ -586,8 +587,8 @@ public class OrderController {
         int itemid = Integer.parseInt(payinfo.get("itemid").toString());
 		int delprice = Integer.parseInt(payinfo.get("delPrice").toString());
         String reason = payinfo.get("reason").toString();
-		
-		Map<String, Object> costs = orderDAO.chooseCosts(orderid);
+        
+        Map<String, Object> costs = orderDAO.chooseCosts(orderid);
         
         int totalPrice = (int) costs.get("totalPrice");
         int deliverCost = (int) costs.get("deliverCost");
@@ -607,32 +608,22 @@ public class OrderController {
 		map.put("orderid", orderid);
 		map.put("price", updatePrice);
 		map.put("totalPrice", updateTotalPrice);
+		System.out.println(map);
 		
 		//주문상태 업데이트
 		Map<String, Object> status = new HashMap<>();
 		status.put("itemid", itemid);
-		status.put("status", 5);
-		orderDAO.updateStatus(status);
+		
+		if (payinfo.get("confirm") != null) {
+        	status.put("status", 6);
+        	orderDAO.updateStatus(status);
+        } else {
+        	status.put("status", 5);
+        	orderDAO.updateStatus(status);
+        }
 		
 		//주문내역서에서 금액 업데이트
-//		if (updateTotalPrice - deliverCost > 0) {
-			
-//			//주문아이템 지우기
-//			orderDAO.orderItemDelete(itemid);
-//			//주문목록 업데이트
-//			orderDAO.updatePrice(map);
-			
-//		} else if (updateTotalPrice - deliverCost <= 0) {
-			
-//			//주문아이템 지우기
-//			orderDAO.orderItemDelete(itemid);
-			
-//			if (orderDAO.countItem(orderid) == 0) { //특정 주문id의 주문아이템이 없으면
-//				//주문목록 지우기
-//				orderDAO.deletePrice(orderid);
-//			}
-			
-//		}
+		orderDAO.updatePrice(map);
 		
 		//포트원 환불
 		String token = Refund.getToken(KEY, SECRET); 

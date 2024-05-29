@@ -152,7 +152,7 @@
 	
 }
 #itemInfo::-webkit-scrollbar-track
-{=
+{
 	border-radius: 8px;
 	background-color: #F5F5F5;
 }

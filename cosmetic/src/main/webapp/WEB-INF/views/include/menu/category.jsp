@@ -111,6 +111,9 @@ $(document).ready(function() {
 	height: 25px;
 	position: relative;
 }
+#ctg_btn {
+	padding: 15px 15px 20px 25px;
+}
 #ctg.show-grid {
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
@@ -120,7 +123,6 @@ $(document).ready(function() {
 	border: 1px solid #e7e7e7;
 	
 	margin: 0;
-	padding: 10px 0;
 	position: absolute;
 	top: 129%;
 	left: 0;
@@ -130,15 +132,19 @@ $(document).ready(function() {
 	
 	background: white;
 	width: 100%;
-	height: 400px;
+	height: 500px;
 }
 #ctg.show-grid-s a {
 	border-bottom: 1px solid #e7e7e7;
-	padding: 10px 0;
+	padding: 12px 0 0 25px;
+	color: #656565;
+	text-align: left;
+	font-size: 0.9em;
 }
 
 #ctg a:hover { /* 메인 카테고리 영역에 마우스 가져다댈시 링크 색깔 바꾸기 */
-	color:red;
+	color: #337ab7;
+	background-color: #fafafa;
 }
 #ctg-content {
 	margin: 0;
@@ -221,7 +227,7 @@ $(document).ready(function() {
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=12">틴트</a>
 		</ul>
-		<ul class="s-ctg-content">
+		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=13">글로스</a>
 		</ul>
 		<ul class="s-ctg-content">
@@ -229,14 +235,14 @@ $(document).ready(function() {
 		</ul>
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=15">립케어</a>
-		</ul>
+		</ul> -->
 	</div>
 	
 	<!-- 아이 -->
 	<div class="b-ctg-content">
-		<ul class="s-ctg-content">
+		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=21">싱글섀도우</a>
-		</ul>
+		</ul> -->
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=22">아이팔레트</a>
 		</ul>
@@ -246,9 +252,9 @@ $(document).ready(function() {
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=24">아이라이너</a>
 		</ul>
-		<ul class="s-ctg-content">
+		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=25">아이브로우</a>
-		</ul>
+		</ul> -->
 	</div>
 	
 	<!-- 페이스 -->
@@ -259,7 +265,7 @@ $(document).ready(function() {
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=32">쿠션-파운데이션</a>
 		</ul>
-		<ul class="s-ctg-content">
+		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=33">BB컨실러</a>
 		</ul>
 		<ul class="s-ctg-content">
@@ -267,7 +273,7 @@ $(document).ready(function() {
 		</ul>
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=35">컨투어링-하이라이터</a>
-		</ul>
+		</ul> -->
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=36">블러셔</a>
 		</ul>
@@ -297,7 +303,7 @@ $(document).ready(function() {
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=53">에센스-세럼</a>
 		</ul>
-		<ul class="s-ctg-content">
+		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=54">크림-밤</a>
 		</ul>
 		<ul class="s-ctg-content">
@@ -308,7 +314,7 @@ $(document).ready(function() {
 		</ul>
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=57">세트</a>
-		</ul>
+		</ul> -->
 	</div>
 	
 	<!-- 마스크 -->
@@ -371,7 +377,7 @@ $(document).ready(function() {
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=103">화장솜-면봉</a>
 		</ul>
-		<ul class="s-ctg-content">
+		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=104">속눈썹</a>
 		</ul>
 		<ul class="s-ctg-content">
@@ -379,7 +385,7 @@ $(document).ready(function() {
 		</ul>
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=106">기타</a>
-		</ul>
+		</ul> -->
 	</div>
 </div>
 </div>

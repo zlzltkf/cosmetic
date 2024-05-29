@@ -268,7 +268,7 @@ h2 {
 				<p>${cart_int}</p>
 			</div>
 		</li>
-		<li onclick="location.href = ''">
+		<li onclick="location.href = '/zzim/list.do'">
 			<div class="icon">
 				<i class="fa fa-heart"></i>
 			</div>
@@ -279,7 +279,7 @@ h2 {
 				<p>${zzim_int}</p>
 			</div>
 		</li>
-		<li onclick="location.href = ''">
+		<li onclick="location.href = '/review/index.do'">
 			<div class="icon">
 				<i class="fa fa-comments-o"></i>
 			</div>

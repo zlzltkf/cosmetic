@@ -519,7 +519,7 @@ if (urlParams != null) {
 	</div>
 	<div class="p">
 		<div class="count">${statusArray[4]}</div>
-		<div class="info">반품완료</div>
+		<div class="info">취소/반품</div>
 	</div>
 </div>
 
@@ -602,7 +602,7 @@ if (urlParams != null) {
 		<td>
 		
 		<c:choose>
-			<c:when test="${row.map.orderStatus == '반품완료'}">
+			<c:when test="${row.map.orderStatus == '반품완료' || row.map.orderStatus == '결제취소'}">
 				<div class="p" style="color: gray;">
 				<del><fmt:formatNumber value="${row.map.p_price * row.map.amount}" pattern="#,###"/>원</del>
 				</div>
@@ -633,8 +633,20 @@ if (urlParams != null) {
 			<c:if test="${row.map.orderStatus == '반품완료'}">
 				<p>반품완료</p>
 			</c:if>
+			<c:if test="${row.map.orderStatus == '결제취소'}">
+				<p>결제취소</p>
+			</c:if>
 			
 			<c:choose>
+			
+				<c:when test="${row.map.orderStatus == '결제완료'}">
+					<button type="button" onclick="redoOrder(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">결제 취소</button>
+				</c:when>
+				
+				<c:when test="${row.map.orderStatus == '배송완료' || row.map.orderStatus == '배송완료'}">
+					<button type="button" onclick="updateStatus(${row.orderid}, ${row.map.idx})">반품 요청</button>
+				</c:when>
+			
 				<c:when test="${row.map.orderStatus == '반품요청'}">
 					<button type="button" onclick="redoStatus(${row.map.idx})">반품 취소</button>
 				</c:when>
@@ -642,9 +654,9 @@ if (urlParams != null) {
 				<c:when test="${row.map.orderStatus == '반품완료'}">
 				</c:when>
 				
-				<c:otherwise>
+				<%-- <c:otherwise>
 					<button type="button" onclick="updateStatus(${row.orderid}, ${row.map.idx})">반품 요청</button>
-				</c:otherwise>
+				</c:otherwise> --%>
 				
 			</c:choose>
 			
@@ -914,6 +926,74 @@ function confirmDate() {
 	formElement.submit();
 }
 
+//결제취소
+function redoOrder(orderid, orderItemId, p_price, amount) {
+	
+	var delPrice = parseInt(p_price) * parseInt(amount);
+	
+	//모달창 열기
+	//환불사유 입력
+	var modal = document.getElementById("myModal");
+	var btn = document.getElementById("sendRefund");
+	var span = document.getElementsByClassName("close")[0];
+	var sendRefund = document.getElementById("sendRefund");
+	
+	modal.style.display = "block";
+	
+	//라디오버튼 초기화
+	$(".rinput").prop('checked', false);
+
+	//환불
+ 	sendRefund.onclick = function() {
+ 		var valid = true;
+ 		
+		//사유 입력값 가져오기
+ 		$('.rinput:checked').each(function() {
+ 			var labelText;
+ 	 		
+			if (this.id === 'r4') {
+				
+				labelText = $('#etc').val();
+                
+                if (labelText == '') {
+                	alert('취소 및 반품 사유를 입력하세요');
+                	$("#etc").focus();
+                	valid = false;
+                    return false; // 루프를 종료합니다.
+                }
+                
+            } else {
+                labelText = $('label[for="' + this.id + '"]').text();
+            }
+            $('#reason').val(labelText);
+		});
+		
+ 		if (valid) {
+ 			var reason = $('#reason').val();
+ 			
+ 			$.ajax({
+				"url": "/order/delete_order.do",
+		        "type": "POST",
+		        "contentType": "application/json",
+		        "data": JSON.stringify({
+		        	"orderid": orderid,
+		            "itemid": orderItemId,
+		            "delPrice": delPrice,
+		            "reason" : reason,
+		            "confirm": "cancel"
+		        }),
+		        success: function(response) {
+		        	if (response == "success") {
+		        		window.location.href = "/order/orderlist.do";
+		        		alert('결제 취소되었습니다.');
+		         		modal.style.display = "none"; 
+		        	}
+		        }
+			}); 
+ 		}
+	}
+}
+
 //반품요청취소
 function redoStatus(itemid) {
 	if (confirm('반품요청을 취소하시겠습니까?')) {
@@ -934,7 +1014,7 @@ function redoStatus(itemid) {
 	} 
 }
 
-//반품요청 업뎃
+//반품요청 넘기기
 function updateStatus(orderid, itemid) {
 	//모달창 열기
 	//환불사유 입력
