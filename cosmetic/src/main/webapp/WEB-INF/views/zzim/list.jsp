@@ -149,6 +149,18 @@
    line-height: 20px;
 }
 
+#emptyB {
+	width: 100%;
+	border-bottom: 1px solid gray;
+	padding: 80px 80px 110px 80px;
+}
+#Emessage {
+	/* border: 1px solid black; */
+	text-align: center;
+	font-size: 1.2em;
+}
+
+
 /* 페이지 번호 */
 
 #paging {
@@ -262,13 +274,20 @@ function list(page) {
 
 <div id="content">
 
-<div id="info">
-   총 ${count} 개의 상품이 있습니다.
-</div>
+<c:choose>
 
-<!-- 상품리스트 -->
-<div class="grid">
-      <c:forEach var="row" items="${list}">
+	<c:when test="${!empty list}">
+	
+	<c:if test="${!empty list}">
+		<div id="info">
+		   총 ${count} 개의 상품이 있습니다.
+		</div>
+	</c:if>
+	
+	<!-- 상품리스트 -->
+	<div class="grid">
+
+	<c:forEach var="row" items="${list}">
          <article class="block" data-product-id="${row.p_id}">
             <div class="picture">
                <div class="img" id="img">
@@ -290,7 +309,16 @@ function list(page) {
             </div>
          </article>
       </c:forEach>
-   </div>
+	
+	</div>
+	</c:when>
+	
+	<c:otherwise>
+	<div id="emptyB">
+		<p id="Emessage">찜한 상품이 없습니다.</p>
+	</div>
+	</c:otherwise>
+</c:choose>
 
 
 </div>

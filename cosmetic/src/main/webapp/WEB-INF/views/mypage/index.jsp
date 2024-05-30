@@ -295,7 +295,7 @@ h2 {
 
 <div id="memberInfo">
 	<ul>
-		<li onclick="location.href = ''">
+		<li onclick="location.href = '/member/member_edit.do'">
 			<div class="label">
 				<a>회원정보수정</a>
 			</div>
@@ -303,7 +303,7 @@ h2 {
 				<i class="fa fa-chevron-right"></i>
 			</div>
 		</li>
-		<li onclick="location.href = ''">
+		<li onclick="location.href = '/member/member_del.do'">
 			<div class="label">
 				<a>회원탈퇴</a>
 			</div>

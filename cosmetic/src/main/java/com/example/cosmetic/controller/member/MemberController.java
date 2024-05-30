@@ -6,11 +6,15 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndViewDefiningException;
+
 import com.example.cosmetic.model.member.MemberDAO;
 import com.example.cosmetic.model.member.MemberDTO;
 import jakarta.servlet.http.HttpSession;
@@ -63,7 +67,8 @@ public class MemberController {
 	public String join(@RequestParam(name = "userid") String userid, @RequestParam(name = "passwd") String passwd,
 			@RequestParam(name = "name") String name, @RequestParam(name = "nickname") String nickname,
 			@RequestParam(name = "birth") int birth, @RequestParam(name = "phone") String phone,
-			@RequestParam(name = "email") String email, @RequestParam(name = "address1") String address1,
+			@RequestParam(name = "email") String email, 
+			@RequestParam(name = "zipcode") String zipcode, @RequestParam(name = "address1") String address1,
 			@RequestParam(name = "address2") String address2) {
 		// String pass = memberDao.encrypt(passwd); // => 추후 비밀번호 암호화
 		MemberDTO dto = new MemberDTO();
@@ -74,6 +79,7 @@ public class MemberController {
 		dto.setBirth(birth);
 		dto.setPhone(phone);
 		dto.setEmail(email);
+		dto.setZipcode(zipcode);
 		dto.setAddress1(address1);
 		dto.setAddress2(address2);
 		memberDao.join(dto); // document 저장
@@ -98,5 +104,113 @@ public class MemberController {
 
 		return ResponseEntity.ok(response);
 	}
+	
+	//회원정보 수정
+	@GetMapping("member_edit.do")
+	public String member_edit(
+			@RequestParam(name = "msg", required = false) String msg,
+			HttpSession session,
+			Model model
+			) {
+		
+		String userid = (String) session.getAttribute("userid");
+		MemberDTO dto = new MemberDTO();
+		
+		dto = memberDao.get_member_info(userid);
+		model.addAttribute("msg", msg);
+		model.addAttribute("dto", dto);
+		
+		return "/login/edit";
+	}
+	
+	//기존 비밀번호 확인
+	@ResponseBody
+	@PostMapping("check_pw.do")
+	public Map<String, String> check_pw(
+			@RequestParam(name = "f_passwd") String f_passwd,
+			HttpSession session,
+			Model model
+			) {
+		String userid = (String) session.getAttribute("userid");
+		String nick = memberDao.login(userid, f_passwd);
+		
+		Map<String, String> response = new HashMap<>();
+		
+		if (nick != null) {
+			response.put("status", "success");
+		} else {
+			response.put("status", "error");
+		}
+		 return response;
+	}
+	
+	//회원정보 업데이트
+	@PostMapping("member_update.do")
+	public String member_update(
+			@RequestParam(name = "passwd") String passwd,
+			@RequestParam(name = "name") String name, 
+			@RequestParam(name = "nickname") String nickname,
+			@RequestParam(name = "birth") int birth, 
+			@RequestParam(name = "phone") String phone,
+			@RequestParam(name = "email") String email, 
+			@RequestParam(name = "zipcode") String zipcode, 
+			@RequestParam(name = "address1") String address1,
+			@RequestParam(name = "address2") String address2,
+			HttpSession session
+			) {
+		
+		String userid = (String) session.getAttribute("userid");
+		
+		MemberDTO dto = new MemberDTO();
+		
+		dto.setUserid(userid);
+		dto.setPasswd(passwd);
+		dto.setName(name);
+		dto.setNickname(nickname);
+		dto.setBirth(birth);
+		dto.setPhone(phone);
+		dto.setEmail(email);
+		dto.setZipcode(zipcode);
+		dto.setAddress1(address1);
+		dto.setAddress2(address2);
+		
+		memberDao.update_member_info(dto);
+		
+		return "redirect:/member/member_edit.do?msg=success";
+	}
+	
+	
+	
+	//회원탈퇴
+	@GetMapping("member_del.do")
+	public String member_delete() {
+		return "/login/delete";
+	}
+	
+	
+	@ResponseBody
+	@PostMapping("member_delete.do")
+	public Map<String, String> member_delete(
+			@RequestBody Map<String, String> requestData,
+			HttpSession session,
+			Model model
+			) {
+		String userid = requestData.get("userid");
+	    String passwd = requestData.get("passwd");
+		String nickname = memberDao.login(userid, passwd);
 
+		Map<String, String> response = new HashMap<>();
+		
+		if (nickname != null) {
+			memberDao.delete_member(userid);
+			response.put("status", "success");
+		} else {
+			response.put("status", "error");
+		}
+		
+		session.invalidate(); // 세션 초기화
+		
+		 return response;
+	}
+	
 }

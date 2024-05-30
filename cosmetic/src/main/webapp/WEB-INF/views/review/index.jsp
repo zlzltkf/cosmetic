@@ -151,6 +151,17 @@
 	border-radius: 8px;
 	background-color: #a8a8a8;
 }
+
+#emptyB {
+	border-bottom: 1px solid gray;
+	padding: 80px 80px 100px 80px;
+}
+#Emessage {
+	/* border: 1px solid black; */
+	text-align: center;
+	font-size: 1.2em;
+}
+
 /* 페이지 번호 */
 
 #paging {
@@ -217,39 +228,56 @@ ${list} --%>
 
 <div id="header">
 	<h3>작성한 리뷰</h3>
-	<span>${count}개</span>
+	<c:if test="${!empty list}">
+		<span>${count}개</span>
+	</c:if>
 </div>
 
 <div id="r_content">
-<c:forEach var="row" items="${list}">
 
-<div class="main">
-	<div class="r_info">
-		<div class="p_info">
-			<div class="p_name">
-			<a href="/product/detail_before?p_id=${row.p_id}">
-				<b>
-				<span>${row.p_name}&nbsp;&nbsp;</span>
-				|&nbsp;&nbsp;<fmt:formatNumber value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원
-				</b>
-			</a>
+<c:choose>
+
+	<c:when test="${!empty list}">
+	<c:forEach var="row" items="${list}">
+
+	<div class="main">
+		<div class="r_info">
+			<div class="p_info">
+				<div class="p_name">
+				<a href="/product/detail_before?p_id=${row.p_id}">
+					<b>
+					<span>${row.p_name}&nbsp;&nbsp;</span>
+					|&nbsp;&nbsp;<fmt:formatNumber value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원
+					</b>
+				</a>
+				</div>
+			</div>
+			<div class="p_right">
+				<div class="date">
+					<fmt:parseDate var="date" value="2024-05-24T09:25:23" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
+					<fmt:formatDate value="${date}" pattern="yyyy.MM.dd"/>
+				</div>
+				<div class="delete" onclick="delete_btn(${row.r_id})">
+					<i class="fa fa-remove"></i>
+				</div>
 			</div>
 		</div>
-		<div class="p_right">
-			<div class="date">
-				<fmt:parseDate var="date" value="2024-05-24T09:25:23" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
-				<fmt:formatDate value="${date}" pattern="yyyy.MM.dd"/>
-			</div>
-			<div class="delete" onclick="delete_btn(${row.r_id})">
-				<i class="fa fa-remove"></i>
-			</div>
-		</div>
+		<div class="content">${row.contents}</div>
+		<div class="c_images" id="${row.r_id}"></div>
 	</div>
-	<div class="content">${row.contents}</div>
-	<div class="c_images" id="${row.r_id}"></div>
-</div>
+	
+	</c:forEach>
+	</c:when>
+	
+	<c:otherwise>
+	<div id="emptyB">
+		<p id="Emessage">작성한 리뷰가 없습니다.</p>
+	</div>
+	</c:otherwise>
+</c:choose>
 
-</c:forEach>
+
+
 </div>
 
 <!-- 페이지 번호 -->

@@ -44,5 +44,15 @@ public class MyPageController {
 		return "/mypage/index";
 	}
 	
+	@GetMapping("member_edit.do")
+	public String member_edit() {
+		return "/login/edit";
+	}
+	
+	@GetMapping("member_delete.do")
+	public String member_delete() {
+		return "/login/delete";
+	}
+	
 
 }
