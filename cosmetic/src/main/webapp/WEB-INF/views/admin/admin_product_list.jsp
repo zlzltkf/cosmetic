@@ -15,7 +15,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin 2 - Cards</title>
+<title>상품목록</title>
 
 <!-- Custom fonts for this template-->
 <link href="/resources/admin/vendor/fontawesome-free/css/all.min.css"
@@ -27,30 +27,42 @@
 <!-- Custom styles for this template-->
 <link href="/resources/admin/css/sb-admin-2.min.css" rel="stylesheet">
 <style type="text/css">
-.sorting sorting_asc{
-
+#emptyB {
+	background-image:
+		url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_nodata104x104.png);
+	background-repeat: no-repeat;
+	background-position: 50% 30%;
+	height: 230px;
 }
-.select{
- color: #858796;
- border: 1px solid #cccccc;
- border-radius: .35rem;
- width: 120px;
-/*  position: absolute;
+
+#emptyB #Emessage {
+	text-align: center;
+	margin: 150px 0 50px 0;
+}
+
+.select {
+	color: #858796;
+	border: 1px solid #cccccc;
+	border-radius: .35rem;
+	width: 120px;
+	/*  position: absolute;
  left: 87%;	 */
 }
-.tableBody td{
-text-align: center;
 
+/* 새로운 테이블 스타일 */
+.custom-table {
+	width: 100%;
+	font-size: 14px; /* 적절한 글꼴 크기로 조정하세요 */
 }
-.table td,.table th {
-    padding: .75rem;
-    vertical-align: top;
-    border-top: 1px solid #e3e6f0;
-    width: 30px;
+
+.custom-table th, .custom-table td {
+	padding: 8px; /* 각 셀의 내부 여백 조정 */
+	text-align: center; /* 가운데 정렬 */
 }
-.btn-outline-secondary{
-height: 29px;
-font-size: 14px;
+
+/* 번호, 수량, 판매가 셀의 너비 조정 */
+.custom-table .narrow-cell {
+	width: 88px; /* 적절한 너비 값으로 조정하세요 */
 }
 </style>
 </head>
@@ -59,9 +71,8 @@ font-size: 14px;
 function list(page) {
 	location.href = "/admin/list_product?curPage=" + page;
 }
-function click(){
-	console.log(a);
-	location.reload(true);
+function load(){
+	 location.href = "/admin/list_product?curPage=1";
 }
 
 </script>
@@ -80,21 +91,20 @@ function click(){
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
 				href="/admin/admin">
-				<div class="sidebar-brand-icon rotate-n-15">
-				</div>
+				<div class="sidebar-brand-icon rotate-n-15"></div>
 				<div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
 			</a>
 
 			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
+			<!-- <hr class="sidebar-divider my-0">
 
-			<!-- Nav Item - Dashboard -->
+			Nav Item - Dashboard
 			<li class="nav-item"><a class="nav-link" href="index.html">
 					<i></i> <span>📈 대쉬보드</span>
 			</a></li>
 
-			<!-- Divider -->
-			<hr class="sidebar-divider">
+			Divider
+			<hr class="sidebar-divider"> -->
 
 			<!-- Heading -->
 			<!--  <div class="sidebar-heading">
@@ -102,42 +112,34 @@ function click(){
             </div> -->
 
 			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item active"><a class="nav-link" href="#"
-				data-toggle="collapse" data-target="#collapseTwo"
-				aria-expanded="true" aria-controls="collapseTwo"> <i 
-					></i> <span>👤 고객관리</span>
-			</a>
-				<div id="collapseTwo" class="collapse"
-					aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" href="/admin/user_list">고객목록</a> <a
-							class="collapse-item active" href="#">고객</a>
-					</div>
-				</div></li>
+
+			<li class="nav-item"><a class="nav-link" href="/admin/user_list">
+					<i></i> <span>👤 고객관리</span>
+			</a></li>
 
 
 			<li class="nav-item"><a class="nav-link collapsed" href="#"
 				data-toggle="collapse" data-target="#collapsePages"
-				aria-expanded="true" aria-controls="collapsePages">
-				 <i></i> <span>🛍︎ 상품관리</span></a>
-				 
+				aria-expanded="true" aria-controls="collapsePages"> <i></i> <span>🛍︎
+						상품관리</span></a>
+
 				<div id="collapsePages" class="collapse"
 					aria-labelledby="headingPages" data-parent="#accordionSidebar">
 					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" href="/admin/write_product">상품등록</a> 
-						<a class="collapse-item" href="/admin/list_product">상품목록</a>
+						<a class="collapse-item" href="/admin/write_product">상품등록</a> <a
+							class="collapse-item" href="/admin/list_product">상품목록</a>
 						<div class="collapse-divider"></div>
 
 					</div>
 				</div></li>
 
 			<!-- Nav Item - Charts -->
-			<li class="nav-item"><a class="nav-link" href="/admin/order_list">
-					<i ></i> <span>📋 주문목록</span>
+			<li class="nav-item"><a class="nav-link"
+				href="/admin/order_list"> <i></i> <span>📋 주문목록</span>
 			</a></li>
-			
-			<li class="nav-item"><a class="nav-link" href="/">
-					<i ></i> <span>🖱️ 사이트로 바로가기</span>
+
+			<li class="nav-item"><a class="nav-link" href="/"> <i></i> <span>🖱️
+						사이트로 바로가기</span>
 			</a></li>
 
 
@@ -187,13 +189,11 @@ function click(){
 				<div class="container-fluid">
 
 					<!-- Page Heading -->
-					<h1 class="h3 mb-2 text-gray-800">EDEN 상품목록</h1>
+					<h1 class="h3 mb-2 text-gray-800">상품목록</h1>
 
 					<!-- DataTales Example -->
 					<div class="card shadow mb-4">
-						<div class="card-header py-3">
-							
-						</div>
+						<div class="card-header py-3"></div>
 						<div class="card-body">
 							<div class="table-responsive">
 								<div id="dataTable_wrapper"
@@ -201,80 +201,108 @@ function click(){
 									<div class="row">
 										<div class="col-sm-12 col-md-6">
 											<div class="dataTables_length" id="dataTable_length">
-										<!-- 	<form action="/admin/select_user_list" method="Get" name="form1"> -->
+												<!-- 	<form action="/admin/select_user_list" method="Get" name="form1"> -->
 												<label> <select id="category" name="ctg_big"
 													aria-controls="dataTable"
 													class="custom-select custom-select-sm form-control form-control-sm">
 														<option value="" selected disabled hidden>대분류</option>
 														<c:forEach var="row" items="${Biglist}">
-       														 <option value="${row}">${row}</option>
-    													</c:forEach></select> 
-												</label>
-												<label> <select name="ctg_small" id="subcategory" style="width: 140px;"
-													aria-controls="dataTable"
-													class="custom-select custom-select-sm form-control form-control-sm" onchange="changelist(this)">
+															<option value="${row}">${row}</option>
+														</c:forEach>
+												</select>
+												</label> <label> <select name="ctg_small" id="subcategory"
+													style="width: 140px;" aria-controls="dataTable"
+													class="custom-select custom-select-sm form-control form-control-sm"
+													onchange="changelist(this)">
 														<option value="" selected disabled hidden>소분류</option>
-														<option value="small"></option></select> 
+														<option value="small"></option>
+												</select>
 												</label>
 												<!-- </form> -->
-												
-												<button type="button" class="btn btn-outline-secondary" onClick="window.location.reload()" >전체상품</button>
+
+												<button type="button" class="btn btn-outline-secondary"
+													onClick="load()">전체상품</button>
 											</div>
-											
+
 										</div>
-										<div class="col-sm-12 col-md-6">
-   											 <div class="input-group mb-3" style="width: 300px;">
-     									   <input type="search" class="form-control form-control-sm" placeholder="상품명을 입력하세요." aria-controls="dataTable">
-       											 &nbsp;&nbsp;&nbsp;
-       										 <div class="input-group-append">
-           									 <button style="height: 32px;" class="btn btn-facebook" type="button">검색</button>
-      											  </div>
-   													 </div>
+										<div class="col-sm-12 col-md-6" style="padding-left: 56.5em;">
+											<div class="input-group mb-3" style="width: 300px;">
+												<input type="search" class="form-control form-control-sm"
+													placeholder="상품명, 옵션명을 입력해주세요. . ." id="search"
+													name="searchKeyword"> &nbsp;&nbsp;&nbsp;
+												<div class="input-group-append">
+													<button style="height: 32px;" class="btn btn-facebook"
+														type="button" id="keyword">검색</button>
+												</div>
+											</div>
 										</div>
 
 									</div>
 									<div class="row">
 										<div class="col-sm-12">
-											<table class="table table-bordered dataTable" id="dataTable"
-												width="100%" cellspacing="0" role="grid"
-												aria-describedby="dataTable_info" style="width: 100%;">
+											<table class="table table-bordered custom-table"
+												id="dataTable">
 												<thead>
-													<tr role="row">
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Office: activate to sort column ascending"
-															style="width: 50px; text-align: center;">번호</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Age: activate to sort column ascending"
-															style="width: 31px; text-align: center;">상품명</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Start date: activate to sort column ascending"
-															style="width: 50px; text-align: center;">수량</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Start date: activate to sort column ascending"
-															style="width: 50px; text-align: center;">판매가</th>
-														<th class="sorting" tabindex="0" aria-controls="dataTable"
-															rowspan="1" colspan="1"
-															aria-label="Start date: activate to sort column ascending"
-															style="width: 50px; text-align: center;">옵션현황</th>
+													<tr>
+														<th class="narrow-cell">상품번호</th>
+														<th>상품명</th>
+														<th class="narrow-cell">수량</th>
+														<th class="narrow-cell">판매가</th>
+														<th>옵션현황</th>
 													</tr>
 												</thead>
-												
-												 
-												 <tbody id="tableBody" class="tableBody">
-													 <c:forEach var="row" items="${list}">
-														<tr class="odd">
-															<td  style="text-align: center;" class="sorting_1">${row.p_id}<br></td> 
-															<td  style="text-align: center;"> ${row.p_name}</td>
-															<td  style="text-align: center;">${row.p_stock}</td>
-															<td  style="text-align: center;"><fmt:formatNumber value="${row.p_price}" pattern="##,###" /></td>
-															<td  style="text-align: center;">${row.o_name}</td>
-														</tr>
-													</c:forEach>
-												</tbody>
+												<c:choose>
+													<c:when test="${empty list}">
+														<tbody>
+															<tr>
+																<td colspan="5" id="emptyB">
+																	<p id="Emessage">상품이 없습니다.</p>
+																</td>
+															</tr>
+														</tbody>
+													</c:when>
+													<c:otherwise>
+														<tbody id="tableBody" class="tableBody">
+															<c:forEach var="row" items="${list}">
+																<tr class="odd">
+																	<td class="narrow-cell">${row.p_id}</td>
+																	<td style="width: 30%; text-align: left;">${row.p_name}</td>
+																	<td class="narrow-cell">${row.p_stock}</td>
+																	<td class="narrow-cell"><fmt:formatNumber
+																			value="${row.p_price}" pattern="##,###" /></td>
+																	<td style="width: 140px;"><select class="select"
+																		style="width: 140px;">
+																			<c:forEach var="option"
+																				items="${fn:split(row.o_name, '\\\\] ')}">
+																				<c:if test="${not empty option}">
+																					<c:set var="parts"
+																						value="${fn:split(option, '\\\\[')}" />
+																					<c:set var="value" value="${fn:trim(parts[0])}" />
+																					<c:set var="text"
+																						value="${fn:trim(parts[0])} ${fn:trim(parts[1])}" />
+																					<option value="${value}">${text}</option>
+																				</c:if>
+																			</c:forEach>
+
+
+																	</select></td>
+
+
+
+
+
+
+
+
+
+
+
+
+																</tr>
+															</c:forEach>
+														</tbody>
+													</c:otherwise>
+												</c:choose>
 											</table>
 										</div>
 									</div>
@@ -289,8 +317,10 @@ function click(){
 												<ul class="pagination">
 													<c:if test="${page_info.curPage > 1 }">
 														<li class="paginate_button page-item previous"
-															id="dataTable_previous"><a href='#' onclick="list('${page_info.curPage-1}')"  aria-controls="dataTable"
-															data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+															id="dataTable_previous"><a href='#'
+															onclick="list('${page_info.curPage-1}')"
+															aria-controls="dataTable" data-dt-idx="0" tabindex="0"
+															class="page-link">Previous</a></li>
 													</c:if>
 													<!-- 페이지 숫자 -->
 													<c:forEach var="num" begin="${page_info.blockStart}"
@@ -356,7 +386,7 @@ function click(){
 			src="/resources/admin/vendor/jquery-easing/jquery.easing.min.js"></script>
 		<!-- Custom scripts for all pages-->
 		<script src="/resources/admin/js/sb-admin-2.min.js"></script>
-		
+
 		<!--선택 옵션에 따른 리스트-->
 		<script>
 		/* function selectClicked(name){
@@ -482,7 +512,20 @@ function click(){
 	                    console.error('Error:', error);
 	                });
 	        }
-	    </script>
+	       
+	   function list(page) {
+	      var urlS = "curPage=" + page;
+	      var searchKeyword = document.getElementById("search").value;
+	      console.log(searchKeyword);
+	      if (searchKeyword) {
+	          urlS += "&searchKeyword=" + encodeURIComponent(searchKeyword); // 검색어를 URL 인코딩
+	         }
+	         location.href = "/admin/list_product?" + urlS;
+	    }
 
+	        document.getElementById("keyword").addEventListener("click", function() {
+	         list(1); // 페이지를 1로 설정하여 검색 실행
+	        });
+	    </script>
 </body>
 </html>

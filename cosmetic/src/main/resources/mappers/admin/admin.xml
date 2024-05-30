@@ -43,18 +43,19 @@
 		WHERE p_id = #{p_id}
 	</update>
 
-	<select id="user_list" resultType="com.example.cosmetic.model.member.MemberDTO">
-    SELECT userid, name, nickname, birth, address1, address2,
-    zipcode, phone, date, skin, level, point
-    FROM member
-    <where>
-        <if test="searchKeyword != null and searchKeyword != ''">
-            AND (userid LIKE CONCAT('%', #{searchKeyword}, '%') OR
-            name LIKE CONCAT('%', #{searchKeyword}, '%'))
-        </if>
-    </where>
-    LIMIT #{pageCnt} OFFSET #{start}
-</select>
+	<select id="user_list"
+		resultType="com.example.cosmetic.model.member.MemberDTO">
+		SELECT userid, name, nickname, birth, LEFT(address1, 6) AS
+		address1,phone, date, skin, level, point,email
+		FROM member
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				AND (userid LIKE CONCAT('%', #{searchKeyword}, '%') OR
+				name LIKE CONCAT('%', #{searchKeyword}, '%'))
+			</if>
+		</where>
+		LIMIT #{pageCnt} OFFSET #{start}
+	</select>
 
 
 	<!-- <select id="order_list" resultType="com.example.cosmetic.model.order.OrderDTO"> 
@@ -63,14 +64,16 @@
 
 	<!--사용자 수 -->
 	<select id="user_count" resultType="int">
-    SELECT COUNT(*)
-    FROM member
-    <where>
-        <if test="searchKeyword != null and searchKeyword != ''">
-            AND (userid LIKE CONCAT('%', #{searchKeyword}, '%') OR name LIKE CONCAT('%', #{searchKeyword}, '%'))
-        </if>
-    </where>
-</select>
+		SELECT COUNT(*)
+		FROM member
+		<where>
+			<if test="searchKeyword != null and searchKeyword != ''">
+				AND (userid LIKE CONCAT('%', #{searchKeyword}, '%') OR
+				name LIKE
+				CONCAT('%', #{searchKeyword}, '%'))
+			</if>
+		</where>
+	</select>
 
 
 
@@ -137,37 +140,48 @@
 
 	<!--소분류 번호에 따른 상품 갯수 -->
 	<select id="product_count" resultType="int">
-		SELECT COUNT(*) AS
-		total_rows
+		SELECT COUNT(*) AS total
 		FROM (
-		SELECT p_id,p_name,
-		SUM(o_amount) AS p_stock,
-		p_price AS
-		p_price,
-		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ')
-		AS o_name
-		FROM
-		product p
-		INNER JOIN product_option o ON p.p_id = o.o_p_id
-		GROUP BY
-		p_id, p_name, p_price
-		) AS subquery
+		SELECT p.p_id,
+		SUM(o.o_amount) AS
+		p_stock,
+		GROUP_CONCAT(CONCAT(o.o_name, '[', o.o_amount, ']') SEPARATOR
+		' ') AS o_name
+		FROM product p
+		JOIN product_option o ON p.p_id = o.o_p_id
+		WHERE 1=1
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND (p.p_name LIKE CONCAT('%', #{searchKeyword}, '%')
+			OR
+			o.o_name LIKE CONCAT('%', #{searchKeyword}, '%'))
+		</if>
+		GROUP BY p.p_id
+		) AS subquery;
 	</select>
 
 	<select id="product_list"
 		resultType="com.example.cosmetic.model.product.ProductDTO">
 		SELECT
-		p_id ,p_name,SUM(o_amount) AS p_stock,
-		p_price AS
+		p_id,
+		p_name,
 		p_price,
-		GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') SEPARATOR ' ')
-		AS o_name
+		p.p_stock,
+		IFNULL(GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') ORDER BY o_amount DESC SEPARATOR ' '), '옵션없음') AS
+		o_name,
+		SUM(o_amount) AS p_stock
 		FROM
 		product p
-		INNER JOIN product_option o ON p.p_id = o.o_p_id
-		GROUP BY
-		p_id, p_name, p_price
-		LIMIT #{pageCnt} OFFSET #{start}
+		LEFT JOIN
+		product_option o ON p.p_id = o.o_p_id
+
+		<if test="searchKeyword != null and searchKeyword != ''">
+			AND (p.p_name LIKE CONCAT('%', #{searchKeyword}, '%') OR
+			o.o_name LIKE
+			CONCAT('%', #{searchKeyword}, '%'))
+		</if>
+		GROUP BY p_id, p_name, p_price,p_stock
+		LIMIT #{pageCnt}
+		OFFSET #{start}
 	</select>
 
 	<insert id="insert_p_attach">
@@ -181,58 +195,20 @@
 	<select id="order_detail"
 		resultType="com.example.cosmetic.model.order.OrderDTO">
 		SELECT
-		l.orderid,
-		p.p_name,
-		o.o_name,
-		o.p_id,
-		l.orderdate,
-		l.userid,
-		l.price,
-		l.delivercost,
-		l.method,
-		l.address1,
-		l.userpoint,
-		o.orderstatus,
-		po.o_price,
-		l.totalprice,
-		m.phone,
-		o.amount AS
-		option_amount,
-		(
-		SELECT SUM(amount)
-		FROM orderitem
-		WHERE orderid =
-		l.orderid
-		) AS total_amount
-		FROM
-		orderitem o
-		JOIN
-		orderlist l ON o.orderid
-		= l.orderid
-		JOIN
-		product p ON p.p_id = o.p_id
-		JOIN
-		member m ON m.userid =
-		l.userid
-
-		LEFT JOIN
-		product_option po ON p.p_id = po.o_p_id
-		WHERE
-		l.orderid = #{orderid}
-		GROUP BY
-		l.orderid,
-		p.p_name,
-		o.o_name,
-		o.p_id,
-		o.amount,
-		l.orderdate,
-		l.userid,
-		l.price,
-		l.delivercost,
-		l.method,
-		l.address1,
-		l.userpoint,
-		o.orderstatus,
+		l.orderid,p.p_name,o.o_name,o.p_id,l.orderdate,l.userid,l.price,l.delivercost,l.method,l.address1,l.userpoint,
+		o.orderstatus,po.o_price,l.totalprice,m.phone,o.amount AS
+		option_amount,(SELECT SUM(amount)FROM orderitem WHERE orderid
+		=l.orderid) AS total_amount
+		FROM orderitem o
+		JOIN orderlist l ON
+		o.orderid = l.orderid JOIN product p ON p.p_id = o.p_id JOIN member m
+		ON m.userid = l.userid
+		LEFT JOIN product_option po ON p.p_id =
+		po.o_p_id
+		WHERE l.orderid = #{orderid}
+		GROUP BY l.orderid, p.p_name,
+		o.o_name, o.p_id, o.amount, l.orderdate, l.userid, l.price,
+		l.delivercost, l.method, l.address1, l.userpoint, o.orderstatus,
 		po.o_price
 	</select>
 

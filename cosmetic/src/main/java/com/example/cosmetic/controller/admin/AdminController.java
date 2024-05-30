@@ -127,45 +127,54 @@ public class AdminController {
 		return "admin/write_view";
 	}
 
-	// 사용자 기본 목록
-	@GetMapping("user_list")
-	public String user_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage,
+	// 상품 기본 목록
+	@GetMapping("list_product")
+	public String product_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage,
 			@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword, Model model) {
-		List<MemberDTO> list = null;
-		Map<String, Object> user = new HashMap<>();
-		user.put("searchKeyword", searchKeyword); // 검색어 추가
-		System.out.println(searchKeyword);
-		int count1 = adminDao.admin_user_count(user);
+		List<String> Biglist = adminDao.getBig();
+		List<ProductDTO> list = null;
+		// List<Map<String, Object>> list = null;
+		Map<String, Object> product = new HashMap<>();
+		product.put("searchKeyword", searchKeyword); // 검색어 추가
+		int count1 = adminDao.product_count(product);
 		PageUtil page_info = new PageUtil(count1, curPage);
 		int start = page_info.getPageBegin() - 1;
-		int pageCnt = page_info.PAGE_SCALE;
-		user.put("start", start);
-		user.put("pageCnt", pageCnt);
-		list = adminDao.user_list(user);
-
+		int pageCnt = 10;
+		product.put("start", start);
+		product.put("pageCnt", pageCnt);
+		list = adminDao.product_list(product);
+		model.addAttribute("Biglist", Biglist);
 		model.addAttribute("list", list);
 		model.addAttribute("page_info", page_info);
 		model.addAttribute("count", count1);
-		return "admin/user_list";
+		return "admin/admin_product_list";
 	}
 
-	/*
-	 * // pageCnt(보여지는 갯수)에 따른 사용자 목록
-	 * 
-	 * @GetMapping("select_user_list") public String
-	 * select_user_list(@RequestParam(name = "curPage", defaultValue = "1") int
-	 * curPage,
-	 * 
-	 * @RequestParam(name = "pageCnt", defaultValue = "5") int pageCnt, Model model)
-	 * { List<Map<String, Object>> list = null; int count = adminDao.user_count();
-	 * // 모든 회원 수 PageUtil page_info = new PageUtil(count, curPage, pageCnt); int
-	 * start = page_info.getPageBegin() - 1; list = adminDao.user_list(start,
-	 * pageCnt); model.addAttribute("list", list); model.addAttribute("page_info",
-	 * page_info); model.addAttribute("count", count); return "admin/user_list"; }
-	 */
 
+	// 사용자 기본 목록
+		@GetMapping("user_list")
+		public String user_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage,
+				@RequestParam(name = "searchKeyword", defaultValue = "") String searchKeyword, Model model) {
+			List<MemberDTO> list = null;
+			Map<String, Object> user = new HashMap<>();
+			user.put("searchKeyword", searchKeyword); // 검색어 추가
+			//System.out.println(searchKeyword);
+			int count1 = adminDao.admin_user_count(user);
+			PageUtil page_info = new PageUtil(count1, curPage);
+			int start = page_info.getPageBegin() - 1;
+			int pageCnt = page_info.PAGE_SCALE;
+			user.put("start", start);
+			user.put("pageCnt", pageCnt);
+			list = adminDao.user_list(user);
+			
+			model.addAttribute("searchKeyword", searchKeyword);
+			model.addAttribute("list", list);
+			model.addAttribute("page_info", page_info);
+			model.addAttribute("count", count1);
+			return "admin/user_list";
+		}
 
-
+	//주문 목록
 	@GetMapping("order_list")
 	public String order_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage,
 			@RequestParam(name = "f_date", defaultValue = "") String f_date,
@@ -182,35 +191,19 @@ public class AdminController {
 
 		Map<String, Object> listInfo = new HashMap<>();
 		listInfo.put("searchKeyword", searchKeyword); // 검색어 추가
-		// System.out.println(searchKeyword);
 		listInfo.put("startDate", fDate);
 		listInfo.put("endDate", lDate);
-		// System.out.println("날짜="+fDate+lDate);
 		int count1 = adminDao.admin_orderCount(listInfo);
-		// System.out.println(count1);
 		PageUtil page_info = new PageUtil(count1, curPage);
 		int start = page_info.getPageBegin() - 1;
 		int pageCnt = page_info.PAGE_SCALE;
-
 		listInfo.put("start", start);
 		listInfo.put("pageCnt", pageCnt);
-
 		list = adminDao.admin_orderlist(listInfo);
-		// System.out.println(list);
-		// 주문 상태 조회
 
-		/*
-		 * Map<Long, String> status = new HashMap<>(); for (OrderDTO order : list) {
-		 * Long orderid = order.getOrderid(); String ststus = adminDao.status(orderid);
-		 * status.put(orderid, ststus); }
-		 */
-
-		// 모델에 데이터 추가
 		model.addAttribute("list", list);
 		model.addAttribute("page_info", page_info);
 		model.addAttribute("count", count1);
-		// model.addAttribute("orderstatus", status); // 주문 상태를 모델에 추가
-		// 날짜 보내기
 		model.addAttribute("f_date", fDate.toString());
 		model.addAttribute("l_date", lDate.toString());
 		return "admin/order_list";
@@ -224,6 +217,7 @@ public class AdminController {
 	 * return "admin/admin_product_list"; }
 	 */
 
+	// 대분류에 따른 소분류 리스트
 	@GetMapping("/small_list/{ctg_small}")
 	@ResponseBody
 	public List<ProductDTO> small_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage,
@@ -235,22 +229,19 @@ public class AdminController {
 	}
 
 	// 상품 기본 목록
-	@GetMapping("list_product")
-	public String product_list(@RequestParam(name = "curPage", defaultValue = "1") int curPage, Model model) {
-		List<String> Biglist = adminDao.getBig();
-		List<Map<String, Object>> list = null;
-		int count = adminDao.product_count(); // 모든 회원 수
-		PageUtil page_info = new PageUtil(count, curPage);
-		int start = page_info.getPageBegin() - 1;
-		int pageCnt = 10;
-
-		list = adminDao.product_list(start, pageCnt);
-		model.addAttribute("Biglist", Biglist);
-		model.addAttribute("list", list);
-		model.addAttribute("page_info", page_info);
-		model.addAttribute("count", count);
-		return "admin/admin_product_list";
-	}
+	/*
+	 * @GetMapping("list_product") public String product_list(@RequestParam(name =
+	 * "curPage", defaultValue = "1") int curPage, Model model) { List<String>
+	 * Biglist = adminDao.getBig(); List<Map<String, Object>> list = null; int count
+	 * = adminDao.product_count(); // 모든 회원 수 PageUtil page_info = new
+	 * PageUtil(count, curPage); int start = page_info.getPageBegin() - 1; int
+	 * pageCnt = 10;
+	 * 
+	 * list = adminDao.product_list(start, pageCnt); model.addAttribute("Biglist",
+	 * Biglist); model.addAttribute("list", list); model.addAttribute("page_info",
+	 * page_info); model.addAttribute("count", count); return
+	 * "admin/admin_product_list"; }
+	 */
 
 	// 주문번호에 따른 상세주문내역
 	@GetMapping("/admin_order_detail/{orderid}")

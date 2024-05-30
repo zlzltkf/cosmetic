@@ -108,17 +108,15 @@ public class AdminDao {
 	public List<ProductDTO> s_list(int ctg_s_no) {
 		return sqlSession.selectList("admin.s_list", ctg_s_no);
 	}
-
-	public int product_count() {
+	
+	public int product_count(Map<String, Object> product) {
 		return sqlSession.selectOne("admin.product_count");
 	}
 
-	public List<Map<String, Object>> product_list(int start, int pageCnt) {
-		Map<String, Object> map = new HashMap<>();
-		map.put("start", start);
-		map.put("pageCnt", pageCnt);
-		return sqlSession.selectList("admin.product_list", map);
+	public List<ProductDTO> product_list(Map<String, Object> product) {
+		return sqlSession.selectList("admin.product_list", product);
 	}
+	
 
 	public void insert_p_attach(@Param("filenames") String[] filenames, @Param("p_id") int p_id) {
 		Map<String, Object> map = new HashMap<>();
@@ -132,18 +130,21 @@ public class AdminDao {
 		return sqlSession.selectList("admin.list_p_attach", p_id);
 	}
 
-	//
+	//주문목록 상세
 	public List<OrderDTO> admin_order_detail(long orderid) {
 		return sqlSession.selectList("admin.order_detail", orderid);
 
 	}
 	
+	//주문 목록
 	public  List<OrderDTO> admin_orderlist(Map<String, Object> map) {
 		return sqlSession.selectList("admin.admin_orderlist", map);
 	}
 	
+	//주문 갯수
 	public int admin_orderCount(Map<String, Object> map) {
 		return sqlSession.selectOne("admin.admin_orderCount", map);
 	}
+
 	
 }

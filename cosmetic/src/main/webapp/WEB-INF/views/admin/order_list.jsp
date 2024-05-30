@@ -147,34 +147,26 @@
 			</a>
 
 			<!-- Divider -->
-			<hr class="sidebar-divider my-0">
+			<!-- <hr class="sidebar-divider my-0">
 
-			<!-- Nav Item - Dashboard -->
+			Nav Item - Dashboard
 			<li class="nav-item"><a class="nav-link" href="index.html">
 					<i></i> <span>📈 대쉬보드</span>
 			</a></li>
 
-			<!-- Divider -->
+			Divider
 			<hr class="sidebar-divider">
-
+ -->
 			<!-- Heading -->
 			<!--  <div class="sidebar-heading">
                 Interface
             </div> -->
 
 			<!-- Nav Item - Pages Collapse Menu -->
-			<li class="nav-item active"><a class="nav-link" href="#"
-				data-toggle="collapse" data-target="#collapseTwo"
-				aria-expanded="true" aria-controls="collapseTwo"> <i></i> <span>👤
-						고객관리</span>
-			</a>
-				<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
-					data-parent="#accordionSidebar">
-					<div class="bg-white py-2 collapse-inner rounded">
-						<a class="collapse-item" href="/admin/user_list">고객목록</a> <a
-							class="collapse-item active" href="#">고객</a>
-					</div>
-				</div></li>
+			
+				<li class="nav-item"><a class="nav-link"
+				href="/admin/user_list"> <i></i> <span>👤 고객관리</span>
+			</a></li>
 
 
 			<li class="nav-item"><a class="nav-link collapsed" href="#"
@@ -237,7 +229,7 @@
 							role="button" data-toggle="dropdown" aria-haspopup="true"
 							aria-expanded="false"> <span
 								class="mr-2 d-none d-lg-inline text-gray-600 small">EDEN
-									관리자 🧑🏻‍💼</span> <img class="img-profile rounded-circle"
+									관리자</span> <img class="img-profile rounded-circle"
 								src="/resources/admin/img/undraw_profile.svg">
 						</a></li>
 					</ul>
