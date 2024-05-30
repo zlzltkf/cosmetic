@@ -23,6 +23,7 @@ public class ReviewDTO {
 	private String nickname;
 	private String r_contents;
 	private Date r_date;
+	private int r_rate;
 	
 	//첨부파일
 	private MultipartFile[] files;

@@ -364,7 +364,7 @@ $(document).ready(function() {
 </div>
 </div>
 				 
-				<!--이미지 슬라이더
+				<!--이미지 슬라이더 -->
 				<div class="left_area">
 				
 					<div class="p_img">
@@ -558,7 +558,7 @@ $(document).ready(function() {
 	<!-- 밑 컨텐츠 칸의 id와 일치해야함 -->
     <li class="selected"><a href="#description" data-bs-toggle="tab" aria-selected="true">상품 설명</a></li>
     <li><a href="#review" data-bs-toggle="tab">상품 리뷰</a></li>
-    <li><a href="#qna" data-bs-toggle="tab">Q&A</a></li>
+   <!--  <li><a href="#qna" data-bs-toggle="tab">Q&A</a></li> -->
 </ul>
 </div>
 
@@ -638,7 +638,7 @@ function loadProductOptions(p_id) {
 
             if (!hasOption) {
                 $(".p_dropdown").hide();
-               var selectedOptionText = $(this).text();
+                var selectedOptionText = $(this).text();
                 
                 // 초기 합계금액 설정
                 $("#product_price").text(optionPrice);
@@ -653,7 +653,7 @@ function loadProductOptions(p_id) {
                 row += '<div style="display:none;">'
                 //row += selectedOptionText + ' - 가격: ' + optionPrice;  // 초기 합계금액으로 설정
                 row += '<div class="option_text">' + selectedOptionText; + '</div>';
-                //row += '<div class="option_price">' + optionPrice +' 원';
+                row += '<div class="option_price">' + optionPrice +' 원';
                 row += '</div>';
                 row += '</div>';
                 row += '</div>';
@@ -755,10 +755,11 @@ function updateTotalPrice() {
             console.log(quantity);
             console.log(price);
             console.log(totalPrice);
-        }
     });
     $("#product_price").text(totalPrice.toLocaleString());
 }
+
+
 </script>
 
 
@@ -875,7 +876,8 @@ function updateTotalPrice() {
     }
 
     .ec-base-tab .menu {
-        margin: 0 0 20px;
+    	width: 100%;
+        margin: 0 0 20px 0;
         border: 1px solid #cbcdce;
         border-bottom-color: #202020;
         border-left: 0;
@@ -892,12 +894,13 @@ function updateTotalPrice() {
     }
 
     .ec-base-tab .menu li {
-        float: left;
-        border-left: 1px solid #cbcdce;
+    	width: 100%;
+    	border-left: 1px solid #cbcdce; 
         background: #f2f2f2;
     }
 
     .ec-base-tab .menu li a {
+   
         display: block;
         min-width: 187px;
         margin: 0 0 0 -1px;
@@ -953,6 +956,7 @@ function updateTotalPrice() {
     }
 
     .ec-base-tab[class*="grid"] .menu li {
+    	width: 100%;
         float: none;
         display: table-cell;
         vertical-align: middle;
@@ -986,7 +990,7 @@ function updateTotalPrice() {
     }
 
     .ec-base-tab.grid3 .menu li {
-        width: 34%;
+        
     }
 </style>
 
@@ -1027,15 +1031,10 @@ function cart_insert() {
     $(".p_select_option").each(function() {
     	var optionText = $(this).find(".option_text").text(); // 옵션 텍스트 가져오기
         var optionName = optionText.trim(); // 옵션명 공백 제거
-        console.log('옵션이름='+optionName);
-        
-       // var priceText = $(this).find(".option_price").text(); // 가격 텍스트 가져오기
-        //console.log('옵션가격='+optionText);
-        //var priceMatch = /(\d+)/.exec(priceText); // 가격 정보 추출
-        //var price = parseFloat(priceMatch[1]); // 가격 변환
-        //console.log('옵션가격을 숫자로='+price);
+        var priceText = $(this).find(".option_price").text(); // 가격 텍스트 가져오기
+        var priceMatch = /(\d+)/.exec(priceText); // 가격 정보 추출
+        var price = parseFloat(priceMatch[1]); // 가격 변환
         var quantity = parseInt($(this).find(".quantity-input").val()); // 수량 가져오기
-        console.log('수량='+quantity);
         selectedOptions.push({ o_name: optionName, amount: quantity });
     });
 

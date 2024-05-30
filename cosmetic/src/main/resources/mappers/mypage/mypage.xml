@@ -20,13 +20,17 @@
 	</select>
 	
 	<select id="zzim_count" resultType="int">
-		SELECT COUNT(*) FROM zzim
-		WHERE userid = #{userid}
+		SELECT COUNT(*)
+		FROM zzim z, product p
+		WHERE z.p_id = p.p_id
+		and userid = #{userid}
 	</select>
 	
 	<select id="review_count" resultType="int">
-		SELECT COUNT(*) FROM review
-		WHERE userid = #{userid}
+		SELECT COUNT(*)
+		FROM review r, product p
+		WHERE r.p_id = p.p_id
+		and userid = #{userid}
 	</select>
 	
 </mapper>

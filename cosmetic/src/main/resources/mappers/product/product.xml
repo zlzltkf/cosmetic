@@ -48,6 +48,7 @@
     from product p, ctg c, delivery d, p_attach a
     where p_cate = ctg_s_no
     and p_delivery = d_num
+    <!-- and p.p_id = a.p_id -->
     and p_cate = #{no}
     <choose>
         <when test="order == 'best'">

@@ -25,7 +25,7 @@ $(document).ready(function() {
         method: 'GET',
         data: { p_id: p_id },
         success: function(data) {
-            var reviewList = ''; 
+        	var reviewList = ''; 
 
             data.forEach(function(review) {
                 reviewList += 
@@ -34,25 +34,41 @@ $(document).ready(function() {
                     '<li>' +
                     '<div class="info">' +
                     '<div class="user">' +
+                    '<div class="imgB">' +
                     '<a href="#">' +
                     '<div class="thum">' +
                     '<span class="bg"></span>' +
                     '<img src="https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg">' + 
                     '</div>' +
                     '</a>' +
+                    
+                    '<div class="u_info">' +
+                    
                     '<p class="info_user"><a>' + review.nickname + '</a></p>' +
-                    '<p class="tag">' +
+                    
+                    /* '<p class="tag">' +
                     '<span>지성</span>' +
                     '<span>쿨톤</span>' +
                     '<span>여드름</span>' +
                     '<span>탄력</span>' +
-                    '</p>' +
+                    '</p>' + */
+                    
+                    '</div>' +
+                    '</div>' +
                     '</div>' +
                     '</div>' +
                     '<div class="review_contents">' +
                     '<div class="score_area">' +
                     '<span class="review_point">' +
-                    '<span class="point" style="width: 100%"></span>' +
+                    '<span class="point" style="width: 100%" value="' + review.r_rate + '">' +
+                    
+                    '<i class="fa fa-star"></i>' + 
+                    '<i class="fa fa-star"></i>' + 
+                    '<i class="fa fa-star"></i>' + 
+                    '<i class="fa fa-star"></i>' + 
+                    '<i class="fa fa-star"></i>' + 
+                    
+                    '</span>' +
                     '</span>' +
                     '<span class="date">' + formatDate(review.r_date) + '</span>' +
                     '</div>' +
@@ -65,11 +81,11 @@ $(document).ready(function() {
                     '</ul>' +
                     '</div>' +
                     /* '<p class="txt_beauty">※ 해당 리뷰는 원칙적으로 기본 상품이 동일한 단품 사용 후 작성된 것이며, 개별 상품에 따라 용량 내지 일부 구성(1+1, 기획상품 등)이 상이할 수 있음을 안내드립니다.</p>' + */
-                    '<div class="like_area">이 리뷰가 도움이 돼요!' +
+                    /* '<div class="like_area">이 리뷰가 도움이 돼요!' +
                     '<button type="button" class="btn_like">' +
                     '<span></span>' +
                     '</button>' +
-                    '</div>' +
+                    '</div>' + */
                     '</div>' +
                     '</li>' +
                     '</ul>' +
@@ -95,6 +111,7 @@ $(document).ready(function() {
             });
 
             $('#review_list').append(reviewList); 
+            setRatingStars();
         },
         error: function(xhr, status, error) {
             console.error('리뷰를 불러오는 중 오류 발생:', error);
@@ -269,8 +286,34 @@ a, address, blockquote, body, dd, div, dl, dt, em, fieldset, form, h1, h2, h3, h
 	box-sizing: border-box;
 	font-family: 'Montserrat', sans-serif;
 }
-
+.head_title {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+#r_header {
+	display: flex;
+	flex-direction: row;
+	border-bottom: 1px solid #ccc;
+	padding: 10px 0;
+	justify-content: space-between;
+	width: 80%;
+}
+#r_header h2 {
+	font-size: 2.5em;
+}
+#r_header button {
+	background-color: white;
+	border-radius: 20px;
+	padding: 5px 20px;
+	border: 1px solid #333;
+}
+#r_header button:hover {
+	background-color: black;
+	color: white;
+}
 .review_container {
+	margin: 0 10%;
 }
 
 .review_list {
@@ -288,7 +331,10 @@ ol, ul{
 .review_list .inner_list>li {
 	display: flex;
 	flex-direction: row;
-    padding: 30px 0;
+    padding: 10px 20px 10px 10px;
+    margin: 30px 0;
+    border: 1px solid #ccc;
+    border-radius: 20px;
 }
 
 /* 리뷰 유저쪽 */
@@ -299,29 +345,53 @@ ol, ul{
 }
 
 .info{
-	flex: 0 0 255px;
-	padding: 30px 0;
+	flex: 0 0 190px;
+	margin: 30px 0;
+	/* border-right: 1px solid #ccc; */
+}
+.review_list .info .user {
+	width: 100%;
+	height: 100%;
 }
 
 .review_contents {
     flex: 1;
     padding-left: 30px;
+    /* border: 1px solid black; */
+}
+
+.inner_list .info .user .imgB {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+	margin: 0 10px;
+}
+.inner_list .u_info {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin: 0 5px;
 }
 
 .inner_list .info .user .thum{
-	float: left;
+	/* float: left; */
     position: relative;
     width: 60px;
     height: 60px;
     margin: 0;
+    /* border: 1px solid black; */
 }
 
 .inner_list .info .user .thum img {
     width: 60px;
     height: 60px;
+    /* border: 1px solid black; */
 }
 
 .inner_list .info .user .thum .bg {
+	/* border: 1px solid black; */
     position: absolute;
     top: 0;
     left: 0;
@@ -338,12 +408,13 @@ ol, ul{
     font-size: 12px;
     line-height: 14px;
     color: #757d86;
+    /* border: 1px solid black; */
 }
 
 .review_list .inner_list .info .user .info_user {
     overflow: hidden;
     width: 80px;
-    margin-left: 11px !important;
+    /* border: 1px solid black; */
 }
 
 .review_list .inner_list .info .user .tag span, .review_list .inner_list .info .user .topreview_N2 span {
@@ -354,6 +425,7 @@ ol, ul{
     line-height: 14px;
     color: #757d86;
     float: left;
+    /* border: 1px solid black; */
 }
 
 /* 리뷰 컨텐츠쪽 */
@@ -362,38 +434,53 @@ ol, ul{
     margin-left: 10px;
     padding: 30px 0;
     bottom: 10px;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 .review_list .inner_list>li>.review_contents .txt_inner {
     color: #555;
     line-height: px;
-    float: left;
-    margin-bottom: 20px;
+     margin-bottom: 20px;
+    border-top: 1px solid #ccc;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
 }
 .review_list .inner_list>li>.review_contents .txt_inner .subject {
     color: #555;
-    line-height: px;
     font-weight: 600;
+    /* border: 1px solid black; */
 }
 .review_list .inner_list>li>.review_contents .txt_inner .contents {
     color: #555;
-    line-height: px;
+    /* border: 1px solid black; */
+    text-align: left;
 }
 
 .score_area {
     min-height: 20px;
-    margin-bottom: 35px;
-    margin-top: 20px;
+    margin: 0 0 10px 0;
+    padding: 0 10px;
+    /* border: 1px solid black; */
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 }
 
 .inner_list .review_point {
+/* border: 1px solid black; */
     float: left;
-    width: 112px;
+    width: 125px;
     height: 20px;
-    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point_new_off.png) 0 0 / 112px auto no-repeat;
+    /* background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point_new_off.png) 0 0 / 112px auto no-repeat; */
 }
 
 .score_area .date {
+/* border: 1px solid black; */
     margin-left: 15px;
     font-size: 16px;
     line-height: 24px;
@@ -401,12 +488,30 @@ ol, ul{
 }
 
 .inner_list .review_thum {
-    padding: 0;
-    margin-bottom: 15px;
-    border-bottom: 0;
+	/* border: 1px solid black; */
+    padding: 10px ;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    overflow-x: scroll;
+    overflow-y: 0;
+}
+.review_thum::-webkit-scrollbar-track
+{
+	background-color: #F5F5F5;
+}
+.review_thum::-webkit-scrollbar
+{
+	height: 7px;
+	background-color: #656565;
+}
+.review_thum::-webkit-scrollbar-thumb
+{
+	border-radius: 8px;
+	background-color: #a8a8a8;
 }
 
 .like_area {
+/* border: 1px solid black; */
     margin-top: 20px;
     float: left;
     padding-left: 0;
@@ -419,6 +524,7 @@ ol, ul{
 }
 
 .like_area .btn_like {
+/* border: 1px solid black; */
     padding-left: 0;
     background: 0 0;
     color: #333;
@@ -429,6 +535,7 @@ ol, ul{
 }
 
 .like_area .btn_like {
+/* border: 1px solid black; */
     height: 32px;
     padding-left: 39px;
     border: none;
@@ -437,6 +544,7 @@ ol, ul{
 }
 
 .like_area .btn_like span {
+/* border: 1px solid black; */
     position: relative;
     display: inline-block;
     margin-left: -34px;
@@ -451,32 +559,41 @@ ol, ul{
      background: url("https://static.oliveyoung.co.kr/pc-static-root/image/product/icon_recom_new.png") 0 1px/17px auto no-repeat;
 }
 
-.inner_list .review_point {
-    float: left;
-    width: 112px;
+.inner_list .review_point .point {
+/* border: 1px solid black; */
     height: 20px;
-    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point_new_off.png) 0 0 / 112px auto no-repeat;
+    width: 100%;
 }
 
-.inner_list .review_point .point {
-    height: 20px;
-    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_review_point_new_on.png) 0 0 / 112px auto no-repeat;
+.review_point .point i {
+	color: #e5e5e5;
+    font-size: 1.1em;
+    padding: 0 3px;
 }
 
 .inner_list .review_thum ul.inner {
-    margin-left: -5px;
-    width: calc(100% + 5px);
-    display: -webkit-flex;
-    display: -ms-flex;
+/* border: 1px solid black; */
+    /* width: calc(100% + 5px); */
+    /* display: -webkit-flex;
+    display: -ms-flex; */
     display: flex;
-    height: 165px;
+/*     height: 165px; */
+    width: 100%;
+    align-items: center;
+    justify-content: flex-start;
+    
 }
 
 .inner_list .review_thum ul.inner li a>span {
-    display: block;
+/* border: 1px solid black; */
+    display: flex;
+    align-items: center;
+    justify-content: center;
     position: relative;
     width: 165px;
     height: 165px;
+    border: 1px solid #ccc;
+    margin: 0 2px;
 }
 
 .txt_beauty {
@@ -488,9 +605,12 @@ ol, ul{
 <body data-spy="scroll" data-target=".navbar-collapse">
 	
 	<div class="head_title text-center">
+		<div id="r_header">
 		<h2>상품리뷰</h2> 
 		
 		<button type="button" id="btnOpenModal">리뷰 등록</button>
+		</div>
+		
 		
 		<!-- 리뷰 리스트 -->
 		<div class="review_container">
@@ -504,14 +624,22 @@ ol, ul{
     <span class="close">&times;</span>
     <h3 style="text-align: left;">리뷰 작성</h3>
     <hr style="border: 1.5px solid black;">
-    p_id: ${dto.p_id}
     
-   
-    <!--  -->
+	<!--  -->
     <form id="reviewForm" name="reviewForm" method="post" enctype="multipart/form-data">
      <input type="hidden" name="p_id" value="${dto.p_id}"> 
       <h5 style="font-weight: bold; text-align: left;">솔직한 리뷰를 남기세요!</h5>
-      <div style="width: 900px; border: 1px solid gray; text-align: left;">
+      <span class="Mpoint" style="width: 100%">
+                    
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i> 
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      
+      </span>
+      <input type="hidden" name="rate">
+      <div style=" border: 1px solid gray; text-align: left;">
         <textarea rows="5" cols="80" id="r_contents" name="r_contents" placeholder="꿀팁 가득, 상세한 리뷰를 작성해보세요!"></textarea>
       </div>
     
@@ -521,12 +649,24 @@ ol, ul{
         <input type="file" name="files" multiple="multiple" id="fileInput">
       	<div id="file_box"></div>
       
-       <button type="button" class="out">닫기</button>
       <button type="button" onclick="submit_good()">등록</button>
+       <button type="button" class="out">닫기</button>
     </form>
    
     
     <script type="text/javascript">
+    /* 리뷰 별점 */
+    $(document).ready(function() {
+		  $('.Mpoint>i').click(function() {
+		    $(this).siblings().removeClass('on'); 
+		    $(this).addClass('on').prevAll('i').addClass('on'); 
+		    
+		    var rating = $(this).siblings('.on').length + 1;
+		    $('input[name="rate"]').val(rating);
+		  });
+		  
+	});
+    
     function submit_good() {
     	let reviewForm = $("#reviewForm");
     	let r_subject = $("#r_subject").val();
@@ -546,6 +686,20 @@ ol, ul{
     	document.reviewForm.action="/review/insert";
     	document.reviewForm.submit();
     	
+    }
+    
+    function setRatingStars() {
+    	$('.point').each(function() {
+		    var rating = $(this).attr('value'); 
+		    $(this).children('i').each(function(index) {
+		    	if (index < rating) {
+		            $(this).addClass('on'); 
+		            $(this).css('color', '#f3cc00'); 
+		          } else {
+		            $(this).css('color', '');
+		          }
+		    });
+		  });
     }
     </script>
     
@@ -594,11 +748,40 @@ ol, ul{
     background-color: rgba(0,0,0,0.4);
     padding-top: 60px;
 }
+.modal-content h5 {
+	margin: 5px 0;
+}
+#r_contents {
+	padding: 10px;
+	width: 100%;
+}
+.Mpoint {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	margin: 10px 0;
+	cursor: pointer;
+}
+
+.Mpoint i {
+	color: #e5e5e5;
+    font-size: 1.5em;
+    padding: 0 3px;
+}
+
+.Mpoint .on {
+	color: #f3cc00;
+}
 
 .gallery {
     display: flex;
     flex-wrap: wrap;
     justify-content: center; /* 가운데 정렬 */
+}
+
+#fileInput {
+	padding: 10px 0;
 }
 
 .upload-box {
@@ -664,7 +847,7 @@ ol, ul{
     }
   </style>
   
-		
+
 		
 		
 		

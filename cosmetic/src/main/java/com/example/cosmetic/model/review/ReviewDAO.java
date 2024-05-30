@@ -50,7 +50,10 @@ public class ReviewDAO {
 	}
 	
 	public void insert_attach(@Param("filenames") String[] filenames, @Param("userid") String userid, @Param("r_id") int r_id) {
-	    Map<String, Object> map = new HashMap<>();
+	    
+		
+		
+		Map<String, Object> map = new HashMap<>();
 
 //	    String[] arr = new String[filenames.length];
 //	    for (int i = 0; i < filenames.length; i++) {
@@ -62,7 +65,12 @@ public class ReviewDAO {
 //	        }
 //	    }
 
-	    map.put("filenames", filenames);
+		if (filenames != null) {
+			map.put("filenames", filenames);
+		} else {
+			map.put("filenames", "");
+		}
+	    
 	    map.put("userid", userid);
 	    map.put("r_id", r_id);
 	    sqlSession.insert("review.insert_attach", map);

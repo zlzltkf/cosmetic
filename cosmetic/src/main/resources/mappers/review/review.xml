@@ -5,7 +5,7 @@
 	<!-- 리뷰 테이블 -->
 	
 	<select id="review_list" resultType="com.example.cosmetic.model.review.ReviewDTO">
-	select r_id, p_id, r_contents, r_date, m.userid, m.nickname
+	select r_id, p_id, r_contents, r_date, r_rate, m.userid, m.nickname
 	from member m, review r
 	where m.userid=r.userid and p_id=#{p_id}
 	order by r_id desc, r_date desc
@@ -28,7 +28,7 @@
    </select>
 	
 	<insert id="review_insert">
-	insert into review(p_id, userid, r_contents, r_date) values(#{p_id},#{userid}, #{r_contents}, now())
+	insert into review(p_id, userid, r_contents, r_date, r_rate) values(#{p_id},#{userid}, #{r_contents}, now(), #{r_rate})
 	</insert>
 	
 

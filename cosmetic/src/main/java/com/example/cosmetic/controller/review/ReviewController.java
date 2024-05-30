@@ -81,9 +81,12 @@ public class ReviewController {
 		 
 		 
 		 @PostMapping("insert")
-		 public String writeReview(@RequestParam(name="p_id")int p_id,
-				 
-				 ReviewDTO dto,@RequestParam(name="file") String[] file,HttpSession session) {
+		 public String writeReview(
+				 @RequestParam(name = "rate") int rate,
+				 @RequestParam(name="p_id")int p_id,
+				 ReviewDTO dto,
+				 @RequestParam(name="file", required = false) String[] file,
+				 HttpSession session) {
 
 		     // 세션에서 사용자 ID 가져오기
 		     String userid = (String) session.getAttribute("userid");
@@ -94,12 +97,13 @@ public class ReviewController {
 		     }
 		     dto.setP_id(p_id);
 		     dto.setUserid(userid);
+		     dto.setR_rate(rate);
 		     //System.out.println("아이디"+userid);
 		     //System.out.println("디티오"+dto);
 		     reviewService.insertReview(dto,file);
 
 		     // 리뷰 등록 후 리다이렉트할 페이지 설정
-		     return "redirect:/";
+		     return "redirect:/product/detail/" + p_id;
 		 }
 
 		 
