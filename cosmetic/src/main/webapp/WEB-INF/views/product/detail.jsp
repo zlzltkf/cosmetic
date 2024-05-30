@@ -605,9 +605,6 @@ $(document).ready(function() {
     
 <script>
 
-function cart_insert() {
-	window.location.href = '/cart/insert';
-}
 
 $(document).ready(function() {
     let p_id = '${dto.p_id}';
@@ -641,7 +638,7 @@ function loadProductOptions(p_id) {
 
             if (!hasOption) {
                 $(".p_dropdown").hide();
-                var selectedOptionText = $(this).text();
+               var selectedOptionText = $(this).text();
                 
                 // 초기 합계금액 설정
                 $("#product_price").text(optionPrice);
@@ -656,7 +653,7 @@ function loadProductOptions(p_id) {
                 row += '<div style="display:none;">'
                 //row += selectedOptionText + ' - 가격: ' + optionPrice;  // 초기 합계금액으로 설정
                 row += '<div class="option_text">' + selectedOptionText; + '</div>';
-                row += '<div class="option_price">' + optionPrice +' 원';
+                //row += '<div class="option_price">' + optionPrice +' 원';
                 row += '</div>';
                 row += '</div>';
                 row += '</div>';
@@ -762,8 +759,6 @@ function updateTotalPrice() {
     });
     $("#product_price").text(totalPrice.toLocaleString());
 }
-
-
 </script>
 
 
@@ -1032,11 +1027,16 @@ function cart_insert() {
     $(".p_select_option").each(function() {
     	var optionText = $(this).find(".option_text").text(); // 옵션 텍스트 가져오기
         var optionName = optionText.trim(); // 옵션명 공백 제거
-        var priceText = $(this).find(".option_price").text(); // 가격 텍스트 가져오기
-        var priceMatch = /(\d+)/.exec(priceText); // 가격 정보 추출
-        var price = parseFloat(priceMatch[1]); // 가격 변환
+        console.log('옵션이름='+optionName);
+        
+       // var priceText = $(this).find(".option_price").text(); // 가격 텍스트 가져오기
+        //console.log('옵션가격='+optionText);
+        //var priceMatch = /(\d+)/.exec(priceText); // 가격 정보 추출
+        //var price = parseFloat(priceMatch[1]); // 가격 변환
+        //console.log('옵션가격을 숫자로='+price);
         var quantity = parseInt($(this).find(".quantity-input").val()); // 수량 가져오기
-        selectedOptions.push({ o_name: optionName, p_price: price, amount: quantity });
+        console.log('수량='+quantity);
+        selectedOptions.push({ o_name: optionName, amount: quantity });
     });
 
     // 선택한 상품 정보를 서버로 전송

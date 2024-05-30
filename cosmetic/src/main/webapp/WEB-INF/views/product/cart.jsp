@@ -457,20 +457,27 @@ select:focus {
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
 						<td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						
-						<c:if test="${row.o_name != '없음'}">
+						<c:choose>
+						<c:when test="${row.o_name eq '없음'}">
+						<select style="display: none;" name="o_name" class="o_name_btn">
+          					  <option value="">옵션 변경</option>
+            <!-- 여기에 옵션 목록 추가 -->
+       					 </select>
+						</c:when>
+						
+						<c:otherwise>
     					<span>옵션| ${row.o_name}</span>
-    					
-    					<input type="hidden" name="option_txt" value="${row.o_name}"> <!-- 주문 테이블로 보낼 옵션 -->
-    					
     					<form id="updateForm${row.c_id}" method="post" action="/cart/o_name_update">
         				<select name="o_name" class="o_name_btn">
           					  <option value="">옵션 변경</option>
             <!-- 여기에 옵션 목록 추가 -->
        					 </select>
-       				 <input type="hidden" name="c_id" value="${row.c_id}">
+       					 
+       					  <input type="hidden" class="previous_option" value="${row.o_name}"> <!-- 이전 옵션을 hidden input으로 추가 -->
+       				 	<input type="hidden" name="c_id" value="${row.c_id}">
     					</form>
-						</c:if>
-
+						</c:otherwise>
+						</c:choose>
 						<!-- <span class="icon_flag sale">세일</span> -->
 						</td>
 						<td style="text-align: center; font-weight:bolder; border-left:2px solid whitesmoke; "><span><fmt:formatNumber type="number" value="${row.p_price}" pattern="#,###"></fmt:formatNumber>원</span><input type="hidden" name="p_o_price" value="${row.p_price}"></td>
@@ -616,31 +623,35 @@ $(document).ready(function() {
 
     // select 요소 변경 시 이벤트
     $(document).on('change', '.o_name_btn', function() {
-        // 선택된 옵션 값을 가져옵니다.
-        var selectedOption = $(this).val();
-        
-        // 해당 select 요소의 부모 요소에서 c_id 값을 가져옵니다.
+        var o_name = $(this).val();
+        console.log(o_name);
         var c_id = $(this).closest('form').find('input[name="c_id"]').val();
-        
-        // AJAX 요청을 통해 서버에 해당 제품의 옵션 정보를 업데이트합니다.
-        $.ajax({
-            url: '/cart/o_name_update', // 서버에서 옵션 정보를 업데이트할 경로
-            type: 'POST',
-            data: {
-                o_name: selectedOption, // 선택된 옵션 값
-                c_id: c_id // 해당 제품의 c_id 값
-            },
-            success: function(response) {
-                console.log('옵션 업데이트 성공');
-                alert('옵션이 변경 되었습니다.');
-                location.reload();
-                // 여기에 성공 시 수행할 작업 추가
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX 오류: ' + status + ', ' + error); // 오류 발생 시 콘솔에 표시
-            }
-        });
+        console.log(c_id);
+        var previousOption = $(this).closest('tr').find('.previous_option').val();
+        console.log(previousOption);
+
+        // 이전 옵션과 새로운 옵션이 같지 않은 경우에만 서버로 전송
+        if (o_name !== previousOption) {
+            $.ajax({
+                url: '/cart/o_name_update', // 새로운 옵션을 업데이트할 경로
+                type: 'POST',
+                data: JSON.stringify({ 'o_name': o_name, 'c_id': c_id }),
+                contentType: 'application/json',
+                success: function(response) {
+                	if (response.status == 'success') {
+                		alert('옵션이 변경 되었습니다.');
+                        location.reload();
+                	}
+                },
+                error: function(xhr, status, error) {
+                    console.error('AJAX 오류: ' + status + ', ' + error);
+                }
+            });
+        } else {
+            alert('변경된 내용이 없습니다.');
+        }
     });
+
 });
 
 $(document).ready(function() {
@@ -677,11 +688,12 @@ $(document).ready(function() {
 	   
 	   //수량을 input에 담기
 	   $(".AmountSelect").each(function () {
-		   var selectedValue = $(this).val();
+           var selectedValue = $(this).val();
+           console.log(selectedValue);
            $(this).siblings(".amount-hidden").val(selectedValue);
        });
 	   
-	   var form = document.forms["form1"];
+	  var form = document.forms["form1"];
 	   form.method = "post";
 	   form.action = "/order/orderform.do";
 	   form.submit();
@@ -703,11 +715,7 @@ $(document).ready(function() {
        var p_order_id = $row.find("input[name='p_order_id']").val();
        var amount = $row.find("input[name='amount']").val();
        var p_o_price = parseInt($row.find("input[name='p_o_price']").val());
-       var option = $row.find("input[name = 'option_txt']").val().trim();
-       if (/\d/.test(option)) { // 숫자가 있는지 확인하는 정규표현식
-    	    option = "";
-    	} 
-		console.log(option);
+
        var delfee = p_o_price >= 30000 ? 0 : 2500;
        var totalPrice = p_o_price + delfee;
        
@@ -715,7 +723,6 @@ $(document).ready(function() {
        
         // 새로운 데이터 추가
        formData.append('cart_id', cart_id);
-       formData.append('option', option); 
        formData.append('p_order_id', p_order_id);
        formData.append('amount', amount);
        formData.append('p_o_price', p_o_price); 
@@ -729,7 +736,6 @@ $(document).ready(function() {
            input.setAttribute("name", pair[0]);
            input.setAttribute("value", pair[1]);
            formElement.appendChild(input);
-           console.log(pair[0], pair[1]);
        } 
 
        formElement.method = "post";

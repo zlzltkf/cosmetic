@@ -58,10 +58,6 @@
 	</select>
 
 
-	<!-- <select id="order_list" resultType="com.example.cosmetic.model.order.OrderDTO"> 
-		select orderid, userid, orderdate, totalprice, method from orderlist order 
-		by orderdate LIMIT #{pageCnt} OFFSET #{start} </select> -->
-
 	<!--사용자 수 -->
 	<select id="user_count" resultType="int">
 		SELECT COUNT(*)
@@ -118,8 +114,6 @@
 		select orderid from orderlist
 	</select>
 
-	<!-- <select id="status" resultType="String"> select distinct orderstatus 
-		from orderitem where orderid = #{orderid} </select> -->
 	<select id="s_no" resultType="java.lang.Integer">
 		select ctg_s_no from ctg where
 		ctg_small = #{ctg_small}
@@ -159,6 +153,7 @@
 		) AS subquery;
 	</select>
 
+<!--상품 목록-->
 	<select id="product_list"
 		resultType="com.example.cosmetic.model.product.ProductDTO">
 		SELECT
@@ -191,6 +186,10 @@
 			(#{file_name}, #{p_id})
 		</foreach>
 	</insert>
+	
+	<select id="list_p_attach" resultType="String">
+	SELECT save_name WHERE p_id = #{p_id}
+	</select>
 
 	<select id="order_detail"
 		resultType="com.example.cosmetic.model.order.OrderDTO">
@@ -236,7 +235,6 @@
 			l.orderid IN (SELECT i.orderid FROM orderitem i WHERE i.orderid LIKE
 			CONCAT('%', #{searchKeyword}, '%')))
 		</if>
-
 	</select>
 
 	<!-- 주문 목록 출력 -->
