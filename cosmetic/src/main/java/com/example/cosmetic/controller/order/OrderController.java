@@ -101,7 +101,7 @@ public class OrderController {
 			// 이미지, 상품명, 상품가격
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
 			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
-			//System.out.println("원본="+file_name);
+			
 			String split_str = "src/main/webapp";
 			String[] parts = file_name.split(split_str);
 			if (parts.length > 1) {
@@ -109,7 +109,7 @@ public class OrderController {
 			} else {
 			    file_name = parts[0];
 			}
-			//System.out.println("replace="+file_name);
+			
 			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 			// 정보를 map으로 합치기
 			Map<String, Object> map = new HashMap<>();
@@ -184,7 +184,7 @@ public class OrderController {
 			//p_id값으로 상품정보 가져오기 //이미지, 상품명, 상품가격 
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name"); 
 			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
-			//System.out.println("원본="+file_name);
+			
 			String split_str = "src/main/webapp";
 			String[] parts = file_name.split(split_str);
 			if (parts.length > 1) {
@@ -192,7 +192,7 @@ public class OrderController {
 			} else {
 			    file_name = parts[0];
 			}
-			//System.out.println("replace="+file_name);
+			
 			  int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 			  
 			  //정보를 map으로 합치기 
@@ -252,7 +252,6 @@ public class OrderController {
 			@RequestParam(name = "usedPoint") int usedPoint,
 
 			HttpSession session, Model model) {
-		
 		
 		if (options.length == 0) {
 			 options = new String[]{""};
@@ -333,30 +332,66 @@ public class OrderController {
 			//System.out.println("replace="+file_name);
 			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 
-			//주문시 상품테이블에서 수량 감소
-			Map<String, Object> amountInfo = new HashMap<>();
-			amountInfo.put("p_id", p_id);
-			amountInfo.put("o_name", o_name);
-			amountInfo.put("orderItemId", itemId);
 			
-			int PAmount = orderDAO.pAmount(amountInfo);
-			int PItemAmount = orderDAO.pItemAmount(amountInfo);
 			
-			PItemAmount -= amount;
-			PAmount -= amount;
-			
-			if (PItemAmount <= 0) {
-				PItemAmount = 0;
-			}
-			if (PAmount <= 0) {
-				PAmount = 0;
-			}
+			//옵션 있을 경우
+			if (!o_name.equals("없음") && !o_name.equals("")) {
+				
+				//주문시 상품테이블에서 수량 감소
+				int PAmount = 0;
+				int PItemAmount = 0;
+				
+				Map<String, Object> amountInfo = new HashMap<>();
+				
+				amountInfo.put("p_id", p_id);
+				amountInfo.put("o_name", o_name);
+				amountInfo.put("orderItemId", itemId);
+				
+				PAmount = orderDAO.pAmount(amountInfo);
+				PItemAmount = orderDAO.pItemAmount(amountInfo);
+				
+				PItemAmount -= amount;
+				PAmount -= amount;
+				
+				if (PItemAmount <= 0) {
+					PItemAmount = 0;
+				}
+				if (PAmount <= 0) {
+					PAmount = 0;
+				}
 
-			amountInfo.put("PItemAmount", PItemAmount);
-			amountInfo.put("PAmount", PAmount);
+				amountInfo.put("PItemAmount", PItemAmount);
+				amountInfo.put("PAmount", PAmount);
+				
+				orderDAO.pItemUpdateAmount(amountInfo);
+				orderDAO.pUpdateAmount(amountInfo);
+				
+			} else { //옵션 없을 경우
+				
+				//주문시 상품테이블에서 수량 감소
+				int PAmount = 0;
+				
+				Map<String, Object> amountInfo = new HashMap<>();
+				
+				amountInfo.put("p_id", p_id);
+				amountInfo.put("p_stock", amount);
+				
+				PAmount = orderDAO.p_no_option_amount(p_id);
+				
+				PAmount -= amount;
+				
+				if (PAmount <= 0) {
+					PAmount = 0;
+				}
+
+				amountInfo.put("PAmount", PAmount);
+				
+				orderDAO.p_no_o_amount_update(amountInfo);
+			}
 			
-			orderDAO.pItemUpdateAmount(amountInfo);
-			orderDAO.pUpdateAmount(amountInfo);
+			
+			//판매수량 업데이트
+			orderDAO.p_sell_update(p_id);
 			
 			// 정보를 map으로 합친 후 orderitems 리스트에 넣기
 			Map<String, Object> map = new HashMap<>();
@@ -419,6 +454,7 @@ public class OrderController {
 		model.addAttribute("orderitems", orderitems); // 주문 아이템 테이블
 		model.addAttribute("userPoint", userPoint); // 보유한 포인트
 		model.addAttribute("usedPoint", usedPoint); // 사용한 포인트
+		
 		
 		// 주문확인된 제품 cart에서 지우기
 		if (cartIds != null && cartIds.length > 0 && cartIds[0] != null && !cartIds[0].equals("")) {
@@ -643,7 +679,6 @@ public class OrderController {
 		map.put("orderid", orderid);
 		map.put("price", updatePrice);
 		map.put("totalPrice", updateTotalPrice);
-		//System.out.println(map);
 		
 		//주문상태 업데이트
 		Map<String, Object> status = new HashMap<>();

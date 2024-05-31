@@ -40,6 +40,7 @@
 .container_img {
 	display: flex;
 	flex-direction: row;
+	margin: 0 0 30px 0; 
 }
 .container_img .row {
 	height: 100%;
@@ -51,6 +52,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	width: 100%;
 }
 .head_title img {
 	width: 100%;
@@ -62,12 +64,12 @@
 }
 
 .left-menu {
-	min-width: 150px;
+	min-width: 170px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
-	padding: 0 20px 0 0;
+	padding: 0 40px 0 0;
 }
 #right-content {
 	width: 100%;

@@ -11,7 +11,7 @@
 	    WHERE ctg_b_no = #{p_cate}
 	)
 	AND p.p_id = a.p_id
-	ORDER BY p_hit
+	ORDER BY p_hit desc
 	LIMIT 4
 </select>
 
@@ -24,7 +24,7 @@
 	    WHERE ctg_b_no = #{p_cate}
 	)
 	AND p.p_id = a.p_id
-	ORDER BY p_sell
+	ORDER BY p_sell desc
 	LIMIT 4
 </select>
 
