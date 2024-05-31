@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,16 +27,50 @@
 <script
 	src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
 <style>
+
+#wrap-container {
+	margin: 230px auto 200px auto;
+	width: 70%;
+	height: 100%;
+	font-size: 0.9em;
+	display: flex;
+	flex-direction: column;
+}
+
+.container_img {
+	display: flex;
+	flex-direction: row;
+}
+.container_img .row {
+	height: 100%;
+	width: 100%;
+}
+
+.head_title {
+	margin: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.head_title img {
+	width: 100%;
+	height: 100%;
+}
+
+#work {
+	padding: 0;
+}
+
 .left-menu {
-    position: absolute; /* 화면에 고정된 위치로 설정 */
-    top: 220px; /* 화면 맨 위에서부터의 거리 */
-    left: 0px; /* 화면 왼쪽에 위치 */
-    height: 90%; /* 화면 높이의 90%만큼 설정 */
-    width: 260px; /* 메뉴 너비 설정 */
-    padding: 50px; /* 내부 여백 설정 */
-    z-index: 1; /* 다른 요소 위에 띄워지도록 설정 */
-    overflow-y: auto; /* 세로 스크롤이 필요한 경우 스크롤 표시 */
-    background-color: white; /* 배경색을 흰색으로 설정합니다. */
+	min-width: 150px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	padding: 0 20px 0 0;
+}
+#right-content {
+	width: 100%;
 }
 
 .left-menu a {
@@ -64,15 +99,60 @@
     margin: 0 auto; /* 가운데 정렬을 위한 margin 설정 */
 }
 
-.product-item {
+/* .product-item {
     flex: 0 0 auto;
     margin-right: 10px;
     padding: 7px;
+} */
+
+
+
+#sell_products tbody tr, #hit_products tbody tr {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+	justify-content: center;
+    margin: 0 10px;
+}
+#sell_products tbody tr:nth-child(2) {
+	margin: 20px 0 3px 0;
+}
+#sell_products tbody tr td, #hit_products tbody tr td {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	margin: 0 10px;
 }
 
-.product-item:last-child {
-    margin-right: 0;
+.product-item p {
+	margin: 0;
+	padding: 0;
 }
+
+.product-item .txt {
+	width: 140px;
+	height: 80px;
+	text-align: center;
+	font-size: 0.8em;
+	word-break: keep-all; 
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.product-item  a {
+	color: #656565;
+}
+.product-item a:hover {
+	color: #337ab7;
+}
+.product-item .p_price {
+	color: red;
+}
+
+/* .product-item:last-child {
+    margin-right: 0;
+} */
 
 </style>
 </head>
@@ -85,120 +165,101 @@
 	<div>
 		<%@ include file="../include/menu/menu.jsp"%>
 	</div>
-    <div class="left-menu">
-		<a style="font-weight: bold; font-size: 30px">${name}</a><br>
-<c:forEach items="${items}" var="var">
-        <a href="/product/sub_view.do?no=${var.ctg_s_no}">${var.ctg_small}</a><br> 
-</c:forEach>
-
-    </div>
-
-	<!-- Work Section -->
+	
+	
+	<div id="wrap-container">
+	
+	
+    
+    <div id="right-content">
+        <!-- Work Section -->
 	<section id="work" class="work sections">
 
-		<div class="container">
+		<div class="container_img">
+		
+			<div class="left-menu">
+				<a style="font-weight: bold; font-size: 30px">${name}</a><br>
+				<c:forEach items="${items}" var="var">
+				        <a href="/product/sub_view.do?no=${var.ctg_s_no}">${var.ctg_small}</a><br> 
+				</c:forEach>
+		
+		    </div>
+		
 			<div class="row">
-				<div class="main_mix_content text-center margin-top-120">
+				<div class="main_mix_content text-center">
 					<div class="head_title">
-					<br>
-					</div>
 					<img
 						src="https://image.oliveyoung.co.kr/uploads/images/display/10000010001/148/2945076113415173315.jpg">
-					
+					</div>
 				</div>
 			</div>
 		</div>
+		
 		<br>
+		
 		<p style="text-align: center; font-weight: bold; font-size: 25px">${name}의 BEST만 모아봤어요</p>
-		<div class="ct-product" id="mRnkGoodsSec">
-    <table>
-    <tr>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-    </tr>
-    <tr align="center"><td colspan="4"><input style="background-color: white; border: medium;" type="button" value="${name}베스트 상품 더보기"></td></tr>
-</table>
-</div>
-<hr style="width: 50%; ">
+		<div class="ct-product" id="sell_products">
+   
+	    <table>
+	    <tr>
+    
+	    <c:forEach var="sell_row" items="${sellList}">
+	    
+	    <c:set var="raw_imgpath" value="${sell_row.file_name}"></c:set>
+	    <c:set var="imgpath" value="${fn:replace(raw_imgpath, 'src/main/webapp', '')}"></c:set>
+	    
+	    <td class="product-item">
+	           <a href="#">
+	               <img class="img goodsList" width="135" height="135" src="${imgpath}">
+	           </a>
+	           <a href="/product/detail/${sell_row.p_id}">
+	               <p class="txt" style="white-space: normal;">${sell_row.p_name}</p>
+	           </a>
+	           <p class="p_price">
+	           <fmt:formatNumber value="${sell_row.p_price}" pattern="#,###"></fmt:formatNumber>원
+	           </p>
+	       </td> 
+	   	</c:forEach>
+	   	
+	    </tr>
+	    <tr align="center"><td colspan="4"><a href="/product/sub_view.do?no=${items[0].ctg_s_no}"><input style="background-color: white; border: medium;" type="button" value="더보기"></a></td></tr>
+		</table>
+		</div>
+		
+		<hr style="width: 50%; ">
 		<p style="text-align: center; font-weight: bold; font-size: 25px">${name}에서 많이 본 상품이에요</p>
-		<div class="ct-product" id="mRnkGoodsSec">
-    <table>
-    <tr>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-        <td class="product-item">
-            <a href="#">
-                <img class="img goodsList" width="135" height="135" src="https://image.oliveyoung.co.kr/uploads/images/goods/400/10/0000/0020/A00000020290503ko.jpg?l=ko" onerror="common.errorImg(this);">
-            </a>
-            <a href="#">
-                <p class="txt" style="font-size: 15px; white-space: normal;">제목</p>
-            </a>
-            <p>금액<p>
-        </td>
-        
-    </tr>
-</table>
-</div>
-	</section>
+		<div class="ct-product" id="hit_products">
+		
+		<table>
+	    <tr>
+	    	<c:forEach var="hit_row" items="${hitList}">
+	    	
+	    	<c:set var="raw_imgpath" value="${hit_row.file_name}"></c:set>
+		    <c:set var="imgpath" value="${fn:replace(raw_imgpath, 'src/main/webapp', '')}"></c:set>
+	    	
+	    	<td class="product-item">
+	            <a href="#">
+	                <img class="img goodsList" width="135" height="135" src="${imgpath}">
+	            </a>
+	            <a href="#">
+	                <p class="txt" style="font-size: 15px; white-space: normal;">${hit_row.p_name}</p>
+	            </a>
+	            <p class="p_price">
+	            <fmt:formatNumber value="${hit_row.p_price}" pattern="#,###"></fmt:formatNumber>원
+	            </p>
+	        </td>
+	    	</c:forEach>
+	        
+	    </tr>
+		</table>
+		</div>
+		</section>
+	
+	</div>
+	
+		</div>
+
+	
 	<!-- footer Section -->
 	<footer id="footer" class="footer">
 		<div class="container">

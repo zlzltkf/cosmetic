@@ -35,6 +35,15 @@ public class ProductDAO {
 		String name = sqlSession.selectOne("product.big_name", ctg_b_no);
 		return name;
 	}
+	
+	
+	//대분류 제품 리스트
+	public List<Map<String, Object>> p_list_hit(int p_cate) {
+		return sqlSession.selectList("sub_menu.hit", p_cate);
+	}
+	public List<Map<String, Object>> p_list_sell(int p_cate) {
+		return sqlSession.selectList("sub_menu.sell", p_cate);
+	}
 
 	// 소분류
 	// 상품수 출력

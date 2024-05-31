@@ -44,13 +44,21 @@ public class ProductController {
 	}
 
 	@GetMapping("main_view")
-	public ModelAndView main_view(@RequestParam(name = "ctg_b_no") int ctg_b_no, ModelAndView mav) {
+	public ModelAndView main_view(
+			@RequestParam(name = "ctg_b_no") int ctg_b_no, 
+			ModelAndView mav) {
+		
 		String name = productDao.big_name(ctg_b_no);
 		List<CategoryDTO> items = productDao.main_list(ctg_b_no);
+		List<Map<String, Object>> hitList = productDao.p_list_hit(ctg_b_no);
+		List<Map<String, Object>> sellList = productDao.p_list_sell(ctg_b_no);
 		mav.setViewName("product/main_category");
 		mav.addObject("items", items);
 		mav.addObject("name", name);
-		System.out.println(name);
+		
+		mav.addObject("hitList", hitList);
+		mav.addObject("sellList", sellList);
+		
 		return mav;
 	}
 
@@ -161,14 +169,13 @@ public class ProductController {
 					ProductDTO recent = productDao.detail(no, userid);
 					String file_name = recent.getFile_name().replace("src/main/webapp", "");
 	                recent.setFile_name(file_name); // 가공된 파일 이름 설정
-	                r_list.add(recent); // 전체 ProductDTO 객체를 리스트에 추가
-	                //System.out.println(file_name);
+	                r_list.add(recent);
+				}
 			}
 		}
-		
-	}
 		return r_list;
 	}
+
 	// 최근 본 상품 삭제 (쿠키 한개씩 삭제)
 	@ResponseBody
 	@GetMapping("cookie_delete")

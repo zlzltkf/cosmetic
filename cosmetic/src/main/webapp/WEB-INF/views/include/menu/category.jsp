@@ -3,102 +3,93 @@
     
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 <script>
-$(document).ready(function() {
-	
-	$(".main_menu_bg").css("height", "155px");
-	
-	function handleMouseEvents() {
+function handleMouseEvents() {
+    if ($(window).width() > 768) {
+        
 
-        if ($(window).width() > 768) {
+        // 카테고리에 마우스를 가져다 댈 시 메인 카테고리 보이게
+        $("#ctg_btn").mouseenter(function() {
+            $("#ctg").removeClass("show-grid-s");
+            $("#ctg").addClass("show-grid");
 
-        	/* 카테고리에 마우스 가져다댈시 메인카테고리 나오게 */
-            $("#ctg_btn").mouseenter(function() {
-            	
-            	$("#ctg").removeClass("show-grid-s");
-            	
-                $("#ctg").addClass("show-grid");
-                
-                //스크롤 여부에 따라 메뉴 높이 조정
-                if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
-                    $(".main_menu_bg").css("height", "130px");
-                    $("#ctg").addClass("menu-scroll");
-                    $("#ctg-content").addClass("menu-scroll");
-                } else {
-                    $(".main_menu_bg").css("height", "155px");
-                    $("#ctg").removeClass("menu-scroll");
-                    $("#ctg-content").removeClass("menu-scroll");
-                }
-            });
-        	
-            /* 메인카테고리에 마우스 가져다댈시 세부카테고리 나오게 */
-            $("#ctg").mouseenter(function() {
-            	$("#ctg-content").addClass("show-content");
-            	
-            });
-            
-            /* 세부카테고리에서 마우스 떼면 카테고리 사라지게 */
-            $("#ctg-content").mouseleave(function() {
-                $("#ctg").removeClass("show-grid");
-                
-                $("#ctg-content").removeClass("show-content");
-                $(".main_menu_bg").css("height", "140px");
-                
-              	//스크롤 여부에 따라 메뉴 높이 조정
-                if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
-                    $(".main_menu_bg").css("height", "130px");
-                    $("#ctg").addClass("menu-scroll");
-                    $("#ctg-content").addClass("menu-scroll");
-                } else {
-                    $(".main_menu_bg").css("height", "140px");
-                    $("#ctg").removeClass("menu-scroll");
-                    $("#ctg-content").removeClass("menu-scroll");
-                }
-            });
-        } else {
-        	
-        	$('.navbar-toggle').css("right", "20px");
-        	$('.navbar-toggle').css("top", "10px");
-        	
-        	$('.container-fluid').css("padding", "0");
-        	$('.main_menu_bg .navbar-default').css("margin","0");
-        	
-        	//스크롤 여부에 따라 메뉴 높이 조정
+            // 스크롤 여부에 따라 메뉴 높이 조정
             if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
+                $(".main_menu_bg").css("height", "130px");
+                $("#ctg").addClass("menu-scroll");
+                $("#ctg-content").addClass("menu-scroll");
+            } else {
                 $(".main_menu_bg").css("height", "155px");
-                } else {
-                	 $(".main_menu_bg").css("height", "155px");
-                }
-        	
-        	$("#ctg").removeClass("show-grid");
-        	$("#ctg-content").removeClass("show-content");
-        	
-        	$("#ctg_btn").mouseenter(function() {
-        		$("#ctg").removeClass("show-grid");
-        		$("#ctg-content").removeClass("show-content");
-        		$("#ctg").addClass("show-grid-s");
-        		
-        		
-        	});
-        	$("#ctg_btn").click(function() {
-        		$("#ctg").removeClass("show-grid-s");
-        	})
-        	
-        	$("#ctg").mouseenter(function() {
-            	$("#ctg-content").removeClass("show-content");
-            });
-         	$("#small_btn").click(function() {
-        		$("#ctg").removeClass("show-grid-s");
-        	});
-        }
+                $("#ctg").removeClass("menu-scroll");
+                $("#ctg-content").removeClass("menu-scroll");
+            }
+        });
+
+        // 메인 카테고리에 마우스를 가져다 댈 시 세부 카테고리 보이게
+        $("#ctg").mouseenter(function() {
+            $("#ctg-content").addClass("show-content");
+        });
+
+        // 세부 카테고리에서 마우스를 떼면 카테고리 사라지게
+        $("#ctg-content").mouseleave(function() {
+            $("#ctg").removeClass("show-grid");
+            $("#ctg-content").removeClass("show-content");
+            $(".main_menu_bg").css("height", "140px");
+
+            // 스크롤 여부에 따라 메뉴 높이 조정
+            if ($('.navbar-fixed-top').hasClass('menu-scroll')) {
+                $(".main_menu_bg").css("height", "130px");
+                $("#ctg").addClass("menu-scroll");
+                $("#ctg-content").addClass("menu-scroll");
+            } else {
+                $(".main_menu_bg").css("height", "140px");
+                $("#ctg").removeClass("menu-scroll");
+                $("#ctg-content").removeClass("menu-scroll");
+            }
+        }); 
+    } else {
+        // 모바일 환경
+
+        // 모바일 환경에서는 고정된 메뉴 높이를 유지
+        $('.navbar-toggle').css({
+            "right": "20px",
+            "top": "10px"
+        });
+        
+        /* $("#recent").removeClass("menu-scroll"); */
+        
+        $('.container-fluid').css("padding", "0");
+        $('.main_menu_bg .navbar-default').css("margin", "0");
+        $(".main_menu_bg").css("height", "155px"); // 고정된 높이 설정
+        $(".menu-scroll #ctg_btn").css("padding", "15px 15px 20px 25px");
+        
+        $("#ctg").removeClass("show-grid");
+        $("#ctg-content").removeClass("show-content");
+
+        $("#ctg_btn").mouseenter(function() {
+            $("#ctg").removeClass("show-grid");
+            $("#ctg-content").removeClass("show-content");
+            $("#ctg").addClass("show-grid-s");
+        });
+
+        $("#ctg_btn").click(function() {
+            $("#ctg").removeClass("show-grid-s");
+        });
+
+        $("#ctg").mouseenter(function() {
+        	$("#ctg").removeClass("menu-scroll");
+            $("#ctg-content").removeClass("show-content");
+        });
+
+        $("#small_btn").click(function() {
+            $("#ctg").removeClass("show-grid-s");
+        });
     }
+}
 
-	// 초기 로드 시 이벤트 핸들러 설정
+// 이벤트 핸들러 등록
+$(document).ready(function() {
     handleMouseEvents();
-
-    // 화면 크기 변경 시 이벤트 핸들러 재설정
-    $(window).resize(function() {
-        handleMouseEvents();
-    });
+    $(window).resize(handleMouseEvents); // 창 크기 변경 시에도 다시 설정
 });
 </script>
     
@@ -111,6 +102,7 @@ $(document).ready(function() {
 	height: 25px;
 	position: relative;
 }
+
 #ctg_btn {
 	padding: 15px 15px 20px 25px;
 }
@@ -137,11 +129,12 @@ $(document).ready(function() {
 #ctg.show-grid-s a {
 	border-bottom: 1px solid #e7e7e7;
 	padding: 12px 0 0 25px;
-	color: #656565;
 	text-align: left;
 	font-size: 0.9em;
 }
-
+#ctg a { 
+	color: #656565;
+}
 #ctg a:hover { /* 메인 카테고리 영역에 마우스 가져다댈시 링크 색깔 바꾸기 */
 	color: #337ab7;
 	background-color: #fafafa;
@@ -150,18 +143,18 @@ $(document).ready(function() {
 	margin: 0;
 	background-color: white;
 	width: 100%;
-	height: 300px;
-	border: 1px solid grey;
+	height: 200px;
+	border: 1px solid #ddd;
 	display: none;
 	position: relative;
 }
 #ctg-content.show-content{
 	display: flex;
 	align-content: center;
+	justify-content: center;
 }
 
 #ctg-grid {
-	margin: 0 5%;
 	display: grid;
 	grid-template-columns: repeat(10, 1fr);
 	align-items: center;
@@ -170,34 +163,80 @@ $(document).ready(function() {
 
 .b-ctg-content {
 	height: 90%;
-	padding: 0 10px;
-	border-left: 1px solid grey;
+	padding: 0 5px;
+	border-left: 1px solid #ddd;
 	display: flex;
 	flex-direction: column;
+	/* min-width: 100px; */
 }
 .b-ctg-content:nth-child(1) {
 	border: none;
 }
 .b-ctg-content ul {
 	padding: 2px 0;
-	font-size: 0.8em;
+	font-size: 0.7em;
+	color: #ccc;
 }
-
+.b-ctg-content ul a {
+	color: #656565;
+}
+.b-ctg-content ul a:hover {
+	color: #337ab7;
+}
 /* 스크롤 */
 #ctg.menu-scroll {
-	margin: 0 5% 12px 5%;
  	top: 95px;
 	box-shadow: none; 
 	position: fixed;
 }
 #ctg-content.menu-scroll{
-	margin: 0 5% 12px 5%;
+	margin: 0 0 12px 0;
 	top: 130px;
 	box-shadow: none; 
 	position: fixed;
 }
 
 /* 너비 바꾸면 */
+@media (min-width: 1199px) {
+	
+	#ctg.menu-scroll {
+		margin: 0 20% 12px 20%;
+	}
+	
+	.b-ctg-content {
+		width: 100px;
+	}
+}
+@media (max-width: 1199px) {
+	
+	#ctg.menu-scroll {
+		margin: 0 15% 12px 15%;
+	}
+	
+	.b-ctg-content {
+		width: 85px;
+	}
+}
+@media (max-width: 991px) {
+
+	#ctg.menu-scroll {
+		margin: 0 7% 12px 7%;
+	}
+	
+	.b-ctg-content {
+		width: 65px;
+	}
+}
+@media (max-width: 768px) {
+	
+	#ctg.menu-scroll {
+		margin: 0 15% 12px 15%;
+	}
+
+	.b-ctg-content {
+		
+	}
+}
 
 </style>
 
@@ -260,10 +299,10 @@ $(document).ready(function() {
 	<!-- 페이스 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=31">베이스-프라이머</a>
+			<a href="/product/sub_view.do?no=31">베이스<br>프라이머</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=32">쿠션-파운데이션</a>
+			<a href="/product/sub_view.do?no=32">쿠션<br>파운데이션</a>
 		</ul>
 		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=33">BB컨실러</a>
@@ -295,13 +334,13 @@ $(document).ready(function() {
 	<!-- 스킨케어 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=51">토너-패드</a>
+			<a href="/product/sub_view.do?no=51">토너<br>패드</a>
 		</ul>
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=52">에멀전</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=53">에센스-세럼</a>
+			<a href="/product/sub_view.do?no=53">에센스<br>세럼</a>
 		</ul>
 		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=54">크림-밤</a>
@@ -333,13 +372,13 @@ $(document).ready(function() {
 	<!-- 클렌저 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=71">페이셜 클렌징</a>
+			<a href="/product/sub_view.do?no=71">페이셜<br>클렌징</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=72">메이크업 클렌징</a>
+			<a href="/product/sub_view.do?no=72">메이크업<br>클렌징</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=73">필링-스크럽</a>
+			<a href="/product/sub_view.do?no=73">필링<br>스크럽</a>
 		</ul>
 	</div>
 	
@@ -359,7 +398,7 @@ $(document).ready(function() {
 	<!-- 헤어 -->
 	<div class="b-ctg-content">
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=91">컬러-스타일링</a>
+			<a href="/product/sub_view.do?no=91">컬러<br>스타일링</a>
 		</ul>
 		<ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=92">헤어케어</a>
@@ -375,7 +414,7 @@ $(document).ready(function() {
 			<a href="/product/sub_view.do?no=102">퍼프</a>
 		</ul>
 		<ul class="s-ctg-content">
-			<a href="/product/sub_view.do?no=103">화장솜-면봉</a>
+			<a href="/product/sub_view.do?no=103">화장솜<br>면봉</a>
 		</ul>
 		<!-- <ul class="s-ctg-content">
 			<a href="/product/sub_view.do?no=104">속눈썹</a>
