@@ -122,18 +122,43 @@
 }
 .content {
 	/* border: 1px solid black; */
-	max-width: 500px;
+	width: 80%;
+	min-width: 500px;
 	margin: 0 auto;
-	padding: 20px 0 10px 0;
-	min-height: 50px;
+	padding: 15px 0 0 0;
+	display: flex;
+	flex-direction: column;
+	align-content: center;
+}
+.rateB {
+	padding: 0 0 15px 0;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+}
+.rateB i {
+	color: #e5e5e5;
+    font-size: 1.3em;
+    padding: 0 2px;
+}
+.review_write {
+	padding: 0 0 20px 0;
+}
+.content_write {
+	padding: 15px;
+	border: 1px solid #ccc;
+	border-radius: 15px;
 }
 .c_images {
 	display: flex;
 	flex-direction: row;
 	overflow-x: scroll;
 	overflow-y: hidden;
-	max-width: 500px;
-	margin: 0 auto;
+	width: 100%;
+}
+.imgs {
+	padding: 7px;
+	border: 1px solid #e5e5e5;
 }
 .c_images::-webkit-scrollbar-track
 {
@@ -150,6 +175,11 @@
 {
 	border-radius: 8px;
 	background-color: #a8a8a8;
+}
+
+/* 별점 */
+.on {
+	color: #f3cc00;
 }
 
 #emptyB {
@@ -254,16 +284,31 @@ ${list} --%>
 			</div>
 			<div class="p_right">
 				<div class="date">
-					<fmt:parseDate var="date" value="2024-05-24T09:25:23" pattern="yyyy-MM-dd'T'HH:mm:ss"/>
-					<fmt:formatDate value="${date}" pattern="yyyy.MM.dd"/>
+					${row.f_date}
 				</div>
 				<div class="delete" onclick="delete_btn(${row.r_id})">
 					<i class="fa fa-remove"></i>
 				</div>
 			</div>
 		</div>
-		<div class="content">${row.contents}</div>
-		<div class="c_images" id="${row.r_id}"></div>
+		<div class="content">
+		
+		<span class="rateB" style="width: 100%" value = "${row.r_rate}">
+                    
+	      <i class="fa fa-star"></i>
+	      <i class="fa fa-star"></i> 
+	      <i class="fa fa-star"></i>
+	      <i class="fa fa-star"></i>
+	      <i class="fa fa-star"></i>
+	      
+	    </span>
+		
+		<div class="content_write">
+			<div class="review_write">${row.contents}</div>
+			<div class="c_images" id="${row.r_id}"></div>
+		</div>
+		
+		</div>
 	</div>
 	
 	</c:forEach>
@@ -351,14 +396,27 @@ $(document).ready(function() {
 					var url = original_url.replace("src/main/webapp", "");
 
 	        		html += "<div class='imgs'>";
-	        		html += "<img src='" + url + "' width='80px' height='80px' style='" + "margin: 0 3px;" + "border: 1px solid #999999;" + "'/>";
+	        		html += "<img src='" + url + "' width='80px' height='80px' style='" + "margin: 0 3px;" + "'/>";
 	        		html += "</div>";
 	        	}
 	        	
 	        	$('#' + r_id).html(html);
 	        }
 		});
-	})
+	});
+	
+	//별점
+	$('.rateB').each(function() {
+	    var rating = $(this).attr('value'); 
+	    $(this).children('i').each(function(index) {
+	    	if (index < rating) {
+	            $(this).addClass('on'); 
+	            $(this).css('color', '#f3cc00'); 
+	          } else {
+	            $(this).css('color', '');
+	          }
+	    });
+	});
 });
 
 function delete_btn(r_id) {

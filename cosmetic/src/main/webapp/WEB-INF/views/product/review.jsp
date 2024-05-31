@@ -110,7 +110,7 @@ $(document).ready(function() {
                 });
             });
 
-            $('#review_list').append(reviewList); 
+            $('#review_list').html(reviewList); 
             setRatingStars();
         },
         error: function(xhr, status, error) {
@@ -318,6 +318,7 @@ a, address, blockquote, body, dd, div, dl, dt, em, fieldset, form, h1, h2, h3, h
 
 .review_list {
  	width: 100%;
+ 	min-width: 650px;
 	margin: 0;
     padding: 0;
     border: 0;
@@ -447,7 +448,6 @@ ol, ul{
      margin-bottom: 20px;
     border-top: 1px solid #ccc;
     width: 100%;
-    height: 100px;
     padding: 10px;
 }
 .review_list .inner_list>li>.review_contents .txt_inner .subject {
@@ -590,14 +590,29 @@ ol, ul{
     align-items: center;
     justify-content: center;
     position: relative;
-    width: 165px;
-    height: 165px;
-    border: 1px solid #ccc;
+    width: 110px;
+    height: 110px;
+    border: 1px solid #e5e5e5;
     margin: 0 2px;
+    padding: 7px;
+}
+.review_thum ul.inner li a>span img {
+	width: 100%;
+    height: 100%;
 }
 
 .txt_beauty {
 	
+}
+
+#emptyB {
+	border-bottom: 1px solid gray;
+	padding: 80px 80px 100px 80px;
+}
+#Emessage {
+	/* border: 1px solid black; */
+	text-align: center;
+	font-size: 1.2em;
 }
 </style>
 
@@ -614,7 +629,13 @@ ol, ul{
 		
 		<!-- 리뷰 리스트 -->
 		<div class="review_container">
-			<div id="review_list"></div>
+			<div id="review_list">
+			
+			<div id="emptyB">
+				<p id="Emessage">작성한 리뷰가 없습니다.</p>
+			</div>
+			
+			</div>
 		</div>
 		
 		

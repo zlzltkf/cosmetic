@@ -97,8 +97,8 @@ public class ReviewDAO {
 		map.put("userid", userid);
 		map.put("pageCnt", pageCnt);
 		map.put("start", start);
-		
-		return sqlSession.selectList("review.r_list", map);
+		List<Map<String, Object>> list = sqlSession.selectList("review.r_list", map);
+		return list;
 	}
 	
 	public int list_count(String userid) {

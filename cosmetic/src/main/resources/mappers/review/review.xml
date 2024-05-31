@@ -13,10 +13,11 @@
 	
 	<!-- 리스트 -->
 	<select id="r_list" resultType="java.util.Map">
-		SELECT r_id, r.p_id, p_name, p_price, CONVERT(r_contents USING utf8) contents, r_date
+		SELECT r_id, r.p_id, r_rate, p_name, p_price, CONVERT(r_contents USING utf8) contents, DATE_FORMAT(r.r_date, '%Y.%m.%d.') AS f_date
 		FROM review r, product p
 		WHERE r.p_id = p.p_id
 		AND userid = #{userid}
+		ORDER BY r_date desc
 		limit #{pageCnt} offset #{start}
 	</select>
 
