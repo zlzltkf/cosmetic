@@ -9,25 +9,21 @@
 	<select id="getOrderId" resultType="long">
 		SELECT *
 		FROM orderlist
-		ORDER
-		BY DATE_FORMAT(orderDate, '%Y-%m-%d %H:%i:%s') DESC
+		ORDER BY DATE_FORMAT(orderDate, '%Y-%m-%d %H:%i:%s') DESC
 		LIMIT 1
 	</select>
 
 	<select id="memberInfo" resultType="java.util.Map">
-		SELECT NAME, phone, zipcode,
-		address1, address2 FROM member
+		SELECT NAME, phone, zipcode, address1, address2 FROM member
 		WHERE userid=#{userid}
 	</select>
 
 	<!-- 장바구니의 상품 > 주문 아이템 테이블에 저장 -->
 	<insert id="orderItemInsert">
 		INSERT INTO orderitem(
-		p_id, amount, orderstatus,
-		orderid, o_name
+		p_id, amount, orderstatus, orderid, o_name
 		) VALUES (
-		#{p_id}, #{amount}, #{orderstatus},
-		#{orderid}, #{o_name}
+		#{p_id}, #{amount}, #{orderstatus}, #{orderid}, #{o_name}
 		)
 	</insert>
 
@@ -37,23 +33,16 @@
 		where orderid = #{orderid}
 	</select>
 	<select id="orderItems" resultType="java.util.Map">
-		SELECT
-		o.*,
-		(SELECT file_name FROM p_attach WHERE p_id = o.p_id ORDER BY p_id ASC LIMIT 1) AS file_name
-		FROM
-		orderitem o
-		WHERE
-		orderitemid=#{orderitemid}
+		select * from orderitem
+		where orderItemId = #{itemId}
 	</select>
 
 	<!-- 상품정보 가져오기 -->
 	<select id="orderedProducts" resultType="java.util.Map">
 		SELECT
 		p.*,
-		(SELECT
-		file_name FROM p_attach WHERE p_id = p.p_id ORDER BY p_id ASC LIMIT
-		1)
-		AS file_name
+		(SELECT file_name FROM p_attach WHERE p_id = p.p_id ORDER BY p_id ASC LIMIT
+		1) AS file_name
 		FROM
 		product p
 		WHERE
@@ -65,19 +54,15 @@
 	<insert id="orderInsert">
 		INSERT INTO orderlist (
 		orderid, userid,
-		price,
-		deliverCost, totalPrice,
+		price, deliverCost, totalPrice,
 		method,
-		username, zipcode, address1, address2,
-		tel,
+		username, zipcode, address1, address2, tel,
 		userPoint
 		) VALUES (
 		#{orderid}, #{userid},
-		#{price}, #{deliverCost},
-		#{totalPrice},
+		#{price}, #{deliverCost}, #{totalPrice},
 		#{method},
-		#{username}, #{zipcode}, #{address1},
-		#{address2}, #{tel},
+		#{username}, #{zipcode}, #{address1}, #{address2}, #{tel},
 		#{userPoint}
 		)
 	</insert>
@@ -93,35 +78,29 @@
 	<update id="pointUpdate">
 		UPDATE MEMBER
 		SET POINT = POINT + #{point}
-		WHERE userid
-		= #{userid}
+		WHERE userid = #{userid}
 	</update>
 
 	<!-- 적립된 포인트 보여주기 -->
 	<select id="showPoint" resultType="int">
 		select POINT from member
-		where
-		userid = #{userid}
+		where userid = #{userid}
 	</select>
 
 	<!-- 주문 수 세기 -->
 	<select id="orderCount" resultType="int">
 		select COUNT(*) from orderlist l, orderitem i
-		WHERE l.orderid =
-		i.orderid
+		WHERE l.orderid = i.orderid
 		and userid = #{userid}
 		<choose>
 			<when test="startDate != '' and endDate != ''">
 				and orderDate &gt;= #{startDate}
-				AND orderDate &lt;=
-				#{endDate}
+				AND orderDate &lt;= #{endDate}
 			</when>
 			<when test="startDate == '' and endDate == ''">
-				and orderDate &gt;= (SELECT MIN(orderDate) FROM
-				orderList WHERE userid
+				and orderDate &gt;= (SELECT MIN(orderDate) FROM orderList WHERE userid
 				= #{userid})
-				AND orderDate &lt;= (SELECT
-				MAX(orderDate) FROM orderList WHERE userid
+				AND orderDate &lt;= (SELECT MAX(orderDate) FROM orderList WHERE userid
 				= #{userid})
 			</when>
 		</choose>
@@ -147,21 +126,17 @@
 		SELECT i.orderid, orderDate, i.orderItemId, p_id, amount, orderStatus,
 		totalPrice, o_name
 		from orderlist l, orderitem i
-		WHERE l.orderid =
-		i.orderid
+		WHERE l.orderid = i.orderid
 		and userid = #{userid}
 		<choose>
 			<when test="startDate != '' and endDate != ''">
 				AND orderDate &gt;= #{startDate}
-				AND orderDate &lt;=
-				#{endDate}
+				AND orderDate &lt;= #{endDate}
 			</when>
 			<when test="startDate == '' and endDate == ''">
-				AND orderDate &gt;= (SELECT MIN(orderDate) FROM
-				orderList WHERE userid
+				AND orderDate &gt;= (SELECT MIN(orderDate) FROM orderList WHERE userid
 				= #{userid})
-				AND orderDate &lt;= (SELECT
-				MAX(orderDate) FROM orderList WHERE userid
+				AND orderDate &lt;= (SELECT MAX(orderDate) FROM orderList WHERE userid
 				= #{userid})
 			</when>
 		</choose>
@@ -186,8 +161,7 @@
 	<!-- 주문 상태 세기 -->
 	<select id="countStatus" resultType="int">
 		select COUNT(*) from orderlist l, orderitem i
-		WHERE l.orderid =
-		i.orderid
+		WHERE l.orderid = i.orderid
 		and userid = #{userid}
 		<choose>
 			<when test="status == 1">
@@ -217,8 +191,7 @@
 	<!-- 상품리스트에서 주문 아이템 삭제 -->
 	<delete id="orderItemDelete">
 		DELETE FROM orderitem
-		WHERE orderItemId =
-		#{orderItemId}
+		WHERE orderItemId = #{orderItemId}
 	</delete>
 
 	<!-- 주문 리스트에서 특정 주문 삭제 -->
@@ -229,16 +202,14 @@
 
 	<!-- 주문 리스트에서 주문 아이템 id 선택 -->
 	<select id="orderItemIdSelect" resultType="String">
-		select orderItemId
-		from orderlist
+		select orderItemId from orderlist
 		where orderid = #{orderid}
 	</select>
 
 	<!-- 주문 리스트 업데이트 -->
 	<update id="orderlistUpdate">
 		UPDATE orderlist
-		SET orderItemId = CAST(#{orderItemId}
-		AS JSON)
+		SET orderItemId = CAST(#{orderItemId} AS JSON)
 		WHERE orderid = #{orderid}
 	</update>
 
@@ -249,8 +220,7 @@
 	</delete>
 	<update id="updatePrice">
 		UPDATE orderlist
-		SET price = #{price}, totalPrice =
-		#{totalPrice}
+		SET price = #{price}, totalPrice = #{totalPrice}
 		WHERE orderid = #{orderid}
 	</update>
 
@@ -262,8 +232,7 @@
 
 	<!-- 주문목록에서 환불에 필요한 정보 불러오기 -->
 	<select id="chooseCosts" resultType="java.util.Map">
-		SELECT price, deliverCost,
-		totalPrice
+		SELECT price, deliverCost, totalPrice
 		FROM orderlist
 		WHERE orderid = #{orderid}
 	</select>
@@ -296,20 +265,22 @@
 	<update id="cancelReason">
 		UPDATE orderlist
 		SET cancelreason = #{reason}
-		WHERE
-		orderid = #{orderid}
+		WHERE orderid = #{orderid}
 	</update>
 
 	<!-- 상품수량 확인 -->
 	<select id="pItemAmount" resultType="int">
-		SELECT o_amount FROM
-		product_option
+		SELECT o_amount FROM product_option
 		WHERE o_p_id = #{p_id} AND o_name = #{o_name}
 	</select>
 
 	<select id="pAmount" resultType="int">
-		SELECT p_stock FROM product
-		WHERE p_id = #{p_id}
+		SELECT p_stock FROM product WHERE p_id = #{p_id}
+	</select>
+	
+	<!-- 옵션 없을 때 상품 수량 확인 -->
+	<select id="p_no_option_amount" resultType="int">
+		SELECT p_stock FROM product WHERE p_id = #{p_id}
 	</select>
 
 	<!-- 상품수량 업데이트 -->
@@ -324,8 +295,21 @@
 	<update id="pUpdateAmount">
 		UPDATE product
 		SET p_stock = #{PAmount}
-		WHERE p_id =
-		#{p_id}
+		WHERE p_id = #{p_id}
+	</update>
+	
+	<!-- 옵션 없을 때 -->
+	<update id="p_no_o_amount_update">
+		UPDATE product
+		SET p_stock = #{PAmount}
+		WHERE p_id = #{p_id}
+	</update>
+	
+	<!-- 상품 판매시 판매수량 업데이트 -->
+	<update id="p_sell_update">
+		UPDATE product 
+		SET p_sell = p_sell + 1 
+		WHERE p_id = #{p_id}
 	</update>
 
 </mapper>
