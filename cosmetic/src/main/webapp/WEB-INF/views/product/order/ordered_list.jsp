@@ -587,7 +587,7 @@ if (urlParams != null) {
 		<td>
 			<div class="p_info">
 				<div class="imgBox">
-					<img src="${row.map.p_img}">
+					<img src="${row.map.file_name}">
 				</div>
 				<div class="Pname">
 				<a href="/product/detail_before?p_id=${row.map.p_id}">

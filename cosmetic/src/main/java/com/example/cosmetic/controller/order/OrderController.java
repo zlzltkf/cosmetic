@@ -101,7 +101,7 @@ public class OrderController {
 			// 이미지, 상품명, 상품가격
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
 			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
-			System.out.println("원본="+file_name);
+			//System.out.println("원본="+file_name);
 			String split_str = "src/main/webapp";
 			String[] parts = file_name.split(split_str);
 			if (parts.length > 1) {
@@ -109,7 +109,7 @@ public class OrderController {
 			} else {
 			    file_name = parts[0];
 			}
-			System.out.println("replace="+file_name);
+			//System.out.println("replace="+file_name);
 			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 			// 정보를 map으로 합치기
 			Map<String, Object> map = new HashMap<>();
@@ -184,7 +184,7 @@ public class OrderController {
 			//p_id값으로 상품정보 가져오기 //이미지, 상품명, 상품가격 
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name"); 
 			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
-			System.out.println("원본="+file_name);
+			//System.out.println("원본="+file_name);
 			String split_str = "src/main/webapp";
 			String[] parts = file_name.split(split_str);
 			if (parts.length > 1) {
@@ -192,7 +192,7 @@ public class OrderController {
 			} else {
 			    file_name = parts[0];
 			}
-			System.out.println("replace="+file_name);
+			//System.out.println("replace="+file_name);
 			  int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 			  
 			  //정보를 map으로 합치기 
@@ -321,7 +321,16 @@ public class OrderController {
 			// p_id값으로 상품정보 가져오기
 			// 이미지, 상품명, 상품가격
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
-			String p_img = (String) orderDAO.orderedProducts(p_id).get("p_img1");
+			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
+			//System.out.println("원본="+file_name);
+			String split_str = "src/main/webapp";
+			String[] parts = file_name.split(split_str);
+			if (parts.length > 1) {
+			    file_name = "/" + (parts[1].startsWith("/") ? parts[1].substring(1) : parts[1]);
+			} else {
+			    file_name = parts[0];
+			}
+			//System.out.println("replace="+file_name);
 			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 
 			//주문시 상품테이블에서 수량 감소
@@ -352,7 +361,7 @@ public class OrderController {
 			// 정보를 map으로 합친 후 orderitems 리스트에 넣기
 			Map<String, Object> map = new HashMap<>();
 			map.put("p_id", p_id);
-			map.put("p_img", p_img);
+			map.put("file_name", file_name);
 			map.put("p_price", p_price);
 			map.put("amount", amount);
 			map.put("o_name", o_name);
@@ -497,7 +506,16 @@ public class OrderController {
 			// 이미지, 상품명, 상품가격
 			
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
-			String p_img = (String) orderDAO.orderedProducts(p_id).get("p_img1");
+			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
+			//System.out.println("원본="+file_name);
+			String split_str = "src/main/webapp";
+			String[] parts = file_name.split(split_str);
+			if (parts.length > 1) {
+			    file_name = "/" + (parts[1].startsWith("/") ? parts[1].substring(1) : parts[1]);
+			} else {
+			    file_name = parts[0];
+			}
+			//System.out.println("replace="+file_name);
 			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 
 			
@@ -507,7 +525,7 @@ public class OrderController {
 			map.put("idx", item.getOrderItemId());
 			map.put("orderDate", item.getOrderDate());
 			map.put("p_id", p_id);
-			map.put("p_img", p_img);
+			map.put("file_name", file_name);
 			map.put("p_price", p_price);
 			map.put("amount", item.getAmount());
 			map.put("o_name", item.getO_name());
@@ -625,7 +643,7 @@ public class OrderController {
 		map.put("orderid", orderid);
 		map.put("price", updatePrice);
 		map.put("totalPrice", updateTotalPrice);
-		System.out.println(map);
+		//System.out.println(map);
 		
 		//주문상태 업데이트
 		Map<String, Object> status = new HashMap<>();

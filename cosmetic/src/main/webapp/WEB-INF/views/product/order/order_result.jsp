@@ -334,7 +334,7 @@
 <div class="rowBox">
 	<div class="img">
 		<div>
-			<img src="${row.p_img}">
+			<img src="${row.file_name}">
 		</div>
 	</div>
 	<div class="rowInfo">

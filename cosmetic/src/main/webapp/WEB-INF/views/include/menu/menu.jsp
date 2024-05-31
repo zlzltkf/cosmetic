@@ -3,9 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <style>
-
 .row #top {
+	color: red;
 	height: 20px; 
+	/* min-width: 620px; */
 }
 .main_menu_bg .nave_menu {
 	margin: 0;
@@ -16,11 +17,10 @@
 .menu-scroll .main_menu_bg .nave_menu{
 	margin: 0;
 }
-/* .menu-scroll #recent, .menu-scroll #ctg_btn {
+.menu-scroll #recent, .menu-scroll #ctg_btn {
 	padding: 5px 15px 20px 15px;
-} */
+}
 .navbar-brand-logo {
-	margin: 0 0 0 10px;
 	/* position: absolute;
 	bottom: 1px;
 	left: 1px; */
@@ -28,10 +28,6 @@
 	position: fixed;
 	left: 1px;
 	top: 30px;
-}
-
-.main_menu_bg .navbar-nav>li>a:hover {
-	color: #337ab7;
 }
 
 /* 최근 본 목록박스 토글 */
@@ -101,10 +97,8 @@
 	scroll-margin-inline-start: 20px;
 }
 
-@media ( max-width : 768px) {
-	.row #top {
-		padding: 0 20px 0 0;
-	}
+@media ( min-width : 768px) {
+
 }
 </style>
 <script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
@@ -153,7 +147,7 @@ function R_list() {
         method: 'GET',
         success: function(data) {
             var htmlContent = '';
-            
+         
             if (data !== undefined && data !== null && data.length > 0) { //데이터가 있다면
             	data.forEach(function(product) {
             		
