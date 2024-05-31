@@ -457,6 +457,8 @@ select:focus {
 						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
 						<td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						
+						<input type="hidden" name="option_txt" value="${row.o_name}"> <!-- 주문 테이블로 보낼 옵션 -->
+						
 						<c:choose>
 						<c:when test="${row.o_name eq '없음'}">
 						<select style="display: none;" name="o_name" class="o_name_btn">
@@ -715,6 +717,10 @@ $(document).ready(function() {
        var p_order_id = $row.find("input[name='p_order_id']").val();
        var amount = $row.find("input[name='amount']").val();
        var p_o_price = parseInt($row.find("input[name='p_o_price']").val());
+       var option = $row.find("input[name = 'option_txt']").val().trim();
+       if (/\d/.test(option)) { // 숫자가 있는지 확인하는 정규표현식
+    	    option = "";
+    	} 
 
        var delfee = p_o_price >= 30000 ? 0 : 2500;
        var totalPrice = p_o_price + delfee;
