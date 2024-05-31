@@ -32,7 +32,7 @@ public class ProductController {
 
 	@Autowired
 	ProductDAO productDao;
-	
+
 	@Autowired
 	AdminDao adminDao;
 
@@ -110,13 +110,8 @@ public class ProductController {
 //			
 //			return "product/detail";
 //		}
-	 @GetMapping("list_p_attach/{p_id}")
-	 @ResponseBody
-	 public List<String> list_p_attach(@PathVariable(name="p_id") int p_id) {
-		 return adminDao.list_p_attach(p_id);
-	 }
 	
-	
+
 	@GetMapping("/detail/{p_id}")
 	public String detail(@PathVariable(name = "p_id") int p_id, Model model, HttpServletRequest request,
 			HttpSession session) {
@@ -153,56 +148,56 @@ public class ProductController {
 	}
 
 	// 최근 본 상품
-	   @ResponseBody
-	   @GetMapping("recent_cookie")
-	   public List<ProductDTO> recent_cookie(Model model, HttpServletRequest request, HttpSession session) {
-	      String userid = (String) session.getAttribute("userid");
-	      Cookie[] cookies = request.getCookies();
-	      List<ProductDTO> r_list = new ArrayList<>();
-	      if (cookies != null) {
-	         for (Cookie cookie : cookies) {
-	            if (cookie.getName().startsWith("recent")) {
-	               int no = Integer.parseInt(cookie.getValue());
-	               ProductDTO recent = productDao.detail(no, userid);
-	               r_list.add(recent);
-	            }
-	         }
-	      }
-	      return r_list;
-	   }
+	@ResponseBody
+	@GetMapping("recent_cookie")
+	public List<ProductDTO> recent_cookie(Model model, HttpServletRequest request, HttpSession session) {
+		String userid = (String) session.getAttribute("userid");
+		Cookie[] cookies = request.getCookies();
+		List<ProductDTO> r_list = new ArrayList<>();
+		if (cookies != null) {
+			for (Cookie cookie : cookies) {
+				if (cookie.getName().startsWith("recent")) {
+					int no = Integer.parseInt(cookie.getValue());
+					ProductDTO recent = productDao.detail(no, userid);
+					r_list.add(recent);
+				}
+			}
+		}
+		return r_list;
+	}
 
-	   // 최근 본 상품 삭제 (쿠키 한개씩 삭제)
-	   @ResponseBody
-	   @GetMapping("cookie_delete")
-	   public String cookie_delete(@RequestParam(name = "p_id") int p_id, HttpServletRequest request,
-	         HttpServletResponse response) {
-	      Cookie[] cookies = request.getCookies();
-	      // 지금은 cookies가 null이 아님.
-	      for (int i = cookies.length - 1; i >= 0; i--) {
-	         if (cookies[i].getName().equals("recent" + p_id)) {
-	            cookies[i].setPath("/");
-	            cookies[i].setMaxAge(0); // 이 MaxAge만 0으로 설정하면 시간이 0이라 바로 삭제됌
-	            response.addCookie(cookies[i]);
-	            break;
-	         }
-	      }
-	      return "success";
-	   }
+	// 최근 본 상품 삭제 (쿠키 한개씩 삭제)
+	@ResponseBody
+	@GetMapping("cookie_delete")
+	public String cookie_delete(@RequestParam(name = "p_id") int p_id, HttpServletRequest request,
+			HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+		// 지금은 cookies가 null이 아님.
+		for (int i = cookies.length - 1; i >= 0; i--) {
+			if (cookies[i].getName().equals("recent" + p_id)) {
+				cookies[i].setPath("/");
+				cookies[i].setMaxAge(0); // 이 MaxAge만 0으로 설정하면 시간이 0이라 바로 삭제됌
+				response.addCookie(cookies[i]);
+				break;
+			}
+		}
+		return "success";
+	}
 
-	   // 최근 본 상품 전체 삭제 (쿠키 전체삭제)
-	   @ResponseBody
-	   @GetMapping("cookie_all_delete")
-	   public String cookie_all_delete(HttpServletRequest request, HttpServletResponse response) {
-	      Cookie[] cookies = request.getCookies();
-	      for (int i = cookies.length - 1; i >= 0; i--) {
-	         if (cookies[i].getName().startsWith("recent")) {
-	            cookies[i].setPath("/");
-	            cookies[i].setMaxAge(0);
-	            response.addCookie(cookies[i]);
-	         }
-	      }
-	      return "success";
-	   }
+	// 최근 본 상품 전체 삭제 (쿠키 전체삭제)
+	@ResponseBody
+	@GetMapping("cookie_all_delete")
+	public String cookie_all_delete(HttpServletRequest request, HttpServletResponse response) {
+		Cookie[] cookies = request.getCookies();
+		for (int i = cookies.length - 1; i >= 0; i--) {
+			if (cookies[i].getName().startsWith("recent")) {
+				cookies[i].setPath("/");
+				cookies[i].setMaxAge(0);
+				response.addCookie(cookies[i]);
+			}
+		}
+		return "success";
+	}
 
 	// 디테일화면에서 상품을 선택하세요 누르면 드롭메뉴 뜸, 옵션을 가져옴
 	@ResponseBody
@@ -219,6 +214,12 @@ public class ProductController {
 	public List<ProductDTO> get_o_name(@PathVariable(name = "p_id") int p_id) {
 		List<ProductDTO> o_name = productDao.get_o_name(p_id);
 		return o_name;
+	}
+	
+	@GetMapping("list_p_attach/{p_id}")
+	@ResponseBody
+	public List<String> list_p_attach(@PathVariable(name = "p_id") int p_id) {
+		return productDao.list_p_attach(p_id);
 	}
 
 }

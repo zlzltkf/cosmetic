@@ -125,10 +125,7 @@ public class AdminDao {
 		sqlSession.insert("admin.insert_p_attach", map);
 	}
 
-	// 첨부파일
-	public List<String> list_p_attach(int p_id) {
-		return sqlSession.selectList("admin.list_p_attach", p_id);
-	}
+	
 
 	//주문목록 상세
 	public List<OrderDTO> admin_order_detail(long orderid) {

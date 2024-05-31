@@ -187,9 +187,7 @@
 		</foreach>
 	</insert>
 	
-	<select id="list_p_attach" resultType="String">
-	SELECT save_name WHERE p_id = #{p_id}
-	</select>
+	
 
 	<select id="order_detail"
 		resultType="com.example.cosmetic.model.order.OrderDTO">
