@@ -159,13 +159,16 @@ public class ProductController {
 				if (cookie.getName().startsWith("recent")) {
 					int no = Integer.parseInt(cookie.getValue());
 					ProductDTO recent = productDao.detail(no, userid);
-					r_list.add(recent);
-				}
+					String file_name = recent.getFile_name().replace("src/main/webapp", "");
+	                recent.setFile_name(file_name); // 가공된 파일 이름 설정
+	                r_list.add(recent); // 전체 ProductDTO 객체를 리스트에 추가
+	                //System.out.println(file_name);
 			}
 		}
+		
+	}
 		return r_list;
 	}
-
 	// 최근 본 상품 삭제 (쿠키 한개씩 삭제)
 	@ResponseBody
 	@GetMapping("cookie_delete")

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +13,9 @@
         <ul>
             <c:forEach var="product" items="${r_list}">
                 <li>${product.p_name} - 가격: ${product.p_price}</li>
-                <li><img src="${product.p_img1}"></li>
+                <%-- <li><img src="${fn:replace(product.file_name, 'src/main/webapp', '')}"></li> --%>
+                <li>${product.file_name}</li>
+                
                 <button type="button" onclick="cookie_delete(${product.p_id})">쿠키 하나 삭제</button>
                 <button type="button" onclick="cookie_all_delete()">쿠키 전체 삭제</button>
             </c:forEach>

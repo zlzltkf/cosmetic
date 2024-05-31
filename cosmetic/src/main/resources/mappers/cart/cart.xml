@@ -8,10 +8,14 @@ INSERT INTO cart (userid, o_name, p_id, amount) VALUES (#{userid}, #{o_name}, #{
 
 <!--장바구니 목록-->
 <select id="cart_list" resultType="com.example.cosmetic.model.cart.CartDTO">
-select c.c_id, p.p_id, p.p_name, p.p_price, c.amount,c.o_name, p_price*amount money
+select c.c_id, p.p_id, p.p_name,p.p_price, c.amount,c.o_name, p_price*amount money,
+( SELECT file_name FROM p_attach WHERE p_id = p.p_id ORDER BY p_id ASc LIMIT 1) AS file_name
 from member m, cart c, product p
 where m.userid=c.userid and c.p_id=p.p_id and c.userid=#{userid}
 order by c_id
+
+
+
 </select>
 
 <!--상품 한개 삭제  -->

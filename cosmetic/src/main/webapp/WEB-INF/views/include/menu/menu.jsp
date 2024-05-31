@@ -147,7 +147,7 @@ function R_list() {
         method: 'GET',
         success: function(data) {
             var htmlContent = '';
-            
+         
             if (data !== undefined && data !== null && data.length > 0) { //데이터가 있다면
             	data.forEach(function(product) {
             		
@@ -168,7 +168,7 @@ function R_list() {
                 	//상품 이미지
                 	htmlContent += '<div style="width: 140px; ' +  
                 	'height: 140px; margin: 0 10px 10px 10px;"> ' + 
-                	'<img src="' + product.p_img1 + '" style="width: 100%; height: 100%;">' + 
+                	'<img src="' + product.file_name + '" style="width: 100%; height: 100%;">' + 
                 	'</div>';
                 	
                 	//상품 이름

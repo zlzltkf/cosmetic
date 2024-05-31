@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
     <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -500,7 +501,7 @@ h3 {
 		</tr>
 	<c:forEach var="row" items="${list}">
 		<tr>
-			<td><div class="img"><div><img src="${row.p_img}"/></div></div></td>
+			<td><div class="img"><div><img src="${row.file_name}"/></div></div></td>
 			<td>
 			${row.p_name}
 			<c:if test="${not empty row.option}">

@@ -12,12 +12,14 @@
 		ctg_big=#{ctg_big}
 	</select>
 
+	<!-- <insert id="product_insert">
+		insert into product (p_name, p_price, p_stock, p_detail, p_cate)
+		values(#{p_name},#{p_price}, #{p_stock},#{p_detail},#{p_cate})
+	</insert> -->
+	
 	<insert id="product_insert">
-		insert into product (p_name, p_price, p_stock,
-		p_img1, p_detail, p_cate)
-		values(#{p_name},#{p_price}, #{p_stock},
-		#{p_img1},#{p_detail},
-		#{p_cate})
+	INSERT INTO product (p_name, p_price, p_stock, p_detail, p_cate)
+	VALUES (#{p_name}, #{p_price}, #{p_stock}, CONVERT(#{p_detail} USING utf8), #{p_cate})
 	</insert>
 
 

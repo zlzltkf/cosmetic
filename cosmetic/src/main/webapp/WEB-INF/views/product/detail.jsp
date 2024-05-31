@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-   pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!doctype html>
 <head>
 <meta charset="utf-8">
@@ -28,218 +29,214 @@
 <!--Theme Responsive css-->
 <link rel="stylesheet" href="/resources/assets/css/responsive.css" />
 
-<script src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
-<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>   
-   
+<script
+	src="/resources/assets/js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"></script>
+<script src="http://code.jquery.com/jquery-3.7.1.min.js"></script>
+
 
 <style>
 body {
-   margin: 0;
-    
+	margin: 0;
 }
 
 * {
-   box-sizing: border-box;
-   font-family: 'Montserrat', sans-serif;
+	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .prd_detail_box {
-   padding: 35px 0 0;
+	padding: 35px 0 0;
 }
 
 .prd_detail_box .left_area {
-   float: left;
-   width: 550px;
-   margin-top: 5px;
+	float: left;
+	width: 550px;
+	margin-top: 5px;
 }
 
 .prd_detail_box .right_area {
-   float: right;
-   width: 425px;
+	float: right;
+	width: 425px;
 }
 
 .p_info {
-   background: #fff;
+	background: #fff;
 }
 
 .prd_detail_box .right_area .p_price {
-   padding: 0px 0px 30px;
+	padding: 0px 0px 30px;
 }
 
 .p_deli {
-  padding: 0px 0px 15px;
+	padding: 0px 0px 15px;
 }
 
 .p_deli_tit {
-   position: relative;
-   font-size: 16px;
-   line-height: 30px;
-   margin-bottom: 5px;
-   color: #000;
-   font-weight: 700;
+	position: relative;
+	font-size: 16px;
+	line-height: 30px;
+	margin-bottom: 5px;
+	color: #000;
+	font-weight: 700;
 }
 
 .p_deli_s_tit {
-   position: relative;
-   width: 100px; /* 수정된 부분 */
-   display: inline-block; /* 수정된 부분 */
-   margin-right: 10px; /* 수정된 부분 */
-   font-weight: 700;
+	position: relative;
+	width: 100px; /* 수정된 부분 */
+	display: inline-block; /* 수정된 부분 */
+	margin-right: 10px; /* 수정된 부분 */
+	font-weight: 700;
 }
 
 .p_price_color {
-   font-size: 28px;
-   color: #e02020;
-   display: flex;
-   align-items: center;
-   font-weight: 700;
-   border-bottom: 1px solid e5e5e5;
+	font-size: 28px;
+	color: #e02020;
+	display: flex;
+	align-items: center;
+	font-weight: 700;
+	border-bottom: 1px solid e5e5e5;
 }
 
 .p_name {
-   margin-top: 10px;
-   font-size: 26px;
-   line-height: 34px;
-   color: #000;
+	margin-top: 10px;
+	font-size: 26px;
+	line-height: 34px;
+	color: #000;
 }
 
 .p_path {
-   font-size: 16px;
-   line-height: 24px;
-   color: #000;
+	font-size: 16px;
+	line-height: 24px;
+	color: #000;
 }
 
 .prd_detail_box .right_area .p_total_price {
-   overflow: hidden;
-   height: 60px;
-   margin: 60px 0 0;
-   border-bottom: 2px solid #f27370;
-   color: #e02020;
-   font-weight: 700;
-   padding: 15px 0 20px;
+	overflow: hidden;
+	height: 60px;
+	margin: 60px 0 0;
+	border-bottom: 2px solid #f27370;
+	color: #e02020;
+	font-weight: 700;
+	padding: 15px 0 20px;
 }
 
 .prd_detail_box .right_area .p_total_price .total_tit {
-   float: left;
-   font-size: 18px;
+	float: left;
+	font-size: 18px;
 }
 
 .prd_detail_box .right_area .p_total_price .total_won {
-   float: right;
+	float: right;
 }
 
-
 .prd_detail_box .right_area .p_btn {
-    display: flex;
-    justify-content: space-between;
-    width: 416px; /* 수정된 부분: 버튼 전체 너비 조정 */
-    margin-top: 23px; /* 수정된 부분: 버튼과 위쪽 간격 조정 */
-    padding: 0; /* 수정된 부분: 외부 여백 제거 */
-    
+	display: flex;
+	justify-content: space-between;
+	width: 416px; /* 수정된 부분: 버튼 전체 너비 조정 */
+	margin-top: 23px; /* 수정된 부분: 버튼과 위쪽 간격 조정 */
+	padding: 0; /* 수정된 부분: 외부 여백 제거 */
 }
 
 .prd_detail_box .right_area .p_btn button {
-    flex-grow: 1;
-    margin-left: 10px;
-    height: 65px;
-    border: 1px solid #ccc; 
-    font-size: 20px;
-    font-weight: 500;
+	flex-grow: 1;
+	margin-left: 10px;
+	height: 65px;
+	border: 1px solid #ccc;
+	font-size: 20px;
+	font-weight: 500;
 }
 
-
 .prd_detail_box .right_area .p_dropdown {
-   height: 70px;
-    line-height: 50px;
-    border-color: #ffffff;
-    padding: 14px 0 14px 0; /* 좌우 패딩 값 조정 */
-    border-top: 1px solid #ccc;
+	height: 70px;
+	line-height: 50px;
+	border-color: #ffffff;
+	padding: 14px 0 14px 0; /* 좌우 패딩 값 조정 */
+	border-top: 1px solid #ccc;
 }
 
 .prd_detail_box .right_area .p_dropdown-content {
-   display: none;
-   position: absolute;
-   background-color: #ffffff; /* 드롭다운 배경색 */
-   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-   z-index: 1;
+	display: none;
+	position: absolute;
+	background-color: #ffffff; /* 드롭다운 배경색 */
+	box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+	z-index: 1;
 }
 
 .prd_detail_box .right_area .p_dropdown-content a {
-   color: #000;
-    position: relative;
-    text-decoration: none;
-    display: block; 
-    width: 425px;
-    padding: 17px;
-    text-align: left; 
-    box-sizing: border-box; 
-    border: 1px solid #e5e5e5;
+	color: #000;
+	position: relative;
+	text-decoration: none;
+	display: block;
+	width: 425px;
+	padding: 17px;
+	text-align: left;
+	box-sizing: border-box;
+	border: 1px solid #e5e5e5;
 }
 
 .zzim_btn {
-   background-color: transparent;
-     cursor: pointer;
+	background-color: transparent;
+	cursor: pointer;
 }
 
-.zzim{
-   display: flex;
-   width: 80px;
-   
-    border: 1px solid #e5e5e5;
-   background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-line.png) 50% 50% no-repeat #fff;
+.zzim {
+	display: flex;
+	width: 80px;
+	border: 1px solid #e5e5e5;
+	background:
+		url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-line.png)
+		50% 50% no-repeat #fff;
 }
 
-.zzimon{
-   display: flex;
-   width: 80px;
-   
-   border: 1px solid #e5e5e5;
-   background:url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-solid.png) 50% 50% no-repeat #fff;
+.zzimon {
+	display: flex;
+	width: 80px;
+	border: 1px solid #e5e5e5;
+	background:
+		url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/icon-like-32-solid.png)
+		50% 50% no-repeat #fff;
 }
 
 .prd_detail_box .right_area .p_dropdown-content a:hover {
-   background-color: #f9f9f9; /* 마우스 오버 시 배경색 */
+	background-color: #f9f9f9; /* 마우스 오버 시 배경색 */
 }
 
 .prd_detail_box .right_area .p_dropdown:hover .p_dropdown-content {
-   display: block; /* 수정된 부분 */
+	display: block; /* 수정된 부분 */
 }
 
-
-
-
 .p_dropbtn {
-    position: relative;
-    width: 100%;
-    height: 57px;
-    margin: 20px 0 0;
-    background: #fff;
+	position: relative;
+	width: 100%;
+	height: 57px;
+	margin: 20px 0 0;
+	background: #fff;
 }
 
 /* 이미지 슬라이더 스타일 */
 #p_img {
-    max-width: 510px;
-    max-height: 510px;
-    min-width: 500px;
-    min-height: 500px;
-    width: 510px;
-    height: 510px;
+	max-width: 510px;
+	max-height: 510px;
+	min-width: 500px;
+	min-height: 500px;
+	width: 510px;
+	height: 510px;
 }
 
 .slider-container {
-    position: relative; /* 추가 */
-    overflow: hidden;
+	position: relative; /* 추가 */
+	overflow: hidden;
 }
 
 .slider-container img {
-    width: 100%;
-    height: auto;
-    display: none; /* 이미지를 숨깁니다. */
+	width: 100%;
+	height: auto;
+	display: none; /* 이미지를 숨깁니다. */
 }
 
 .slider-container .slides {
-    display: flex;
-    transition: transform 0.5s ease;
+	display: flex;
+	transition: transform 0.5s ease;
 }
 
 /* .slider-container .slides img {
@@ -247,27 +244,23 @@ body {
     height: auto;
     
 } */
-
-.slider-container .prev,
-.slider-container .next {
-    cursor: pointer;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 2;
-    background-color: rgba(255, 255, 255, 0.5);
-    padding: 10px;
+.slider-container .prev, .slider-container .next {
+	cursor: pointer;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	z-index: 2;
+	background-color: rgba(255, 255, 255, 0.5);
+	padding: 10px;
 }
 
 .slider-container .prev {
-    left: 0;
+	left: 0;
 }
 
 .slider-container .next {
-    right: 40px;
+	right: 40px;
 }
-
-
 </style>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -333,38 +326,38 @@ $(document).ready(function() {
 </head>
 
 <body data-spy="scroll" data-target=".navbar-collapse">
-   <div class='preloader'>
-      <div class='loaded'>&nbsp;</div>
-   </div>
-   
-<!-- 상단 메뉴 -->
-<%@ include file="../include/menu/menu.jsp"%>
+	<div class='preloader'>
+		<div class='loaded'>&nbsp;</div>
+	</div>
 
-<section class="service sections margin-top-120">
-<section class="detail_window_side">
-   <div class="prd_contents">
-   
-      <!-- 상품정보 -->
-      <div class="prd_detail_box">
-         <input type="hidden" value="${dto.p_id}">
-               
-            <!-- 왼쪽에 들어갈 사진
+	<!-- 상단 메뉴 -->
+	<%@ include file="../include/menu/menu.jsp"%>
+
+	<section class="service sections margin-top-120">
+		<section class="detail_window_side">
+			<div class="prd_contents">
+
+				<!-- 상품정보 -->
+				<div class="prd_detail_box">
+					<input type="hidden" value="${dto.p_id}">
+
+					<!-- 왼쪽에 들어갈 사진
             <div class="left_area">
                <div class="p_img" id="p_img"></div>
             </div> -->
-            
-            <!-- 이미지 슬라이더를 표시할 곳 -->
-            <div class="left_area">
-<div class="slider-container">
-    <div class="slides p_img" id="p_img"></div>
-    <!-- 이전 버튼 -->
-    <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-    <!-- 다음 버튼 -->
-    <a class="next" onclick="plusSlides(1)">&#10095;</a>
-</div>
-</div>
-             
-            <!--이미지 슬라이더
+
+					<!-- 이미지 슬라이더를 표시할 곳 -->
+					<div class="left_area">
+						<div class="slider-container">
+							<div class="slides p_img" id="p_img"></div>
+							<!-- 이전 버튼 -->
+							<a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+							<!-- 다음 버튼 -->
+							<a class="next" onclick="plusSlides(1)">&#10095;</a>
+						</div>
+					</div>
+
+					<!--이미지 슬라이더
             <div class="left_area">
             
                <div class="p_img">
@@ -376,73 +369,82 @@ $(document).ready(function() {
                   </div>
                   <div class="slider__dot"></div>
                </div> -->
-               
-      <!-- 오른쪽에 들어갈 정보 -->
-      <div class="right_area"> 
-         <div class="p_info" data-product-id="${dto.p_id}">
-            <p class="p_path">${dto.ctg_big} > ${dto.ctg_small}</p> <!-- ex) 립 > 립스틱 -->
-            <p class="p_name">${dto.p_name}</p> <!-- 제목 -->
-            <div class="p_price"> <!-- 가격 -->
-               <span class="p_price_color"> <strong>가격 <fmt:formatNumber type="number" value="${dto.p_price}" pattern="#,###"></fmt:formatNumber>원</strong></span>
-            </div>
-               
-            <!-- 배송 -->
-            <div class="p_deli">
-               <p class="p_deli_tit">배송정보</p>
-               <div class="p_deli_row"> <!-- 설명란 -->
-                  <span style="font-size: 14px;" class="p_deli_s_tit">일반배송 |</span>
-                  <ul style="list-style: none;">
-                     <li>
-                        <span style="font-size: 14px;">2,500원 ( 20,000 원 이상 무료배송 )</span>
-                        <span style="font-size: 14px;">배송 평균 3일 이내 배송</span>
-                     </li>                        
-                  </ul>
-               </div>
-            </div>
-                     
-            <!-- 상품 종류 선택 -->
-            <div class="p_dropdown">
-               <button class="p_dropbtn" >상품을 선택해주세요</button>
-               <div class="p_dropdown-content"></div>
-            </div>
-                     
-            <!-- 상품옵션 선택시 보이는 곳 (ajax) -->
-            <div id="select_option"></div>
-                  
-            <!-- 상품 금액 -->
-            <div class="p_total_price">
-                <span class="total_tit">상품금액 합계</span> 
-                <span class="total_won">가격 <span id="product_price">0</span> 원</span>
-            </div>
-            
-            <!-- 장바구니, 바로구매, 찜 버튼 -->
-            <div class="p_btn">
-               <button class="btn_Cart" id="btn_Cart" onclick="cart_insert()">장바구니</button>
-               <button class="btn_Buy" id="btn_buy">바로구매</button>
-               <div style="display:none;"><form name="form1" id="form1"></form></div>
-                     <c:if test="${sessionScope.userid != null}">
-                <c:choose>
-                    <c:when test="${dto.p_like == dto.p_id}">
-                        <button type="button" class="zzimon zzim_btn"></button>
-                    </c:when>
-                    <c:otherwise>
-                        <button type="button" class="zzim zzim_btn"></button>
-                    </c:otherwise>
-                </c:choose>
-               </c:if>
-            </div>
-            
-            
-            </div>
-                                 
-            
-      </div>
-   </div>
-   </div>
-</section>
-</section>
 
-<script>
+					<!-- 오른쪽에 들어갈 정보 -->
+					<div class="right_area">
+						<div class="p_info" data-product-id="${dto.p_id}">
+							<p class="p_path">${dto.ctg_big}> ${dto.ctg_small}</p>
+							<!-- ex) 립 > 립스틱 -->
+							<p class="p_name">${dto.p_name}</p>
+							<!-- 제목 -->
+							<div class="p_price">
+								<!-- 가격 -->
+								<span class="p_price_color"> <strong>가격 <fmt:formatNumber
+											type="number" value="${dto.p_price}" pattern="#,###"></fmt:formatNumber>원
+								</strong></span>
+							</div>
+
+							<!-- 배송 -->
+							<div class="p_deli">
+								<p class="p_deli_tit">배송정보</p>
+								<div class="p_deli_row">
+									<!-- 설명란 -->
+									<span style="font-size: 14px;" class="p_deli_s_tit">일반배송
+										|</span>
+									<ul style="list-style: none;">
+										<li><span style="font-size: 14px;">2,500원 ( 20,000
+												원 이상 무료배송 )</span> <span style="font-size: 14px;">배송 평균 3일
+												이내 배송</span></li>
+									</ul>
+								</div>
+							</div>
+
+							<!-- 상품 종류 선택 -->
+							<div class="p_dropdown">
+								<button class="p_dropbtn">상품을 선택해주세요</button>
+								<div class="p_dropdown-content"></div>
+							</div>
+
+							<!-- 상품옵션 선택시 보이는 곳 (ajax) -->
+							<div id="select_option"></div>
+
+							<!-- 상품 금액 -->
+							<div class="p_total_price">
+								<span class="total_tit">상품금액 합계</span> <span class="total_won">가격
+									<span id="product_price">0</span> 원
+								</span>
+							</div>
+
+							<!-- 장바구니, 바로구매, 찜 버튼 -->
+							<div class="p_btn">
+								<button class="btn_Cart" id="btn_Cart" onclick="cart_insert()">장바구니</button>
+								<button class="btn_Buy" id="btn_buy">바로구매</button>
+								<div style="display: none;">
+									<form name="form1" id="form1"></form>
+								</div>
+								<c:if test="${sessionScope.userid != null}">
+									<c:choose>
+										<c:when test="${dto.p_like == dto.p_id}">
+											<button type="button" class="zzimon zzim_btn"></button>
+										</c:when>
+										<c:otherwise>
+											<button type="button" class="zzim zzim_btn"></button>
+										</c:otherwise>
+									</c:choose>
+								</c:if>
+							</div>
+
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</section>
+	</section>
+
+	<script>
 
 // 찜 누를때
 $(document).on('click', '.zzim_btn', function() {
@@ -547,63 +549,71 @@ $(document).ready(function() {
 
 </script>
 
-<!-- 위의 상품표시와 아래의 상품설명 구분 -->
-<section class="tab_menu_top">
-<section class="detail_window_side">
-            
-<!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
-<div class="ec-base-tab grid3">
-<ul class="menu">
+	<!-- 위의 상품표시와 아래의 상품설명 구분 -->
+	<section class="tab_menu_top">
+		<section class="detail_window_side">
 
-   <!-- 밑 컨텐츠 칸의 id와 일치해야함 -->
-    <li class="selected"><a href="#description" data-bs-toggle="tab" aria-selected="true">상품 설명</a></li>
-    <li><a href="#review" data-bs-toggle="tab">상품 리뷰</a></li>
-    <!-- <li><a href="#qna" data-bs-toggle="tab">Q&A</a></li> -->
-</ul>
-</div>
+			<!-- 상품설명, 상품리뷰, Q&A 탭 메뉴 -->
+			<div class="ec-base-tab grid3">
+				<ul class="menu">
 
-<!-- 표시될 컨텐츠 -->
-<div class="tab-content" id="myTabContent">
+					<!-- 밑 컨텐츠 칸의 id와 일치해야함 -->
+					<li class="selected"><a href="#description"
+						data-bs-toggle="tab" aria-selected="true">상품 설명</a></li>
+					<li><a href="#review" data-bs-toggle="tab">상품 리뷰</a></li>
+					<!-- <li><a href="#qna" data-bs-toggle="tab">Q&A</a></li> -->
+				</ul>
+			</div>
 
-    <div class="tab-pane active" id="description" role="tabpanel"> <!-- 위의 id와 일치해야함 -->
-        <!-- 상품설명 섹션 -->
-        <section id="product_infomation" class="service sections margin-top-20">
-                        <div class="head_title text-center">
-                            <h2>상품설명</h2>
-                        </div>
-                    <div class="main_service_area">
-                        <p><c:out value="${dto.p_detail}" /></p>
-                    </div>
-      </section>
-    </div>
-    
-    
-    
-    <!-- 상품리뷰 섹션 -->
-    <div class="tab-pane" id="review" role="tabpanel">
-    <section id="product_infomation" class="service sections margin-top-20">
-       <!-- 상단 메뉴 -->
-      <%@ include file="../product/review.jsp"%>
-      </section>
-    </div>
-    
-    <!-- Q&A 섹션 -->
-    <div class="tab-pane" id="qna" role="tabpanel">
-    <section id="product_infomation" class="service sections margin-top-20">
-                        <div class="head_title text-center">
-                            <h2>Q&A</h2>
-                        </div>
-                    <div class="main_service_area">
-                       <p>이곳에 Q&A 내용을 입력하세요.</p>
-                    </div>
-      </section>
-    </div>
-</div>
-      
-      </section>
-   </section>         
-    
-<script>
+			<!-- 표시될 컨텐츠 -->
+			<div class="tab-content" id="myTabContent">
+
+				<div class="tab-pane active" id="description" role="tabpanel">
+					<!-- 위의 id와 일치해야함 -->
+					<!-- 상품설명 섹션 -->
+					<section id="product_infomation"
+						class="service sections margin-top-20">
+						<div class="head_title text-center">
+							<h2>상품설명</h2>
+						</div>
+						<div class="main_service_area">
+							<p>
+								${dto.p_detail}
+							</p>
+
+						</div>
+					</section>
+				</div>
+
+
+
+				<!-- 상품리뷰 섹션 -->
+				<div class="tab-pane" id="review" role="tabpanel">
+					<section id="product_infomation"
+						class="service sections margin-top-20">
+						<!-- 상단 메뉴 -->
+						<%@ include file="../product/review.jsp"%>
+					</section>
+				</div>
+
+				<!-- Q&A 섹션 -->
+				<div class="tab-pane" id="qna" role="tabpanel">
+					<section id="product_infomation"
+						class="service sections margin-top-20">
+						<div class="head_title text-center">
+							<h2>Q&A</h2>
+						</div>
+						<div class="main_service_area">
+							<p>이곳에 Q&A 내용을 입력하세요.</p>
+						</div>
+					</section>
+				</div>
+			</div>
+
+		</section>
+	</section>
+
+	<script>
 
 
 $(document).ready(function() {
@@ -762,238 +772,241 @@ function updateTotalPrice() {
 </script>
 
 
-<style>
+	<style>
 .option_flex {
-   display: flex;
-    align-items: center;
-    margin-bottom: 5px;
-}
-.prd_select_box {   
-   align-content: center;
-   margin-top: 40px;
-    min-height: 60px;
-    border: 1px solid #e9e9e9;
-    background: #f9f9f9;
-    padding: 10px; /* 내부 여백 추가 */
-    display: block; /* 블록 레벨 요소로 변경 */
-    clear: both; /* 요소들이 옆으로 붙는 것을 방지하기 위해 clear 추가 */
-    box-sizing: content-box;
-    padding-left: 30px;
+	display: flex;
+	align-items: center;
+	margin-bottom: 5px;
 }
 
-.delete-button{
-    overflow: hidden;
-    display: inline-block;
-    width: 13px;
-    height: 13px;
-    margin-left: 7px;
-    margin-bottom: 2px;
-    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_close23x23.png) 50% 50% no-repeat;
-    vertical-align: middle;
-    text-indent: -9999px;
-    border: none;
-  float:right;
+.prd_select_box {
+	align-content: center;
+	margin-top: 40px;
+	min-height: 60px;
+	border: 1px solid #e9e9e9;
+	background: #f9f9f9;
+	padding: 10px; /* 내부 여백 추가 */
+	display: block; /* 블록 레벨 요소로 변경 */
+	clear: both; /* 요소들이 옆으로 붙는 것을 방지하기 위해 clear 추가 */
+	box-sizing: content-box;
+	padding-left: 30px;
+}
+
+.delete-button {
+	overflow: hidden;
+	display: inline-block;
+	width: 13px;
+	height: 13px;
+	margin-left: 7px;
+	margin-bottom: 2px;
+	background:
+		url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/ico_close23x23.png)
+		50% 50% no-repeat;
+	vertical-align: middle;
+	text-indent: -9999px;
+	border: none;
+	float: right;
 }
 
 .p_select_option {
-    margin-bottom: -23px;
+	margin-bottom: -23px;
 }
 
-.option_text{
-   font-size: 15px;
-   font-weight: bold;
-   margin-top: 3px;
-     margin-bottom: 10px; 
+.option_text {
+	font-size: 15px;
+	font-weight: bold;
+	margin-top: 3px;
+	margin-bottom: 10px;
 }
 
-.select_price{
-    margin-left: 170px; 
-    font-weight: bold;
- }
+.select_price {
+	margin-left: 170px;
+	font-weight: bold;
+}
 
 /* 수량버튼 스타일 */
 .amount_select {
-   display: flex;
-    margin-right: 10px;
-    align-items: center;
+	display: flex;
+	margin-right: 10px;
+	align-items: center;
 }
 
 .quantity-button {
-    width: 30px; /* 버튼의 너비 조정 */
-    height: 30px; /* 버튼의 높이 조정 */
-    background-color: #f0f0f0; /* 버튼 배경색 */
-    border: 1px solid #ccc; /* 버튼 테두리 스타일 */
-    color: #555; /* 버튼 텍스트 색상 */
-    font-size: 16px; /* 버튼 텍스트 크기 */
-    cursor: pointer; /* 커서 모양 변경 */
-    outline: none; /* 포커스 효과 제거 */
+	width: 30px; /* 버튼의 너비 조정 */
+	height: 30px; /* 버튼의 높이 조정 */
+	background-color: #f0f0f0; /* 버튼 배경색 */
+	border: 1px solid #ccc; /* 버튼 테두리 스타일 */
+	color: #555; /* 버튼 텍스트 색상 */
+	font-size: 16px; /* 버튼 텍스트 크기 */
+	cursor: pointer; /* 커서 모양 변경 */
+	outline: none; /* 포커스 효과 제거 */
 }
 
 .quantity-input {
-    width: 50px; /* 입력란의 너비 조정 */
-    height: 30px; /* 입력란의 높이 조정 */
-    text-align: center; /* 텍스트 가운데 정렬 */
-    border: 1px solid #ccc; /* 입력란 테두리 스타일 */
-    outline: none; /* 포커스 효과 제거 */
+	width: 50px; /* 입력란의 너비 조정 */
+	height: 30px; /* 입력란의 높이 조정 */
+	text-align: center; /* 텍스트 가운데 정렬 */
+	border: 1px solid #ccc; /* 입력란 테두리 스타일 */
+	outline: none; /* 포커스 효과 제거 */
 }
 
 .quantity-button:hover {
-    background-color: #e0e0e0; /* 마우스 오버 시 배경색 변경 */
+	background-color: #e0e0e0; /* 마우스 오버 시 배경색 변경 */
 }
 
 .quantity-button.plus {
-    border-left: none; /* 오른쪽 버튼의 왼쪽 테두리 제거 */
+	border-left: none; /* 오른쪽 버튼의 왼쪽 테두리 제거 */
 }
 
 .quantity-button.minus {
-    border-right: none; /* 왼쪽 버튼의 오른쪽 테두리 제거 */
+	border-right: none; /* 왼쪽 버튼의 오른쪽 테두리 제거 */
 }
 
-    .tab_menu_top {
-        margin-top: 20px;
-    }
+.tab_menu_top {
+	margin-top: 20px;
+}
 
-    .detail_window_side {
-        width: 1020px;
-        height: 100%;
-        margin: 0 auto;
-        min-width: 1016px;
-    }
+.detail_window_side {
+	width: 1020px;
+	height: 100%;
+	margin: 0 auto;
+	min-width: 1016px;
+}
 
-    .main_service_area {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        text-align: center; /* 수정된 부분: 가운데 정렬을 위해 추가 */
-    }
+.main_service_area {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	text-align: center; /* 수정된 부분: 가운데 정렬을 위해 추가 */
+}
 
-    .ec-base-tab {
-        /* 수정된 부분: margin-top 제거 */
-        position: relative;
-        text-align: center;
-    }
+.ec-base-tab {
+	/* 수정된 부분: margin-top 제거 */
+	position: relative;
+	text-align: center;
+}
 
-    .ec-base-tab .menu {
-    width: 100%;
-        margin: 0 0 20px 0;
-        border: 1px solid #cbcdce;
-        border-bottom-color: #202020;
-        border-left: 0;
-        background: #f2f2f2;
-        box-sizing: border-box;
-        -webkit-box-sizing: border-box;
-        -moz-box-sizing: border-box;
-    }
+.ec-base-tab .menu {
+	width: 100%;
+	margin: 0 0 20px 0;
+	border: 1px solid #cbcdce;
+	border-bottom-color: #202020;
+	border-left: 0;
+	background: #f2f2f2;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
 
-    .ec-base-tab .menu:after {
-        content: "";
-        display: block;
-        clear: both;
-    }
+.ec-base-tab .menu:after {
+	content: "";
+	display: block;
+	clear: both;
+}
 
-    .ec-base-tab .menu li {
-        width: 100%;
-        /* border-left: 1px solid #cbcdce; */
-        background: #f2f2f2;
-    }
+.ec-base-tab .menu li {
+	width: 100%;
+	/* border-left: 1px solid #cbcdce; */
+	background: #f2f2f2;
+}
 
-    .ec-base-tab .menu li a {
-        display: block;
-        min-width: 187px;
-        margin: 0 0 0 -1px;
-        padding: 12px 5px 11px;
-        border-right: 1px solid #cbcdce;
-        color: #707070;
-        text-decoration: none;
-        outline: 0;
-        text-align: center;
-        background: #f2f2f2;
-    }
+.ec-base-tab .menu li a {
+	display: block;
+	min-width: 187px;
+	margin: 0 0 0 -1px;
+	padding: 12px 5px 11px;
+	border-right: 1px solid #cbcdce;
+	color: #707070;
+	text-decoration: none;
+	outline: 0;
+	text-align: center;
+	background: #f2f2f2;
+}
 
-    .ec-base-tab .menu li:first-child a {
-        margin-left: 0;
-    }
+.ec-base-tab .menu li:first-child a {
+	margin-left: 0;
+}
 
-    .ec-base-tab .menu li.selected a {
-        position: relative;
-        top: -1px;
-        left: -2px;
-        margin: 0 0 -1px;
-        border: 1px solid #202020;
-        border-bottom: 0;
-        color: #1d1e1f;
-        font-weight: bold;
-        background: #fff;
-    }
+.ec-base-tab .menu li.selected a {
+	position: relative;
+	top: -1px;
+	left: -2px;
+	margin: 0 0 -1px;
+	border: 1px solid #202020;
+	border-bottom: 0;
+	color: #1d1e1f;
+	font-weight: bold;
+	background: #fff;
+}
 
-    .ec-base-tab .menu li.selected:first-child a {
-        left: -1px;
-    }
+.ec-base-tab .menu li.selected:first-child a {
+	left: -1px;
+}
 
-    .ec-base-tab > .right {
-        position: absolute;
-        top: 8px;
-        right: 10px;
-        line-height: 24px;
-        color: #909090;
-    }
+.ec-base-tab>.right {
+	position: absolute;
+	top: 8px;
+	right: 10px;
+	line-height: 24px;
+	color: #909090;
+}
 
-    /* typeLight */
-    .ec-base-tab.typeLight .menu li.selected a {
-        margin: 0 0 -2px;
-        border-bottom: 1px solid #fff;
-        color: #404040;
-        background: #fff;
-    }
+/* typeLight */
+.ec-base-tab.typeLight .menu li.selected a {
+	margin: 0 0 -2px;
+	border-bottom: 1px solid #fff;
+	color: #404040;
+	background: #fff;
+}
 
-    .ec-base-tab[class*="grid"] .menu {
-        display: table;
-        table-layout: fixed;
-        width: 100%;
-    }
+.ec-base-tab[class*="grid"] .menu {
+	display: table;
+	table-layout: fixed;
+	width: 100%;
+}
 
-    .ec-base-tab[class*="grid"] .menu li {
-        float: none;
-        display: table-cell;
-        vertical-align: middle;
-    }
+.ec-base-tab[class*="grid"] .menu li {
+	float: none;
+	display: table-cell;
+	vertical-align: middle;
+}
 
-    .ec-base-tab[class*="grid"] .menu li a {
-        display: inline-block;
-        width: 100%;
-        min-width: 0;
-        margin: 0;
-        padding: 11px 0;
-        border: 0;
-    }
+.ec-base-tab[class*="grid"] .menu li a {
+	display: inline-block;
+	width: 100%;
+	min-width: 0;
+	margin: 0;
+	padding: 11px 0;
+	border: 0;
+}
 
-    .ec-base-tab[class*="grid"] .menu li.selected {
-        position: relative;
-        top: 0;
-        right: -1px;
-        border: 1px solid #cbcdce;
-        border-bottom: 0;
-        background: #fff;
-    }
+.ec-base-tab[class*="grid"] .menu li.selected {
+	position: relative;
+	top: 0;
+	right: -1px;
+	border: 1px solid #cbcdce;
+	border-bottom: 0;
+	background: #fff;
+}
 
-    .ec-base-tab[class*="grid"] .menu li:first-child.selected {
-        right: 0;
-    }
+.ec-base-tab[class*="grid"] .menu li:first-child.selected {
+	right: 0;
+}
 
-    .ec-base-tab[class*="grid"] .menu li.selected a {
-        position: static;
-        background: none;
-    }
+.ec-base-tab[class*="grid"] .menu li.selected a {
+	position: static;
+	background: none;
+}
 
-    .ec-base-tab.grid3 .menu li {
-        
-    }
+.ec-base-tab.grid3 .menu li {
+	
+}
 </style>
 
 
-<!-- 탭메뉴에 대한 JS -->
-<script>
+	<!-- 탭메뉴에 대한 JS -->
+	<script>
   document.addEventListener("DOMContentLoaded", function() {
     const tabButtons = document.querySelectorAll('.ec-base-tab.grid3 .menu li');
 
@@ -1018,7 +1031,7 @@ function updateTotalPrice() {
     });
   });
 </script>
-<script>
+	<script>
 //장바구니 담기 기능
 function cart_insert() {
     // 선택한 상품의 정보를 가져오는 부분
@@ -1058,44 +1071,44 @@ function cart_insert() {
 }
 </script>
 
-   
-
-   <!-- footer Section -->
-   <footer id="footer" class="footer">
-      <div class="container">
-         <div class="main_footer">
-            <div class="row">
-               <div class="col-sm-12">
-                  <div class="copyright_text text-center">
-                     <p class=" wow fadeInRight" data-wow-duration="1s">
-                        Made with <i class="fa fa-heart"></i> by <a target="_blank"
-                           href="http://bootstrapthemes.co">Bootstrap Themes</a>2016. All
-                        Rights Reserved
-                     </p>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- End of container -->
-   </footer>
-   <!-- End of footer -->
 
 
+	<!-- footer Section -->
+	<footer id="footer" class="footer">
+		<div class="container">
+			<div class="main_footer">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="copyright_text text-center">
+							<p class=" wow fadeInRight" data-wow-duration="1s">
+								Made with <i class="fa fa-heart"></i> by <a target="_blank"
+									href="http://bootstrapthemes.co">Bootstrap Themes</a>2016. All
+								Rights Reserved
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- End of container -->
+	</footer>
+	<!-- End of footer -->
 
-   <!-- START SCROLL TO TOP  -->
 
-   <div class="scrollup">
-      <a href="#"><i class="fa fa-chevron-up"></i></a>
-   </div>
 
-   <script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
-   <script src="/resources/assets/js/vendor/bootstrap.min.js"></script>
+	<!-- START SCROLL TO TOP  -->
 
-   <script src="/resources/assets/js/jquery.easing.1.3.js"></script>
+	<div class="scrollup">
+		<a href="#"><i class="fa fa-chevron-up"></i></a>
+	</div>
 
-   <script src="/resources/assets/js/plugins.js"></script>
-   <script src="/resources/assets/js/main.js"></script>
+	<script src="/resources/assets/js/vendor/jquery-1.11.2.min.js"></script>
+	<script src="/resources/assets/js/vendor/bootstrap.min.js"></script>
+
+	<script src="/resources/assets/js/jquery.easing.1.3.js"></script>
+
+	<script src="/resources/assets/js/plugins.js"></script>
+	<script src="/resources/assets/js/main.js"></script>
 
 </body>
 </html>

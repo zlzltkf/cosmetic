@@ -21,9 +21,8 @@ public class CartDTO {
 	//조인 목록
 	
 	private String p_name;
-	private String p_img1;
 	private int p_price;
 	private int money;
 	private String ctg_big;
-	
+	private String file_name;
 }

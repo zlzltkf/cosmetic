@@ -100,15 +100,23 @@ public class OrderController {
 			// p_id값으로 상품정보 가져오기
 			// 이미지, 상품명, 상품가격
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
-			String p_img = (String) orderDAO.orderedProducts(p_id).get("p_img1");
+			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
+			System.out.println("원본="+file_name);
+			String split_str = "src/main/webapp";
+			String[] parts = file_name.split(split_str);
+			if (parts.length > 1) {
+			    file_name = "/" + (parts[1].startsWith("/") ? parts[1].substring(1) : parts[1]);
+			} else {
+			    file_name = parts[0];
+			}
+			System.out.println("replace="+file_name);
 			int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
-
 			// 정보를 map으로 합치기
 			Map<String, Object> map = new HashMap<>();
 			map.put("p_id", p_id);
 			map.put("c_id", c_id);
 			map.put("option", option);
-			map.put("p_img", p_img);
+			map.put("file_name", file_name);
 			map.put("p_price", p_price);
 			map.put("amount", amount);
 			map.put("p_name", p_name);
@@ -175,7 +183,16 @@ public class OrderController {
 			
 			//p_id값으로 상품정보 가져오기 //이미지, 상품명, 상품가격 
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name"); 
-			String p_img = (String) orderDAO.orderedProducts(p_id).get("p_img1"); 
+			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
+			System.out.println("원본="+file_name);
+			String split_str = "src/main/webapp";
+			String[] parts = file_name.split(split_str);
+			if (parts.length > 1) {
+			    file_name = "/" + (parts[1].startsWith("/") ? parts[1].substring(1) : parts[1]);
+			} else {
+			    file_name = parts[0];
+			}
+			System.out.println("replace="+file_name);
 			  int p_price = (int) orderDAO.orderedProducts(p_id).get("p_price");
 			  
 			  //정보를 map으로 합치기 
@@ -184,7 +201,7 @@ public class OrderController {
 			  map.put("amount", amount); 
 			 map.put("option", option);
 			  map.put("p_name", p_name);
-				map.put("p_img", p_img); 
+				map.put("file_name", file_name); 
 				map.put("p_price", p_price);
 			  
 			if (c_id1 != null) {

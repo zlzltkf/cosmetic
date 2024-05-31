@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -454,7 +455,7 @@ select:focus {
 						<!-- 주문테이블로 보낼 p_id -->
 						<input type="hidden" name="p_order_id" value="${row.p_id}">
 						</td>
-						<td><img style="width: 85px;height: 85px; margin: auto;" src="${row.p_img1}"></td>
+						<td><img style="width: 85px; height: 85px;"src="${fn:replace(row.file_name, 'src/main/webapp', '')}"></td>
 						<td style="font-weight: normal; text-align: left;" > <p style="cursor: pointer;" onclick="window.location.href='/product/detail_before?p_id=${row.p_id}'">${row.p_name}</p>
 						
 						<input type="hidden" name="option_txt" value="${row.o_name}"> <!-- 주문 테이블로 보낼 옵션 -->
@@ -470,7 +471,7 @@ select:focus {
 						<c:otherwise>
     					<span>옵션| ${row.o_name}</span>
     					<form id="updateForm${row.c_id}" method="post" action="/cart/o_name_update">
-        				<select name="o_name" class="o_name_btn">
+        				<select name="o_name" class="o_name_btn" style="height: 30px; font-size:x-small; ">
           					  <option value="">옵션 변경</option>
             <!-- 여기에 옵션 목록 추가 -->
        					 </select>
