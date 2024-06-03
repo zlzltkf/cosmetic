@@ -75,6 +75,7 @@
 	    JOIN ctg c ON p.p_cate = c.ctg_s_no
 	    JOIN delivery d ON p.p_delivery = d.d_num
 		WHERE z.userid = #{userid}
+		order by idx desc
 		limit #{pageCnt} offset #{start}
    </select>
    
