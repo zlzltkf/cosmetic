@@ -4,7 +4,7 @@
 
 	<!-- 멤버 정보 요약 -->
 	<select id="get_member_info" resultType="java.util.Map">
-		SELECT name, userid, phone, point FROM member
+		SELECT name, userid, nickname, email, phone, point FROM member
 		WHERE userid=#{userid}
 	</select>
 	

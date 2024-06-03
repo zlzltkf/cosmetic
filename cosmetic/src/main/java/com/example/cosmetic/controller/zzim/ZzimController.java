@@ -45,8 +45,7 @@ public class ZzimController {
 	
 	List<Map<String, Object>> list = zzimDao.zzim_list(start, pageCnt, userid);
 
-	   
-		model.addAttribute("page_info", page_info);
+	   model.addAttribute("page_info", page_info);
 	   model.addAttribute("count", count);
 	   model.addAttribute("list", list);
 	   return "/zzim/list";

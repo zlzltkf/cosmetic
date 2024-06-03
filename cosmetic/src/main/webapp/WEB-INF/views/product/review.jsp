@@ -34,20 +34,22 @@ $(document).ready(function() {
                     '<li>' +
                     '<div class="info">' +
                     '<div class="user">' +
-                    '<div class="imgB">' +
-                    '<a href="#">' +
+                    /* '<div class="imgB">' + */
+                    /* '<a href="#">' +
                     '<div class="thum">' +
                     '<span class="bg"></span>' +
                     '<img src="https://static.oliveyoung.co.kr/pc-static-root/image/comm/my_picture_base.jpg">' + 
                     '</div>' +
-                    '</a>' +
+                    '</a>' + */
                     
                     '<div class="u_info">' +
                     
                     '<p class="info_user"><a>' + review.nickname + '</a></p>' +
+                    '<span>' + review.userid + '</span>' +
                     
                     '</div>' +
-                    '</div>' +
+                    
+                    /* '</div>' + */
                     '</div>' +
                     '</div>' +
                     '<div class="review_contents">' +
@@ -199,7 +201,7 @@ ol, ul{
 }
 
 .info{
-	flex: 0 0 190px;
+	flex: 0 0 150px;
 	margin: 30px 0;
 }
 .review_list .info .user {
@@ -211,56 +213,24 @@ ol, ul{
     flex: 1;
     padding-left: 30px;
 }
-
-.inner_list .info .user .imgB {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: center;
-	margin: 0 10px;
-}
 .inner_list .u_info {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	margin: 0 5px;
+	width: 100%;
 }
-
-.inner_list .info .user .thum{
-    position: relative;
-    width: 60px;
-    height: 60px;
-    margin: 0;
+.inner_list .u_info p {
+	margin: 0;
+	padding: 5px 0;
+	font-size: 1.3em;
+	width: 100%;
+	font-weight: bold;
 }
-
-.inner_list .info .user .thum img {
-    width: 60px;
-    height: 60px;
-}
-
-.inner_list .info .user .thum .bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: block;
-    overflow: hidden;
-    width: 60px;
-    height: 60px;
-    background: url(https://static.oliveyoung.co.kr/pc-static-root/image/comm/bg_my_picture.png) no-repeat;
-}
-
-.review_list .inner_list .info .user .tag{
-	margin-top: 12px;
-    font-weight: 400;
-    font-size: 12px;
-    line-height: 14px;
-    color: #757d86;
-}
-
-.review_list .inner_list .info .user .info_user {
-    overflow: hidden;
-    width: 80px;
+.inner_list .u_info span {
+	font-size: 0.9em;
+	color: gray;
+	width: 100%;
 }
 
 .review_list .inner_list .info .user .tag span, .review_list .inner_list .info .user .topreview_N2 span {
@@ -330,7 +300,7 @@ ol, ul{
     width: 100%;
     overflow-x: scroll;
     overflow-y: 0;
-}
+} 
 .review_thum::-webkit-scrollbar-track
 {
 	background-color: #F5F5F5;

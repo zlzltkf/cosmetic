@@ -56,54 +56,33 @@ h2 {
 	justify-content: center;
 	align-items: center;
 } 
-#picArea {
-	width: 100px;
-	height: 100px;
-}
-#pic {
-	border-radius: 50%;
-	width: 100%;
-	height: 100%;
-	display: flex;
-	align-content: center;
-	justify-content: center;
-	background-color: #d2d5da;
-	overflow: hidden;
-	cursor: pointer;
-}
-#pic:hover {
-	box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-}
-
-#pic i {
-	margin: 23px 0 0 0;
-	font-size: 6em;
-	color: #6c737b;
-}
 #info {
 	margin: 20px 30px;
 	display: flex;
-	width: 350px;
+	width: 400px;
 }
 #infoL {
-	width: 60%;
-	min-width: 200px;
+	padding: 0 15% 0 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 }
-#infoL .i, #infoR .i {
-	padding: 5px;
+#infoL span {
+	padding: 2px 0;
 }
-#infoL .i p, #infoR .i p {
-	display: inline-block;
-	margin: 0;
-	padding: 0;
-	font-weight: bold;
+#infoL span:nth-child(1) {
+	font-size: 1.4em;
 }
-#infoL .i span, #infoR .i span {
-	margin: 0 5px;
+#infoL span:nth-child(2) {
+	color: gray;
+	font-size: 0.9em;
+}
+#infoL span:nth-child(3) {
+	color: gray;
+	font-size: 0.9em;
 }
 #infoR {
 	border-left: 1px solid gray;
-	width: 40%;
 	min-width: 120px;
 	text-align: center;
 	display: flex;
@@ -112,7 +91,11 @@ h2 {
 	justify-content: center;
 	padding: 0 0 0 10%;
 }
-#infoR .i span {
+#infoR .p p {
+	margin: 0;
+	padding: 0;
+}
+#infoR .p span {
 	font-size: 1.6em;
 }
 
@@ -208,35 +191,19 @@ h2 {
 
 <div id="profileInfo">
 	
-	<div id="picArea">
-		<div id="pic" onclick="location.href = ''">
-			<i class="fa fa-user"></i>
-		</div>
-	</div>
-	
-	
 	
 	<div id="info">
 		<div id="infoL">
-			<div class="i">
-				<p>이름</p>
-				<span>${map.name}</span>
-			</div>
-			<div class="i">
-				<p>아이디</p>
-				<span>${map.userid}</span>
-			</div>
-			<div class="i">
-				<p>전화번호</p>
-				
-				<span>
-				<c:set value="${map.phone}" var="phone"/>
-				<c:out value="${fn:substring(phone, 0, 3)}-${fn:substring(phone, 3, 7)}-${fn:substring(phone, 7, fn:length(phone))}"/>
-				</span>
-			</div>
+			<span><b>${map.name}</b>님 환영합니다.</span>
+			<span>${map.email}</span>
+			<span>
+				${map.phone}
+				<%-- <c:set value="${map.phone}" var="phone"/>
+				<c:out value="${fn:substring(phone, 0, 3)}-${fn:substring(phone, 3, 7)}-${fn:substring(phone, 7, fn:length(phone))}"/> --%>
+			</span>
 		</div>
 		<div id="infoR">
-			<div class="i">
+			<div class="p">
 				<p>포인트</p>
 				<span>${map.point}p</span>
 			 </div>

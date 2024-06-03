@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,7 +86,7 @@
    width: 215px;
    height: 215px;
    margin: 0 0 5px 0;
-   border: 1px solid gray;
+   border: 1px solid #fafafa;
 }
 
 .block .picture img {
@@ -98,7 +99,7 @@
 	right: 0;
 	top: -8px;
 	font-size: 1.7em;
-	color: gray;
+	color: #c3c3c3;
 	margin: 10px;
 }
 .picture .delete:hover {
@@ -290,8 +291,8 @@ function list(page) {
 	<c:forEach var="row" items="${list}">
          <article class="block" data-product-id="${row.p_id}">
             <div class="picture">
-               <div class="img" id="img">
-                  <img src="${row.file_name}" alt="상품 이미지">
+            	<div class="img" id="img">
+                  <img src="${fn:replace(row.file_name, 'src/main/webapp', '')}" alt="상품 이미지">
                   <div class="delete" onclick="delete_btn(${row.idx})">
 						<i class="fa fa-remove"></i>
 					</div>

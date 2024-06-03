@@ -61,12 +61,20 @@
    </select>
    
    <select id="zzim_list" resultType="java.util.Map">
-		SELECT idx, z.p_id, p_name, p_price, ctg_small
-		FROM zzim z, product p, delivery d, ctg c
-		WHERE z.p_id = p.p_id
-		AND p.p_cate = ctg_s_no
-		AND p.p_delivery = d.d_num 
-		AND z.userid = #{userid}
+		SELECT 
+		( SELECT file_name FROM p_attach WHERE p_id = p.p_id ORDER BY p_id ASC
+		LIMIT 1
+		) AS file_name,
+		idx, 
+		z.p_id,
+		p_name, 
+		p_price, 
+		ctg_small
+		FROM zzim z
+	    JOIN product p ON z.p_id = p.p_id
+	    JOIN ctg c ON p.p_cate = c.ctg_s_no
+	    JOIN delivery d ON p.p_delivery = d.d_num
+		WHERE z.userid = #{userid}
 		limit #{pageCnt} offset #{start}
    </select>
    
