@@ -35,12 +35,12 @@ public class ProductDAO {
 		String name = sqlSession.selectOne("product.big_name", ctg_b_no);
 		return name;
 	}
-	
-	
-	//대분류 제품 리스트
+
+	// 대분류 제품 리스트
 	public List<Map<String, Object>> p_list_hit(int p_cate) {
 		return sqlSession.selectList("sub_menu.hit", p_cate);
 	}
+
 	public List<Map<String, Object>> p_list_sell(int p_cate) {
 		return sqlSession.selectList("sub_menu.sell", p_cate);
 	}
@@ -89,14 +89,24 @@ public class ProductDAO {
 	public List<String> list_p_attach(int p_id) {
 		return sqlSession.selectList("product.list_p_attach", p_id);
 	}
-	
-	//조회수
+
+	// 조회수
 	public void update_hit(int p_id) {
 		sqlSession.update("product.update_hit", p_id);
 	}
-	
-	//리뷰수
+
+	// 리뷰수
 	public int count_review(int p_id) {
 		return sqlSession.selectOne("product.count_review", p_id);
 	}
+
+	// 메인화면에 띄우는 인기상품
+	public List<ProductDTO> hit_product() {
+		return sqlSession.selectList("product.hit_product");
+	}
+
+	public List<ProductDTO> hit2_product() {
+		return sqlSession.selectList("product.hit2_product");
+	}
+
 }

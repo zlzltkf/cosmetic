@@ -319,7 +319,7 @@ window.onload = function() {
                     <p class="i">${row.p_id}</p>
                 </td>
                 <td style="text-align: center; ">
-                    <img style="width: 80px; height: 80px;" alt="" src="/resources/admin/img/에덴뷰티로고.png"> ${row.p_name} <br>
+                    <img style="width: 80px; height: 80px;" alt="" src="$"> ${row.p_name} <br>
                 </td>
                  <td >
                     <p class="i">${row.o_name}</p>

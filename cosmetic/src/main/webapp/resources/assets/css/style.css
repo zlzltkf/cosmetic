@@ -193,7 +193,7 @@ p:last-child {
     color: #5e9a28;
 }
 .colorsbg{
-    background:#FFE1BD ;
+    background:white;
 }
 .whitetext {
     color: #fff;
@@ -252,15 +252,16 @@ ul{
     margin-bottom: 4rem;
 }
 .overlay {
-    background-color: rgba(0, 0, 0, 0.75);
     width: 100%;
-    height: 100%;
+    height: 80%;
     position: absolute;
-    left:0;
-    top:0;
+    left: 0;
+    bottom:50px;
+    top: 61px;
+    
 }
 .home-overlay {
-    background-color:rgba(255, 225, 189, 0.9);
+    background-color:rgba(255, 225, 189, 0.9);;
     width: 100%;
     height:100%;
     position: absolute;
@@ -556,7 +557,7 @@ input::-ms-input-placeholder {
 /*home section*/
 .main_home{
     margin-top:70px;
-    padding: 140px 0px;
+    padding: 239px 0px;
     position: relative;
 
 }
@@ -567,6 +568,7 @@ input::-ms-input-placeholder {
 .main_home p.subtitle{
     color: #000;
     padding-bottom: 25px;
+    padding-left:20px;
     font-size:1.5rem;
     line-height: 2rem;
     margin:0 auto;
@@ -576,7 +578,7 @@ input::-ms-input-placeholder {
 }
 .single_home_slider{
     margin-top:70px;
-    background:url(../images/homebg.jpg) no-repeat top center;
+    /* background:url(../images/homebg.jpg) no-repeat top center; */
     position: relative;
 }
 .main_home_slider .owl-controls{
@@ -924,7 +926,7 @@ service section css
     position: relative;
 }
 .single_work_overlay{
-    background: #FFE1BD;
+    background: #ffffff;
     width:80%;
     height: 80%;
     left:10%;
@@ -938,7 +940,7 @@ service section css
     padding-top: 40%;
 }
 .single_mixi_portfolio:hover .single_work_overlay{
-    opacity: 1;
+    opacity: 0.5;
 }
 
 

@@ -379,8 +379,8 @@ $(document).ready(function() {
 							<!-- 제목 -->
 							<div class="p_price">
 								<!-- 가격 -->
-								<span class="p_price_color"> <strong>가격 <fmt:formatNumber
-											type="number" value="${dto.p_price}" pattern="#,###"></fmt:formatNumber>원
+								<span class="p_price_color"> <strong>가격 
+								<fmt:formatNumber type="number" value="${dto.p_price}" pattern="#,###"></fmt:formatNumber>원
 								</strong></span>
 							</div>
 
