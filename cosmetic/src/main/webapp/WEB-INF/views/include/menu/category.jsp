@@ -46,21 +46,22 @@ function handleMouseEvents() {
                 $("#ctg-content").removeClass("menu-scroll");
             }
         }); 
-    } else {
+    } else if ($(window).width() <= 768) {
         // 모바일 환경
 
         // 모바일 환경에서는 고정된 메뉴 높이를 유지
         $('.navbar-toggle').css({
             "right": "20px",
             "top": "10px"
-        });
+        }); 
         
         /* $("#recent").removeClass("menu-scroll"); */
         
         $('.container-fluid').css("padding", "0");
         $('.main_menu_bg .navbar-default').css("margin", "0");
-        $(".main_menu_bg").css("height", "155px"); // 고정된 높이 설정
+        /* $(".main_menu_bg").css("height", "155px"); */ // 고정된 높이 설정
         $(".menu-scroll #ctg_btn").css("padding", "15px 15px 20px 25px");
+        $(".menu-scroll #recent").css("padding", "15px 15px 20px 25px");
         
         $("#ctg").removeClass("show-grid");
         $("#ctg-content").removeClass("show-content");
@@ -76,9 +77,10 @@ function handleMouseEvents() {
         });
 
         $("#ctg").mouseenter(function() {
-        	$("#ctg").removeClass("menu-scroll");
+           	$("#ctg").removeClass("menu-scroll"); 
             $("#ctg-content").removeClass("show-content");
         });
+        
 
         $("#small_btn").click(function() {
             $("#ctg").removeClass("show-grid-s");
@@ -197,10 +199,20 @@ $(document).ready(function() {
 }
 
 /* 너비 바꾸면 */
-@media (min-width: 1199px) {
+@media (min-width: 1500px) {
 	
 	#ctg.menu-scroll {
-		margin: 0 20% 12px 20%;
+		margin: 0 19% 12px 19%;
+	}
+	
+	.b-ctg-content {
+		width: 100px;
+	}
+}
+@media (max-width: 1500px) {
+	
+	#ctg.menu-scroll {
+		margin: 0 13% 12px 13%;
 	}
 	
 	.b-ctg-content {
@@ -210,7 +222,7 @@ $(document).ready(function() {
 @media (max-width: 1199px) {
 	
 	#ctg.menu-scroll {
-		margin: 0 15% 12px 15%;
+		margin: 0 10% 12px 10%;
 	}
 	
 	.b-ctg-content {
@@ -220,8 +232,8 @@ $(document).ready(function() {
 @media (max-width: 991px) {
 
 	#ctg.menu-scroll {
-		margin: 0 7% 12px 7%;
-	}
+		margin: 0 12% 12px 12%;
+	} 
 	
 	.b-ctg-content {
 		width: 65px;
@@ -231,7 +243,7 @@ $(document).ready(function() {
 	
 	#ctg.menu-scroll {
 		margin: 0 15% 12px 15%;
-	}
+	} 
 
 	.b-ctg-content {
 		

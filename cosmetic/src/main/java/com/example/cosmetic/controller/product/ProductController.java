@@ -95,36 +95,17 @@ public class ProductController {
 
 		return "product/sub_category";
 	}
-
-//	// 디테일 화면 ( detail_before => 여기서 온 쿠키 안에 리스트 저장)
-//		@GetMapping("/detail/{p_id}")
-//		public String detail(@PathVariable(name="p_id") int p_id, Model model, HttpServletRequest request) {
-//			ProductDTO dto = productDao.detail(p_id);
-//			
-//			//Cookie => 여기서 r_list로 p_id를 쿠키 저장
-//		    Cookie[] cookies = request.getCookies();
-//		    List <ProductDTO> r_list = new ArrayList<ProductDTO>();
-//		    if (cookies != null) {
-//		      for (int i = cookies.length - 1; i >= 0; i--) {
-//		        if (cookies[i].getName().startsWith("recent")) {
-//		          String no = cookies[i].getValue();
-//		          ProductDTO r_dto = productDao.detail(Integer.parseInt(no));
-//		          r_list.add(r_dto);
-//		        }
-//		      }
-//		    }
-//			model.addAttribute("r_list", r_list);
-//			model.addAttribute("dto", dto);
-//			
-//			return "product/detail";
-//		}
 	
-
 	@GetMapping("/detail/{p_id}")
 	public String detail(@PathVariable(name = "p_id") int p_id, Model model, HttpServletRequest request,
 			HttpSession session) {
 		String userid = (String) session.getAttribute("userid");
 		ProductDTO dto = productDao.detail(p_id, userid);
+		
+		//조회수 +1
+		productDao.update_hit(p_id);
+		//리뷰 수
+		int count_review =  productDao.count_review(p_id);
 
 		// Cookie => 여기서 r_list로 p_id를 쿠키 저장
 		Cookie[] cookies = request.getCookies();
@@ -138,6 +119,7 @@ public class ProductController {
 				}
 			}
 		}
+		model.addAttribute("count_review", count_review);
 		model.addAttribute("r_list", r_list);
 		model.addAttribute("dto", dto);
 

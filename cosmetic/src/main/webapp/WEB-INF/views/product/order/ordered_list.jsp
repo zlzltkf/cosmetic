@@ -239,6 +239,11 @@
 	background-color: #555;
 	color: white;
 }
+.btn_s {
+	padding: 3px 10px;
+	margin: 1px 0;
+	font-size: 0.9em;
+}
 
 /* 아무것도 없을 경우 */
 #emptyB {
@@ -295,8 +300,8 @@ justify-content:flex-start;
    cursor: default;
 }
 
-/* 모달창 */
-.modal {
+/* 환불 모달창 */
+.refund_modal {
   display: none; 
   position: fixed; 
   z-index: 1; 
@@ -311,7 +316,7 @@ justify-content:flex-start;
 }
 
 /* Modal Content */
-.modal-content {
+.refund_modal-content {
 	position: absolute;
 	left: 0;
 	right: 0;
@@ -326,21 +331,21 @@ justify-content:flex-start;
 }
 
 /* The Close Button */
-.close {
+.refund_close {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
   font-weight: bold;
 }
 
-.close:hover,
-.close:focus {
+.refund_close:hover,
+.refund_close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
 }
 
-#modal-wrap {
+#refund_modal-wrap {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -348,30 +353,30 @@ justify-content:flex-start;
 	 justify-content: center;
 }
 
-#modal-wrap .m:nth-child(1) {
+#refund_modal-wrap .m:nth-child(1) {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
 	border-bottom: 2px solid black;
 }
 
-#modal-wrap .m:nth-child(1) h3 {
+#refund_modal-wrap .m:nth-child(1) h3 {
 	font-size: 1.2em;
 	font-weight: bold;
 }
 
-#modal-wrap .m {
+#refund_modal-wrap .m {
 	width: 100%;
 }
 
-.modal-content .modal_info {
+.refund_modal-content .modal_info {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding: 15px;
 }
 
-#modal-wrap .m h2 {
+#refund_modal-wrap .m h2 {
 	font-weight: bold;
 	font-size: 1.4em;
 	display: inline-block;
@@ -451,6 +456,160 @@ justify-content:flex-start;
 }
 #sendRefund:hover {
 	background: #fc9292;
+}
+
+/* 리뷰 모달창 */
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+ 
+/* 모달 스타일 수정 */
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* 상단 여백을 조정하여 중앙에 정렬 */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* 너비를 줄임 */
+    min-height: 300px; /* 최소 높이 지정 */
+    overflow: auto; /* 컨텐츠가 넘칠 경우 스크롤 표시 */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: -10px; /* 닫기 버튼을 위쪽으로 이동 */
+}
+
+/* 모달 바깥 영역 클릭 시 모달 닫기 */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 60px;
+}
+.modal-content h5 {
+	margin: 5px 0;
+}
+#r_contents {
+	padding: 10px;
+	width: 100%;
+	height: 100%;
+	border: none;
+}
+.Mpoint {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	height: 100%;
+	margin: 10px 0;
+	cursor: pointer;
+}
+
+.Mpoint i {
+	color: #e5e5e5;
+    font-size: 1.5em;
+    padding: 0 3px;
+}
+
+.Mpoint .on {
+	color: #f3cc00;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* 가운데 정렬 */
+}
+
+#fileInput {
+	padding: 10px 0;
+}
+
+.upload-box {
+    width: 100px;
+    height: 100px;
+    border: 2px dashed #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    position: relative;
+    margin: 5px; /* 업로드 상자 사이의 간격 조정 */
+}
+.upload-box input[type="file"] {
+    display: none;
+}
+.upload-box img {
+    max-width: 100%;
+    max-height: 100%;
+}
+.upload-box.add {
+    background-color: #f5f5f5;
+    color: #aaa;
+    font-size: 24px;
+}
+#file_box {
+    margin: 10px; /* 파일 이름 표시 영역과 상단 간격 조정 */
+}
+
+#file_box a {
+    display: inline-block;
+    margin-right: 10px; /* 파일 이름과 다음 파일 이름 사이의 간격 조정 */
+    color: #333; /* 파일 이름 색상 설정 */
+    text-decoration: none; /* 밑줄 제거 */
+     width: 100px;
+background-color: #f5f5f5;
+color: #aaa;
+font-size: 24px;
+}
+
+#file_box a:hover {
+    color: #555; /* 마우스를 올렸을 때 파일 이름 색상 변경 */
+}
+
+/* 파일 이름이 표시되는 영역 안의 input 태그 스타일링 */
+#file_box input[type="hidden"] {
+    display: none; /* 숨김 처리 */
+    background-color: #f5f5f5;
+color: #aaa;
+font-size: 24px;
+}
+
+#file_box img{
+width: 100px;
+height: 100px;
+border: 2px dashed #ccc;
+display: inline-block;
+align-items: center;
+justify-content: center;
+cursor: pointer;
+position: relative;
+margin: 5px; /* 업로드 상자 사이의 간격 조정 */
+}
+
+#review_btns {
+	display: flex;
+	width: 100%;
+	flex-direction: row;
+	align-items: center;
+	justify-content: center;
+}
+
+#review_btns button {
+	padding: 3px 10px;
+	margin: 0 2px;
 }
 	
 </style>
@@ -643,8 +802,9 @@ if (urlParams != null) {
 					<button type="button" onclick="redoOrder(${row.orderid}, ${row.map.idx}, ${row.map.p_price}, ${row.map.amount})">결제 취소</button>
 				</c:when>
 				
-				<c:when test="${row.map.orderStatus == '배송완료' || row.map.orderStatus == '배송완료'}">
-					<button type="button" onclick="updateStatus(${row.orderid}, ${row.map.idx})">반품 요청</button>
+				<c:when test="${row.map.orderStatus == '배송완료'}">
+					<button type="button" onclick="updateStatus(${row.orderid}, ${row.map.idx})" class="btn_s">반품 요청</button>
+					<button type="button" id="btnOpenModal" class="btn_s" onclick="write_review(${row.map.p_id})">리뷰 등록</button>
 				</c:when>
 			
 				<c:when test="${row.map.orderStatus == '반품요청'}">
@@ -716,14 +876,14 @@ if (urlParams != null) {
 
 <!-- 모달창 -->
 
-<div id="myModal" class="modal">
+<div id="refundModal" class="refund_modal">
 
   <!-- Modal content -->
-  <div class="modal-content">
-	<div id="modal-wrap">
+  <div class="refund_modal-content">
+	<div id="refund_modal-wrap">
 		<div class="m">
 			<h3>취소/반품</h3>
-			<span class="close"><i class="fa fa-remove"></i></span>
+			<span class="refund_close"><i class="fa fa-remove"></i></span>
 		</div>
 		<div class="m">
 	    <div class="modal_info">
@@ -758,7 +918,7 @@ if (urlParams != null) {
 	    		</div>
 	    		<input type="hidden" name="refundReason" id="reason">
 		    	<div class="confirm_btn">
-		    		<button type="button" id="sendRefund">반품 요청</button>
+		    		<button type="button" id="sendRefund"></button>
 		    	</div>
 	    	</div>
 	    </div>
@@ -767,6 +927,95 @@ if (urlParams != null) {
   </div>
 
 </div>
+
+
+<!-- 리뷰 모달창 -->
+  <div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3 style="text-align: left;">리뷰 작성</h3>
+    <hr style="border: 1.5px solid black;">
+    
+	<form id="reviewForm" name="reviewForm" method="post" enctype="multipart/form-data">
+     <input type="hidden" name="p_id" id="r_p_id"> 
+      <h5 style="font-weight: bold; text-align: left;">솔직한 리뷰를 남기세요!</h5>
+      <span class="Mpoint" style="width: 100%">
+                    
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i> 
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      <i class="fa fa-star"></i>
+      
+      </span>
+      <input type="hidden" name="rate">
+      <div style=" border: 1px solid gray; text-align: left;">
+        <textarea rows="5" cols="80" id="r_contents" name="r_contents" placeholder="꿀팁 가득, 상세한 리뷰를 작성해보세요!"></textarea>
+      </div>
+    
+      <input type="file" name="files" multiple="multiple" id="fileInput">
+      <div id="file_box"></div>
+      
+      <div id="review_btns">
+	      <button type="button" onclick="submit_good()">등록</button>
+	      <button type="button" class="out">닫기</button>
+      </div>
+    </form>
+   
+    
+    <script type="text/javascript">
+    /* 리뷰 별점 */
+    $(document).ready(function() {
+		  $('.Mpoint>i').click(function() {
+		    $(this).siblings().removeClass('on'); 
+		    $(this).addClass('on').prevAll('i').addClass('on'); 
+		    
+		    var rating = $(this).siblings('.on').length + 1;
+		    $('input[name="rate"]').val(rating);
+		  });
+		  
+	});
+    
+    function submit_good() {
+    	let reviewForm = $("#reviewForm");
+    	let r_subject = $("#r_subject").val();
+    	let r_contents = $("#r_contents").val();
+    	let p_id = '${dto.p_id}';
+    	
+    	if(r_subject == "" ) {
+    		alert("제목을 입력해주세요.");
+    		$("#r_subject").focus();
+    		return;
+    	} else if(r_contents == "") {
+    		alert("내용을 입력해주세요.");
+    		$("#r_contents").focus();
+    		return;
+    	}  
+    	alert("리뷰 작성이 완료되었습니다.");
+    	document.reviewForm.action="/review/insert";
+    	document.reviewForm.submit();
+    	
+    }
+    
+    function setRatingStars() {
+    	$('.point').each(function() {
+		    var rating = $(this).attr('value'); 
+		    $(this).children('i').each(function(index) {
+		    	if (index < rating) {
+		            $(this).addClass('on'); 
+		            $(this).css('color', '#f3cc00'); 
+		          } else {
+		            $(this).css('color', '');
+		          }
+		    });
+		  });
+    }
+    </script>
+    
+  </div>
+</div>
+
+
 
 </div>
 
@@ -802,10 +1051,13 @@ $(document).ready(function() {
     } 
      
      
-    //모달창
-    var modal = document.getElementById("myModal");
-	var btn = document.getElementById("sendRefund");
-	var span = document.getElementsByClassName("close")[0];
+    //환불 모달창
+    var refundModal = document.getElementById("refundModal");
+	var refund_close = document.getElementsByClassName("refund_close")[0];
+	
+	refund_close.onclick = function() {
+		refundModal.style.display = "none";
+	}
 	
 	//디자인
 	$('.reasonB').hover(
@@ -854,15 +1106,64 @@ $(document).ready(function() {
 	//라디오버튼 초기화
 	$(".rinput").prop('checked', false);
 	
-	span.onclick = function() {
-	  modal.style.display = "none";
+	//리뷰 모달창
+	var myModal = document.getElementById("myModal");
+	var close = document.getElementsByClassName("close")[0];
+	
+	close.onclick = function() {
+		myModal.style.display = "none";
 	}
 	
 	window.onclick = function(event) {
-	  if (event.target == modal) {
-	    modal.style.display = "none";
-	  }
+		if (event.target == myModal) {
+		  myModal.style.display = "none";
+	  	}
+		if (event.target == refundModal) {
+		  refundModal.style.display = "none";
+	  	}
 	}
+	
+	//파일 첨부
+	$("#fileInput").on("change", function(e) {
+        e.preventDefault();
+        const files = e.target.files;
+        const form_data = new FormData();
+        
+        for (let i = 0; i < files.length; i++) {
+            form_data.append("file", files[i]);
+         // 이미지 파일인 경우 미리보기 생성
+            if (files[i].type.startsWith("image/")) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const img = $("<img>").attr("src", event.target.result).css("max-width", "70px"); // 이미지 미리보기 크기 조정
+                    $("#file_box").append(img);
+                };
+                reader.readAsDataURL(files[i]);
+            }
+        }
+
+        $.ajax({
+            url: "/upload/ajax_upload",
+            data: form_data,
+            processData: false,
+            contentType: false,
+            type: "post",
+            success: function(data) {
+                if (Array.isArray(data)) {
+                    data.forEach(file_name => {
+                        const fileInfo = getFileInfo(file_name);
+                        html = "<input type='hidden' name='file' style='margin: 5px;' value='" + fileInfo.file_name + "'>";
+                        $("#file_box").append(html);
+                    });
+                } else {
+                    console.error('Expected an array but got:', data);
+                }
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error:', textStatus, errorThrown);
+            }
+        });
+    });
 	
 	//.count 에 색 적용
 	var urlParams = new URLSearchParams(window.location.search);
@@ -887,6 +1188,8 @@ $(document).ready(function() {
 		var status = $(this).siblings('.info').text().trim();
 		window.location.href = "/order/orderlist.do?status=" + status; 
 	});
+	
+	
 });
 
 function setDate(month) {
@@ -919,6 +1222,13 @@ function setDate(month) {
     confirmDate();
 }
 
+//파일첨부
+function getFileInfo(file_name) {
+    const get_link = "/upload/display_file?file_name=" + file_name;
+    const original_name = file_name.substr(file_name.indexOf("_") + 1);
+    return { original_name: original_name, get_link: get_link, file_name: file_name };
+}
+
 function confirmDate() {
 	var formElement = document.forms["dateform"];
 	
@@ -926,19 +1236,30 @@ function confirmDate() {
 	formElement.submit();
 }
 
+//리뷰 모달
+function write_review(p_id) {
+	var myModal = document.getElementById("myModal");
+	
+	myModal.style.display = "block";
+	
+	$("#r_p_id").val(p_id); 
+}
+
 //결제취소
 function redoOrder(orderid, orderItemId, p_price, amount) {
+	
+	if (confirm('결제 취소하시겠습니까?')) {
 	
 	var delPrice = parseInt(p_price) * parseInt(amount);
 	
 	//모달창 열기
 	//환불사유 입력
-	var modal = document.getElementById("myModal");
-	var btn = document.getElementById("sendRefund");
-	var span = document.getElementsByClassName("close")[0];
+	var refundModal = document.getElementById("refundModal");
 	var sendRefund = document.getElementById("sendRefund");
 	
-	modal.style.display = "block";
+	refundModal.style.display = "block";
+	
+	$("#sendRefund").text("결제취소");
 	
 	//라디오버튼 초기화
 	$(".rinput").prop('checked', false);
@@ -986,11 +1307,13 @@ function redoOrder(orderid, orderItemId, p_price, amount) {
 		        	if (response == "success") {
 		        		window.location.href = "/order/orderlist.do";
 		        		alert('결제 취소되었습니다.');
-		         		modal.style.display = "none"; 
+		         		refundModal.style.display = "none"; 
 		        	}
 		        }
 			}); 
  		}
+	}
+	
 	}
 }
 
@@ -1018,12 +1341,14 @@ function redoStatus(itemid) {
 function updateStatus(orderid, itemid) {
 	//모달창 열기
 	//환불사유 입력
-	var modal = document.getElementById("myModal");
-	var btn = document.getElementById("sendRefund");
-	var span = document.getElementsByClassName("close")[0];
+	var refundModal = document.getElementById("refundModal");
+	var sendRefund = document.getElementById("sendRefund");
+	var span = document.getElementsByClassName("refund_close")[0];
 	var sendRefund = document.getElementById("sendRefund");
 	
-	modal.style.display = "block";
+	refundModal.style.display = "block";
+	
+	$("#sendRefund").text("반품요청");
 	
 	//라디오버튼 초기화
 	$(".rinput").prop('checked', false);
@@ -1069,7 +1394,7 @@ function updateStatus(orderid, itemid) {
 		        	if (response == "success") {
 		        		window.location.href = "/order/orderlist.do";
 		        		alert('반품 요청되었습니다.');
-		         		modal.style.display = "none"; 
+		         		refundModal.style.display = "none"; 
 		        	}
 		        }
 			}); 
@@ -1077,30 +1402,7 @@ function updateStatus(orderid, itemid) {
 	}
 }
 
-//주문취소
-//주문번호, 주문아이템id, 금액, 수량, 환불사유 필요
-/* function delete_order(orderid, itemid, price, amount, reason) {
-	var delPrice = parseInt(price) * parseInt(amount);
-	
-	$.ajax({
-		"url": "/order/delete_order.do",
-        "type": "POST",
-        "contentType": "application/json",
-        "data": JSON.stringify({
-        	"orderid": orderid,
-        	"itemid": itemid,
-        	"delPrice": delPrice,
-        	"reason" : reason
-        }),
-        success: function(response) {
-        	
-        	if (response == "success") {
-        		window.location.href = "/order/orderlist.do";
-        		alert('반품 처리되었습니다.');
-        	}
-        }
-	}); 
-} */
+
 
 
 

@@ -125,5 +125,19 @@
 		where p_id=#{p_id}
 		order by file_id
 	</select>
+	
+	<!-- 조회수 -->
+	<update id="update_hit">
+		UPDATE product
+		SET p_hit = p_hit + 1
+		WHERE p_id = #{p_id}
+	</update>
+	
+	<!-- 리뷰수 -->
+	<select id="count_review" resultType="int">
+		SELECT COUNT(*)
+		FROM review
+		WHERE p_id = #{p_id}
+	</select>
 
 </mapper>

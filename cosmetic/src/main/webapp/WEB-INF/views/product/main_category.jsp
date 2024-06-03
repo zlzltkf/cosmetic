@@ -211,10 +211,10 @@
 	    <c:set var="imgpath" value="${fn:replace(raw_imgpath, 'src/main/webapp', '')}"></c:set>
 	    
 	    <td class="product-item">
-	           <a href="#">
+	           <a href="/product/detail_before?p_id=${sell_row.p_id}">
 	               <img class="img goodsList" width="135" height="135" src="${imgpath}">
 	           </a>
-	           <a href="/product/detail/${sell_row.p_id}">
+	           <a href="/product/detail_before?p_id=${sell_row.p_id}">
 	               <p class="txt" style="white-space: normal;">${sell_row.p_name}</p>
 	           </a>
 	           <p class="p_price">
@@ -240,11 +240,11 @@
 		    <c:set var="imgpath" value="${fn:replace(raw_imgpath, 'src/main/webapp', '')}"></c:set>
 	    	
 	    	<td class="product-item">
-	            <a href="#">
+	            <a href="/product/detail_before?p_id=${hit_row.p_id}">
 	                <img class="img goodsList" width="135" height="135" src="${imgpath}">
 	            </a>
-	            <a href="#">
-	                <p class="txt" style="font-size: 15px; white-space: normal;">${hit_row.p_name}</p>
+	            <a href="/product/detail_before?p_id=${hit_row.p_id}">
+	                <p class="txt" style="white-space: normal;">${hit_row.p_name}</p>
 	            </a>
 	            <p class="p_price">
 	            <fmt:formatNumber value="${hit_row.p_price}" pattern="#,###"></fmt:formatNumber>원

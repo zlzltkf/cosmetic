@@ -89,4 +89,14 @@ public class ProductDAO {
 	public List<String> list_p_attach(int p_id) {
 		return sqlSession.selectList("product.list_p_attach", p_id);
 	}
+	
+	//조회수
+	public void update_hit(int p_id) {
+		sqlSession.update("product.update_hit", p_id);
+	}
+	
+	//리뷰수
+	public int count_review(int p_id) {
+		return sqlSession.selectOne("product.count_review", p_id);
+	}
 }
