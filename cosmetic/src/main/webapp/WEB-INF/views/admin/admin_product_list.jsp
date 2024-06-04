@@ -90,7 +90,7 @@ function load(){
 			<!-- Sidebar - Brand -->
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="/admin/admin">
+				href="/admin/order_list">
 				<div class="sidebar-brand-icon rotate-n-15"></div>
 				<div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
 			</a>
@@ -265,7 +265,8 @@ function load(){
 														<tbody id="tableBody" class="tableBody">
 															<c:forEach var="row" items="${list}">
 																<tr class="odd">
-																	<td class="narrow-cell">${row.p_id}</td>
+																<a href="/product/detail_before?p_id=257">
+																	<td class="narrow-cell">${row.p_id}</td></a>
 																	<td style="width: 30%; text-align: left;">${row.p_name}</td>
 																	<td class="narrow-cell">${row.p_stock}</td>
 																	<td class="narrow-cell"><fmt:formatNumber

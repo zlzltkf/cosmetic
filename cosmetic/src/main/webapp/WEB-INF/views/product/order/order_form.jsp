@@ -597,7 +597,7 @@ h3 {
 					<button type="button" id="payment" onclick="Payment()">구매하기</button>
 					
 					<!-- 테스트 -->
-					<button type="button" onclick="testpay()">테스트버튼</button>
+					<!-- <button type="button" onclick="testpay()">테스트버튼</button> -->
 				</div>
 			</div>
 		</div>

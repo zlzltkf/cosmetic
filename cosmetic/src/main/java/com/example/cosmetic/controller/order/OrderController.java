@@ -540,7 +540,6 @@ public class OrderController {
 
 			// p_id값으로 상품정보 가져오기
 			// 이미지, 상품명, 상품가격
-			
 			String p_name = (String) orderDAO.orderedProducts(p_id).get("p_name");
 			String file_name = (String) orderDAO.orderedProducts(p_id).get("file_name");
 			//System.out.println("원본="+file_name);

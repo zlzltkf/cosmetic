@@ -87,7 +87,7 @@
 						<div class="head_title text-center">
 							<h1 style="line-height: 2.1;">로그인</h1>
 						</div>
-						<a href="page_join">회원가입</a>
+						
 						<div class="col-sm-6" style="float: left;">
 							<img src="/resources/assets/images/hh.jpg">
 						</div>
@@ -115,6 +115,8 @@
 										<input type="button" value="로그인" class="btn" id="loginBtn"
 											style="min-width: 342px; height: 74px;">
 									</div>
+									<br>
+									계정이 없으신가요?&nbsp;&nbsp;<a style="text-align: left;" href="page_join">회원가입</a>
 									
 								</form>
 							</div>

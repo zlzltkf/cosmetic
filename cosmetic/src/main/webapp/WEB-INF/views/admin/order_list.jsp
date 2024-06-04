@@ -141,7 +141,7 @@
 			<!-- Sidebar - Brand -->
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="/admin/admin">
+				href="/admin/order_list">
 				<div class="sidebar-brand-icon rotate-n-15"></div>
 				<div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
 			</a>

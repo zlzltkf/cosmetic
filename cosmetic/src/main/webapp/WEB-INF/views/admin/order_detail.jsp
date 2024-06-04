@@ -204,7 +204,7 @@ window.onload = function() {
 			<!-- Sidebar - Brand -->
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="index.html">
+				href="/admin/order_list">
 				<div class="sidebar-brand-icon rotate-n-15"></div>
 				<div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
 			</a>
@@ -329,7 +329,7 @@ window.onload = function() {
     <td>
         <div class="p">
             <c:choose>
-                <c:when test="${row.orderStatus eq '결제취소' || row.orderStatus eq '반품요청'}">
+                <c:when test="${row.orderStatus eq '결제취소' || row.orderStatus eq '반품완료'}">
                     <span style="color: red;"><fmt:formatNumber value="${row.price}" pattern="#,###" />원</span>
                 </c:when>
                 <c:otherwise>

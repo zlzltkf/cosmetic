@@ -390,9 +390,9 @@
 	<button class="btn" id="toList" onclick="
 		location.href = '/order/orderlist.do';
 	">주문배송목록</button>
-	<button class="btn" id="toReview" onclick="
-		location.href = '/review/??'; 
-	">리뷰작성</button>
+	<!-- <button class="btn" id="toReview" onclick="
+		location.href = '/review/index.do'; 
+	">리뷰작성</button> -->
 </div>
 
 </div>

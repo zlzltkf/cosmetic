@@ -648,7 +648,8 @@ function loadProductOptions(p_id) {
 
             if (!hasOption) {
                 $(".p_dropdown").hide();
-               var selectedOptionText = $(this).text();
+                var selectedOptionText = $(this).text();
+                console.log(selectedOptionText);
                 
                 // 초기 합계금액 설정
                 $("#product_price").text(optionPrice);
@@ -660,17 +661,16 @@ function loadProductOptions(p_id) {
                 row += '<input class="quantity-input" type="text" value="1">';
                 row += '<button class="quantity-button plus" type="button">+</button>';
                 row += '</div>';
-                row += '<div style="display:none;">'
-                //row += selectedOptionText + ' - 가격: ' + optionPrice;  // 초기 합계금액으로 설정
-                row += '<div class="option_text">' + selectedOptionText; + '</div>';
-                //row += '<div class="option_price">' + optionPrice +' 원';
-                row += '</div>';
+                row += '<div style="display:none;">';
+                row += '<div class="option_text">' + selectedOptionText + '</div>';
+                row += '<div class="option_price">' + optionPrice + ' 원</div>';
                 row += '</div>';
                 row += '</div>';
                 $("#select_option").append(row);
             } else {
                 $(".p_dropdown").show();
             }
+
             
             dropdownContent.on("click", "a", function() {
                 var selectedOptionText = $(this).text();
@@ -1037,21 +1037,26 @@ function cart_insert() {
     // 선택한 상품의 정보를 가져오는 부분
     var productId = parseInt('${dto.p_id}'); // 상품 ID
     var selectedOptions = []; // 선택한 옵션 배열 초기화
+
     // 선택한 옵션의 정보를 가져와서 배열에 추가
-    $(".p_select_option").each(function() {
-       var optionText = $(this).find(".option_text").text(); // 옵션 텍스트 가져오기
-        var optionName = optionText.trim(); // 옵션명 공백 제거
-        console.log('옵션이름='+optionName);
-        
-       // var priceText = $(this).find(".option_price").text(); // 가격 텍스트 가져오기
-        //console.log('옵션가격='+optionText);
-        //var priceMatch = /(\d+)/.exec(priceText); // 가격 정보 추출
-        //var price = parseFloat(priceMatch[1]); // 가격 변환
-        //console.log('옵션가격을 숫자로='+price);
-        var quantity = parseInt($(this).find(".quantity-input").val()); // 수량 가져오기
-        console.log('수량='+quantity);
-        selectedOptions.push({ o_name: optionName, amount: quantity });
-    });
+    if ($(".p_select_option").length === 0) {
+        // 옵션이 없는 경우 기본 상품 정보를 추가
+        var productName = $('#product_name').text(); // 상품명 가져오기
+        var quantity = parseInt($('#product_quantity').val()); // 수량 가져오기
+        selectedOptions.push({ o_name: productName, amount: quantity });
+    } else {
+        $(".p_select_option").each(function() {
+            var optionText = $(this).find(".option_text").text(); // 옵션 텍스트 가져오기
+            var optionName = optionText.trim(); // 옵션명 공백 제거
+            console.log('옵션이름=' + optionName);
+
+            var quantity = parseInt($(this).find(".quantity-input").val()); // 수량 가져오기
+            console.log('수량=' + quantity);
+
+            selectedOptions.push({ o_name: optionName, amount: quantity });
+        });
+    }
+
 
     // 선택한 상품 정보를 서버로 전송
     $.ajax({

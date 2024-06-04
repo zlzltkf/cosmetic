@@ -143,5 +143,8 @@ public class AdminDao {
 		return sqlSession.selectOne("admin.admin_orderCount", map);
 	}
 
+	public List<ProductDTO> detail(int p_id) {
+		return sqlSession.selectList("admin.product_edit", p_id);
+	}
 	
 }

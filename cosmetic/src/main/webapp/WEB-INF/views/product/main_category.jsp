@@ -186,18 +186,31 @@
 				</c:forEach>
 		
 		    </div>
+		<c:if test="${name eq '립' }">
+        <div class="row">
+            <div class="main_mix_content text-center">
+                <div class="head_title">
+                    <img style="width: 800px; height: 300px; padding-right: 80px;" src="https://image.oliveyoung.co.kr/uploads/images/display/10000010002/158/7387007812925151231.jpg">
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+    <br>
+
+    <c:if test="${name eq '아이' }">
+        <div class="row">
+            <div class="main_mix_content text-center">
+                <div class="head_title">
+                    <img style="width: 700px; height: 300px; padding-right: 77px;" src="https://image.oliveyoung.co.kr/uploads/images/display/90000021775/263/550184189645124596.jpg">
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+    <br>
+</div>
 		
-			<div class="row">
-				<div class="main_mix_content text-center">
-					<div class="head_title">
-					<img
-						src="https://image.oliveyoung.co.kr/uploads/images/display/10000010001/148/2945076113415173315.jpg">
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<br>
 		
 		<p style="text-align: center; font-weight: bold; font-size: 25px">${name}의 BEST만 모아봤어요</p>
 		<div class="ct-product" id="sell_products">

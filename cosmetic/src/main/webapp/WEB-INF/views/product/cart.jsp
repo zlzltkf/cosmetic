@@ -469,9 +469,9 @@ select:focus {
 						</c:when>
 						
 						<c:otherwise>
-    					<span>옵션| ${row.o_name}</span>
     					<form id="updateForm${row.c_id}" method="post" action="/cart/o_name_update">
-        				<select name="o_name" class="o_name_btn" style="height: 30px; font-size:x-small; ">
+    					<span>옵션| ${row.o_name}</span>
+        				<select name="o_name" class="o_name_btn" style="height: 32px; width:99px; font-size: 13px; ">
           					  <option value="">옵션 변경</option>
             <!-- 여기에 옵션 목록 추가 -->
        					 </select>
@@ -582,7 +582,7 @@ select:focus {
 		</form>
 	
 		<div class="cart__mainbtns">
-			<button class="cart__bigorderbtn left" id="menu" onclick="menu()">쇼핑 계속하기</button>
+			<button class="cart__bigorderbtn left" id="menu" onclick="location.href = '/'">쇼핑 계속하기</button>
 			<button class="cart__bigorderbtn right" id="orderbtn">주문하기</button>
 		</div>
 

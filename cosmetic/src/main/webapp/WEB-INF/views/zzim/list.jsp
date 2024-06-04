@@ -384,7 +384,7 @@ function delete_btn(idx) {
 	        success: function(response) {
 	        	if (response == "success") {
 	        		window.location.href = "/zzim/list.do";
-	        		alert('리뷰가 삭제되었습니다.');
+	        		alert('찜한 상품이 삭제되었습니다.');
 	        	}
 	        }
 		});

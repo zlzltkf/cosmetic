@@ -1,5 +1,6 @@
 package com.example.cosmetic.controller.admin;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -251,5 +253,13 @@ public class AdminController {
 		list = adminDao.admin_order_detail(orderid);
 		model.addAttribute("list", list);
 		return "admin/order_detail";
+	}
+	
+	//상품 수정
+	@GetMapping("/edit/{p_id}")
+	public String edit(@PathVariable(name = "p_id") int p_id, Model model, HttpServletRequest request) {
+		List<ProductDTO>list = adminDao.detail(p_id);
+		model.addAttribute("list", list);
+		return "admin/product_edit";
 	}
 }

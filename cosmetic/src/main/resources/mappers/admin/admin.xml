@@ -48,7 +48,7 @@
 	<select id="user_list"
 		resultType="com.example.cosmetic.model.member.MemberDTO">
 		SELECT userid, name, nickname, birth, LEFT(address1, 6) AS
-		address1,phone, date, skin, level, point,email
+		address1,phone, date, level, point,email
 		FROM member
 		<where>
 			<if test="searchKeyword != null and searchKeyword != ''">
@@ -202,13 +202,11 @@
 		JOIN orderlist l ON
 		o.orderid = l.orderid JOIN product p ON p.p_id = o.p_id JOIN member m
 		ON m.userid = l.userid
-		LEFT JOIN product_option po ON p.p_id =
-		po.o_p_id
+		LEFT JOIN product_option po ON p.p_id =po.o_p_id
 		WHERE l.orderid = #{orderid}
 		GROUP BY l.orderid, p.p_name,
 		o.o_name, o.p_id, o.amount, l.orderdate, l.userid, l.price,
-		l.delivercost, l.method, l.address1, l.userpoint, o.orderstatus,
-		po.o_price
+		l.delivercost, l.method, l.address1, l.userpoint, o.orderstatus,po.o_price
 	</select>
 
 	<!-- 주문 갯수 계산 -->

@@ -29,84 +29,83 @@
 	vertical-align: top;
 	z-index: 9;
 }
+
 .sp-thumbnail {
-    transition: transform 0.2s ease;
- 
+	transition: transform 0.2s ease;
 }
 
 .sp-thumbnail:hover {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
+
 #team {
-    padding: 60px 0;
-    background-color: #f8f9fa;
+	padding: 60px 0;
+	background-color: #f8f9fa;
 }
 
 .head_title h1 {
-    font-size: 36px;
-    color: #333;
-    margin-bottom: 40px;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+	font-size: 36px;
+	color: #333;
+	margin-bottom: 40px;
+	text-transform: uppercase;
+	letter-spacing: 1.5px;
 }
 
 .main_team_area {
-    text-align: center;
+	text-align: center;
 }
 
 .team {
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    margin: 15px;
-    padding: 20px;
-    transition: all 0.3s ease;
+	background: #fff;
+	border-radius: 8px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	margin: 15px;
+	padding: 20px;
+	transition: all 0.3s ease;
 }
 
-
 .team-img {
-    overflow: hidden;
-    border-radius: 8px 8px 0 0;
+	overflow: hidden;
+	border-radius: 8px 8px 0 0;
 }
 
 .team-img img {
-    width: 100%;
-    height: auto;
-    transition: all 0.3s ease;
+	width: 100%;
+	height: auto;
+	transition: all 0.3s ease;
 }
 
 .team-img img:hover {
-    transform: scale(1.05);
+	transform: scale(1.05);
 }
 
 .team-name {
-    font-size: 18px;
-    color: #333;
-    margin-top: 20px;
-    font-weight: 600;
+	font-size: 18px;
+	color: #333;
+	margin-top: 20px;
+	font-weight: 600;
 }
 
 .team-price {
-    font-size: 16px;
-    color: #666;
-    margin-top: 10px;
-    font-weight: bold;
+	font-size: 16px;
+	color: #666;
+	margin-top: 10px;
+	font-weight: bold;
 }
 
-@media (max-width: 768px) {
-    .col-md-4 {
-        flex: 0 0 50%;
-        max-width: 50%;
-    }
+@media ( max-width : 768px) {
+	.col-md-4 {
+		flex: 0 0 50%;
+		max-width: 50%;
+	}
 }
 
-@media (max-width: 576px) {
-    .col-md-4 {
-        flex: 0 0 100%;
-        max-width: 100%;
-    }
+@media ( max-width : 576px) {
+	.col-md-4 {
+		flex: 0 0 100%;
+		max-width: 100%;
+	}
 }
-
 </style>
 <meta name="description" content="">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -155,12 +154,14 @@
 
 
 						<div class="single_home_slider">
+
 							<div class="overlay"
 								style="background-image: url('/resources/assets/images/img2.jpg');"></div>
 							<div class="main_home wow fadeInUp" data-wow-duration="700ms">
-
-								<p style="color: #333333; text-align: left; font-size: 36.8px;"
-									class="subtitle">어성초와 시카로 더블진정</p>
+								<a href="/product/detail_before?p_id=257">
+									<p style="color: #333333; text-align: left; font-size: 36.8px;"
+										class="subtitle">어성초와 시카로 더블진정</p>
+								</a>
 								<p
 									style="color: #333333; text-align: left; font-size: 2rem; font-weight: bold; letter-spacing: 7px; margin-top: 0;"
 									class="subtitle">민감피부 #화잘먹크림</p>
@@ -173,16 +174,17 @@
 						</div>
 						<div class="single_home_slider">
 							<div class="overlay"
-								style="background-image: url('/resources/assets/images/man.jpg');"></div>
+								style="background-image: url('/resources/assets/images/시카세럼.jpg');"></div>
 							<div class="main_home wow fadeInUp" data-wow-duration="700ms">
-
-								<p style="color: #333333; text-align: left; font-size: 36.8px;"
-									class="subtitle">자외선 UVA,B 이중차단</p>
+								<a href="/product/detail_before?p_id=258">
+									<p style="color: #333333; text-align: left; font-size: 36.8px;"
+										class="subtitle">시카와 세라마이드의 진정력</p>
+								</a>
 								<p
 									style="color: #333333; text-align: left; font-size: 2rem; font-weight: bold; letter-spacing: 7px; margin-top: 0;"
-									class="subtitle">누적 판매량 148만개 판매!</p>
+									class="subtitle">2주 장벽개선 시카 세럼</p>
 								<p style="color: #343a40; text-align: left; font-size: 20.8px;"
-									class="subtitle">5cm 굴곡 쉐잎으로 더 꼼꼼하게 편리한 #보송선스틱</p>
+									class="subtitle">장벽+진정+보습+각질 케어 세럼</p>
 								<div class="home_btn">
 									<!--  <a href="" class="btn">Learn More</a> -->
 								</div>
@@ -192,9 +194,10 @@
 							<div class="overlay"
 								style="background-image: url('/resources/assets/images/img4.jpg');"></div>
 							<div class="main_home wow fadeInUp" data-wow-duration="700ms">
-
-								<p style="color: #333333; text-align: left; font-size: 36.8px;"
-									class="subtitle">비타민C,다 거기서 거기?</p>
+								<a href="/product/detail_before?p_id=271">
+									<p style="color: #333333; text-align: left; font-size: 36.8px;"
+										class="subtitle">비타민C,다 거기서 거기?</p>
+								</a>
 								<p
 									style="color: #333333; text-align: left; font-size: 2rem; font-weight: bold; letter-spacing: 7px; margin-top: 0;"
 									class="subtitle">상식을 깬 1위 * 잡티세럼</p>
@@ -233,8 +236,8 @@
 											<div class="team">
 												<img class="img"
 													src="${fn:replace(row.file_name, 'src/main/webapp', '')}"
-													alt="" />
-												<h6>${row.p_name}</h6>
+													alt="" /> <a
+													href="/product/detail_before?p_id=${row.p_id}">${row.p_name}</a>
 												<p style="font-weight: bold; color: black;">${row.p_price}
 													원</p>
 											</div>
@@ -273,8 +276,8 @@
 			</div>
 		</div>
 	</section>
-	
-	
+
+
 
 	<!-- Work Section -->
 	<section id="work" class="work sections">
@@ -291,9 +294,13 @@
 							<div class="single_mixi_portfolio">
 								<img src="/resources/assets/images/2.jpg" alt="" />
 								<div class="single_work_overlay">
-									<h5 style="font-weight: bold;color: black;">바이플라워 에코 크레용 립 벨벳</h5>
+									<h5
+										style="font-weight: bold; color: black; margin-bottom: -1.5rem;">
+										<a style="color: black;"
+											href="/product/detail_before?p_id=286">컬러 앤 네이처 네일 컬러</a>
+									</h5>
 									<div class="separator"></div>
-									<p style="font-weight: bold; color: black;">3,900원</p>
+									<p style="font-weight: bold; color: black;">2,000원</p>
 								</div>
 							</div>
 						</div>
@@ -301,7 +308,11 @@
 							<div class="single_mixi_portfolio">
 								<img src="/resources/assets/images/무지개2.jpg" alt="" />
 								<div class="single_work_overlay single_work_overlay2">
-									<h5 style="font-weight: bold;color: black; margin-bottom: -1.5rem;">무지개 멘션</h5>
+									<h5
+										style="font-weight: bold; color: black; margin-bottom: -1.5rem;">
+										<a style="color: black;" href="/product/detail_before?p_id=1">무지개
+											멘션</a>
+									</h5>
 									<div class="separator"></div>
 									<p style="font-weight: bold; color: black;">3,900원</p>
 								</div>
@@ -331,7 +342,11 @@
 							<div class="single_mixi_portfolio">
 								<img src="/resources/assets/images/100.jpg" alt="" />
 								<div class="single_work_overlay single_work_overlay2">
-									<h5 style="font-weight: bold;color: black;  margin-bottom: -1.5rem;">바이플라워 블러셔</h5>
+									<h5
+										style="font-weight: bold; color: black; margin-bottom: -1.5rem;">
+										<a style="color: black;"
+											href="/product/detail_before?p_id=309">바이플라워 블러셔</a>
+									</h5>
 									<div class="separator"></div>
 									<p style="font-weight: bold; color: black;">5,500원</p>
 								</div>
@@ -342,9 +357,13 @@
 							<div class="single_mixi_portfolio">
 								<img src="/resources/assets/images/6.jpg" alt="" />
 								<div class="single_work_overlay">
-									<h5 style="font-weight: bold;color: black;">립 스튜디오 쉬어 글로우 립스틱</h5>
+									<h5
+										style="font-weight: bold; color: black; margin-bottom: -1.5rem;">
+										<a style="color: black;"
+											href="/product/detail_before?p_id=234">바이플라워 에코 크레용 립 벨벳</a>
+									</h5>
 									<div class="separator"></div>
-									<p style="font-weight: bold; color: black;">6,900원</p>
+									<p style="font-weight: bold; color: black;">3,900원</p>
 								</div>
 							</div>
 						</div>
@@ -367,32 +386,43 @@
 
 	<!-- Clients Section -->
 	<section id="clients" class="clients sections">
-    <div class="container">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="main_clients_area text-center">
-                    <div class="sp-thumbnails" style="display: flex; justify-content: center;">
-                        <div style="margin: 10px; text-align: center;">
-                            <img style="width: 500px; height: 282px; cursor: pointer;" class="sp-thumbnail" src="/resources/assets/images/image1.jpg" />
-                            <p style="font-weight: bold;text-align:left; color: black; margin-bottom: 0.5rem;margin-top: 0.5rem;">장원영 pick 어뮤즈 듀틴트</p>
-                            <p style="margin-top: 0; margin-bottom: 1rem; text-align: left;">완벽한 컬러와 지속력을 자랑하는 틴트</p>
-                        </div>
-                        <div style="margin: 10px; text-align: center;">
-                            <img style="width: 500px; height: 282px; cursor: pointer;" class="sp-thumbnail" src="/resources/assets/images/image2.jpg" />
-                            <p style="font-weight: bold; color: black; margin-bottom: 0.5rem; text-align: left;margin-top: 0.5rem;">글로우 MAX, 듀이 젤 맥시 글로시</p>
-                            <p style="margin-top: 0; margin-bottom: 1rem; text-align: left;">색감, 광감, 편안함 3박자 다 갖춘 완성형 글로스</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- End of col-sm-12 -->
-            </div>
-        </div>
-    </div>
-</section>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="main_clients_area text-center">
+						<div class="sp-thumbnails"
+							style="display: flex; justify-content: center;">
+							<div style="margin: 10px; text-align: center;">
+								<a href="/product/detail_before?p_id=255"> <img
+									style="width: 500px; height: 282px; cursor: pointer;"
+									class="sp-thumbnail" src="/resources/assets/images/image1.jpg" /></a>
+								<p
+									style="font-weight: bold; text-align: left; color: black; margin-bottom: 0.5rem; margin-top: 0.5rem;">장원영
+									pick 어뮤즈 듀틴트</p>
+								<p style="margin-top: 0; margin-bottom: 1rem; text-align: left;">완벽한
+									컬러와 지속력을 자랑하는 틴트</p>
+							</div>
+							<div style="margin: 10px; text-align: center;">
+								<a href="/product/detail_before?p_id=292"> <img
+									style="width: 500px; height: 282px; cursor: pointer;"
+									class="sp-thumbnail" src="/resources/assets/images/image2.jpg" /></a>
+								<p
+									style="font-weight: bold; color: black; margin-bottom: 0.5rem; text-align: left; margin-top: 0.5rem;">글로우
+									MAX, 듀이 젤 맥시 글로시</p>
+								<p style="margin-top: 0; margin-bottom: 1rem; text-align: left;">색감,
+									광감, 편안함 3박자 다 갖춘 완성형 글로스</p>
+							</div>
+						</div>
+					</div>
+					<!-- End of col-sm-12 -->
+				</div>
+			</div>
+		</div>
+	</section>
 
 
 
-	
+
 
 
 	<!-- Contact Section -->
@@ -476,23 +506,27 @@
 
 	<!-- footer Section -->
 	<footer id="footer" class="footer">
-		<div class="container">
-			<div class="main_footer">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="copyright_text text-center">
-							<p class=" wow fadeInRight" data-wow-duration="1s">
-								Made with <i class="fa fa-heart"></i> by <a target="_blank"
-									href="http://bootstrapthemes.co">Bootstrap Themes</a>2016. All
-								Rights Reserved
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- End of container -->
-	</footer>
+    <div class="container">
+        <div class="main_footer">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="copyright_text text-center">
+                        <p  style="padding: 0px 20px;">
+                            Glow with <i class="fa fa-heart"></i>
+                            <span class="brand">EDEN BEAUTY</span>
+                        </p>
+                        <p>
+                            <span class="business-info">사업자등록번호 : 123-12-12345</span><br>
+                            <span class="address">주소 : (04001) 서울특별시 마포구 서교동 447-5 풍성빌딩 2층, A실</span><br>
+                            <span class="email">이메일 : eden@beauty.net</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
 	<!-- End of footer -->
 
 

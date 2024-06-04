@@ -32,8 +32,7 @@
 		SELECT 
 		userid, NAME, nickname, birth,
 		zipcode, address1, address2,
-		email, phone, DATE,
-		skin, POINT
+		email, phone, DATE, POINT
 		FROM member
 		WHERE userid = #{userid}
 	</select>

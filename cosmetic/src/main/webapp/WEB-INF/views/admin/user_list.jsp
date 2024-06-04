@@ -102,7 +102,7 @@ window.onload = function() {
 			<!-- Sidebar - Brand -->
 			<a
 				class="sidebar-brand d-flex align-items-center justify-content-center"
-				href="/admin/admin">
+				href="/admin/order_list">
 				<div class="sidebar-brand-icon rotate-n-15"></div>
 				<div class="sidebar-brand-text mx-3">EDEN 뷰티</div>
 			</a>
@@ -265,8 +265,7 @@ window.onload = function() {
 															<tbody>
 																<c:forEach var="row" items="${list}">
 																	<tr>
-																		<td><a
-																			href="/admin/user_detail?userid=${row.userid}">${row.name}</a><br>[${row.level}]</td>
+																		<td>${row.name}<br>[${row.level}]</td>
 																		<td>${row.userid}</td>
 																		<td>${row.nickname}</td>
 																		<td>${row.email}</td>
