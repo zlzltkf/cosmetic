@@ -217,7 +217,7 @@ window.onload = function() {
 									<div class="row">
 										<div class="col-sm-12 col-md-6">
 											<div class="dataTables_length" id="dataTable_length"></div>
-											<div style="padding-left: 3.5em;">고객수 : ${count}명</div>
+											<div style="padding-left: 15.5em;">고객수 : ${count}명</div>
 										</div>
 										<form name="dateform" method="get" action="/admin/user_list">
 											<div class="col-sm-12 col-md-6" style="margin-left: 14.5em;">

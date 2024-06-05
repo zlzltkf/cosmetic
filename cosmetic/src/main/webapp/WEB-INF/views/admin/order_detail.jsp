@@ -346,7 +346,7 @@ h3 {
 										<p class="i">${row.o_name}</p>
 									</td>
 									<c:choose>
-										<c:when test="${row.o_name == null || row.o_name == ''}">
+										<c:when test="${row.o_name == null || row.o_name == ''||row.o_name=='없음'}">
 											<td>
 												<div class="p">
 													<c:choose>
@@ -358,7 +358,7 @@ h3 {
 															</span>
 														</c:when>
 														<c:otherwise>
-															<fmt:formatNumber value="${row.price}" pattern="#,###" />원
+															<fmt:formatNumber value="${row.p_price}" pattern="#,###" />원
                                 </c:otherwise>
 													</c:choose>
 												</div>
@@ -474,7 +474,7 @@ h3 {
 								<td class="detail-label" style="font-weight: bold;">최종 결제금액</td>
 								<td class="detail-value"
 									style="font-weight: bold; font-size: 18px;"><fmt:formatNumber
-										value="${list[0].price}" pattern="#,###" />원 <span
+										value="${list[0].totalPrice}" pattern="#,###" />원 <span
 									style="color: #888; font-weight: normal; font-size: medium;"><br>┖point&nbsp;<fmt:formatNumber
 											value="${list[0].userPoint}" pattern="#,###" /></span></td>
 							</tr>

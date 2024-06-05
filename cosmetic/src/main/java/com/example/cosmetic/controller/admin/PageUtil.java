@@ -4,7 +4,7 @@ public class PageUtil {
    public  int PAGE_SCALE = 10; //수정
    //페이지당 게시물 수
    
-   public static final int BLOCK_SCALE = 5; //수정
+   public static final int BLOCK_SCALE = 10; //수정
    //페이지 블록 단위(한 화면에 보여둘 페이지 수)
    
    private int curPage;   //현재 페이지
@@ -27,7 +27,7 @@ public class PageUtil {
                     //  991       1
   
    public PageUtil(int count, int curPage) {
-       this(count, curPage, 5); // 기본 페이지당 게시물 수를 5로 설정
+       this(count, curPage, 10); // 기본 페이지당 게시물 수를 5로 설정
    }
    
    public PageUtil(int count, int curPage, int pageScale) {

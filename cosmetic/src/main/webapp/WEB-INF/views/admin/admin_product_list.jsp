@@ -44,7 +44,7 @@
 	color: #858796;
 	border: 1px solid #cccccc;
 	border-radius: .35rem;
-	width: 120px;
+	width: 160px;
 	/*  position: absolute;
  left: 87%;	 */
 }
@@ -58,12 +58,19 @@
 .custom-table th, .custom-table td {
 	padding: 8px; /* 각 셀의 내부 여백 조정 */
 	text-align: center; /* 가운데 정렬 */
+	width: 150px; /* 기본 너비 */
 }
 
 /* 번호, 수량, 판매가 셀의 너비 조정 */
 .custom-table .narrow-cell {
 	width: 88px; /* 적절한 너비 값으로 조정하세요 */
 }
+
+/* 상품 이름 셀의 너비 조정 */
+.custom-table .product_name {
+	width: 300px; /* 상품 이름 셀에 넓은 너비 값 설정 */
+}
+
 </style>
 </head>
 
@@ -396,12 +403,13 @@ function load(){
 		} */
 		
 		document.getElementById('category').addEventListener('change', function() {
-			 var Big = this.value;
-			    if (Big !== '') {
+		    var Big = this.value;
+		    if (Big !== '') {
 		        fetch('/admin/Small?ctg_big=' + Big) // 대분류 값 전달
 		            .then(response => response.json())
-		            .then(data => {//서버에서 받은 소분류 데이터 처리
-		            	 console.log('서버에서 받은 소분류 데이터:', data); // 소분류 데이터 확인
+		            .then(data => {
+		                // 서버에서 받은 소분류 데이터 처리
+		                console.log('서버에서 받은 소분류 데이터:', data); // 소분류 데이터 확인
 		                const Dropdown = document.getElementById('subcategory');
 		                Dropdown.innerHTML = ''; // 기존 옵션을 모두 지움
 		                const Option = document.createElement('option');
@@ -421,112 +429,111 @@ function load(){
 		        document.getElementById('subcategory').innerHTML = '<option value="" selected disabled hidden>소분류</option>';
 		    }
 		});
-		
 
-	        function changelist(selectElement) {
-	        	var otherDiv = document.getElementById('other');
-	            otherDiv.style.display = 'none'; // 숨기기
-	            var ctg_small = selectElement.value;
-				console.log("소분류명="+ctg_small);
-	            fetch('/admin/small_list/' + ctg_small)
-	                .then(response => {
-	                    if (response.ok) {
-	                        return response.json(); // JSON 형식으로 응답을 파싱
-	                    } else {
-	                        throw new Error('서버 응답이 실패했습니다.');
-	                    }
-	                })
-	                .then(data => {
-    var tableBody = document.getElementById('tableBody');
-    tableBody.innerHTML = ''; // 기존 내용 제거
-    
-    // 각 제품에 대한 정보를 그룹화하기 위한 Map 생성
-    var productMap = new Map();
+		function changelist(selectElement) {
+		    var otherDiv = document.getElementById('other');
+		    otherDiv.style.display = 'none'; // 숨기기
+		    var ctg_small = selectElement.value;
+		    console.log("소분류명=" + ctg_small);
+		    fetch('/admin/small_list/' + ctg_small)
+		        .then(response => {
+		            if (response.ok) {
+		                return response.json(); // JSON 형식으로 응답을 파싱
+		            } else {
+		                throw new Error('서버 응답이 실패했습니다.');
+		            }
+		        })
+		        .then(data => {
+		            var tableBody = document.getElementById('tableBody');
+		            tableBody.innerHTML = ''; // 기존 내용 제거
+		            
+		            // 각 제품에 대한 정보를 그룹화하기 위한 Map 생성
+		            var productMap = new Map();
 
-    // 데이터를 가공하여 Map에 그룹화
-    data.forEach(item => {
-        // 제품이 Map에 존재하지 않으면 새로운 제품 정보를 추가
-        if (!productMap.has(item.p_id)) {
-            productMap.set(item.p_id, {
-                p_id: item.p_id,
-                p_cate: item.p_cate,
-                p_price: item.p_price,
-                ctg_small: item.ctg_small,
-                p_name: item.p_name,
-                p_stock: item.p_stock,
-                options: [] // 각 제품에 대한 옵션들을 저장할 배열
-            });
-        }
-        
-        // 해당 제품의 옵션 정보를 추가
-        productMap.get(item.p_id).options.push({
-            name: item.o_name,
-            amount: item.o_amount
-        });
-    });
+		            // 데이터를 가공하여 Map에 그룹화
+		            data.forEach(item => {
+		                // 제품이 Map에 존재하지 않으면 새로운 제품 정보를 추가
+		                if (!productMap.has(item.p_id)) {
+		                    productMap.set(item.p_id, {
+		                        p_id: item.p_id,
+		                        p_cate: item.p_cate,
+		                        p_price: item.p_price,
+		                        ctg_small: item.ctg_small,
+		                        p_name: item.p_name,
+		                        p_stock: item.p_stock,
+		                        options: [] // 각 제품에 대한 옵션들을 저장할 배열
+		                    });
+		                }
+		                
+		                // 해당 제품의 옵션 정보를 추가
+		                productMap.get(item.p_id).options.push({
+		                    name: item.o_name,
+		                    amount: item.o_amount
+		                });
+		            });
 
-    // Map에 저장된 데이터를 이용하여 테이블에 행 추가
-    productMap.forEach(product => {
-        var row = document.createElement('tr');
-        
-        // 제품 ID 셀 추가
-        var cell1 = document.createElement('td');
-        cell1.textContent = product.p_id;
-        row.appendChild(cell1);
-        
-        // 제품 이름 셀 추가
-        var cell2 = document.createElement('td');
-        cell2.textContent = product.p_name;
-        row.appendChild(cell2);
-        
-        // 제품 재고 셀 추가
-        var cell3 = document.createElement('td');
-        cell3.textContent = product.p_stock;
-        row.appendChild(cell3);
-        
-        // 제품 가격 셀 추가 (데이터에 없으므로 표시할 수 없음)
-       var cell4 = document.createElement('td');
-	   cell4.textContent = product.p_price.toLocaleString(); // 숫자를 패턴에 맞게 변환
-		row.appendChild(cell4);
-        
-        // 옵션 선택 셀 추가
-        var cell5 = document.createElement('td');
-        cell5.classList.add("cell5");
-        var selectElement = document.createElement('select');
-        selectElement.classList.add("select");
-        product.options.forEach(option => {
-            var optionElement = document.createElement('option');
-            var optionText = option.name + ' [' + option.amount + ']'; // 옵션 이름과 수량 결합
-            optionElement.textContent = optionText;
-            selectElement.appendChild(optionElement);
-        });
-        cell5.appendChild(selectElement);
-        row.appendChild(cell5);
-        
-        tableBody.appendChild(row);
-    });
+		            // Map에 저장된 데이터를 이용하여 테이블에 행 추가
+		            productMap.forEach(product => {
+		                var row = document.createElement('tr');
+		                
+		                // 제품 ID 셀 추가
+		                var cell1 = document.createElement('td');
+		                cell1.textContent = product.p_id;
+		                row.appendChild(cell1);
+		                
+		                // 제품 이름 셀 추가
+		                var cell2 = document.createElement('td');
+		                cell2.classList.add('product_name');
+		                cell2.textContent = product.p_name;
+		                row.appendChild(cell2);
+		                
+		                // 제품 재고 셀 추가
+		                var cell3 = document.createElement('td');
+		                cell3.textContent = product.p_stock;
+		                row.appendChild(cell3);
+		                
+		                // 제품 가격 셀 추가
+		                var cell4 = document.createElement('td');
+		                cell4.textContent = product.p_price.toLocaleString(); // 숫자를 패턴에 맞게 변환
+		                row.appendChild(cell4);
+		                
+		                // 옵션 선택 셀 추가
+		                var cell5 = document.createElement('td');
+		                cell5.classList.add('option_name');
+		                cell5.classList.add("cell5");
+		                var selectElement = document.createElement('select');
+		                selectElement.classList.add("select");
+		                product.options.forEach(option => {
+		                    var optionElement = document.createElement('option');
+		                    var optionText = option.name + ' [' + option.amount + ']'; // 옵션 이름과 수량 결합
+		                    optionElement.textContent = optionText;
+		                    selectElement.appendChild(optionElement);
+		                });
+		                cell5.appendChild(selectElement);
+		                row.appendChild(cell5);
+		                
+		                tableBody.appendChild(row);
+		            });
+		        })
+		        .catch(error => {
+		            console.error('Error:', error);
+		        });
+		}
 
+		function list(page) {
+		    var urlS = "curPage=" + page;
+		    var searchKeyword = document.getElementById("search").value;
+		    console.log(searchKeyword);
+		    if (searchKeyword) {
+		        urlS += "&searchKeyword=" + encodeURIComponent(searchKeyword); // 검색어를 URL 인코딩
+		    }
+		    location.href = "/admin/list_product?" + urlS;
+		}
 
-})
+		document.getElementById("keyword").addEventListener("click", function() {
+		    list(1); // 페이지를 1로 설정하여 검색 실행
+		});
 
-	                .catch(error => {
-	                    console.error('Error:', error);
-	                });
-	        }
-	       
-	   function list(page) {
-	      var urlS = "curPage=" + page;
-	      var searchKeyword = document.getElementById("search").value;
-	      console.log(searchKeyword);
-	      if (searchKeyword) {
-	          urlS += "&searchKeyword=" + encodeURIComponent(searchKeyword); // 검색어를 URL 인코딩
-	         }
-	         location.href = "/admin/list_product?" + urlS;
-	    }
-
-	        document.getElementById("keyword").addEventListener("click", function() {
-	         list(1); // 페이지를 1로 설정하여 검색 실행
-	        });
 	    </script>
 </body>
 </html>

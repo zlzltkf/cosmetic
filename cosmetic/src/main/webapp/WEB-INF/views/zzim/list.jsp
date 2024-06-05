@@ -294,7 +294,8 @@ function list(page) {
             	<div class="img" id="img">
                   <img src="${fn:replace(row.file_name, 'src/main/webapp', '')}" alt="상품 이미지">
                   <div class="delete" onclick="delete_btn(${row.idx})">
-						<i class="fa fa-remove"></i>
+						<i style="color: #333; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);" class="fa fa-remove"></i>
+
 					</div>
                </div>
            </div>

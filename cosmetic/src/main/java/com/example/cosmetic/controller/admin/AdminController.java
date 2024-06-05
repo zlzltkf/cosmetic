@@ -145,6 +145,7 @@ public class AdminController {
 		product.put("start", start);
 		product.put("pageCnt", pageCnt);
 		list = adminDao.product_list(product);
+		System.out.println("목록"+list);
 		model.addAttribute("Biglist", Biglist);
 		model.addAttribute("list", list);
 		model.addAttribute("page_info", page_info);
