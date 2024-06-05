@@ -355,7 +355,7 @@ function edit() {
      }
 	
 	//기존 비밀번호 확인
-	var f_userid = ${sessionScope.userid};
+	var f_userid = "${sessionScope.userid}";
 	$.ajax({
         url : "/member/check_pw.do",
         type : "POST",
