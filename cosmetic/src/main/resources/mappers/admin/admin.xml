@@ -12,14 +12,14 @@
 		ctg_big=#{ctg_big}
 	</select>
 
-	<!-- <insert id="product_insert">
-		insert into product (p_name, p_price, p_stock, p_detail, p_cate)
-		values(#{p_name},#{p_price}, #{p_stock},#{p_detail},#{p_cate})
-	</insert> -->
-	
+	<!-- <insert id="product_insert"> insert into product (p_name, p_price, 
+		p_stock, p_detail, p_cate) values(#{p_name},#{p_price}, #{p_stock},#{p_detail},#{p_cate}) 
+		</insert> -->
+
 	<insert id="product_insert">
-	INSERT INTO product (p_name, p_price, p_stock, p_detail, p_cate)
-	VALUES (#{p_name}, #{p_price}, #{p_stock}, CONVERT(#{p_detail} USING utf8), #{p_cate})
+		INSERT INTO product (p_name, p_price, p_stock, p_detail, p_cate)
+		VALUES (#{p_name}, #{p_price}, #{p_stock}, CONVERT(#{p_detail} USING utf8),
+		#{p_cate})
 	</insert>
 
 
@@ -155,7 +155,7 @@
 		) AS subquery;
 	</select>
 
-<!--상품 목록-->
+	<!--상품 목록 -->
 	<select id="product_list"
 		resultType="com.example.cosmetic.model.product.ProductDTO">
 		SELECT
@@ -163,9 +163,11 @@
 		p_name,
 		p_price,
 		p.p_stock,
-		IFNULL(GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') ORDER BY o_amount DESC SEPARATOR ' '), '옵션없음') AS
+		IFNULL(GROUP_CONCAT(CONCAT(o_name, '[', o_amount, ']') ORDER BY
+		o_amount DESC SEPARATOR ' '), '옵션없음') AS
 		o_name,
-		SUM(o_amount) AS p_stock
+		SUM(o_amount) AS
+		p_stock
 		FROM
 		product p
 		LEFT JOIN
@@ -188,25 +190,59 @@
 			(#{file_name}, #{p_id})
 		</foreach>
 	</insert>
-	
-	
+
+
 
 	<select id="order_detail"
 		resultType="com.example.cosmetic.model.order.OrderDTO">
 		SELECT
-		l.orderid,p.p_name,o.o_name,o.p_id,l.orderdate,l.userid,l.price,l.delivercost,l.method,l.address1,l.userpoint,
-		o.orderstatus,po.o_price,l.totalprice,m.phone,o.amount AS
-		option_amount,(SELECT SUM(amount)FROM orderitem WHERE orderid
-		=l.orderid) AS total_amount
-		FROM orderitem o
-		JOIN orderlist l ON
-		o.orderid = l.orderid JOIN product p ON p.p_id = o.p_id JOIN member m
-		ON m.userid = l.userid
-		LEFT JOIN product_option po ON p.p_id =po.o_p_id
-		WHERE l.orderid = #{orderid}
-		GROUP BY l.orderid, p.p_name,
-		o.o_name, o.p_id, o.amount, l.orderdate, l.userid, l.price,
-		l.delivercost, l.method, l.address1, l.userpoint, o.orderstatus,po.o_price
+    l.orderid,
+    p.p_price,
+    p.p_name,
+    o.o_name,
+    o.p_id,
+    l.cancelreason,
+    l.orderdate,
+    l.userid,
+    l.price,
+    l.delivercost,
+    l.method,
+    l.address1,
+    l.userpoint,
+    (SELECT file_name FROM p_attach WHERE p_id = p.p_id ORDER BY p_id ASC LIMIT 1) AS file_name,
+    o.orderstatus,
+    po.o_price,
+    l.totalprice,
+    m.phone,
+    o.amount AS option_amount,
+    (SELECT SUM(amount) FROM orderitem WHERE orderid = l.orderid) AS total_amount
+FROM
+    orderitem o
+    JOIN orderlist l ON o.orderid = l.orderid
+    JOIN product p ON p.p_id = o.p_id
+    JOIN member m ON m.userid = l.userid
+    LEFT JOIN product_option po ON p.p_id = po.o_p_id
+WHERE
+    l.orderid = #{orderid}
+GROUP BY
+    l.orderid,
+    p.p_name,
+    o.o_name,
+    o.p_id,
+    o.amount,
+    l.orderdate,
+    l.userid,
+    l.price,
+    l.delivercost,
+    l.method,
+    l.address1,
+    l.userpoint,
+    o.orderstatus,
+    po.o_price,
+    file_name,
+    l.totalprice,
+    m.phone
+		
 	</select>
 
 	<!-- 주문 갯수 계산 -->
@@ -259,6 +295,13 @@
 		LIMIT #{pageCnt} OFFSET #{start}
 	</select>
 
+<update id="refund_status">
+		UPDATE orderitem 
+		SET orderstatus = '반품완료'
+		WHERE orderid =#{orderid}
+ 		AND p_id = #{p_id} 
+  		AND orderstatus = '반품요청'
+	</update>
 
 
 

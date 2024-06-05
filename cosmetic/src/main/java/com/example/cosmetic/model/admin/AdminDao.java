@@ -76,13 +76,13 @@ public class AdminDao {
 		map.put("end", end);
 		return sqlSession.selectList("admin.search", map);
 	}
-	
-	public  List<MemberDTO> user_list(Map<String, Object> map) {
+
+	public List<MemberDTO> user_list(Map<String, Object> map) {
 		return sqlSession.selectList("admin.user_list", map);
 	}
 
 	public int admin_user_count(Map<String, Object> map) {
-		return sqlSession.selectOne("admin.user_count",map);
+		return sqlSession.selectOne("admin.user_count", map);
 	}
 
 	public int user_order_count(Long orderid) {
@@ -93,12 +93,10 @@ public class AdminDao {
 		return sqlSession.selectList("admin.list");
 	}
 
-	
 	/*
 	 * public String status(Long orderid) { return
 	 * sqlSession.selectOne("admin.status", orderid); }
 	 */
-	 
 
 	public int s_no(String ctg_small) {
 		return sqlSession.selectOne("admin.s_no", ctg_small);
@@ -108,7 +106,7 @@ public class AdminDao {
 	public List<ProductDTO> s_list(int ctg_s_no) {
 		return sqlSession.selectList("admin.s_list", ctg_s_no);
 	}
-	
+
 	public int product_count(Map<String, Object> product) {
 		return sqlSession.selectOne("admin.product_count");
 	}
@@ -116,7 +114,6 @@ public class AdminDao {
 	public List<ProductDTO> product_list(Map<String, Object> product) {
 		return sqlSession.selectList("admin.product_list", product);
 	}
-	
 
 	public void insert_p_attach(@Param("filenames") String[] filenames, @Param("p_id") int p_id) {
 		Map<String, Object> map = new HashMap<>();
@@ -125,20 +122,18 @@ public class AdminDao {
 		sqlSession.insert("admin.insert_p_attach", map);
 	}
 
-	
-
-	//주문목록 상세
+	// 주문목록 상세
 	public List<OrderDTO> admin_order_detail(long orderid) {
 		return sqlSession.selectList("admin.order_detail", orderid);
 
 	}
-	
-	//주문 목록
-	public  List<OrderDTO> admin_orderlist(Map<String, Object> map) {
+
+	// 주문 목록
+	public List<OrderDTO> admin_orderlist(Map<String, Object> map) {
 		return sqlSession.selectList("admin.admin_orderlist", map);
 	}
-	
-	//주문 갯수
+
+	// 주문 갯수
 	public int admin_orderCount(Map<String, Object> map) {
 		return sqlSession.selectOne("admin.admin_orderCount", map);
 	}
@@ -146,5 +141,14 @@ public class AdminDao {
 	public List<ProductDTO> detail(int p_id) {
 		return sqlSession.selectList("admin.product_edit", p_id);
 	}
-	
+
+	// 반품요청 상품 반품완료로 상태변경
+	public void refund_status_update(long orderid, int p_id) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("orderid", orderid);
+		map.put("p_id", p_id);
+		sqlSession.update("admin.refund_status", map);
+
+	}
+
 }

@@ -170,4 +170,8 @@ public class OrderDAO {
 		sqlSession.update("order.p_sell_update", p_id);
 	}
 	
+	
+		
+	
+	
 }

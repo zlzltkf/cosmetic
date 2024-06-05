@@ -311,5 +311,7 @@
 		SET p_sell = p_sell + 1 
 		WHERE p_id = #{p_id}
 	</update>
+	
+	
 
 </mapper>

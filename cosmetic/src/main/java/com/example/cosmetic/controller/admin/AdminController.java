@@ -251,15 +251,29 @@ public class AdminController {
 		// 주문목록 가져오기
 		List<OrderDTO> list = null;
 		list = adminDao.admin_order_detail(orderid);
+		//System.out.println(list);
+		//System.out.println(orderid);
 		model.addAttribute("list", list);
+		
 		return "admin/order_detail";
 	}
 	
-	//상품 수정
+	//상품 수정 안쓸 것 같음
 	@GetMapping("/edit/{p_id}")
 	public String edit(@PathVariable(name = "p_id") int p_id, Model model, HttpServletRequest request) {
 		List<ProductDTO>list = adminDao.detail(p_id);
 		model.addAttribute("list", list);
 		return "admin/product_edit";
 	}
+	
+	 @PostMapping("refund_status")
+	    public String refundStatus(@RequestParam(name="orderid") long orderid, @RequestParam(name="p_id") int p_id, Model model) {
+	        adminDao.refund_status_update(orderid, p_id);
+	        System.out.println("주문번호"+orderid+"상품번호"+p_id);
+	        return "redirect:/admin/admin_order_detail/" + orderid;
+	    }
+	
+	
+	
+	
 }

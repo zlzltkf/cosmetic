@@ -44,4 +44,5 @@ public class OrderDTO {
 	private String phone;
 	private String cancelreason;
 	private String file_name;
+	private int p_price;
 }
