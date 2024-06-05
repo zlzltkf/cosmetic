@@ -613,7 +613,7 @@ public class OrderController {
 		//주문상태 업데이트
 		Map<String, Object> status = new HashMap<>();
 		status.put("itemid", itemid);
-		status.put("status", 1);
+		status.put("status", 3);
 		orderDAO.updateStatus(status);
 		
 		String result = "success";
